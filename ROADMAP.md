@@ -25,27 +25,6 @@ Reference log for this batch: `logs/tracker_20260429_200345.log` (latest tracker
    - Confirm whether this regressed in capture/parsing, database persistence, or dashboard aggregation.
    - Expected behavior: the app should continue showing current run PVP win/loss record as fights are captured.
 
-3. No images are rendering.
-   - Related to the existing `Add Card Images` roadmap item below.
-   - Investigate whether the frontend is receiving image URLs, whether `/cards/<filename>` returns image bytes for manifest entries, and whether `web/card_images.py` is loading the same image cache path populated by `refresh-images`.
-   - Expected behavior: cards with manifest entries should render images in review/overlay views, while missing images should fall back gracefully.
-
-### Prod-Readiness Review Follow-Ups - Done
-
-These are follow-ups from the prod-readiness review after the first implementation pass. The repository hygiene and packaging portability items are now complete, so the repo is ready for a first git/GitHub release flow.
-
-Verified:
-- CDN/static-content failures no longer block normal startup; normal launch uses first-run setup with `refresh_content="never"`.
-- Setup/content refresh failures are warnings, not fatal setup failures.
-- `doctor` reports a consistent fresh-profile DB state after schema initialization.
-- Root tests have moved into `tests/`, `pytest.ini` points pytest there, and PyInstaller excludes tests.
-- GitHub update checks are disabled by default, never call `example.com`, and malformed `updates.github_repo` returns a JSON error payload instead of raising through `/api/updates/status`.
-- Verification run: `venv312\Scripts\python.exe -m pytest -q` passed with 25 tests, and py_compile passed for touched modules.
-- First-commit `.gitignore` hygiene is in place for local runtime/build/private artifacts while leaving source, tests, docs, packaging scripts, requirements files, build catalogs, and roadmap files trackable.
-- `packaging/pyinstaller/build_portable.ps1` accepts `-PythonExe`, uses `.\venv312\Scripts\python.exe` only when present, otherwise falls back to the active `python` on PATH, and prints the interpreter it selected.
-
-No remaining pre-GitHub prod-readiness blockers are currently tracked in this section.
-
 ### Multi-Hero Support - Partial
 
 Goal: add more heroes while keeping existing Karnok/Mak behavior stable.
@@ -110,6 +89,8 @@ Current state:
 - `web/card_images.py` loads `static_cache/images/manifest.json`.
 - `web/server.py` serves card images through `/cards/<filename>`.
 - Review/overlay code can attach image URLs when manifest entries exist.
+- Images do not appear to be complete. Further investigation needed to "build" production images.
+- Only about 20-30% image coverage
 
 Known issue:
 - Image coverage is partial. Some card art appears to be created, packed, or referenced through Unity asset structures that the current Texture2D name/path filter does not fully discover.
