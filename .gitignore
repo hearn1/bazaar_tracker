@@ -1,0 +1,50 @@
+# Bazaar Tracker local/generated files
+
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv312/
+.venv/
+venv/
+env/
+
+# Build and packaging outputs
+build/
+dist/
+*.spec.bak
+*.manifest
+*.toc
+*.pkg
+*.pyz
+
+# Runtime data and private local settings
+logs/
+static_cache/
+bazaar_runs.db*
+settings.json
+sqlite3.Connection
+
+# Diagnostics and smoke-test artifacts
+*diagnostics*.zip
+bazaar_tracker_diagnostics_*.zip
+packaging/pyinstaller/smoke_test_output/
+
+# Windows / editor noise
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+*.log

@@ -1,0 +1,437 @@
+{
+  "hero": "Karnok",
+  "season": 13,
+  "last_updated": "2026-04-25",
+  "notes": "Karnok is a tempo hero. Aim to end runs before Day 13, spend gold aggressively, and be careful with Hidden Lake if your final board is still unclear. Enrage synergies stay valuable across nearly every line.",
+
+  "item_tier_list": {
+    "description": "Overall item quality ranking for Karnok. S = best, F = worst. Used as baseline signal when build synergy is ambiguous.",
+    "S": ["Flying Squirrel", "Hunting Knife"],
+    "A": [
+      "Chains", "Hunter's Journal", "Waterskin", "Trail Markers", "Hunting Hawk",
+      "Stretch Pants", "Flare", "Karst", "Hunter's Boots",
+      "Fairy Circle", "Log Trap", "Worry Wart", "Heavy Crossbow", "Flame Sigil",
+      "Bat", "Night Vision", "Runic Claymore", "Anaconda",
+      "Hidden Lake", "Messenger Sparrow", "Tent"
+    ],
+    "B": [
+      "Wolf", "Fogshroom", "Fairies", "Runed Amulet", "Lifting Stones",
+      "Boa Constrictor", "Enervating Sigil", "Forest Cloak", "Outlands Terror",
+      "Machete", "Giant Sling", "Hunter's Sled", "Spear", "Trapping Pit",
+      "Pocket Knife", "Hunter's Pack", "Bagpipes", "Trapvine",
+      "Tinderbox", "Shotgun", "Firefly Lantern", "Tree Club", "Signal Fire",
+      "Silver Stake", "Great Eagle", "Adrenaline Shot", "Dryad",
+      "Bladed Armor", "Vengeful Sigil", "Beast Tooth", "Bear Trap", "Battle Axe",
+      "Aurora Vista", "Beast Call", "Tri-Net", "Burn Scar"
+    ],
+    "C": [
+      "Wildroot Amulet", "Ancient Locket", "Wild Bear", "Spiked Collar",
+      "Frog Hollow", "Wild Boar", "Runed Bracelet", "Wolf Mask", "Snow Wisp",
+      "Snowshoes", "Furs", "Hunter's Axe", "Double-Bladed Knife", "Meat",
+      "Bandoleer", "Tranquilizer Dart", "Eagle Sigil", "Caustic Solvent",
+      "Unibou", "Warding Glyphs", "Ghillie Suit", "Infused Arm Wraps",
+      "Wrist Blade", "Yarrow Paste", "Rope", "Lost Blade", "Spiked Wraps",
+      "Campfire", "Bear Mask", "Executioner's Cleaver", "Black Mamba",
+      "Jerky", "Boar Mask", "Honey Badger", "Warpaint", "Sawpike",
+      "Wolverine", "Leather Jacket", "Hunter's Blind", "Healing Draught"
+    ],
+    "D": [
+      "Security Blanket", "Waystones", "Wrist Crossbow", "Tranquil Sigil",
+      "Hunting Rifle", "Torch", "Drowsdrop", "Honey Jar", "Utility Belt",
+      "Bear Claws", "Assault Sigil", "Resistance Bands", "Wing Sigil",
+      "Geyser", "Dual Reaver", "Pauldrons", "Steel Bramble"
+    ],
+    "F": ["Lichen"]
+  },
+
+  "game_phases": {
+    "early": {
+      "day_range": "Day 1-4",
+      "description": "Establish tempo. Pick up key utility items and economy. Every board should have these regardless of final build direction.",
+      "shop_priority": ["Ande", "Mittel", "Herma", "Kina", "Valpak", "Jay Jay", "Dryad", "Aila"],
+      "pve_priority": ["Banannibal", "Pyro", "Kyver Drone", "Viper", "Dire Inglet"],
+      "universal_utility_items": [
+        "Flying Squirrel",
+        "Waterskin",
+        "Messenger Sparrow",
+        "Fairies",
+        "Ancient Locket",
+        "Hunting Hawk",
+        "Stretch Pants",
+        "Chains"
+      ],
+      "economy_items": [
+        "Hunter's Journal",
+        "Hunting Knife"
+      ],
+      "free_rewards": {
+        "strange_mushroom": "Always take free silver friend",
+        "lost_crate": "Almost always take free medium item",
+        "level_2_reward": "Always take enchanted small item"
+      },
+      "notes": "Valpak gets better the earlier you see him. Ande goes up once you find a carry. Always take Strange Mushroom, and do not get too greedy skipping bronze skills."
+    },
+
+    "early_mid": {
+      "day_range": "Day 4-7",
+      "description": "Transition openers. Commit to a direction while staying flexible enough to pivot.",
+      "archetypes": [
+        {
+          "name": "Axe",
+          "phase": "early_mid",
+          "carry_items": ["Battle Axe", "Sawpike"],
+          "support_items": [
+            "Bagpipes", "Adrenaline Shot", "Double-Bladed Knife", "Wrist Blade",
+            "Hunting Hawk", "Pocket Knife", "Vengeful Sigil", "Wing Sigil", "Wolf Mask"
+          ],
+          "notes": "Battle Axe is the carry. Support items buff or extend its damage window."
+        },
+        {
+          "name": "Wide Weapons",
+          "phase": "early_mid",
+          "carry_items": ["Runed Amulet", "Wolf"],
+          "support_items": [
+            "Spear", "Silver Stake", "Double-Bladed Knife", "Pocket Knife",
+            "Honey Badger", "Hunting Hawk", "Runed Bracelet", "Beast Tooth",
+            "Bat", "Spiked Collar", "Infused Arm Wraps"
+          ],
+          "notes": "Broad weapon synergy. Many items qualify - look for on-hit triggers or multi-weapon buffs."
+        },
+        {
+          "name": "Sustain (Early)",
+          "phase": "early_mid",
+          "carry_items": [
+            "Unibou",
+            "Wild Boar",
+            "Karst"
+          ],
+          "support_items": [
+            "Waterskin",
+            "Meat", "Bagpipes", "Stretch Pants", "Dryad",
+            "Warding Glyphs", "Furs"
+          ],
+          "notes": "Early sustain setup. Transitions into late Sustain build."
+        },
+        {
+          "name": "Heal Weapons",
+          "phase": "early_mid",
+          "carry_items": [
+            "Lifting Stones", "Bladed Armor", "Double-Bladed Knife", "Spiked Collar", "Hunter's Sled"
+          ],
+          "support_items": [
+            "Bagpipes", "Stretch Pants", "Dryad", "Frog Hollow", "Bat"
+          ],
+          "notes": "Healing-focused weapon comp."
+        },
+        {
+          "name": "Burn (Early)",
+          "phase": "early_mid",
+          "carry_items": [
+            "Tinderbox", "Burn Scar", "Firefly Lantern", "Torch", "Caustic Solvent"
+          ],
+          "support_items": [
+            "Bagpipes", "Stretch Pants", "Dryad", "Signal Fire", "Flare"
+          ],
+          "notes": "Burn wants Burn Scar + Hunter's Sled to go late. Pivot if they do not show up by Day 7."
+        },
+        {
+          "name": "Slow (Early)",
+          "phase": "early_mid",
+          "carry_items": [
+            "Chains", "Bladed Armor", "Double-Bladed Knife", "Tri-Net", "Boa Constrictor", "Heavy Crossbow"
+          ],
+          "support_items": [
+            "Worry Wart", "Security Blanket", "Black Mamba", "Hunter's Blind", "Enervating Sigil", "Ghillie Suit", "Vengeful Sigil"
+          ],
+          "notes": "Branches into Slow-Ammo, Slow-Non-ammo, or Slow-Poison late."
+        },
+        {
+          "name": "Spear + Friends",
+          "phase": "early_mid",
+          "carry_items": [
+            "Spear", "Hunting Hawk", "Flying Squirrel", "Fairies", "Bat", "Wolf"
+          ],
+          "support_items": [
+            "Waterskin", "Messenger Sparrow", "Ancient Locket", "Karst"
+          ],
+          "notes": "Pivots cleanly into Anaconda or Red Friends late. Karst is a strong enabler if found early."
+        }
+      ]
+    },
+
+    "late": {
+      "day_range": "Day 7-13",
+      "description": "Final build archetypes. Commit by Day 7. No strong builds past Day 13 - win before then.",
+      "archetypes": [
+        {
+          "name": "Max HP - Weapons",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Need high crit.",
+          "core_items": ["Hunter's Journal", "Hunter's Pack", "Hidden Lake"],
+          "carry_items": ["Runic Claymore", "Wild Bear", "Lost Blade"],
+          "support_items": [
+            "Flying Squirrel", "Messenger Sparrow", "Trail Markers", "Great Eagle", "Hunting Hawk", "Snowshoes"
+          ],
+          "enchants": {
+            "core": ["Deadly", "Radiant"],
+            "carry": ["Offense", "Defense"],
+            "support": ["Radiant on Trail Markers"]
+          },
+          "skill_trainers": ["Crit", "Weapon", "Haste", "Charge"],
+          "hidden_lake": "Doesn't matter in most cases. Skip or take middle option.",
+          "notes": "Lost Blade needs anti-cc, Trail Markers, and usually Hidden Lake. Wild Bear is the most flexible carry. Claymore wants near-100% crit plus Diamond or extra charge."
+        },
+        {
+          "name": "Max HP - Sigil",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Offensive enchant on sigil is ideal; otherwise you need a lot of HP. Machete often needs upgrades or 2 masks.",
+          "core_items": ["Machete", "Fireclaw", "Forest Cloak"],
+          "carry_items": ["Flame Sigil", "Assault Sigil"],
+          "support_items": [
+            "Trail Markers", "Boar Mask", "Bear Mask", "Hunter's Pack"
+          ],
+          "enchants": {
+            "sigil": ["Offensive enchant required"],
+            "core_or_support": ["Radiant"]
+          },
+          "skill_trainers": ["Generic utility", "Freeze", "Slow"],
+          "hidden_lake": "Shortened enrage is better in midgame; later you often kill before the second enrage.",
+          "notes": "Fireclaw is a good stand-in for Machete. Trail Markers are extremely important."
+        },
+        {
+          "name": "Slow - Ammo",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Chains and Tent.",
+          "condition_items": ["Chains", "Tent"],
+          "core_items": ["Chains", "Tent"],
+          "carry_items": ["Shotgun", "Bear Trap"],
+          "support_items": [
+            "Ghillie Suit", "Vengeful Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "avoid": ["Radiant - may mess up slow effects"]
+          },
+          "skill_trainers": ["Slow", "Weapon", "Crit", "Haste", "Charge"],
+          "hidden_lake": "Shortened enrage - trigger Tent shielding sooner.",
+          "notes": "Bear Trap also wants extra ammo. Defensive enchant or lifesteal is usually necessary unless Ghillie Suit buys enough time. Fairy Circle is mainly for Shotgun boards."
+        },
+        {
+          "name": "Slow - Non-ammo",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Chains.",
+          "condition_items": ["Chains"],
+          "core_items": ["Chains"],
+          "carry_items": ["Boa Constrictor", "Heavy Crossbow"],
+          "support_items": [
+            "Ghillie Suit", "Vengeful Sigil", "Hunter's Blind", "Enervating Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "avoid": ["Radiant - may mess up slow effects"]
+          },
+          "skill_trainers": ["Slow", "Weapon", "Crit", "Haste", "Charge"],
+          "hidden_lake": "Shortened enrage is better to reactivate item effects sooner.",
+          "notes": "Defensive enchant or lifesteal is usually necessary unless Ghillie Suit or other defense buys enough time."
+        },
+        {
+          "name": "Slow - Poison",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Need good tempo. Struggles vs one-shot boards late game.",
+          "core_items": ["Log Trap", "Enervating Sigil"],
+          "carry_items": ["Trapvine"],
+          "support_items": [
+            "Hunter's Blind", "Night Vision", "Worry Wart", "Security Blanket", "Boa Constrictor", "Machete", "Forest Cloak", "Caustic Solvent", "Bat", "Fairies"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "support": ["Radiant great on Machete"],
+            "avoid": ["Deadly not needed"]
+          },
+          "skill_trainers": ["Karnok", "Slow"],
+          "hidden_lake": "Shortened enrage.",
+          "pivot_from": ["Sigil build"],
+          "notes": "Very flexible. One active Machete or multiple slow items can work, and base poison from skills or loot matters a lot. Easy Sigil pivot."
+        },
+        {
+          "name": "Sustain",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Needs upgraded Stretch Pants, Flying Squirrel, and Waterskin.",
+          "condition_items": ["Stretch Pants", "Flying Squirrel", "Waterskin"],
+          "core_items": ["Furs", "Fairies"],
+          "carry_items": ["Karst", "Aurora Vista", "Wild Boar"],
+          "support_items": [
+            "Meat", "Snow Wisp", "Flying Squirrel", "Waterskin", "Warding Glyphs", "Stretch Pants"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "other": ["Many good targets"]
+          },
+          "skill_trainers": ["Karnok", "Crit", "Heal", "Shield"],
+          "hidden_lake": "Shortened enrage.",
+          "notes": "Tempo build; choose between Wild Boar and Furs based on upgrades and enchants. Karst is usually better than Aurora Vista."
+        },
+        {
+          "name": "Sled - Weapon",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Needs Spiked Collar and Hunter's Sled.",
+          "condition_items": ["Spiked Collar", "Hunter's Sled"],
+          "core_items": ["Hunter's Sled", "Lifting Stones"],
+          "carry_items": ["Spiked Collar"],
+          "support_items": [
+            "Infused Arm Wraps", "Waterskin", "Dryad", "Flying Squirrel", "Stretch Pants", "Fairies", "Hunter's Pack", "Bat", "Frog Hollow", "Messenger Sparrow"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "collar": ["Restorative is insane"]
+          },
+          "skill_trainers": ["Karnok", "Haste", "Charge", "Weapon", "Heal"],
+          "hidden_lake": "Shortened enrage.",
+          "pivot_from": ["Lifting Stones early game"],
+          "notes": "Usually transitions from a Lifting Stones early game. Off-class tag boards can be great here, but you still need enough damage output."
+        },
+        {
+          "name": "Burn",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Burn Scar and Hunter's Sled.",
+          "condition_items": ["Burn Scar", "Hunter's Sled"],
+          "core_items": ["Hunter's Sled"],
+          "carry_items": ["Burn Scar", "Tinderbox"],
+          "support_items": [
+            "Caustic Solvent", "Karst", "Dryad", "Waterskin", "Bat", "Flying Squirrel", "Firefly Lantern", "Torch", "Fairies", "Messenger Sparrow"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "other": ["Many good targets"]
+          },
+          "skill_trainers": ["Karnok", "Burn", "Haste", "Charge"],
+          "hidden_lake": "Depends on burn per enrage cycle. Tinderbox charges 2x during enrage.",
+          "notes": "You can get creative with tag boards here, but pivot if Burn Scar or Hunter's Sled do not show up by Day 7."
+        },
+        {
+          "name": "Giant Sling",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Needs enough ammo on Giant Sling or a reload skill. Silver Sling usually needs that plus extra base damage.",
+          "core_items": ["Outlands Terror", "Beast Tooth"],
+          "carry_items": ["Giant Sling"],
+          "support_items": [
+            "Hunting Hawk", "Flying Squirrel", "Wolf Mask", "Messenger Sparrow", "Hunter's Boots", "Chains", "Bandoleer", "Adrenaline Shot"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "other": ["Many good targets", "Deadly very helpful"]
+          },
+          "skill_trainers": ["Karnok", "Haste", "Charge", "Crit", "Weapon"],
+          "hidden_lake": "Extended enrage - Sling needs extra time in damage multiplier state.",
+          "notes": "Base damage from skills or loot helps a lot."
+        },
+        {
+          "name": "Tree Club",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs enough crit or Tree Club will miss the enrage kill window.",
+          "core_items": ["Outlands Terror", "Flying Squirrel", "Messenger Sparrow"],
+          "carry_items": ["Tree Club"],
+          "support_items": [
+            "Hunting Hawk", "Waterskin", "Wolf Mask", "Adrenaline Shot", "Wing Sigil", "Fairy Circle", "Hunter's Boots", "Night Vision"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "other": ["Many good targets", "Deadly very helpful"]
+          },
+          "skill_trainers": ["Karnok", "Haste", "Charge", "Crit", "Weapon"],
+          "hidden_lake": "Extended enrage is better so Tree Club gets more time in its damage multiplier state.",
+          "notes": "Stored charges carry into enrage. Flying Squirrel gives Tree Club targeted fly."
+        },
+        {
+          "name": "Anaconda",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Early Diamond upgrade helps a lot - 2s faster. Defensive enchant highly preferred.",
+          "core_items": ["Outlands Terror", "Karst"],
+          "carry_items": ["Anaconda"],
+          "support_items": [
+            "Hunting Hawk", "Flying Squirrel", "Infused Arm Wraps", "Messenger Sparrow", "Wolf Mask", "Adrenaline Shot", "Beast Tooth", "Waterskin", "Trail Markers"
+          ],
+          "enchants": {
+            "carry": ["Offense", "Defense - highly preferred"],
+            "other": ["Many good targets", "Deadly very helpful"]
+          },
+          "skill_trainers": ["Karnok", "Haste", "Charge", "Crit", "Weapon"],
+          "hidden_lake": "Shortened enrage.",
+          "pivot_from": ["Spear + Friends", "Karst setups"],
+          "notes": "Clean pivot from Spear + Friends or Karst setups. Trail Markers help the late-game board."
+        },
+        {
+          "name": "Red Friends",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Need good tempo. Can fall off late game. Strong if already running Spear + friends.",
+          "core_items": ["Spear", "Flying Squirrel", "Messenger Sparrow", "Beast Call"],
+          "carry_items": ["Anaconda", "Outlands Terror", "Wild Bear"],
+          "support_items": ["Great Eagle", "Hunting Hawk", "Bat", "Wolf"],
+          "enchants": {
+            "carry": ["Offense", "Defense"],
+            "other": ["Many good targets", "Deadly very helpful"]
+          },
+          "skill_trainers": ["Karnok", "Haste", "Charge", "Crit", "Weapon"],
+          "hidden_lake": "Depends on which carry you are playing.",
+          "pivot_from": ["Spear + Friends early game"],
+          "notes": "Best if you already have tempo from Spear + Friends; later you can still transition into other weapon carries."
+        }
+      ]
+    }
+  },
+
+  "pivot_signals": {
+    "description": "Signals the player should consider pivoting build direction",
+    "signals": [
+      "Missing a build's key condition item by Day 7",
+      "Board losing fights consistently despite having items",
+      "Burn build missing Burn Scar or Hunter's Sled by Day 7",
+      "Giant Sling needs ammo or a reload skill before it is stable",
+      "Anaconda scales much better with early Diamond and strong sustain",
+      "Crash Site skippable if bad board but enough gold",
+      "Temple Expedition usually more useful than Crash Site"
+    ]
+  },
+
+  "scoring_weights": {
+    "description": "Phase-aware scoring weights. Early flexibility is good; late commitment matters.",
+    "early": {
+      "utility_item_pick": 1.0,
+      "econ_item_pick": 1.0,
+      "high_tier_item": 0.8,
+      "off_archetype_pick": 0.5,
+      "skipped_free_reward": -0.5,
+      "low_tier_item": 0.2
+    },
+    "early_mid": {
+      "archetype_core_pick": 1.0,
+      "archetype_support_pick": 0.8,
+      "pivot_enabling_pick": 0.7,
+      "high_tier_item": 0.6,
+      "off_archetype_pick": 0.3,
+      "low_tier_item": 0.1
+    },
+    "late": {
+      "archetype_core_pick": 1.0,
+      "archetype_carry_pick": 1.0,
+      "archetype_support_pick": 0.8,
+      "duplicate_for_upgrade": 0.9,
+      "high_tier_item": 0.5,
+      "off_archetype_pick": 0.1,
+      "missing_condition_item": -0.5,
+      "low_tier_item": -0.2
+    }
+  }
+}

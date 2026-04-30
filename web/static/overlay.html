@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bazaar Tracker Overlay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090f;
+      --panel: rgba(15, 19, 30, 0.94);
+      --panel-2: rgba(255, 255, 255, 0.035);
+      --panel-3: rgba(255, 255, 255, 0.06);
+      --border: rgba(230, 169, 32, 0.18);
+      --border-strong: rgba(230, 169, 32, 0.4);
+      --text: #e5ebf5;
+      --muted: #91a0ba;
+      --muted-2: #6f7e98;
+      --amber: #e6a920;
+      --green: #3ecf8e;
+      --red: #f04444;
+      --blue: #4d9cf5;
+      --display: "Syne", "Arial Black", sans-serif;
+      --body: "DM Sans", "Helvetica Neue", sans-serif;
+      --mono: "IBM Plex Mono", "Courier New", monospace;
+      --shadow: 0 24px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top right, rgba(77, 156, 245, 0.18), transparent 35%),
+        radial-gradient(circle at top left, rgba(230, 169, 32, 0.14), transparent 28%),
+        linear-gradient(180deg, rgba(7, 9, 15, 0.98), rgba(7, 9, 15, 0.94));
+      color: var(--text);
+      font-family: var(--body);
+      overflow: hidden;
+    }
+
+    body { padding: 10px; }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    #root {
+      position: relative;
+      height: calc(100vh - 20px);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(15, 19, 30, 0.97), rgba(9, 12, 20, 0.95));
+      box-shadow: var(--shadow);
+    }
+
+    .shell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .header {
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(230, 169, 32, 0.14), rgba(230, 169, 32, 0.03)),
+        rgba(255, 255, 255, 0.01);
+    }
+
+    .header[data-drag-header="true"] {
+      cursor: move;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .eyebrow {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--amber);
+      font: 600 10px/1 var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      margin: 0;
+      font: 700 24px/0.95 var(--display);
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .run-pill {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font: 600 10px/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .run-pill.live {
+      border: 1px solid rgba(62, 207, 142, 0.28);
+      background: rgba(62, 207, 142, 0.11);
+      color: var(--green);
+    }
+
+    .run-pill.complete {
+      border: 1px solid rgba(230, 169, 32, 0.32);
+      background: rgba(230, 169, 32, 0.12);
+      color: var(--amber);
+    }
+
+    .run-pill.defeat {
+      border: 1px solid rgba(240, 68, 68, 0.32);
+      background: rgba(240, 68, 68, 0.12);
+      color: #ff8585;
+    }
+
+    .run-pill.idle {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+    }
+
+    .header-action {
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font: 600 10px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-action:hover {
+      border-color: rgba(230, 169, 32, 0.28);
+      color: #fff0c7;
+    }
+
+    .header-quit {
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(240, 68, 68, 0.2);
+      background: rgba(240, 68, 68, 0.08);
+      color: var(--muted);
+      font: 600 12px/1 var(--mono);
+      letter-spacing: 0.08em;
+    }
+
+    .header-quit:hover {
+      border-color: rgba(240, 68, 68, 0.4);
+      color: #ff8585;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 8px 9px;
+      border-radius: 12px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-label {
+      margin-bottom: 5px;
+      color: var(--muted-2);
+      font: 500 10px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font: 600 14px/1.1 var(--mono);
+      color: #f7f9fc;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 10px 12px 0;
+    }
+
+    .tab {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font: 600 11px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: 0.15s ease;
+    }
+
+    .tab.active {
+      border-color: rgba(230, 169, 32, 0.4);
+      background: rgba(230, 169, 32, 0.12);
+      color: var(--amber);
+    }
+
+    .tab:disabled {
+      cursor: default;
+      opacity: 0.65;
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 12px 12px 18px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .content::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .resize-grip {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 8px 0 12px 0;
+      border: 1px solid rgba(230, 169, 32, 0.18);
+      background:
+        linear-gradient(135deg,
+          transparent 0 35%,
+          rgba(230, 169, 32, 0.35) 35% 43%,
+          transparent 43% 57%,
+          rgba(230, 169, 32, 0.65) 57% 66%,
+          transparent 66%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      cursor: nwse-resize;
+      opacity: 0.9;
+      z-index: 8;
+    }
+
+    .resize-grip.hidden {
+      display: none;
+    }
+
+    .shell.collapsed .header {
+      padding-bottom: 12px;
+      border-bottom: none;
+    }
+
+    .shell.collapsed .header-top {
+      margin-bottom: 0;
+    }
+
+    .shell.collapsed .stats,
+    .shell.collapsed .tabs,
+    .shell.collapsed .content,
+    .shell.collapsed .resize-grip {
+      display: none;
+    }
+
+    .section {
+      margin-bottom: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--panel-2);
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      color: #f8fbff;
+      font: 700 14px/1 var(--display);
+      letter-spacing: 0.01em;
+    }
+
+    .section-kicker {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font: 500 10px/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background:
+        linear-gradient(180deg, rgba(230, 169, 32, 0.08), rgba(230, 169, 32, 0.025)),
+        var(--panel-2);
+      border-color: rgba(230, 169, 32, 0.16);
+    }
+
+    .hero-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hero-name {
+      margin: 0;
+      font: 800 24px/0.95 var(--display);
+    }
+
+    .hero-meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(77, 156, 245, 0.25);
+      background: rgba(77, 156, 245, 0.1);
+      color: var(--blue);
+      font: 600 10px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .confidence {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .confidence-bar {
+      position: relative;
+      flex: 1;
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .confidence-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--amber), #ffd875);
+    }
+
+    .confidence-value {
+      flex-shrink: 0;
+      font: 600 12px/1 var(--mono);
+      color: #fff7d9;
+    }
+
+    .override-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .override-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font: 500 11px/1 var(--body);
+      transition: 0.15s ease;
+    }
+
+    .override-btn.cold {
+      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+    }
+
+    .override-btn.cool {
+      border-color: rgba(77, 156, 245, 0.22);
+      background: rgba(77, 156, 245, 0.09);
+      color: #dce9ff;
+    }
+
+    .override-btn.warm {
+      border-color: rgba(230, 169, 32, 0.26);
+      background: rgba(230, 169, 32, 0.11);
+      color: #fff1c9;
+    }
+
+    .override-btn.hot {
+      border-color: rgba(62, 207, 142, 0.3);
+      background: rgba(62, 207, 142, 0.11);
+      color: #ddffef;
+    }
+
+    .override-btn.active {
+      border-color: var(--border-strong);
+      background: linear-gradient(180deg, rgba(230, 169, 32, 0.18), rgba(230, 169, 32, 0.1));
+      color: #fff5d8;
+      box-shadow: inset 0 0 0 1px rgba(230, 169, 32, 0.1);
+    }
+
+    .override-btn.auto {
+      color: var(--blue);
+      border-color: rgba(77, 156, 245, 0.18);
+    }
+
+    .override-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .override-score {
+      margin-left: auto;
+      font: 600 10px/1 var(--mono);
+      letter-spacing: 0.04em;
+      opacity: 0.92;
+    }
+
+    .override-note {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .list-group + .list-group { margin-top: 18px; }
+
+    .list-label {
+      margin: 0;
+      color: currentColor;
+      font: 700 10px/1 var(--mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .slot-head {
+      margin-bottom: 10px;
+    }
+
+    .slot-head-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+
+    .slot-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+      background: color-mix(in srgb, currentColor 12%, transparent);
+    }
+
+    .slot-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .slot-count {
+      color: rgba(255, 255, 255, 0.52);
+      font: 700 11px/1 var(--mono);
+    }
+
+    .slot-blurb {
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.38);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .slot-progress {
+      height: 3px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .slot-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: currentColor;
+      opacity: 0.9;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .item-row.owned {
+      background: rgba(62, 207, 142, 0.06);
+      border-color: rgba(62, 207, 142, 0.22);
+    }
+
+    .item-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .card-art {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 auto;
+      border: 1px solid rgba(230, 169, 32, 0.42);
+      background:
+        linear-gradient(145deg, rgba(255, 236, 177, 0.18), transparent 34%),
+        linear-gradient(180deg, rgba(37, 44, 62, 0.96), rgba(11, 14, 22, 0.96));
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+        0 4px 10px rgba(0, 0, 0, 0.28);
+    }
+
+    .card-art::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-art::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 34%;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.44));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+    }
+
+    .item-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      justify-self: center;
+    }
+
+    .item-fallback {
+      display: inline-grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.72);
+      font: 700 17px/1 var(--mono);
+      letter-spacing: 0;
+      background:
+        radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.12), transparent 54%),
+        linear-gradient(135deg, rgba(77, 156, 245, 0.22), rgba(230, 169, 32, 0.12)),
+        rgba(255, 255, 255, 0.04);
+    }
+
+    .item-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #eef3fb;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .item-name.owned { color: #a8f0c8; }
+
+    .item-sub {
+      margin-top: 4px;
+      color: rgba(255, 255, 255, 0.34);
+      font: 700 10px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .item-sub.owned {
+      color: var(--green);
+    }
+
+    .tier {
+      min-width: 26px;
+      padding: 5px 7px;
+      border-radius: 6px;
+      text-align: center;
+      background: rgba(230, 169, 32, 0.12);
+      border: 1px solid rgba(230, 169, 32, 0.24);
+      color: var(--amber);
+      font: 700 10px/1 var(--mono);
+    }
+
+    .check {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.26);
+      font: 700 12px/1 var(--mono);
+    }
+
+    .check.owned {
+      color: var(--green);
+      background: rgba(62, 207, 142, 0.14);
+      border: 1px solid rgba(62, 207, 142, 0.45);
+    }
+
+    .alert-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .alert {
+      padding: 10px 11px;
+      border-left: 3px solid;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .alert.warn {
+      border-left-color: var(--amber);
+      background: rgba(230, 169, 32, 0.08);
+    }
+
+    .alert.danger {
+      border-left-color: var(--red);
+      background: rgba(240, 68, 68, 0.09);
+    }
+
+    .alert.info {
+      border-left-color: var(--blue);
+      background: rgba(77, 156, 245, 0.09);
+    }
+
+    .alert.success {
+      border-left-color: var(--green);
+      background: rgba(62, 207, 142, 0.09);
+    }
+
+    .alert-title {
+      margin-bottom: 5px;
+      color: #fbfdff;
+      font: 600 11px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .alert-copy {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .card-search {
+      background: rgba(77, 156, 245, 0.04);
+      border-color: rgba(77, 156, 245, 0.18);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .search-icon {
+      color: rgba(255, 255, 255, 0.42);
+      font: 700 13px/1 var(--mono);
+    }
+
+    .search-input {
+      min-width: 0;
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font: 500 13px/1.2 var(--body);
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.34);
+    }
+
+    .search-clear {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      font: 700 11px/1 var(--mono);
+    }
+
+    .search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .search-card {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .search-card.active-fit {
+      border-color: rgba(230, 169, 32, 0.32);
+      background: rgba(230, 169, 32, 0.07);
+    }
+
+    .search-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .search-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 9px;
+    }
+
+    .search-name {
+      min-width: 0;
+      color: #fff;
+      font: 700 15px/1.1 var(--display);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .search-tags,
+    .role-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .search-tag,
+    .role-slot {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 7px;
+      border-radius: 6px;
+      font: 700 9px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .search-tag {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .search-tag.owned {
+      border-color: rgba(62, 207, 142, 0.28);
+      background: rgba(62, 207, 142, 0.12);
+      color: var(--green);
+    }
+
+    .search-tag.active {
+      border-color: rgba(230, 169, 32, 0.28);
+      background: rgba(230, 169, 32, 0.13);
+      color: var(--amber);
+    }
+
+    .role-label {
+      margin-bottom: 7px;
+      color: rgba(255, 255, 255, 0.42);
+      font: 700 9px/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .role-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .role-row.active {
+      border-color: rgba(230, 169, 32, 0.26);
+      background: rgba(230, 169, 32, 0.09);
+    }
+
+    .role-arch {
+      min-width: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 12px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .role-row.active .role-arch {
+      color: #fff5d8;
+    }
+
+    .role-slot.core {
+      border: 1px solid rgba(230, 169, 32, 0.28);
+      background: rgba(230, 169, 32, 0.12);
+      color: var(--amber);
+    }
+
+    .role-slot.carry {
+      border: 1px solid rgba(77, 156, 245, 0.28);
+      background: rgba(77, 156, 245, 0.12);
+      color: var(--blue);
+    }
+
+    .role-slot.support {
+      border: 1px solid rgba(167, 139, 250, 0.28);
+      background: rgba(167, 139, 250, 0.12);
+      color: #a78bfa;
+    }
+
+    .review-summary {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .review-stat {
+      padding: 10px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
+      text-align: center;
+    }
+
+    .review-stat-label {
+      margin-bottom: 6px;
+      color: var(--muted-2);
+      font: 500 9px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .review-stat-value {
+      color: #f9fbff;
+      font: 700 15px/1 var(--mono);
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .review-row {
+      display: grid;
+      grid-template-columns: 38px 52px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .review-seq {
+      color: var(--muted);
+      font: 600 11px/1 var(--mono);
+      letter-spacing: 0.05em;
+    }
+
+    .review-thumb,
+    .review-thumb-placeholder {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .review-thumb-placeholder {
+      opacity: 0.3;
+    }
+
+    .review-copy {
+      min-width: 0;
+    }
+
+    .review-name {
+      color: #eef3fb;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .review-detail {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .review-badge {
+      min-width: 86px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      text-align: center;
+      font: 700 10px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .review-badge.green {
+      background: rgba(62, 207, 142, 0.14);
+      color: var(--green);
+      border: 1px solid rgba(62, 207, 142, 0.2);
+    }
+
+    .review-badge.amber {
+      background: rgba(230, 169, 32, 0.14);
+      color: var(--amber);
+      border: 1px solid rgba(230, 169, 32, 0.22);
+    }
+
+    .review-badge.red {
+      background: rgba(240, 68, 68, 0.13);
+      color: #ff8f8f;
+      border: 1px solid rgba(240, 68, 68, 0.22);
+    }
+
+    .review-badge.grey {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .run-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .run-strip.four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .run-card {
+      padding: 11px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
+      text-align: center;
+    }
+
+    .run-card-label {
+      margin-bottom: 6px;
+      color: var(--muted-2);
+      font: 500 9px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .run-card-value {
+      color: #f9fbff;
+      font: 700 15px/1 var(--mono);
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font: 500 11px/1.15 var(--body);
+    }
+
+    .chip.econ {
+      border-color: rgba(230, 169, 32, 0.22);
+      background: rgba(230, 169, 32, 0.11);
+      color: #ffe9b0;
+    }
+
+    .chip.utility {
+      border-color: rgba(77, 156, 245, 0.22);
+      background: rgba(77, 156, 245, 0.1);
+      color: #d8e9ff;
+    }
+
+    .signal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .signal {
+      padding: 9px 10px;
+      border-radius: 12px;
+      border-left: 3px solid var(--blue);
+      background: rgba(77, 156, 245, 0.09);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .loading,
+    .error,
+    .placeholder {
+      display: grid;
+      place-items: center;
+      height: 100%;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .loading-card,
+    .error-card,
+    .placeholder-card {
+      width: 100%;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .loading-title,
+    .error-title,
+    .placeholder-title {
+      margin: 0 0 10px;
+      font: 700 18px/1 var(--display);
+    }
+
+    .loading-copy,
+    .error-copy,
+    .placeholder-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .error-title { color: #ffd7d7; }
+
+    .retry {
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(230, 169, 32, 0.25);
+      background: rgba(230, 169, 32, 0.12);
+      color: var(--amber);
+      font: 600 11px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pulse {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      color: var(--blue);
+      font: 500 12px/1 var(--mono);
+      letter-spacing: 0.04em;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 0 rgba(77, 156, 245, 0.55);
+      animation: ping 1.6s infinite;
+    }
+
+    @keyframes ping {
+      0% { box-shadow: 0 0 0 0 rgba(77, 156, 245, 0.55); }
+      70% { box-shadow: 0 0 0 12px rgba(77, 156, 245, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(77, 156, 245, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const root = document.getElementById("root");
+    const POLL_MS = 2000;
+    const MANUAL_ARCH_KEY = "overlay_manual_arch";
+    const COLLAPSED_KEY = "overlay_collapsed";
+    const EXPANDED_SIZE_KEY = "overlay_expanded_size";
+    const DISMISSED_RUN_KEY = "overlay_dismissed_run_id";
+    const COLLAPSED_HEIGHT = 104;
+    const EMPTY_ARCH = Object.freeze({
+      name: "No fit yet",
+      core_items: [],
+      carry_items: [],
+      support_items: [],
+      condition: null,
+      notes: "",
+    });
+
+    let buildCatalog = {
+      hero: "",
+      archetypes: [],
+      itemTierList: {},
+      tierLookup: {},
+      heroNotes: "",
+      pivotSignals: [],
+      allItems: [],
+      itemImages: {},
+    };
+    let buildCatalogReady = false;
+    let buildCatalogError = "";
+
+    let overlayState = null;
+    let lastCompletedState = null;
+    let overlayError = "";
+    let pollHandle = null;
+    let contentScrollTop = 0;
+    let lastStateSignature = "";
+    let activeTab = "coach";
+    let isCollapsed = localStorage.getItem(COLLAPSED_KEY) === "true";
+    let resizeSession = null;
+    let moveSession = null;
+    let resizeFramePending = false;
+    let pendingResizeSize = null;
+    let moveFramePending = false;
+    let pendingMovePosition = null;
+    let pywebviewApiReady = false;
+    let cardSearchQuery = "";
+    function compactItems(items) {
+      return (items || []).filter(Boolean);
+    }
+
+    function uniqueBuildItems(items) {
+      const seen = new Set();
+      const unique = [];
+      for (const item of compactItems(items)) {
+        if (String(item).startsWith("TODO") || seen.has(item)) {
+          continue;
+        }
+        seen.add(item);
+        unique.push(item);
+      }
+      return unique;
+    }
+
+    function normalizeBuildCatalog(payload) {
+      const archetypes = Array.isArray(payload?.archetypes)
+        ? payload.archetypes.map((arch) => ({
+            ...arch,
+            condition_items: Array.isArray(arch?.condition_items)
+              ? arch.condition_items.filter(Boolean)
+              : [],
+          }))
+        : [];
+      const itemTierList = payload?.item_tier_list && typeof payload.item_tier_list === "object"
+        ? payload.item_tier_list
+        : {};
+      const tierLookup = {};
+
+      for (const [tier, items] of Object.entries(itemTierList)) {
+        if (tier === "description" || !Array.isArray(items)) continue;
+        for (const item of items) {
+          if (item) {
+            tierLookup[item] = tier;
+          }
+        }
+      }
+
+      const allItems = Array.from(new Set(
+        archetypes.flatMap((arch) => [
+          ...uniqueBuildItems(arch.core_items),
+          ...uniqueBuildItems(arch.carry_items),
+          ...uniqueBuildItems(arch.support_items),
+        ])
+      ));
+
+      return {
+        hero: payload?.hero || "",
+        archetypes,
+        itemTierList,
+        tierLookup,
+        heroNotes: payload?.hero_notes || "",
+        pivotSignals: Array.isArray(payload?.pivot_signals) ? payload.pivot_signals : [],
+        allItems,
+        itemImages: payload?.itemImages && typeof payload.itemImages === "object" ? payload.itemImages : {},
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function fmtMaybe(value, fallback = "--") {
+      return value === null || value === undefined || value === "" ? fallback : value;
+    }
+
+    function hasTrackedRun(state) {
+      return Boolean(state && state.run_id !== null && state.run_id !== undefined);
+    }
+
+    function hasTrackedDecisions(state) {
+      if (Number(state?.decision_count || 0) > 0) {
+        return true;
+      }
+      return Array.isArray(state?.decisions) && state.decisions.length > 0;
+    }
+
+    function isCompletedRun(state) {
+      return Boolean(state && state.is_active === false && hasTrackedRun(state));
+    }
+
+    function getRunTier(state) {
+      const tier = state?.run_tier;
+      if (!tier || typeof tier !== "object") {
+        return {
+          label: "Unranked",
+          tone: "unranked",
+          detail: "Below the medal thresholds.",
+        };
+      }
+      return {
+        label: fmtMaybe(tier.label, "Unranked"),
+        tone: fmtMaybe(tier.tone, "unranked"),
+        detail: fmtMaybe(tier.detail, ""),
+      };
+    }
+
+    function getRunPillMeta(state, idle) {
+      if (idle) {
+        return { label: "IDLE", tone: "idle" };
+      }
+      const outcome = String(state?.outcome || "").toLowerCase();
+      if (outcome === "victory") {
+        return { label: "VICTORY", tone: "complete" };
+      }
+      if (outcome === "defeat") {
+        return { label: "DEFEAT", tone: "defeat" };
+      }
+      return { label: "LIVE", tone: "live" };
+    }
+
+    function setActiveTab(tab) {
+      activeTab = tab;
+      contentScrollTop = 0;
+      render();
+    }
+
+    function getExpandedWindowSize() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(EXPANDED_SIZE_KEY) || "{}");
+        const width = Math.max(380, Number(parsed.width) || 380);
+        const height = Math.max(220, Number(parsed.height) || 760);
+        return { width, height };
+      } catch (error) {
+        return { width: 380, height: 760 };
+      }
+    }
+
+    function storeExpandedWindowSize(width = window.innerWidth, height = window.innerHeight) {
+      const next = {
+        width: Math.max(380, Math.round(width)),
+        height: Math.max(220, Math.round(height)),
+      };
+      localStorage.setItem(EXPANDED_SIZE_KEY, JSON.stringify(next));
+    }
+
+    // Debounced geometry persistence to Python settings (500 ms trailing)
+    let _geometrySaveTimer = null;
+    function scheduleGeometrySave() {
+      if (!pywebviewApiReady) return;
+      clearTimeout(_geometrySaveTimer);
+      _geometrySaveTimer = setTimeout(() => {
+        try {
+          const { width, height } = getExpandedWindowSize();
+          window.pywebview.api.save_geometry(
+            window.screenX,
+            window.screenY,
+            width,
+            isCollapsed ? COLLAPSED_HEIGHT : height
+          );
+        } catch (e) {
+          console.error("save_geometry failed", e);
+        }
+      }, 500);
+    }
+
+    function canResizeOverlay() {
+      return pywebviewApiReady && Boolean(
+        window.pywebview &&
+        window.pywebview.api &&
+        typeof window.pywebview.api.resize_window === "function"
+      );
+    }
+
+    function canMoveOverlay() {
+      return pywebviewApiReady && Boolean(
+        window.pywebview &&
+        window.pywebview.api &&
+        typeof window.pywebview.api.move_window === "function"
+      );
+    }
+
+    function getArchetype(name) {
+      return buildCatalog.archetypes.find((arch) => arch.name === name) || null;
+    }
+
+    function getHeroNotes() {
+      return buildCatalog.heroNotes || "Hero notes unavailable.";
+    }
+
+    function getHeroFundamentalsTitle(state) {
+      const heroName = String(buildCatalog.hero || state?.hero || "").trim();
+      return heroName ? `${heroName} fundamentals` : "Hero fundamentals";
+    }
+
+    function shouldShowIdleState(state) {
+      if (!state) return false;
+      if (isCompletedRun(state)) {
+        return Number(state.run_id || 0) === Number(localStorage.getItem(DISMISSED_RUN_KEY) || 0);
+      }
+      return !hasTrackedDecisions(state);
+    }
+
+    function getManualArch() {
+      return localStorage.getItem(MANUAL_ARCH_KEY);
+    }
+
+    function setManualArch(name) {
+      localStorage.setItem(MANUAL_ARCH_KEY, name);
+      render();
+    }
+
+    function clearManualArch() {
+      localStorage.removeItem(MANUAL_ARCH_KEY);
+      render();
+    }
+
+    function dismissCompletedRun() {
+      if (!isCompletedRun(overlayState)) return;
+      localStorage.setItem(DISMISSED_RUN_KEY, String(overlayState.run_id));
+      contentScrollTop = 0;
+      render();
+    }
+
+    function reopenCompletedRun() {
+      localStorage.removeItem(DISMISSED_RUN_KEY);
+      activeTab = "review";
+      contentScrollTop = 0;
+      render();
+    }
+
+    function getOwnedNames(state) {
+      if (Array.isArray(state?.owned_names)) {
+        return Array.from(new Set(state.owned_names.filter(Boolean)));
+      }
+      if (Array.isArray(state?.chosen_names)) {
+        return Array.from(new Set(state.chosen_names.filter(Boolean)));
+      }
+      const trackedItems = buildCatalog.allItems;
+      const names = new Set();
+      for (const decision of state?.decisions || []) {
+        if (decision.chosen_name && (!trackedItems.length || trackedItems.includes(decision.chosen_name))) {
+          names.add(decision.chosen_name);
+        }
+      }
+      return Array.from(names);
+    }
+
+    function getOverrideTone(score) {
+      if (score >= 0.7) return "hot";
+      if (score >= 0.45) return "warm";
+      if (score >= 0.2) return "cool";
+      return "cold";
+    }
+
+    function getTopAuto(state) {
+      const best = state?.arch_scores?.[0];
+      if (!best) return null;
+      return getArchetype(best.name) || null;
+    }
+
+    function getActiveCoach(state) {
+      const ownedNames = getOwnedNames(state);
+      const manualName = getManualArch();
+      const manualArch = manualName ? getArchetype(manualName) : null;
+      const autoArch = getTopAuto(state);
+      const activeArch = manualArch || autoArch || buildCatalog.archetypes[0] || EMPTY_ARCH;
+      const autoScore = state?.arch_scores?.[0]?.raw_score ?? state?.arch_scores?.[0]?.score ?? 0;
+
+      return {
+        ownedNames,
+        activeArch,
+        manualArch,
+        isManual: Boolean(manualArch),
+        confidence: autoScore,
+        autoArch,
+      };
+    }
+
+    function getTier(item) {
+      return buildCatalog.tierLookup[item] || "--";
+    }
+
+    function getInitials(value) {
+      return String(value || "")
+        .split(/[\s-]+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase() || "?";
+    }
+
+    function renderItemArt(name, image, className = "item-thumb", owned = false) {
+      if (image) {
+        return `<span class="card-art ${className}"><img src="${image}" alt="" loading="lazy" onerror="this.parentElement.style.opacity='0.35'"></span>`;
+      }
+      return `<span class="card-art ${className} item-fallback">${escapeHtml(getInitials(name))}</span>`;
+    }
+
+    function getItemRoles(itemName) {
+      const roles = [];
+      const slots = [
+        ["core", "Core", "core_items"],
+        ["carry", "Carry", "carry_items"],
+        ["support", "Support", "support_items"],
+      ];
+      for (const arch of buildCatalog.archetypes || []) {
+        for (const [slot, label, key] of slots) {
+          if (compactItems(arch[key]).includes(itemName)) {
+            roles.push({ arch: arch.name, slot, label, phase: arch.phase || "" });
+          }
+        }
+      }
+      return roles;
+    }
+
+    function searchBuildItems(query) {
+      const q = String(query || "").trim().toLowerCase();
+      if (!q) return [];
+      const results = [];
+      for (const name of buildCatalog.allItems || []) {
+        const lower = String(name).toLowerCase();
+        let score = 0;
+        if (lower === q) score = 100;
+        else if (lower.startsWith(q)) score = 60;
+        else if (lower.includes(q)) score = 30;
+        if (score > 0) {
+          results.push({ name, score, roles: getItemRoles(name) });
+        }
+      }
+      return results
+        .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+        .slice(0, 6);
+    }
+
+    function renderCardSearchResults(coach) {
+      const query = cardSearchQuery.trim();
+      if (!query) {
+        return `<div class="note">See it in shop, type the name and this will show every ${escapeHtml(buildCatalog.hero || "hero")} build it fits.</div>`;
+      }
+
+      const results = searchBuildItems(query);
+      if (!results.length) {
+        return `<div class="note">No matching cards in the current build catalog.</div>`;
+      }
+
+      const itemImages = buildCatalog.itemImages || {};
+      return results.map((result) => {
+        const owned = coach.ownedNames.includes(result.name);
+        const inActiveBuild = result.roles.some((role) => role.arch === coach.activeArch?.name);
+        const roles = result.roles.map((role) => `
+          <div class="role-row ${role.arch === coach.activeArch?.name ? "active" : ""}">
+            <span class="role-arch">${escapeHtml(role.arch)}</span>
+            <span class="role-slot ${escapeHtml(role.slot)}">${escapeHtml(role.label)}</span>
+          </div>
+        `).join("");
+
+        return `
+          <div class="search-card ${inActiveBuild ? "active-fit" : ""}">
+            <div class="search-card-head">
+              ${renderItemArt(result.name, itemImages[result.name], "search-thumb", owned)}
+              <div style="min-width:0;flex:1">
+                <div class="search-name">${escapeHtml(result.name)}</div>
+                <div class="search-tags" style="margin-top:7px">
+                  <span class="search-tag">${escapeHtml(getTier(result.name))}</span>
+                  ${inActiveBuild ? `<span class="search-tag active">Active build</span>` : ""}
+                  ${owned ? `<span class="search-tag owned">Owned</span>` : ""}
+                </div>
+              </div>
+            </div>
+            <div class="role-label">Fits in ${escapeHtml(result.roles.length)} build${result.roles.length === 1 ? "" : "s"}</div>
+            <div class="role-list">${roles || `<div class="note">No slot data for this item.</div>`}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderCardSearch(coach) {
+      return `
+        <section class="section card-search">
+          <div class="section-kicker">Find a card</div>
+          <div class="search-box">
+            <span class="search-icon">?</span>
+            <input
+              class="search-input"
+              type="text"
+              value="${escapeHtml(cardSearchQuery)}"
+              placeholder="Search any item..."
+              autocomplete="off"
+              spellcheck="false"
+              data-card-search="true"
+            >
+            ${cardSearchQuery ? `<button class="search-clear" type="button" data-card-search-clear="true">X</button>` : ""}
+          </div>
+          <div class="search-results" data-card-search-results="true">
+            ${renderCardSearchResults(coach)}
+          </div>
+        </section>
+      `;
+    }
+
+    function refreshCardSearchResults() {
+      const results = root.querySelector("[data-card-search-results='true']");
+      if (!results || !overlayState) return;
+      results.innerHTML = renderCardSearchResults(getActiveCoach(overlayState));
+    }
+
+    function truncateReviewName(value, maxLength = 18) {
+      const text = String(value || "");
+      if (text.length <= maxLength) return text;
+      return `${text.slice(0, maxLength - 3)}...`;
+    }
+
+    function getReviewDisplayName(decision) {
+      if (decision.review_title) {
+        return decision.review_title;
+      }
+      if (decision.decision_type === "skip") {
+        return "Skipped shop";
+      }
+      if (decision.chosen_name) {
+        return decision.chosen_name;
+      }
+      if (decision.decision_type === "free_reward") {
+        return "Free reward";
+      }
+      if (decision.decision_type === "event_choice") {
+        return "Event choice";
+      }
+      return decision.decision_type.replace(/_/g, " ");
+    }
+
+    function getReviewBadge(decision) {
+      // Prefer the server-derived label: it promotes "warning" skips with a
+      // missed: tag to the "missed" badge and falls through to best-effort
+      // scoring during active runs when score_label is still null.
+      const raw = (decision.derived_score_label || decision.score_label || "").toLowerCase();
+
+      if (raw === "missed") {
+        return { label: "Missed", tone: "red" };
+      }
+      if (raw === "skip") {
+        return { label: "Skip", tone: "grey" };
+      }
+      if (raw === "optimal") {
+        return { label: "Optimal", tone: "green" };
+      }
+      if (raw === "good") {
+        return { label: "Good", tone: "green" };
+      }
+      if (raw === "situational") {
+        return { label: "Situational", tone: "amber" };
+      }
+      if (raw === "suboptimal" || raw === "warning") {
+        return { label: "Suboptimal", tone: "red" };
+      }
+
+      // Legacy skip signal for older payloads.
+      if (decision.decision_type === "skip") {
+        if (decision.skip_has_relevant) {
+          return { label: "Missed", tone: "red" };
+        }
+        return { label: "Skip", tone: "grey" };
+      }
+
+      return { label: "Unscored", tone: "grey" };
+    }
+
+    function getConditionItems(arch) {
+      return Array.isArray(arch?.condition_items) ? arch.condition_items.filter(Boolean) : [];
+    }
+
+    function buildAlerts(state, coach) {
+      const alerts = [];
+      const day = Number(state?.day || 0);
+      const gold = Number(state?.gold || 0);
+      const topScore = Number(state?.arch_scores?.[0]?.raw_score ?? state?.arch_scores?.[0]?.score ?? 0);
+      const conditionItems = getConditionItems(coach.activeArch);
+      const missingConditionItems = conditionItems.filter((item) => !coach.ownedNames.includes(item));
+
+      // Pivot detection: use server arch_scores to find a better alternative
+      const archScores = state?.arch_scores || [];
+      const activeScore = archScores.find((e) => e.name === coach.activeArch.name)?.raw_score
+        ?? archScores.find((e) => e.name === coach.activeArch.name)?.score ?? 0;
+      const pivotTarget = archScores.find(
+        (e) => e.name !== coach.activeArch.name &&
+          (e.raw_score ?? e.score ?? 0) >= activeScore + 0.15
+      );
+
+      if (day >= 5 && topScore < 0.4) {
+        alerts.push({
+          tone: "danger",
+          title: "Commit Window",
+          copy: "Commit deadline approaching - Day 7 is the last safe pivot point.",
+        });
+      }
+
+      if (missingConditionItems.length) {
+        alerts.push({
+          tone: "warn",
+          title: "Missing Condition",
+          copy: `This line still wants ${missingConditionItems.join(", ")} before it is stable.`,
+        });
+      } else if (coach.activeArch?.condition && !conditionItems.length) {
+        alerts.push({
+          tone: "info",
+          title: "Build Gate",
+          copy: coach.activeArch.condition,
+        });
+      }
+
+      if (pivotTarget) {
+        const matched = pivotTarget.matchedItems.slice(0, 3).join(", ") || "multiple on-board pieces";
+        alerts.push({
+          tone: "info",
+          title: "Pivot Signal",
+          copy: `Consider pivoting to ${pivotTarget.name} - you already have ${matched}.`,
+        });
+      }
+
+      if (gold > 4) {
+        alerts.push({
+          tone: "warn",
+          title: "Tempo Reminder",
+          copy: "Unspent gold = missed tempo. Spend if a relevant item is available.",
+        });
+      }
+
+      if (!alerts.length) {
+        alerts.push({
+          tone: "success",
+          title: "Coach Read",
+          copy: coach.activeArch.notes || getHeroNotes(),
+        });
+      }
+
+      return alerts;
+    }
+
+    function renderHeader(state) {
+      const idle = shouldShowIdleState(state);
+      const subtitle = idle
+        ? `Waiting for first tracked decision | ${escapeHtml(fmtMaybe(state.hero, "Unknown hero"))}`
+        : `Run #${escapeHtml(fmtMaybe(state.run_id))} | ${escapeHtml(fmtMaybe(state.hero, "Unknown hero"))}`;
+      const runPill = getRunPillMeta(state, idle);
+      const tier = getRunTier(state);
+      const pvpValue = idle ? "--" : `${fmtMaybe(state.pvp_wins, 0)}-${fmtMaybe(state.pvp_losses, 0)}`;
+      const tierValue = idle ? "--" : tier.label;
+      const canLeaveCompletedRun = isCompletedRun(state) && !idle;
+      return `
+        <div class="header" data-drag-header="true">
+          <div class="header-top">
+            <div>
+              <span class="eyebrow">Live Coach</span>
+              <h1 class="title">Bazaar Tracker</h1>
+              <div class="subtitle">${subtitle}</div>
+            </div>
+            <div class="header-actions">
+              <div class="run-pill ${escapeHtml(runPill.tone)}">${escapeHtml(runPill.label)}</div>
+              ${canLeaveCompletedRun ? `<button class="header-action" type="button" data-dismiss-run="true">Leave Run</button>` : ""}
+              <button class="header-quit" type="button" title="Close tracker" onclick="window.pywebview.api.request_shutdown()">×</button>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">PvP</div>
+              <div class="stat-value">${escapeHtml(pvpValue)}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Tier</div>
+              <div class="stat-value">${escapeHtml(tierValue)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTabs() {
+      return `
+        <div class="tabs">
+          <button class="tab ${activeTab === "coach" ? "active" : ""}" type="button" data-tab="coach">Coach</button>
+          <button class="tab ${activeTab === "review" ? "active" : ""}" type="button" data-tab="review">Review</button>
+          <button class="tab ${activeTab === "run" ? "active" : ""}" type="button" data-tab="run">Run</button>
+        </div>
+      `;
+    }
+
+    // syncWindowShape is kept for use by toggleCollapse (collapse/expand resize).
+    // It is no longer called on initial load — Python opens the window at the
+    // persisted size directly, so no post-load resize is needed.
+    async function syncWindowShape() {
+      if (!canResizeOverlay()) return;
+      const expandedSize = getExpandedWindowSize();
+      const targetWidth = expandedSize.width;
+      const targetHeight = isCollapsed ? COLLAPSED_HEIGHT : expandedSize.height;
+      try {
+        await window.pywebview.api.resize_window(targetWidth, targetHeight);
+      } catch (error) {
+        console.error("Window resize sync failed", error);
+      }
+    }
+
+    function toggleCollapse(forceValue) {
+      const nextValue = typeof forceValue === "boolean" ? forceValue : !isCollapsed;
+      if (nextValue === isCollapsed) return;
+      if (!isCollapsed) {
+        storeExpandedWindowSize();
+      }
+      isCollapsed = nextValue;
+      localStorage.setItem(COLLAPSED_KEY, String(isCollapsed));
+      render();
+      syncWindowShape();
+      scheduleGeometrySave();
+      if (pywebviewApiReady) {
+        try { window.pywebview.api.save_collapsed(isCollapsed); } catch (e) {}
+      }
+    }
+
+    function renderOverview(state, coach) {
+      const confidencePercent = Math.round((coach.confidence || 0) * 100);
+      const activeName = coach.activeArch?.name || "No fit yet";
+      const mode = coach.isManual ? "MANUAL" : "AUTO";
+      const confidenceWidth = Math.max(8, Math.min(100, confidencePercent));
+
+      return `
+        <section class="section hero-card">
+          <div class="section-kicker">Active build read</div>
+          <div class="hero-row">
+            <div>
+              <h2 class="hero-name">${escapeHtml(activeName)}</h2>
+              <div class="hero-meta">${escapeHtml(coach.activeArch?.notes || "Waiting for a stronger signal before locking a direction.")}</div>
+            </div>
+            <div class="badge">${escapeHtml(mode)}</div>
+          </div>
+          <div class="confidence">
+            <div class="confidence-bar">
+              <div class="confidence-fill" style="width:${confidenceWidth}%"></div>
+            </div>
+            <div class="confidence-value">${escapeHtml(`${confidencePercent}%`)}</div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderOverrides(coach, state) {
+      const manualName = coach.manualArch?.name || "";
+      const archScores = state?.arch_scores || [];
+      const buttons = buildCatalog.archetypes.map((arch) => {
+        const serverEntry = archScores.find((e) => e.name === arch.name);
+        const rawScore = serverEntry?.raw_score ?? serverEntry?.score ?? 0;
+        const scorePercent = Math.round(rawScore * 100);
+        const tone = getOverrideTone(rawScore);
+        return `
+        <button
+          class="override-btn ${tone} ${manualName === arch.name ? "active" : ""}"
+          type="button"
+          data-arch="${escapeHtml(arch.name)}"
+        >
+          <span class="override-name">${escapeHtml(arch.name)}</span>
+          <span class="override-score">${escapeHtml(`${scorePercent}%`)}</span>
+        </button>
+      `;
+      }).join("");
+
+      return `
+        <section class="section">
+          <div class="section-kicker">Build override</div>
+          <h3 class="section-title">Manual selection</h3>
+          <div class="override-grid">
+            <button class="override-btn auto ${coach.isManual ? "" : "active"}" type="button" data-auto="true">Auto</button>
+            ${buttons}
+          </div>
+          <div class="override-note">Weighted fit: 50% core, 35% carry, 15% support.</div>
+        </section>
+      `;
+    }
+
+    function renderItemGroup(title, tone, items, ownedNames) {
+      const colorMap = {
+        core: "var(--amber)",
+        carry: "var(--blue)",
+        support: "#a78bfa",
+      };
+      const blurbMap = {
+        core: "Required engine",
+        carry: "Damage plan",
+        support: "Glue and utility",
+      };
+      const itemImages = buildCatalog.itemImages || {};
+      const compact = compactItems(items);
+      const ownedCount = compact.filter((item) => ownedNames.includes(item)).length;
+      const pct = compact.length ? Math.round((ownedCount / compact.length) * 100) : 0;
+
+      const rows = compact.map((item) => {
+        const owned = ownedNames.includes(item);
+        const img = itemImages[item];
+        return `
+          <div class="item-row ${owned ? "owned" : ""}">
+            ${renderItemArt(item, img, "item-thumb", owned)}
+            <div style="min-width:0">
+              <div class="item-name ${owned ? "owned" : ""}">${escapeHtml(item)}</div>
+              <div class="item-sub ${owned ? "owned" : ""}">${owned ? "In hand" : "Looking for"}</div>
+            </div>
+            <span class="tier">${escapeHtml(getTier(item))}</span>
+            <span class="check ${owned ? "owned" : ""}">${owned ? "OK" : "."}</span>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="list-group" style="color:${colorMap[tone]}">
+          <div class="slot-head">
+            <div class="slot-head-row">
+              <div class="slot-pill">
+                <span class="slot-dot"></span>
+                <span class="list-label">${escapeHtml(title)}</span>
+              </div>
+              <span class="slot-count">${escapeHtml(`${ownedCount}/${compact.length}`)}</span>
+              <span class="slot-blurb">${escapeHtml(blurbMap[tone] || "")}</span>
+            </div>
+            <div class="slot-progress"><div class="slot-progress-fill" style="width:${pct}%"></div></div>
+          </div>
+          <div class="item-list">${rows || `<div class="note">No items listed.</div>`}</div>
+        </div>
+      `;
+    }
+
+    function renderChecklist(coach) {
+      return `
+        <section class="section">
+          <div class="section-kicker">What to look for</div>
+          <h3 class="section-title">Item checklist</h3>
+          ${renderItemGroup("Core", "core", coach.activeArch?.core_items, coach.ownedNames)}
+          ${renderItemGroup("Carry", "carry", coach.activeArch?.carry_items, coach.ownedNames)}
+          ${renderItemGroup("Support", "support", coach.activeArch?.support_items, coach.ownedNames)}
+        </section>
+      `;
+    }
+
+    function renderAlerts(state, coach) {
+      const alerts = buildAlerts(state, coach).map((alert) => `
+        <div class="alert ${escapeHtml(alert.tone)}">
+          <div class="alert-title">${escapeHtml(alert.title)}</div>
+          <div class="alert-copy">${escapeHtml(alert.copy)}</div>
+        </div>
+      `).join("");
+
+      return `
+        <section class="section">
+          <div class="section-kicker">Context alerts</div>
+          <h3 class="section-title">Coach prompts</h3>
+          <div class="alert-stack">${alerts}</div>
+        </section>
+      `;
+    }
+
+    function renderCoach(state) {
+      const coach = getActiveCoach(state);
+      return `
+        ${renderOverview(state, coach)}
+        ${renderCardSearch(coach)}
+        ${renderOverrides(coach, state)}
+        ${renderChecklist(coach)}
+        ${renderAlerts(state, coach)}
+      `;
+    }
+
+    function renderReview(state) {
+      const scoreSummary = state.score_summary || {};
+      const summaryCards = [
+        { label: "Good", value: (scoreSummary.optimal || 0) + (scoreSummary.good || 0) },
+        { label: "Situational", value: scoreSummary.situational || 0 },
+        { label: "Suboptimal", value: scoreSummary.suboptimal || 0 },
+        { label: "Missed", value: scoreSummary.missed || 0 },
+        { label: "Skip", value: scoreSummary.skip || 0 },
+      ].map((entry) => `
+        <div class="review-stat">
+          <div class="review-stat-label">${escapeHtml(entry.label)}</div>
+          <div class="review-stat-value">${escapeHtml(entry.value)}</div>
+        </div>
+      `).join("");
+
+      const rows = (state.decisions || []).map((decision) => {
+        const badge = getReviewBadge(decision);
+        const imgEl = decision.image
+          ? renderItemArt(getReviewDisplayName(decision), decision.image, "review-thumb")
+          : `<div class="review-thumb-placeholder"></div>`;
+        return `
+          <div class="review-row">
+            <div class="review-seq">#${escapeHtml(decision.decision_seq)}</div>
+            ${imgEl}
+            <div class="review-copy">
+              <div class="review-name">${escapeHtml(truncateReviewName(getReviewDisplayName(decision), 22))}</div>
+              ${decision.review_detail ? `<div class="review-detail">${escapeHtml(decision.review_detail)}</div>` : ""}
+            </div>
+            <div class="review-badge ${escapeHtml(badge.tone)}">${escapeHtml(badge.label)}</div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <section class="section">
+          <div class="section-kicker">Run review</div>
+          <h3 class="section-title">Decision log</h3>
+          <div class="note" style="margin-bottom:12px;">Showing build-defining choices only.</div>
+          <div class="review-summary">${summaryCards}</div>
+          <div class="review-list">${rows || `<div class="note">No build-defining decisions yet.</div>`}</div>
+        </section>
+      `;
+    }
+
+    function getRunSignals(state) {
+      const coach = getActiveCoach(state);
+      const signals = [];
+      const pivotSignals = buildCatalog.pivotSignals;
+      const day = Number(state?.day || 0);
+      const losses = Number(state?.pvp_losses || 0) + Number(state?.pve_losses || 0);
+      const ownedNames = coach.ownedNames;
+      const activeArch = coach.activeArch;
+      const conditionItems = getConditionItems(activeArch);
+      const missingConditionItems = conditionItems.filter((item) => !ownedNames.includes(item));
+
+      if (day >= 7 && missingConditionItems.length && pivotSignals[0]) {
+        signals.push(pivotSignals[0]);
+      }
+
+      if (losses >= 2 && ownedNames.length >= 3 && pivotSignals[1]) {
+        signals.push(pivotSignals[1]);
+      }
+
+      return Array.from(new Set(signals));
+    }
+
+    function renderChipList(items, toneClass, emptyMessage) {
+      const compact = (items || []).filter(Boolean);
+      if (!compact.length) {
+        return `<div class="note">${escapeHtml(emptyMessage)}</div>`;
+      }
+      return `<div class="chip-list">${compact.map((item) => `<span class="chip ${toneClass}">${escapeHtml(item)}</span>`).join("")}</div>`;
+    }
+
+    function renderRun(state) {
+      const phaseNotes = state.phase_notes || {};
+      const signals = getRunSignals(state);
+      const runTier = getRunTier(state);
+
+      return `
+        <section class="section">
+          <div class="section-kicker">Run context</div>
+          <h3 class="section-title">Current snapshot</h3>
+          <div class="run-strip four">
+            <div class="run-card">
+              <div class="run-card-label">Tier</div>
+              <div class="run-card-value">${escapeHtml(runTier.label)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">PvP</div>
+              <div class="run-card-value">${escapeHtml(`${fmtMaybe(state.pvp_wins, 0)}-${fmtMaybe(state.pvp_losses, 0)}`)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">PvE</div>
+              <div class="run-card-value">${escapeHtml(`${fmtMaybe(state.pve_wins, 0)}-${fmtMaybe(state.pve_losses, 0)}`)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">Decisions</div>
+              <div class="run-card-value">${escapeHtml(fmtMaybe(state.decision_count, 0))}</div>
+            </div>
+          </div>
+          ${runTier.detail ? `<div class="note" style="margin-top:8px;">${escapeHtml(runTier.detail)}</div>` : ""}
+        </section>
+
+        <section class="section">
+          <div class="section-kicker">Phase guidance</div>
+          <h3 class="section-title">${escapeHtml((phaseNotes.phase || "early").replace(/_/g, " "))}</h3>
+          <div class="note">${escapeHtml(phaseNotes.description || "Waiting for the current phase guidance.")}</div>
+          ${phaseNotes.notes ? `<div class="note" style="margin-top:8px;">${escapeHtml(phaseNotes.notes)}</div>` : ""}
+        </section>
+
+        <section class="section">
+          <div class="section-kicker">Economy priorities</div>
+          <h3 class="section-title">Relevant pickups</h3>
+          ${renderChipList(phaseNotes.economy_items, "econ", "No dedicated economy items for this phase.")}
+          <div style="height:10px;"></div>
+          ${renderChipList(phaseNotes.universal_utility_items, "utility", "No universal utility list for this phase.")}
+        </section>
+
+        <section class="section">
+          <div class="section-kicker">Hero reminder</div>
+          <h3 class="section-title">${escapeHtml(getHeroFundamentalsTitle(state))}</h3>
+          <div class="note">${escapeHtml(getHeroNotes())}</div>
+        </section>
+
+        ${signals.length ? `
+          <section class="section">
+            <div class="section-kicker">Pivot signals</div>
+            <h3 class="section-title">Watch-outs</h3>
+            <div class="signal-list">
+              ${signals.map((signal) => `<div class="signal">${escapeHtml(signal)}</div>`).join("")}
+            </div>
+          </section>
+        ` : ""}
+      `;
+    }
+
+    function renderIdleState(state) {
+      const summaryState = state.is_active === false ? state : (lastCompletedState || state);
+      const hasCompletedSummary = Boolean(
+        summaryState && (summaryState.is_active === false || lastCompletedState)
+      );
+      const lastOutcome = hasCompletedSummary && summaryState?.outcome
+        ? String(summaryState.outcome).toUpperCase()
+        : "No completed run yet";
+      const lastPvp = hasCompletedSummary
+        ? `${fmtMaybe(summaryState?.pvp_wins, 0)}-${fmtMaybe(summaryState?.pvp_losses, 0)}`
+        : "--";
+      const lastPve = hasCompletedSummary
+        ? `${fmtMaybe(summaryState?.pve_wins, 0)}-${fmtMaybe(summaryState?.pve_losses, 0)}`
+        : "--";
+      const lastHero = hasCompletedSummary ? fmtMaybe(summaryState?.hero, "--") : "--";
+      const runTier = hasCompletedSummary
+        ? getRunTier(summaryState)
+        : { label: "--", detail: "" };
+
+      return `
+        <section class="section hero-card">
+          <div class="section-kicker">Idle</div>
+          <h2 class="hero-name">Waiting for run to start...</h2>
+          <div class="hero-meta">The overlay will switch back to live coaching as soon as the next run records its first decision.</div>
+        </section>
+
+        <section class="section">
+          <div class="section-kicker">Last completed run</div>
+          <h3 class="section-title">${escapeHtml(lastOutcome)}</h3>
+          <div class="run-strip">
+            <div class="run-card">
+              <div class="run-card-label">Tier</div>
+              <div class="run-card-value">${escapeHtml(runTier.label)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">PvP</div>
+              <div class="run-card-value">${escapeHtml(lastPvp)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">PvE</div>
+              <div class="run-card-value">${escapeHtml(lastPve)}</div>
+            </div>
+            <div class="run-card">
+              <div class="run-card-label">Hero</div>
+              <div class="run-card-value">${escapeHtml(lastHero)}</div>
+            </div>
+          </div>
+          ${runTier.detail ? `<div class="note" style="margin-top:8px;">${escapeHtml(runTier.detail)}</div>` : ""}
+          ${hasCompletedSummary ? `<button class="header-action" type="button" data-reopen-run="true" style="margin-top:12px;">Review Last Run</button>` : ""}
+        </section>
+      `;
+    }
+
+    function renderActivePane(state) {
+      if (shouldShowIdleState(state)) {
+        return renderIdleState(state);
+      }
+      if (activeTab === "review") {
+        return renderReview(state);
+      }
+      if (activeTab === "run") {
+        return renderRun(state);
+      }
+      return renderCoach(state);
+    }
+
+    function renderLoading() {
+      const loadingTitle = buildCatalogReady ? "Loading coach view" : "Loading build catalog";
+      const loadingCopy = buildCatalogReady
+        ? "Polling /api/overlay/state for the latest run snapshot."
+        : "Fetching /api/builds/archetypes for the build checklist.";
+      root.innerHTML = `
+        <div class="loading">
+          <div class="loading-card">
+            <h1 class="loading-title">${escapeHtml(loadingTitle)}</h1>
+            <p class="loading-copy">${escapeHtml(loadingCopy)}</p>
+            <div class="pulse"><span class="dot"></span>Waiting for live state</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function retryOverlayData() {
+      buildCatalogError = "";
+      overlayError = "";
+      fetchBuildCatalog();
+      fetchState();
+    }
+
+    function renderError(message) {
+      root.innerHTML = `
+        <div class="error">
+          <div class="error-card">
+            <h1 class="error-title">Overlay state unavailable</h1>
+            <p class="error-copy">${escapeHtml(message)}</p>
+            <button class="retry" type="button" data-retry="true">Retry</button>
+          </div>
+        </div>
+      `;
+      const retry = root.querySelector("[data-retry='true']");
+      if (retry) retry.addEventListener("click", retryOverlayData);
+    }
+
+    function captureScrollPosition() {
+      const content = root.querySelector(".content");
+      if (content) {
+        contentScrollTop = content.scrollTop;
+      }
+    }
+
+    function attachContentBehaviors() {
+      const content = root.querySelector(".content");
+      if (!content) return;
+      content.scrollTop = contentScrollTop;
+      content.addEventListener("scroll", () => {
+        contentScrollTop = content.scrollTop;
+      }, { passive: true });
+    }
+
+    function renderNoRuns() {
+      root.innerHTML = `
+        <div class="loading">
+          <div class="loading-card">
+            <h1 class="loading-title">No runs yet.</h1>
+            <p class="loading-copy">Start a run in The Bazaar with the tracker running and the coach view will activate.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function isNoRunsState(state) {
+      return Boolean(state && state.error);
+    }
+
+    function render() {
+      if (buildCatalogError) {
+        renderError(buildCatalogError);
+        return;
+      }
+
+      if (isNoRunsState(overlayState)) {
+        renderNoRuns();
+        return;
+      }
+
+      if (!buildCatalogReady) {
+        renderLoading();
+        return;
+      }
+
+      if (overlayError && !overlayState) {
+        renderError(overlayError);
+        return;
+      }
+
+      if (!overlayState) {
+        renderLoading();
+        return;
+      }
+
+      captureScrollPosition();
+      const idle = shouldShowIdleState(overlayState);
+      root.innerHTML = `
+        <div class="shell ${isCollapsed ? "collapsed" : ""}">
+          ${renderHeader(overlayState)}
+          ${idle ? "" : renderTabs()}
+          <div class="content">
+            ${renderActivePane(overlayState)}
+          </div>
+          <button class="resize-grip ${canResizeOverlay() && !isCollapsed ? "" : "hidden"}" type="button" data-resize-grip="true" aria-label="Resize overlay"></button>
+        </div>
+      `;
+
+      root.querySelectorAll("[data-tab]").forEach((button) => {
+        button.addEventListener("click", () => setActiveTab(button.dataset.tab));
+      });
+
+      const dismissRun = root.querySelector("[data-dismiss-run='true']");
+      if (dismissRun) {
+        dismissRun.addEventListener("click", dismissCompletedRun);
+      }
+
+      const reopenRun = root.querySelector("[data-reopen-run='true']");
+      if (reopenRun) {
+        reopenRun.addEventListener("click", reopenCompletedRun);
+      }
+
+      const dragHeader = root.querySelector("[data-drag-header='true']");
+      if (dragHeader) {
+        dragHeader.addEventListener("mousedown", beginMove);
+      }
+
+      root.querySelectorAll("[data-arch]").forEach((button) => {
+        button.addEventListener("click", () => setManualArch(button.dataset.arch));
+      });
+
+      root.querySelectorAll("[data-auto='true']").forEach((button) => {
+        button.addEventListener("click", clearManualArch);
+      });
+
+      const cardSearch = root.querySelector("[data-card-search='true']");
+      if (cardSearch) {
+        cardSearch.addEventListener("input", (event) => {
+          cardSearchQuery = event.target.value;
+          refreshCardSearchResults();
+        });
+      }
+
+      const clearCardSearch = root.querySelector("[data-card-search-clear='true']");
+      if (clearCardSearch) {
+        clearCardSearch.addEventListener("click", () => {
+          cardSearchQuery = "";
+          render();
+          const nextSearch = root.querySelector("[data-card-search='true']");
+          if (nextSearch) nextSearch.focus();
+        });
+      }
+
+      const resizeGrip = root.querySelector("[data-resize-grip='true']");
+      if (resizeGrip) {
+        resizeGrip.addEventListener("mousedown", beginResize);
+      }
+
+      attachContentBehaviors();
+    }
+
+    function beginResize(event) {
+      if (!canResizeOverlay()) return;
+      if (event.button !== 0) return;
+      event.preventDefault();
+      event.stopPropagation();
+      resizeSession = {
+        startX: event.screenX,
+        startY: event.screenY,
+        startWidth: window.innerWidth,
+        startHeight: window.innerHeight,
+      };
+      moveSession = null;
+    }
+
+    function queueResize(width, height) {
+      pendingResizeSize = {
+        width: Math.max(280, Math.round(width)),
+        height: Math.max(200, Math.round(height)),
+      };
+      if (resizeFramePending) return;
+      resizeFramePending = true;
+      requestAnimationFrame(flushResize);
+    }
+
+    async function flushResize() {
+      resizeFramePending = false;
+      if (!pendingResizeSize || !canResizeOverlay()) return;
+      const { width, height } = pendingResizeSize;
+      pendingResizeSize = null;
+      try {
+          await window.pywebview.api.resize_window(width, height);
+          if (!isCollapsed) {
+            storeExpandedWindowSize(width, height);
+            scheduleGeometrySave();
+          }
+      } catch (error) {
+        console.error("Resize failed", error);
+      }
+    }
+
+    function beginMove(event) {
+      if (!canMoveOverlay()) return;
+      if (event.button !== 0) return;
+      if (event.target.closest("[data-dismiss-run='true']")) return;
+      if (event.target.closest("[data-resize-grip='true']")) return;
+      event.preventDefault();
+      moveSession = {
+        offsetX: event.screenX - window.screenX,
+        offsetY: event.screenY - window.screenY,
+      };
+      resizeSession = null;
+    }
+
+    function queueMove(x, y) {
+      pendingMovePosition = {
+        x: Math.round(x),
+        y: Math.round(y),
+      };
+      if (moveFramePending) return;
+      moveFramePending = true;
+      requestAnimationFrame(flushMove);
+    }
+
+    async function flushMove() {
+      moveFramePending = false;
+      if (!pendingMovePosition || !canMoveOverlay()) return;
+      const { x, y } = pendingMovePosition;
+      pendingMovePosition = null;
+      try {
+        await window.pywebview.api.move_window(x, y);
+        scheduleGeometrySave();
+      } catch (error) {
+        console.error("Move failed", error);
+      }
+    }
+
+    function onPointerMove(event) {
+      if (resizeSession) {
+        const width = resizeSession.startWidth + (event.screenX - resizeSession.startX);
+        const height = resizeSession.startHeight + (event.screenY - resizeSession.startY);
+        queueResize(width, height);
+        return;
+      }
+      if (moveSession) {
+        queueMove(event.screenX - moveSession.offsetX, event.screenY - moveSession.offsetY);
+      }
+    }
+
+    function endPointerAction() {
+      resizeSession = null;
+      moveSession = null;
+    }
+
+    async function fetchBuildCatalog(hero) {
+      const requestedHero = String(hero || "").trim();
+      if (!requestedHero) {
+        return buildCatalog;
+      }
+      if (
+        buildCatalogReady &&
+        !buildCatalogError &&
+        buildCatalog.hero === requestedHero
+      ) {
+        return buildCatalog;
+      }
+      buildCatalogReady = false;
+      buildCatalogError = "";
+      render();
+      try {
+        const response = await fetch(`/api/builds/archetypes/${encodeURIComponent(requestedHero)}`, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Build catalog request failed with status ${response.status}`);
+        }
+        buildCatalog = normalizeBuildCatalog(await response.json());
+        const manualName = getManualArch();
+        if (manualName && !buildCatalog.archetypes.some((arch) => arch.name === manualName)) {
+          clearManualArch();
+        }
+
+        try {
+          const imagesResponse = await fetch(`/api/builds/items/${encodeURIComponent(requestedHero)}`, { cache: "no-store" });
+          if (imagesResponse.ok) {
+            buildCatalog.itemImages = await imagesResponse.json();
+          } else {
+            buildCatalog.itemImages = {};
+          }
+        } catch (imgError) {
+          buildCatalog.itemImages = {};
+        }
+
+        buildCatalogReady = true;
+        buildCatalogError = "";
+      } catch (error) {
+        buildCatalogError = error.message || "Unknown build catalog error";
+      }
+      render();
+      return buildCatalog;
+    }
+
+    async function fetchState() {
+      try {
+        const response = await fetch("/api/overlay/state", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+        const nextState = await response.json();
+        const nextHero = String(nextState?.hero || "").trim();
+        if (nextHero) {
+          await fetchBuildCatalog(nextHero);
+        }
+        const nextSignature = JSON.stringify(nextState);
+        const hadError = Boolean(overlayError);
+        const previousWasIdle = shouldShowIdleState(overlayState);
+        const nextIsIdle = shouldShowIdleState(nextState);
+        const previousWasLiveRun = Boolean(
+          overlayState &&
+          overlayState.is_active !== false &&
+          hasTrackedDecisions(overlayState)
+        );
+        const nextIsCompletedRun = isCompletedRun(nextState);
+        if (nextState.is_active === false) {
+          lastCompletedState = nextState;
+        }
+        overlayState = nextState;
+        overlayError = "";
+        if (previousWasIdle && !nextIsIdle) {
+          activeTab = "coach";
+          contentScrollTop = 0;
+        }
+        if (previousWasLiveRun && nextIsCompletedRun) {
+          activeTab = "review";
+          contentScrollTop = 0;
+        }
+        if (!hadError && nextSignature === lastStateSignature) {
+          return;
+        }
+        lastStateSignature = nextSignature;
+      } catch (error) {
+        overlayError = error.message || "Unknown overlay error";
+      }
+      render();
+    }
+
+    async function startPolling() {
+      await fetchState();
+      pollHandle = window.setInterval(fetchState, POLL_MS);
+    }
+
+    if (!localStorage.getItem(EXPANDED_SIZE_KEY)) {
+      storeExpandedWindowSize(380, 760);
+    }
+
+    if (
+      window.pywebview &&
+      window.pywebview.api &&
+      typeof window.pywebview.api.resize_window === "function" &&
+      typeof window.pywebview.api.move_window === "function"
+    ) {
+      pywebviewApiReady = true;
+    }
+
+    window.addEventListener("pywebviewready", () => {
+      pywebviewApiReady = true;
+      render();
+      // No syncWindowShape() here — Python already opened the window at the
+      // persisted size, so re-applying it would cause a redundant resize.
+    });
+
+    window.addEventListener("resize", () => {
+      if (!isCollapsed) {
+        storeExpandedWindowSize();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "F8") {
+        event.preventDefault();
+        toggleCollapse();
+      }
+    });
+
+    document.addEventListener("mousemove", onPointerMove);
+    document.addEventListener("mouseup", endPointerAction);
+
+    renderLoading();
+    // No syncWindowShape() on initial load — Python opens at persisted size.
+    startPolling();
+  </script>
+</body>
+</html>

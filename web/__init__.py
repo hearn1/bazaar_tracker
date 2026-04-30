@@ -1,0 +1,1 @@
+# web/ — Bazaar Tracker dashboard

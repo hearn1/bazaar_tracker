@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bazaar Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-root:     #0c0e14;
+  --bg-panel:    #13161e;
+  --bg-card:     #1a1e2a;
+  --bg-card-alt: #1e2234;
+  --bg-hover:    #242940;
+  --border:      #2a2f42;
+  --border-lite: #353b52;
+
+  --text-primary:   #e8eaf0;
+  --text-secondary: #8b91a8;
+  --text-muted:     #5c6280;
+
+  --accent:       #c9a44a;
+  --accent-dim:   #a38338;
+  --green:        #4ade80;
+  --green-bg:     rgba(74, 222, 128, 0.10);
+  --green-border: rgba(74, 222, 128, 0.25);
+  --red:          #f87171;
+  --red-bg:       rgba(248, 113, 113, 0.10);
+  --red-border:   rgba(248, 113, 113, 0.25);
+  --amber:        #fbbf24;
+  --amber-bg:     rgba(251, 191, 36, 0.10);
+  --amber-border: rgba(251, 191, 36, 0.25);
+  --blue:         #60a5fa;
+  --blue-bg:      rgba(96, 165, 250, 0.10);
+  --orange:       #f97316;
+
+  --font-display: 'Syne', 'Arial Black', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  --radius: 6px;
+}
+
+html { font-size: 14px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-root);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.app { max-width: 960px; margin: 0 auto; padding: 20px 20px 60px; }
+
+/* ── Header ──────────────────────────────────────────────────────── */
+header {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 14px;
+}
+header h1 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+header .subtitle { font-size: 0.8rem; color: var(--text-muted); }
+header .history-toggle {
+  margin-left: auto; font-size: 0.78rem; color: var(--text-muted);
+  cursor: pointer; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 4px 12px; background: transparent; transition: all 0.15s;
+}
+header .history-toggle:hover { border-color: var(--accent-dim); color: var(--accent); }
+
+/* ── Run Selector (compact history) ──────────────────────────────── */
+.run-history { display: none; margin-bottom: 20px; }
+.run-history.visible { display: block; }
+.run-history h3 {
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px;
+}
+.run-row {
+  display: grid; grid-template-columns: 48px 80px 1fr 90px 72px;
+  align-items: center; gap: 6px; padding: 7px 12px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 3px; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s; font-size: 0.85rem;
+}
+.run-row:hover { background: var(--bg-hover); border-color: var(--border-lite); }
+.run-row.active { border-color: var(--accent-dim); background: var(--bg-card-alt); }
+.run-row .rid { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+.run-row .hero { font-weight: 600; }
+.run-row .arch { font-size: 0.75rem; color: var(--accent); opacity: 0.85; }
+.badge {
+  display: inline-block; padding: 1px 8px; border-radius: 3px;
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+}
+.badge-victory { background: var(--green-bg); color: var(--green); }
+.badge-defeat  { background: var(--red-bg); color: var(--red); }
+.badge-unknown { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+.run-row .pvp { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); }
+
+/* ── Insight Callouts (the main value) ───────────────────────────── */
+.insight-section { margin-bottom: 20px; }
+.insight-section h3 {
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--red); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.insight-section h3 .count-badge {
+  background: var(--red-bg); color: var(--red); font-size: 0.7rem;
+  padding: 1px 7px; border-radius: 10px; font-weight: 700;
+}
+
+.insight-card {
+  padding: 10px 14px; margin-bottom: 6px;
+  border-radius: var(--radius); border-left: 3px solid;
+  background: var(--bg-card); position: relative;
+}
+.insight-card.sev-high { border-left-color: var(--red); background: var(--red-bg); }
+.insight-card.sev-medium { border-left-color: var(--amber); background: var(--amber-bg); }
+.insight-card.sev-milestone { border-left-color: var(--green); background: var(--green-bg); }
+.insight-card.sev-info { border-left-color: var(--blue); background: var(--blue-bg); }
+
+.insight-card .insight-seq {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);
+}
+.insight-card .insight-msg {
+  font-size: 0.88rem; color: var(--text-primary); margin-top: 1px;
+}
+.insight-card .insight-context {
+  font-size: 0.78rem; color: var(--text-secondary); margin-top: 3px;
+}
+.mini-card-art {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  border: 1px solid rgba(201,164,74,0.42);
+  background:
+    linear-gradient(145deg, rgba(255,236,177,0.16), transparent 34%),
+    linear-gradient(180deg, rgba(31,36,52,0.96), rgba(10,12,18,0.96));
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.07),
+    0 4px 10px rgba(0,0,0,0.25);
+}
+.mini-card-art::before {
+  content: ''; position: absolute; inset: 3px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: inherit; pointer-events: none; z-index: 1;
+}
+.mini-card-art::after {
+  content: ''; position: absolute; inset: auto 0 0; height: 34%;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.44));
+  pointer-events: none; z-index: 1;
+}
+.mini-card-art img {
+  width: 100%; height: 100%; object-fit: cover; transform: scale(1.08);
+}
+.insight-img {
+  width: 26px; height: 26px; vertical-align: middle;
+  border-radius: 5px; margin-right: 6px;
+}
+
+/* ── Summary Strip ───────────────────────────────────────────────── */
+.summary-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 6px; margin-bottom: 18px;
+}
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px; text-align: center;
+}
+.stat-card .sv {
+  font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700;
+}
+.stat-card .sl {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-muted); margin-top: 1px;
+}
+.stat-card.accent .sv { color: var(--accent); }
+
+/* ── Filter Tabs ─────────────────────────────────────────────────── */
+.filter-row {
+  display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.ftab {
+  font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.7px; padding: 5px 14px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text-muted); cursor: pointer; transition: all 0.12s;
+}
+.ftab:hover { border-color: var(--border-lite); color: var(--text-secondary); }
+.ftab.active { border-color: var(--accent-dim); color: var(--accent); background: rgba(201,164,74,0.07); }
+.ftab.flag-tab { border-color: var(--red-border); color: var(--red); }
+.ftab.flag-tab:hover { background: var(--red-bg); }
+.ftab.flag-tab.active { background: var(--red-bg); border-color: var(--red); }
+
+/* ── Decision Timeline ───────────────────────────────────────────── */
+.timeline { margin-bottom: 28px; }
+.phase-div {
+  font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent-dim); padding: 10px 0 4px 6px;
+  border-bottom: 1px solid var(--border); margin-bottom: 3px;
+}
+
+.d-row {
+  display: grid; grid-template-columns: 18px 32px 36px 1fr 16px;
+  gap: 0 8px; padding: 7px 10px; border-left: 3px solid transparent;
+  border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 2px;
+  transition: background 0.1s; cursor: pointer;
+}
+.d-row:hover { background: var(--bg-hover); }
+.d-row.lbl-optimal     { border-left-color: var(--green); }
+.d-row.lbl-good        { border-left-color: var(--blue); }
+.d-row.lbl-situational { border-left-color: var(--amber); }
+.d-row.lbl-suboptimal  { border-left-color: var(--red); }
+.d-row.lbl-warning     { border-left-color: var(--orange); }
+.d-row.lbl-info        { border-left-color: var(--text-muted); opacity: 0.65; }
+
+/* Flagged decisions get a subtle glow */
+.d-row.flagged { background: var(--red-bg); }
+.d-row.flagged:hover { background: rgba(248,113,113,0.16); }
+
+.d-row .si { font-size: 0.85rem; line-height: 1.6; }
+.d-row .sn { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); text-align: right; line-height: 1.6; }
+
+.d-thumb {
+  width: 36px; height: 36px; border-radius: 7px;
+  background: var(--bg-card);
+  align-self: center;
+}
+
+.d-main { display: flex; flex-direction: column; gap: 1px; }
+.d-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.d-name { font-weight: 600; font-size: 0.88rem; }
+.d-ctx {
+  font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);
+}
+.d-notes { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
+
+/* Inline insight chips on decision rows */
+.d-insights { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+.d-chip {
+  font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-weight: 500;
+}
+.chip-high     { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.chip-medium   { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.chip-milestone{ background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.chip-info     { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(96,165,250,0.25); }
+
+/* Expanded detail */
+.d-detail {
+  display: none; margin-top: 6px; padding: 8px 10px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.d-row.expanded .d-detail { display: block; }
+.det-title {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-muted); margin-bottom: 3px; margin-top: 6px;
+}
+.det-title:first-child { margin-top: 0; }
+.det-items { display: flex; flex-wrap: wrap; gap: 3px; }
+.det-itm {
+  font-size: 0.75rem; padding: 2px 7px; border-radius: 3px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-secondary);
+}
+.det-itm.chosen { background: rgba(201,164,74,0.10); border-color: var(--accent-dim); color: var(--accent); font-weight: 600; }
+.det-itm.rej { opacity: 0.55; }
+.det-itm.unres { font-family: var(--font-mono); font-size: 0.68rem; opacity: 0.35; }
+.det-img {
+  width: 22px; height: 22px; vertical-align: middle;
+  border-radius: 5px; margin-right: 4px;
+}
+
+/* ── Combats ─────────────────────────────────────────────────────── */
+.combat-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 5px; margin-bottom: 20px;
+}
+.c-card {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.c-card .ci { font-size: 0.9rem; }
+.c-card .ct { font-size: 0.78rem; color: var(--text-secondary); }
+.c-card .cd { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-left: auto; }
+
+/* ── Utility ─────────────────────────────────────────────────────── */
+.loading, .empty { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.85rem; }
+.empty-state {
+  text-align: center; padding: 24px 18px; color: var(--text-muted);
+  font-size: 0.85rem; background: var(--bg-card); border: 1px dashed var(--border);
+  border-radius: var(--radius); margin: 8px 0;
+}
+
+/* ── Ask AI button ───────────────────────────────────────────────── */
+.ask-ai-btn {
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+  color: var(--accent); background: rgba(201,164,74,0.08);
+  border: 1px solid var(--accent-dim); border-radius: var(--radius);
+  padding: 4px 12px; cursor: pointer; transition: all 0.15s;
+}
+.ask-ai-btn:hover { background: rgba(201,164,74,0.15); border-color: var(--accent); }
+.ask-ai-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Toast ───────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--bg-card-alt); border: 1px solid var(--accent-dim);
+  color: var(--accent); font-size: 0.85rem; font-weight: 500;
+  padding: 10px 18px; border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5); z-index: 1000;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.toast.visible { opacity: 1; }
+
+/* ── Decision row chevron (UI-07) ────────────────────────────────── */
+.d-chevron {
+  font-size: 0.8rem; color: var(--text-muted); align-self: center;
+  margin-left: auto; padding: 0 4px;
+  transform: rotate(0deg); transition: transform 0.15s ease;
+  user-select: none;
+}
+.d-row.expanded .d-chevron { transform: rotate(180deg); color: var(--accent); }
+.loading::after {
+  content: ''; display: inline-block; width: 12px; height: 12px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.7s linear infinite; margin-left: 6px; vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.sec-title {
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; margin-top: 20px;
+}
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--bg-root); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.update-notice {
+  display: none; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: -8px 0 18px; padding: 10px 12px;
+  background: var(--blue-bg); border: 1px solid rgba(96,165,250,0.25);
+  border-radius: var(--radius); color: var(--text-primary); font-size: 0.84rem;
+}
+.update-notice.visible { display: flex; }
+.update-notice .release-link { color: var(--blue); text-decoration: none; font-weight: 600; }
+.update-notice .release-link:hover { text-decoration: underline; }
+.update-notice .dismiss-update {
+  margin-left: auto; color: var(--text-secondary); background: transparent;
+  border: 1px solid var(--border-lite); border-radius: var(--radius);
+  padding: 3px 9px; cursor: pointer; font-size: 0.75rem;
+}
+.update-notice .dismiss-update:hover { color: var(--text-primary); border-color: var(--blue); }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>BAZAAR TRACKER</h1>
+    <span class="subtitle" id="header-sub">Loading...</span>
+    <button class="ask-ai-btn" id="ask-ai-btn" onclick="askAI()" style="margin-left:auto" disabled>Ask AI &#8599;</button>
+    <button class="history-toggle" id="history-btn" onclick="toggleHistory()">Run History</button>
+  </header>
+  <div class="toast" id="toast"></div>
+  <div class="update-notice" id="update-notice"></div>
+
+  <!-- Run history (hidden by default) -->
+  <div class="run-history" id="run-history">
+    <h3>Run History</h3>
+    <div id="run-list"></div>
+  </div>
+
+  <!-- Main content: loaded run -->
+  <div id="run-view">
+    <div class="loading" id="main-loading">Loading latest run</div>
+
+    <!-- Insight callouts — the first thing you see -->
+    <div id="insights-section" style="display:none"></div>
+
+    <!-- Summary -->
+    <div class="summary-strip" id="summary-strip" style="display:none"></div>
+
+    <!-- Filters -->
+    <div class="filter-row" id="filter-row" style="display:none"></div>
+
+    <!-- Timeline -->
+    <div class="timeline" id="timeline"></div>
+
+    <!-- Combats -->
+    <div id="combats-section" style="display:none">
+      <div class="sec-title">Combats</div>
+      <div class="combat-grid" id="combat-grid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────
+let currentRunId = null;
+let allDecisions = [];
+let allRuns = [];
+let activeFilter = 'all';
+let currentSummary = null;
+
+const ICONS = {
+  optimal:'✅', good:'👍', situational:'⚠️', suboptimal:'❌', warning:'🔶', info:'ℹ️',
+};
+const TYPE_ICONS = {
+  item:'🛒', free_reward:'🎁', skip:'⏭', skill:'🔮', event_choice:'🗺', companion:'🐾',
+};
+const PHASES = { early:'Early', early_mid:'Early Mid', late:'Late' };
+
+// Only these decision types represent real player choices
+const CHOICE_TYPES = new Set(['item', 'companion', 'skip', 'skill', 'free_reward', 'event_choice']);
+function isChoice(d) { return CHOICE_TYPES.has(d.decision_type); }
+
+// UI-03: Flagged definition MUST match backend's flagged_count contract exactly.
+// Backend: score_label IN ('suboptimal','warning') PLUS skips with score_notes LIKE '%missed:%'
+// (which the server surfaces as the `skip_has_relevant` boolean on each decision row).
+const isFlagged = d => d.score_label === 'suboptimal'
+                    || d.score_label === 'warning'
+                    || d.skip_has_relevant === true;
+
+async function api(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${r.status}`);
+  return r.json();
+}
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+async function checkUpdates() {
+  const el = document.getElementById('update-notice');
+  if (!el) return;
+  try {
+    const status = await api('/api/updates/status');
+    if (!status.update_available || status.dismissed) return;
+    const notes = status.release_notes_url
+      ? `<a class="release-link" href="${esc(status.release_notes_url)}" target="_blank" rel="noreferrer">Release notes</a>`
+      : '';
+    const compat = status.compatibility_notes ? `<span>${esc(status.compatibility_notes)}</span>` : '';
+    el.innerHTML = `
+      <strong>Update available: ${esc(status.latest_version)}</strong>
+      <span>Current: ${esc(status.current_version)}</span>
+      ${notes}
+      ${compat}
+      <button class="dismiss-update" data-version="${esc(status.latest_version)}" onclick="dismissUpdate(this.dataset.version)">Dismiss</button>`;
+    el.classList.add('visible');
+  } catch(e) {
+    // Update checks are intentionally non-blocking.
+  }
+}
+
+async function dismissUpdate(version) {
+  try {
+    await fetch('/api/updates/dismiss', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ version }),
+    });
+  } catch(e) {
+    // Ignore dismissal write failures; the notice can return next load.
+  }
+  const el = document.getElementById('update-notice');
+  if (el) el.classList.remove('visible');
+}
+
+// ── Boot: auto-load latest run ───────────────────────────────────
+async function boot() {
+  checkUpdates();
+  try {
+    allRuns = await api('/api/runs');
+    if (!allRuns.length) {
+      document.getElementById('main-loading').outerHTML =
+        '<div class="empty-state">No runs recorded yet. Start a game and run tracker.py.</div>';
+      return;
+    }
+    renderRunList();
+    await loadRun(allRuns[0].id);
+  } catch(e) {
+    document.getElementById('main-loading').innerHTML =
+      `<div class="empty-state">Error loading data: ${esc(e.message)}</div>`;
+  }
+}
+
+// ── Run list (hidden panel) ──────────────────────────────────────
+function renderRunList() {
+  const list = document.getElementById('run-list');
+  if (!allRuns.length) {
+    // UI-05: consistent empty state
+    list.innerHTML = '<div class="empty-state">No runs recorded yet. Start a game and run tracker.py.</div>';
+    return;
+  }
+  list.innerHTML = allRuns.map(r => {
+    const bc = r.outcome === 'victory' ? 'badge-victory' : r.outcome === 'defeat' ? 'badge-defeat' : 'badge-unknown';
+    const arch = r.archetype ? `<span class="arch">${r.archetype}</span>` : '';
+    return `<div class="run-row${r.id === currentRunId ? ' active' : ''}" onclick="loadRun(${r.id})" data-rid="${r.id}">
+      <span class="rid">#${r.id}</span>
+      <span class="hero">${r.hero || '?'}</span>
+      <span>${arch}</span>
+      <span class="badge ${bc}">${r.outcome || '...'}</span>
+      <span class="pvp">${r.pvp_wins}W/${r.pvp_losses}L</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleHistory() {
+  const el = document.getElementById('run-history');
+  el.classList.toggle('visible');
+  document.getElementById('history-btn').textContent =
+    el.classList.contains('visible') ? 'Hide History' : 'Run History';
+}
+
+// ── Load a run ───────────────────────────────────────────────────
+async function loadRun(runId) {
+  currentRunId = runId;
+  document.getElementById('main-loading').style.display = 'block';
+
+  // Update active state in history
+  document.querySelectorAll('.run-row').forEach(el =>
+    el.classList.toggle('active', +el.dataset.rid === runId));
+
+  const [summary, decisions, combats] = await Promise.all([
+    api(`/api/runs/${runId}/summary`),
+    api(`/api/runs/${runId}/decisions`),
+    api(`/api/runs/${runId}/combats`),
+  ]);
+  allDecisions = decisions;
+  currentSummary = summary;
+  activeFilter = 'all';
+
+  document.getElementById('main-loading').style.display = 'none';
+  document.getElementById('header-sub').textContent =
+    `Run #${runId} · ${summary.hero || 'Unknown'} · ${(summary.outcome || 'in progress').toUpperCase()}`;
+  const askBtn = document.getElementById('ask-ai-btn');
+  if (askBtn) askBtn.disabled = false;
+
+  renderInsights(decisions, summary);
+  renderSummary(summary, decisions);
+  renderFilters(decisions, summary);
+  renderTimeline(decisions, 'all');
+  renderCombats(combats);
+
+  // Close history panel
+  document.getElementById('run-history').classList.remove('visible');
+  document.getElementById('history-btn').textContent = 'Run History';
+}
+
+// ── Insights Section (the VALUE) ─────────────────────────────────
+function renderInsights(decisions, summary) {
+  const section = document.getElementById('insights-section');
+
+  // Collect all high/medium insights across CHOICE decisions only
+  const flags = [];
+  for (const d of decisions) {
+    if (!isChoice(d)) continue;
+    if (!d.insights || !d.insights.length) continue;
+    for (const ins of d.insights) {
+      if (ins.severity === 'high' || ins.severity === 'medium' || ins.severity === 'milestone') {
+        flags.push({ ...ins, seq: d.seq, item_name: d.item_name, decision_type: d.decision_type, phase: d.phase, chosen_image: d.chosen_image });
+      }
+    }
+  }
+
+  if (!flags.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  // Sort: high first, then medium, then milestones
+  const sevOrder = { high: 0, medium: 1, milestone: 2 };
+  flags.sort((a, b) => (sevOrder[a.severity] ?? 9) - (sevOrder[b.severity] ?? 9));
+
+  const highCount = flags.filter(f => f.severity === 'high').length;
+
+  let html = `<div class="insight-section">
+    <h3>
+      ${highCount > 0 ? '🚨' : '📋'} Key Moments
+      ${highCount > 0 ? `<span class="count-badge">${highCount} issue${highCount > 1 ? 's' : ''}</span>` : ''}
+    </h3>`;
+
+  for (const f of flags) {
+    const phaseLabel = PHASES[f.phase] || f.phase || '';
+    const typeIcon = TYPE_ICONS[f.decision_type] || '';
+    const nameDisplay = f.decision_type === 'skip' ? 'Skipped shop' : f.item_name;
+    const imgHtml = f.chosen_image
+      ? `<span class="mini-card-art insight-img"><img src="${f.chosen_image}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`
+      : '';
+    html += `
+      <div class="insight-card sev-${f.severity}">
+        <div class="insight-seq">#${f.seq} · ${phaseLabel} · ${typeIcon} ${f.decision_type}</div>
+        <div class="insight-msg">${esc(f.message)}</div>
+        <div class="insight-context">${imgHtml}${esc(nameDisplay)}</div>
+      </div>`;
+  }
+
+  html += '</div>';
+  section.innerHTML = html;
+  section.style.display = 'block';
+}
+
+// ── Summary ──────────────────────────────────────────────────────
+function renderSummary(s, decisions) {
+  const strip = document.getElementById('summary-strip');
+  const pvpPct = (s.pvp_wins + s.pvp_losses) > 0
+    ? Math.round(s.pvp_wins / (s.pvp_wins + s.pvp_losses) * 100) : 0;
+  // UI-04: render clean em-dash when archetype is null (backend must return null, not placeholder string)
+  const hasArchetype = !!s.archetype;
+  const arch = hasArchetype ? s.archetype : '—';
+  const commitAt = s.archetype_committed_at ? `#${s.archetype_committed_at}` : '—';
+  const choiceCount = decisions.filter(isChoice).length;
+
+  strip.innerHTML = `
+    <div class="stat-card"><div class="sv">${s.pvp_wins}W / ${s.pvp_losses}L</div><div class="sl">PvP (${pvpPct}%)</div></div>
+    <div class="stat-card"><div class="sv">${s.pve_wins||0}W / ${s.pve_losses||0}L</div><div class="sl">PvE</div></div>
+    <div class="stat-card"><div class="sv">${choiceCount}</div><div class="sl">Decisions</div></div>
+    <div class="stat-card accent"><div class="sv">${esc(arch)}</div><div class="sl">Archetype</div></div>
+    ${hasArchetype ? `<div class="stat-card accent"><div class="sv">${commitAt}</div><div class="sl">Committed</div></div>` : ''}
+    ${s.flagged_count ? `<div class="stat-card"><div class="sv" style="color:var(--red)">${s.flagged_count}</div><div class="sl">Flagged</div></div>` : ''}
+  `;
+  strip.style.display = 'grid';
+}
+
+
+// ── Filter Tabs ──────────────────────────────────────────────────
+function renderFilters(decisions, summary) {
+  const row = document.getElementById('filter-row');
+  const trackedDecisions = decisions.filter(isChoice);
+  const phases = new Set(trackedDecisions.map(d=>d.phase).filter(Boolean));
+  // UI-03: use the shared isFlagged() so this count matches summary.flagged_count exactly.
+  const flaggedCount = trackedDecisions.filter(isFlagged).length;
+
+  let html = `<button class="ftab active" onclick="setFilter('all',this)">All (${trackedDecisions.length})</button>`;
+  for (const p of ['early','early_mid','late']) {
+    if (phases.has(p)) {
+      html += `<button class="ftab" onclick="setFilter('${p}',this)">${PHASES[p]} (${trackedDecisions.filter(d=>d.phase===p).length})</button>`;
+    }
+  }
+  if (flaggedCount) {
+    html += `<button class="ftab flag-tab" onclick="setFilter('flagged',this)">⚠ Flagged (${flaggedCount})</button>`;
+  }
+  row.innerHTML = html;
+  row.style.display = 'flex';
+}
+
+function setFilter(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderTimeline(allDecisions, filter);
+}
+
+// ── Timeline ─────────────────────────────────────────────────────
+function renderTimeline(decisions, filter) {
+  const el = document.getElementById('timeline');
+
+  let trackedDecisions = decisions.filter(isChoice);
+
+  let filtered;
+  if (filter === 'flagged') {
+    // UI-03: use shared isFlagged() so this matches the filter badge and backend flagged_count.
+    filtered = trackedDecisions.filter(isFlagged);
+  } else if (filter !== 'all') {
+    filtered = trackedDecisions.filter(d => d.phase === filter);
+  } else {
+    filtered = trackedDecisions;
+  }
+
+  if (!filtered.length) {
+    // UI-05: consistent empty state styling
+    const msg = filter === 'all'
+      ? 'No tracked decisions to show.'
+      : 'No decisions match this filter.';
+    el.innerHTML = `<div class="empty-state">${msg}</div>`;
+    return;
+  }
+
+  let html = '';
+  let lastPhase = null;
+
+  for (const d of filtered) {
+    // Hide skips unless they contained build-relevant items
+
+    // Hide buys of unresolved items with no scoring notes — no learning value
+
+    if (filter === 'all' && d.phase !== lastPhase) {
+      lastPhase = d.phase;
+      html += `<div class="phase-div">${PHASES[d.phase]||d.phase}</div>`;
+    }
+
+    const icon = ICONS[d.score_label] || TYPE_ICONS[d.decision_type] || '.';
+    const lblCls = d.score_label ? `lbl-${d.score_label}` : '';
+    // UI-03: use shared isFlagged() — matches backend flagged_count contract.
+    const flagCls = isFlagged(d) ? ' flagged' : '';
+
+    let name = d.item_name || '(unknown)';
+    const unres = name.startsWith('itm_') || name.startsWith('enc_') || name.startsWith('skl_');
+    if (unres) name = `[${name.slice(0,12)}…]`;
+
+    // For skips, show the build-relevant items that were passed on
+    if (d.decision_type === 'skip' && d.skip_relevant_items && d.skip_relevant_items.length) {
+      name = 'Skipped: ' + d.skip_relevant_items.join(', ');
+    }
+
+    const ctx = [];
+    if (d.day != null) ctx.push(`D${d.day}`);
+    if (d.gold != null) ctx.push(`${d.gold}g`);
+    if (d.health != null) ctx.push(`${d.health}hp`);
+
+    let notes = d.score_notes || '';
+
+    // Build insight chips
+    let chips = '';
+    if (d.insights && d.insights.length) {
+      chips = '<div class="d-insights">' +
+        d.insights.map(i => `<span class="d-chip chip-${i.severity}">${esc(i.message)}</span>`).join('') +
+        '</div>';
+    }
+
+    const thumbHtml = d.chosen_image
+      ? `<span class="mini-card-art d-thumb"><img src="${d.chosen_image}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`
+      : '<span class="d-thumb" style="visibility:hidden"></span>';
+    html += `<div class="d-row ${lblCls}${flagCls}" onclick="this.classList.toggle('expanded')">
+      <span class="si">${icon}</span>
+      <span class="sn">#${d.seq}</span>
+      ${thumbHtml}
+      <div class="d-main">
+        <div class="d-top">
+          <span class="d-name">${esc(name)}</span>
+          ${ctx.length ? `<span class="d-ctx">${ctx.join(' · ')}</span>` : ''}
+        </div>
+        ${notes && !notes.startsWith('{') ? `<div class="d-notes">${esc(notes)}</div>` : ''}
+        ${chips}
+        <div class="d-detail">${detailPanel(d)}</div>
+      </div>
+      <span class="d-chevron" aria-hidden="true">&#9662;</span>
+    </div>`;
+  }
+  el.innerHTML = html || '<div class="empty-state">No tracked decisions to show.</div>';
+}
+
+function detailPanel(d) {
+  let html = '';
+  const offered = d.offered || [];
+  const rejected = d.rejected || [];
+
+  const offeredImages = d.offered_images || [];
+  if (offered.length) {
+    html += `<div class="det-title">Offered (${offered.length})</div><div class="det-items">`;
+    for (let i = 0; i < offered.length; i++) {
+      const n = offered[i];
+      const img = offeredImages[i];
+      const ch = n === d.item_name;
+      const rj = rejected.includes(n);
+      const un = n.startsWith('itm_') || n.startsWith('enc_') || n.startsWith('skl_');
+      const cls = ch ? 'chosen' : rj ? 'rej' : '';
+      const imgHtml = img
+        ? `<span class="mini-card-art det-img"><img src="${img}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`
+        : '';
+      html += `<span class="det-itm ${cls}${un?' unres':''}">${imgHtml}${esc(un ? n.slice(0,12)+'…' : n)}</span>`;
+    }
+    html += '</div>';
+  }
+
+  const resolvedRej = rejected.filter(n => !n.startsWith('itm_') && !n.startsWith('enc_') && !n.startsWith('skl_'));
+  if (resolvedRej.length) {
+    html += `<div class="det-title">Passed On</div><div class="det-items">`;
+    for (const n of resolvedRej) html += `<span class="det-itm rej">${esc(n)}</span>`;
+    html += '</div>';
+  }
+
+  if (d.game_state) {
+    html += `<div class="det-title">State</div><div style="font-size:0.72rem;color:var(--text-muted)">${d.game_state}</div>`;
+  }
+  return html || '<div style="font-size:0.75rem;color:var(--text-muted)">No detail available.</div>';
+}
+
+// ── Combats ──────────────────────────────────────────────────────
+function renderCombats(combats) {
+  const sec = document.getElementById('combats-section');
+  const grid = document.getElementById('combat-grid');
+  // UI-05: always show the section with a consistent empty state when there are no combats.
+  sec.style.display = 'block';
+  if (!combats.length) {
+    grid.innerHTML = '';
+    grid.style.display = 'none';
+    // Replace/insert an empty-state after the section title.
+    let empty = sec.querySelector('.empty-state');
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'empty-state';
+      sec.appendChild(empty);
+    }
+    empty.textContent = 'No combat data recorded for this run.';
+    return;
+  }
+  // Remove any leftover empty state when data arrives.
+  const empty = sec.querySelector('.empty-state');
+  if (empty) empty.remove();
+  grid.style.display = 'grid';
+  grid.innerHTML = combats.map(c => {
+    const w = c.outcome === 'opponent_died';
+    const t = (c.combat_type || 'pve').toUpperCase();
+    return `<div class="c-card">
+      <span class="ci">${w?'✅':'❌'}</span>
+      <span class="ct">${t} ${w?'WIN':'LOSS'}</span>
+      <span class="cd">${c.duration_secs ? c.duration_secs.toFixed(1)+'s' : ''}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── Toast helper ─────────────────────────────────────────────────
+let _toastTimer = null;
+function showToast(msg, ms=2200) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('visible');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('visible'), ms);
+}
+
+// ── UI-06: Ask AI — build run summary and copy to clipboard ──────
+function buildRunSummaryPrompt() {
+  const s = currentSummary || {};
+  const decisions = allDecisions || [];
+  const choiceDecisions = decisions.filter(isChoice);
+
+  // Top 3 flagged / high-severity insights across all decisions.
+  const topInsights = [];
+  for (const d of choiceDecisions) {
+    if (!d.insights || !d.insights.length) continue;
+    for (const ins of d.insights) {
+      if (ins.severity === 'high' || ins.severity === 'medium') {
+        topInsights.push(ins.message);
+        if (topInsights.length >= 3) break;
+      }
+    }
+    if (topInsights.length >= 3) break;
+  }
+
+  const archetype = s.archetype || 'unknown';
+  const commitAt = s.archetype_committed_at != null ? `#${s.archetype_committed_at}` : '?';
+  const flagged = s.flagged_count != null ? s.flagged_count : choiceDecisions.filter(isFlagged).length;
+
+  return [
+    `Analyze Bazaar run #${currentRunId}.`,
+    `Hero: ${s.hero || 'Unknown'}, Outcome: ${s.outcome || 'in progress'}.`,
+    `PvP: ${s.pvp_wins || 0}W / ${s.pvp_losses || 0}L.`,
+    `PvE: ${s.pve_wins || 0}W / ${s.pve_losses || 0}L.`,
+    `Decisions tracked: ${choiceDecisions.length}.`,
+    `Flagged decisions: ${flagged}.`,
+    `Archetype: ${archetype} (committed at ${commitAt}).`,
+    topInsights.length ? `Top issues: ${topInsights.join('; ')}.` : 'Top issues: none flagged.',
+    `What should I improve next run?`,
+  ].join('\n');
+}
+
+async function askAI() {
+  if (!currentRunId || !currentSummary) {
+    showToast('No run loaded yet.');
+    return;
+  }
+  const prompt = buildRunSummaryPrompt();
+
+  // Option A: if running inside a Claude artifact iframe, window.claude.complete or sendPrompt is present.
+  // We probe for both common shapes before falling back to clipboard.
+  try {
+    if (typeof window.sendPrompt === 'function') {
+      window.sendPrompt(prompt);
+      showToast('Run summary sent to Claude.');
+      return;
+    }
+    if (window.claude && typeof window.claude.complete === 'function') {
+      window.claude.complete(prompt);
+      showToast('Run summary sent to Claude.');
+      return;
+    }
+  } catch (e) {
+    // fall through to clipboard fallback
+  }
+
+  // Option B: clipboard fallback for the standalone web app.
+  try {
+    await navigator.clipboard.writeText(prompt);
+    showToast('Copied run summary — paste into Claude.');
+  } catch (e) {
+    // Last-ditch: prompt() so the user can copy manually on old browsers.
+    window.prompt('Copy this run summary and paste into Claude:', prompt);
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+boot();
+</script>
+</body>
+</html>

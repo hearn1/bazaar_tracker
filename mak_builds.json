@@ -1,0 +1,735 @@
+{
+  "hero": "Mak",
+  "season": "12",
+  "last_updated": "2026-04-26",
+  "notes": "Mak is a flexible tempo and economy hero. Two major win conditions: TEMPO (win fast on strong early board) or EXODIA (Bottled Explosion/Goop Flail scaling). Both share the same skill pool. Stabilize with strongest opener, use catalysts and reagents throughout, pivot into first high-ceiling line your board supports.",
+  "item_tier_list": {
+    "description": "Full Mak tier list from the Flex Mak Guide (Season 12). Items not listed here score as unranked (suboptimal in late). Covers all main build lines: Potion, Weapons, Poppy, Self-Poison, Satchel/Regen, Torch, Relic, Sands/Femur, Calc/Retort.",
+    "S": [
+      "Mortar & Pestle",
+      "Refractor",
+      "Flying Potion",
+      "Boiling Flask",
+      "Poppy Field",
+      "Satchel",
+      "Bottled Explosion",
+      "Goop Flail",
+      "Rapid Injection System",
+      "Adrenal Converter",
+      "Aludel",
+      "Atmospheric Sampler"
+    ],
+    "A": [
+      "Idol of Decay",
+      "Eternal Torch",
+      "Potion Distillery",
+      "Spider Mace",
+      "Infused Bracers",
+      "Calcinator",
+      "Retort",
+      "Peacewrought",
+      "Runic Potion",
+      "Infinite Potion",
+      "Plague Glaive",
+      "Athanor",
+      "Vat of Acid",
+      "Recycling Bin",
+      "Vial Launcher",
+      "Test Subject Alpha",
+      "Staff of the Moose",
+      "Magic Carpet",
+      "Ice Claw",
+      "Leeches",
+      "Ethergy Conduit",
+      "Palanquin",
+      "Magnus' Femur",
+      "The Tome of Yyahan",
+      "Strength Potion",
+      "Blazehowl Warden",
+      "Incendiary Rounds"
+    ],
+    "B": [
+      "Crocodile Tears",
+      "Viper Cane",
+      "Secret Formula",
+      "Soul Ring",
+      "Sunlight Spear",
+      "Bottled Lightning",
+      "Smelling Salts",
+      "Cloud Wisp",
+      "Basilisk Fang",
+      "Floor Spike",
+      "Runic Blade",
+      "Frozen Bludgeon",
+      "Frozen Horror",
+      "Wild Quillback",
+      "Ouroboros Statue",
+      "Earrings",
+      "Barbed Claws",
+      "Initial Dose",
+      "Oil Lantern",
+      "Excavation Tools",
+      "Hourglass",
+      "Show Globe",
+      "Library",
+      "Laboratory",
+      "Scales",
+      "Foul Mushroom",
+      "Fire Claw",
+      "Pendulum",
+      "Ruby",
+      "Candles",
+      "Blank Slate",
+      "Soulstone",
+      "Wand",
+      "Black Pepper",
+      "Alembic",
+      "Cellar",
+      "Sifting Pan",
+      "Energy Potion",
+      "Philosopher's Stone",
+      "Virus",
+      "Covetous Raven",
+      "Fireflies",
+      "Gravstone",
+      "Ritual Dagger",
+      "Apothecary",
+      "Jury Rigger",
+      "Product Showcase",
+      "Equivalent Exchange",
+      "Juggler",
+      "Ancient Vengeance",
+      "Dragon Heart",
+      "Lighter",
+      "Tomb of the Ancients",
+      "Insect Wing"
+    ],
+    "C": [
+      "Recycling Center"
+    ]
+  },
+  "pivot_signals": {
+    "signals": [
+      "Flying Potion plus Boiling Flask keeps Potion and Torch shells open.",
+      "Rapid Injection System plus Adrenal Converter means Self-Poison and Poppy boards stay live.",
+      "An early Satchel with strong econ is a reason to lean into Regen flex.",
+      "Calcinator or Retort plus enough generators by Day 3 is a real commit signal, not just value.",
+      "Poppy Field found at any point — transition from Self-Poison to Poppy when possible.",
+      "Femur of the Thumper found Day 6+ — pivot Sands/Femur for near-guaranteed 10-win.",
+      "Ethergy Conduit or Palanquin found with crit scaling — Relic line becomes viable.",
+      "Any build can reach S tier with sufficient charge/haste/multicast scaling — always look for Atmospheric Sampler, Library, Laboratory, Scales."
+    ]
+  },
+  "scoring_weights": {
+    "core": 0.5,
+    "carry": 0.35,
+    "support": 0.15
+  },
+  "game_phases": {
+    "early": {
+      "day_range": "Days 1-4",
+      "description": "Tempo first, then econ. Use the strongest opener you see and keep flexible outs to potions, poison, weapons, or calc engines. Roll reagents and catalysts throughout the run for enchanted item highrolls.",
+      "notes": "Best early build-arounds from the guide: Mortar & Pestle (best early pick, catalyst generator for all weapons lines), Refractor (flexible carry + scaling), Torch (wins early fights, great Day 1 quest), Idol of Decay (poison starter), Aludel (poison enabler), Flying Potion + Boiling Flask (hunt at all costs for Potion line). Calcinator and Retort are strong if board is already stable. Random lifesteal weapons are fine if Mortar & Pestle is online.",
+      "universal_utility_items": [
+        "Mortar & Pestle",
+        "Refractor",
+        "Aludel",
+        "Idol of Decay",
+        "Eternal Torch",
+        "Flying Potion",
+        "Boiling Flask",
+        "Leeches",
+        "Spider Mace",
+        "Smelling Salts",
+        "Cloud Wisp",
+        "Excavation Tools",
+        "Hourglass",
+        "Peacewrought",
+        "Strength Potion",
+        "Runic Potion",
+        "Atmospheric Sampler",
+        "Infinite Potion"
+      ],
+      "economy_items": [
+        "Calcinator",
+        "Retort",
+        "Peacewrought",
+        "The Tome of Yyahan",
+        "Potion Distillery"
+      ]
+    },
+    "early_mid": {
+      "day_range": "Days 5-7",
+      "description": "Commit around the strongest shell you have while preserving realistic pivots into Mak's late-game payoff boards.",
+      "notes": "Guide emphasis: build around the carry you already found, buy charge and crit when they support your shell, save enough gold to convert Day 6 shops into a real end-game board. Check Expeditions on Day 6 and 9.",
+      "archetypes": [
+        {
+          "name": "Potion Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Flying Potion",
+            "Boiling Flask"
+          ],
+          "carry_items": [
+            "Bottled Explosion",
+            "Vat of Acid",
+            "Recycling Bin",
+            "Vial Launcher",
+            "Crocodile Tears",
+            "Refractor",
+            "Show Globe",
+            "Magic Carpet",
+            "Plague Glaive",
+            "Athanor"
+          ],
+          "support_items": [
+            "Potion Distillery",
+            "Runic Potion",
+            "Bottled Lightning",
+            "Atmospheric Sampler",
+            "Excavation Tools",
+            "Eternal Torch"
+          ],
+          "notes": "Hunt Flying Potion and Boiling Flask at all costs. Even reroll mediums with catalysts if needed. Potion Distillery is the premium support piece. Pivot into first strong end-board carry rather than tunneling on one payoff."
+        },
+        {
+          "name": "Weapons Tempo",
+          "phase": "early_mid",
+          "core_items": [
+            "Mortar & Pestle"
+          ],
+          "carry_items": [
+            "Refractor",
+            "Magic Carpet",
+            "Ice Claw",
+            "Staff of the Moose",
+            "Runic Blade",
+            "Ritual Dagger",
+            "Frozen Bludgeon"
+          ],
+          "support_items": [
+            "Smelling Salts",
+            "Cloud Wisp",
+            "Runic Potion",
+            "Basilisk Fang",
+            "Floor Spike",
+            "Viper Cane",
+            "Excavation Tools"
+          ],
+          "notes": "Mortar plus lifesteal and haste lets random weapons carry while you search for a real finisher. Save money on chocolates due to lifesteal sustain. Bronze base damage skills are very strong here."
+        },
+        {
+          "name": "Poison Tempo",
+          "phase": "early_mid",
+          "core_items": [
+            "Aludel",
+            "Idol of Decay"
+          ],
+          "carry_items": [
+            "Leeches",
+            "Refractor",
+            "Viper Cane",
+            "Test Subject Alpha",
+            "Plague Glaive",
+            "Oil Lantern",
+            "Apothecary"
+          ],
+          "support_items": [
+            "Rapid Injection System",
+            "Adrenal Converter",
+            "Spider Mace",
+            "Infused Bracers",
+            "Viper Cane",
+            "Excavation Tools",
+            "Wild Quillback"
+          ],
+          "notes": "Strong early poison shells usually turn into Self-Poison or Poppy boards later. Keep Poppy Field as the upgrade target."
+        },
+        {
+          "name": "Torch Tempo",
+          "phase": "early_mid",
+          "core_items": [
+            "Eternal Torch"
+          ],
+          "carry_items": [
+            "Eternal Torch",
+            "Athanor",
+            "Blazehowl Warden",
+            "Incendiary Rounds"
+          ],
+          "support_items": [
+            "Ruby",
+            "Candles",
+            "Excavation Tools",
+            "Boiling Flask",
+            "Library",
+            "Laboratory"
+          ],
+          "notes": "Complete Torch purchase quest on Day 1 — consistent and very strong. Take enchanted small item if close to finishing quest. Great pivot item: if the burn line doesn't come together, pivot to potions easily."
+        },
+        {
+          "name": "Satchel Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Satchel",
+            "Infinite Potion"
+          ],
+          "carry_items": [
+            "Secret Formula",
+            "Sunlight Spear",
+            "Soul Ring"
+          ],
+          "support_items": [
+            "Infinite Potion",
+            "Boiling Flask",
+            "Energy Potion",
+            "Peacewrought",
+            "The Tome of Yyahan"
+          ],
+          "notes": "Only real if Satchel shows up before Day 6 and econ is healthy. Peacewrought is very strong here for refund value on each potion buy."
+        },
+        {
+          "name": "Econ Engine",
+          "phase": "early_mid",
+          "core_items": [
+            "Calcinator",
+            "Retort"
+          ],
+          "carry_items": [
+            "Calcinator",
+            "Retort",
+            "Peacewrought",
+            "Fire Claw"
+          ],
+          "support_items": [
+            "Mortar & Pestle",
+            "Aludel",
+            "Potion Distillery",
+            "Strength Potion",
+            "Energy Potion",
+            "Hourglass",
+            "Library",
+            "Laboratory"
+          ],
+          "notes": "Needs enchanted Calc or Retort to be viable in current meta. When generator count is there by Day 3, this is a real commit line. Peacewrought helps with defense while engine comes online."
+        },
+        {
+          "name": "Relic / Charge Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Laboratory",
+            "Library"
+          ],
+          "carry_items": [
+            "Ethergy Conduit",
+            "Palanquin",
+            "Atmospheric Sampler",
+            "Scales",
+            "Pendulum"
+          ],
+          "support_items": [
+            "Spider Mace",
+            "Blank Slate",
+            "Soulstone",
+            "Smelling Salts",
+            "Excavation Tools",
+            "Earrings"
+          ],
+          "notes": "Focus on charge and haste effects for looping. Relic line needs crit to function. Laboratory charges all enchanted items and relics."
+        },
+        {
+          "name": "Sands/Femur Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Magnus' Femur"
+          ],
+          "carry_items": [
+            "Magnus' Femur",
+            "Refractor",
+            "Covetous Raven",
+            "Fireflies",
+            "Secret Formula",
+            "Calcinator"
+          ],
+          "support_items": [
+            "Smelling Salts",
+            "Blank Slate",
+            "Gravstone",
+            "Pendulum"
+          ],
+          "notes": "Early carries are Refractor, Raven, Fireflies (especially enchanted). Hunt Femur aggressively from Day 6+, even rolling large gold items. Finding it early is near-guaranteed 10-win."
+        }
+      ]
+    },
+    "late": {
+      "day_range": "Day 8+",
+      "description": "Mak closes runs by converting a flexible tempo shell into a high-ceiling payoff board. Two main win conditions: TEMPO (win before opponent assembles perfect board) or EXODIA (Bottled Explosion/Goop Flail scaling). Both use the same skill pool so flex between them based on what you found.",
+      "notes": "Any Mak build can reach S tier with sufficient charge/haste/multicast scaling. Always look for Atmospheric Sampler, Library, Laboratory, Scales, Pendulum as universal upgrades. Roll reagents and enchanted item rewards throughout the run.",
+      "archetypes": [
+        {
+          "name": "Potion Flex",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Wants Flying Potion and Boiling Flask online. Hunt at all costs including rerolling medium items with catalysts.",
+          "condition_items": [
+            "Flying Potion",
+            "Boiling Flask"
+          ],
+          "core_items": [
+            "Flying Potion",
+            "Boiling Flask",
+            "Potion Distillery"
+          ],
+          "carry_items": [
+            "Bottled Explosion",
+            "Vat of Acid",
+            "Athanor",
+            "Plague Glaive",
+            "Vial Launcher",
+            "Recycling Bin",
+            "Goop Flail",
+            "Crocodile Tears"
+          ],
+          "support_items": [
+            "Potion Distillery",
+            "Runic Potion",
+            "Excavation Tools",
+            "Atmospheric Sampler",
+            "Eternal Torch",
+            "Crocodile Tears",
+            "Bottled Lightning",
+            "Show Globe",
+            "Magic Carpet"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Ammo",
+            "Potion"
+          ],
+          "notes": "End boards ranked: 1. Bottled Explosion (base damage is king — nodes, skills, loot; doubles with Boiling Flask). 2. Vat of Acid (go to Curio for cheap items/tags; check monster fights for tag items). 3. Athanor + Torch (burn pivot). 4. Plague Glaive. Distillery is premium support — transforms smalls into potions each shop visit. Focus on base damage scaling for Bottled Explosion via nodes, skills, and loot."
+        },
+        {
+          "name": "Weapons Flex",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Mortar & Pestle online. Two deciding factors: Improvised Weaponry skill available, or already winning every early fight on track for tempo 10-win.",
+          "condition_items": [
+            "Mortar & Pestle"
+          ],
+          "core_items": [
+            "Mortar & Pestle"
+          ],
+          "carry_items": [
+            "Refractor",
+            "Magic Carpet",
+            "Ice Claw",
+            "Runic Blade",
+            "Staff of the Moose",
+            "Ritual Dagger",
+            "Frozen Bludgeon",
+            "Frozen Horror",
+            "Goop Flail"
+          ],
+          "support_items": [
+            "Smelling Salts",
+            "Cloud Wisp",
+            "Runic Potion",
+            "Basilisk Fang",
+            "Floor Spike",
+            "Viper Cane",
+            "Excavation Tools",
+            "Atmospheric Sampler",
+            "Library",
+            "Scales",
+            "Pendulum"
+          ],
+          "skill_trainers": [
+            "Weapon",
+            "Crit",
+            "Charge",
+            "Mak"
+          ],
+          "notes": "Strong tempo line with multiple pivots. Mortar + haste and sustain lets random weapons bridge into real late-game carry. Improvised Weaponry skill is the key scaling option. Carpet line: save money since early board found immediately, but needs crit items to work in endgame."
+        },
+        {
+          "name": "Poppy Flex",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Poppy Field. Transition into this from any Self-Poison board — you will already have most small weapons. Focus on upgrading Poppy base poison aggressively.",
+          "condition_items": [
+            "Poppy Field"
+          ],
+          "core_items": [
+            "Poppy Field"
+          ],
+          "carry_items": [
+            "Goop Flail",
+            "Plague Glaive",
+            "Test Subject Alpha",
+            "Bottled Explosion"
+          ],
+          "support_items": [
+            "Rapid Injection System",
+            "Spider Mace",
+            "Runic Potion",
+            "Excavation Tools",
+            "Infused Bracers",
+            "Adrenal Converter",
+            "Atmospheric Sampler",
+            "Wild Quillback",
+            "Ouroboros Statue"
+          ],
+          "skill_trainers": [
+            "Poison",
+            "Weapon",
+            "Mak",
+            "Charge"
+          ],
+          "notes": "Meta keeps getting faster and this build can match that speed. Only one core item required. Easier to pivot into than other builds. Goal: one-shot opponent with crit + charge + poison scaling rather than prolonged fight. Upgrade Poppy Field base poison aggressively. Only large item with no vendor tags."
+        },
+        {
+          "name": "Self-Poison Flex",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Wants Rapid Injection System and Adrenal Converter (or close substitutes). Tempo-oriented — wins easier on early fights. If needing late-game win, pivot to Poppy instead.",
+          "condition_items": [
+            "Rapid Injection System",
+            "Adrenal Converter"
+          ],
+          "core_items": [
+            "Rapid Injection System",
+            "Adrenal Converter"
+          ],
+          "carry_items": [
+            "Test Subject Alpha",
+            "Plague Glaive",
+            "Staff of the Moose",
+            "Secret Formula",
+            "Viper Cane",
+            "Oil Lantern",
+            "Apothecary",
+            "Goop Flail"
+          ],
+          "support_items": [
+            "Spider Mace",
+            "Infused Bracers",
+            "Wild Quillback",
+            "Ouroboros Statue",
+            "Earrings",
+            "Barbed Claws",
+            "Initial Dose",
+            "Oil Lantern",
+            "Excavation Tools",
+            "Atmospheric Sampler",
+            "Runic Potion"
+          ],
+          "skill_trainers": [
+            "Poison",
+            "Mak",
+            "Charge",
+            "Weapon"
+          ],
+          "notes": "Classic Mak poison engine. Sustain required — Infused Bracers next to Spider Mace for constant lifesteal is the most reliable method. Test Subject Alpha to diamond ASAP (double poison + 2s reduced CD). Plague Glaive needs targeted charge (Excavation Tools) or haste. Spider Mace + Bracers solve startup while you pivot to payoff."
+        },
+        {
+          "name": "Satchel - Regen",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Needs Satchel before Day 6 and healthy econ. Infinite Potion is the second core. Boiling Flask very strong if findable.",
+          "condition_items": [
+            "Satchel",
+            "Infinite Potion"
+          ],
+          "core_items": [
+            "Satchel",
+            "Infinite Potion"
+          ],
+          "carry_items": [
+            "Secret Formula",
+            "Sunlight Spear",
+            "Soul Ring",
+            "Calcinator",
+            "Retort"
+          ],
+          "support_items": [
+            "Boiling Flask",
+            "Flying Potion",
+            "Energy Potion",
+            "Atmospheric Sampler",
+            "Scales",
+            "Peacewrought",
+            "The Tome of Yyahan"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Regen",
+            "Charge"
+          ],
+          "notes": "Peacewrought: play in PvE fights for extra Peacewrought value. Satchel combos well with Calc/Retort — both rely on potions for support. With enough permanent regen from Tome of Yyahan (and regen nodes based on level), you can skip Satchel entirely. Weakness: vulnerable to one-shots and high burst — need CC or invulnerability."
+        },
+        {
+          "name": "Torch Flex",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Torch online. Burn is doing better in current meta and transitions into potions nicely. Needs defense or CC for board.",
+          "condition_items": [
+            "Eternal Torch"
+          ],
+          "core_items": [
+            "Eternal Torch"
+          ],
+          "carry_items": [
+            "Athanor",
+            "Blazehowl Warden",
+            "Incendiary Rounds",
+            "Bottled Explosion"
+          ],
+          "support_items": [
+            "Boiling Flask",
+            "Ruby",
+            "Candles",
+            "Excavation Tools",
+            "Library",
+            "Laboratory",
+            "Palanquin",
+            "Atmospheric Sampler",
+            "Scales",
+            "Flying Potion"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Burn",
+            "Charge"
+          ],
+          "notes": "Complete Torch purchase quest Day 1 — taking enchanted small item when close is recommended. Lib + Lab combo is a strong scaling option. Palanquin variant needs a defensive enchant. Transitions cleanly into Potion line once support items overlap."
+        },
+        {
+          "name": "Relic Flex",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Laboratory or Ethergy Conduit as anchor. Focus on freeze/CC items for defense. Both Ethergy Conduit and Palanquin require crit to function.",
+          "condition_items": [
+            "Laboratory",
+            "Ethergy Conduit"
+          ],
+          "core_items": [
+            "Laboratory",
+            "Library",
+            "Ethergy Conduit"
+          ],
+          "carry_items": [
+            "Ethergy Conduit",
+            "Palanquin",
+            "Atmospheric Sampler",
+            "Scales",
+            "Pendulum",
+            "Tomb of the Ancients"
+          ],
+          "support_items": [
+            "Spider Mace",
+            "Blank Slate",
+            "Soulstone",
+            "Smelling Salts",
+            "Excavation Tools",
+            "Earrings",
+            "Wand",
+            "Black Pepper",
+            "Library",
+            "Laboratory",
+            "Scales",
+            "Pendulum"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Charge",
+            "Crit"
+          ],
+          "notes": "Focus on charge and haste effects for looping. Laboratory charges all enchanted items and relics by 2s — great but awkward mid-game if board is insufficiently enchanted. Ethergy Conduit + Palanquin = Exodia combo. Blank Slate is suspicious (be selective). Do not click Life Conduit."
+        },
+        {
+          "name": "Sands / Femur",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Hunt Femur of the Thumper aggressively from Day 6+, even rolling large gold items. Early carries are Refractor, Raven, Fireflies (especially enchanted). Karnok is a tough matchup due to Chains.",
+          "condition_items": [
+            "Magnus' Femur"
+          ],
+          "core_items": [
+            "Magnus' Femur"
+          ],
+          "carry_items": [
+            "Magnus' Femur",
+            "Secret Formula",
+            "Calcinator",
+            "Refractor",
+            "Covetous Raven",
+            "Fireflies",
+            "Gravstone"
+          ],
+          "support_items": [
+            "Smelling Salts",
+            "Blank Slate",
+            "Gravstone",
+            "Pendulum",
+            "Excavation Tools"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Charge",
+            "Weapon"
+          ],
+          "notes": "Finding Femur early is near-guaranteed 10-win. Damage scaling skills open up many board options — fight Kyver Drone for these. Tempo Calc + Fireflies is a viable early variant. Without Femur, fall back to generic wincons like scaled Calcinator or Secret Formula."
+        },
+        {
+          "name": "Calc / Retort",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Wants enchanted Calcinator or Retort early — key to viability in current meta. Needs enough catalyst and reagent generators to justify full econ commit. Must commit early.",
+          "condition_items": [
+            "Calcinator",
+            "Retort"
+          ],
+          "core_items": [
+            "Calcinator",
+            "Retort",
+            "Strength Potion",
+            "Potion Distillery"
+          ],
+          "carry_items": [
+            "Calcinator",
+            "Retort",
+            "Fire Claw"
+          ],
+          "support_items": [
+            "Strength Potion",
+            "Hourglass",
+            "Potion Distillery",
+            "Scales",
+            "Laboratory",
+            "Library",
+            "Foul Mushroom",
+            "The Tome of Yyahan",
+            "Alembic",
+            "Aludel",
+            "Cellar",
+            "Mortar & Pestle",
+            "Sifting Pan",
+            "Energy Potion",
+            "Virus",
+            "Philosopher's Stone",
+            "Peacewrought",
+            "Wand",
+            "Black Pepper",
+            "Insect Wing"
+          ],
+          "skill_trainers": [
+            "Mak",
+            "Tool",
+            "Charge"
+          ],
+          "notes": "Strength Potion (silver small) gives all items 100% crit — must-buy, activates before Calc. Hourglass (bronze small) reduces adjacent CD so Strength Potion always fires before Retort. Insect Wing on Strength Potion ensures it fires before Retort. Distillery transforms reagent left each hour — must-buy, frees stash space for Tome. Laboratory charges all enchanted/relics by 2s (pairs with Black Pepper, Library, Scales, Wand). Library lowers CDs — better out of the box than Lab but lower cap. Peacewrought provides defense while engine scales. Pivot out aggressively if: no upgrade opportunities in a while, losing early rounds, or no Strength Potion found."
+        }
+      ]
+    }
+  }
+}

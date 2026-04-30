@@ -1,0 +1,110 @@
+import sys
+from pathlib import Path
+
+import app_paths
+import scorer
+from web.server import app
+
+
+def test_bundled_root_uses_meipass_when_frozen(tmp_path, monkeypatch):
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "_MEIPASS", str(tmp_path), raising=False)
+
+    assert app_paths.is_packaged()
+    assert app_paths.bundled_root() == tmp_path
+    assert app_paths.bundled_asset_path("web", "static") == tmp_path / "web" / "static"
+
+
+def test_web_static_folder_uses_bundled_asset_path():
+    static_folder = Path(app.static_folder)
+
+    assert static_folder.name == "static"
+    assert static_folder.parent.name == "web"
+    assert (static_folder / "index.html").is_file()
+    assert (static_folder / "overlay.html").is_file()
+
+
+def test_build_catalogs_resolve_from_bundled_root():
+    assert scorer._builds_path("Karnok").name == "karnok_builds.json"
+    assert scorer._builds_path("Mak").name == "mak_builds.json"
+    assert scorer._builds_path("Karnok").is_file()
+    assert scorer._builds_path("Mak").is_file()
+
+
+def test_pyinstaller_packaging_files_exist():
+    root = app_paths.repo_dir()
+    expected = [
+        root / "packaging" / "pyinstaller" / "BazaarTracker.spec",
+        root / "packaging" / "pyinstaller" / "build_portable.ps1",
+        root / "packaging" / "pyinstaller" / "requirements-build.txt",
+        root / "packaging" / "pyinstaller" / "smoke_test_portable.py",
+    ]
+    for path in expected:
+        assert path.is_file(), path
+
+
+def test_build_portable_selects_python_flexibly():
+    script = (app_paths.repo_dir() / "packaging" / "pyinstaller" / "build_portable.ps1").read_text()
+
+    assert "[string]$PythonExe" in script
+    assert "if ($PythonExe)" in script
+    assert "Test-Path -LiteralPath $VenvPython" in script
+    assert "Get-Command python" in script
+    assert "Write-Host \"Using Python:" in script
+    assert "& $ResolvedPythonExe -m PyInstaller @args" in script
+    assert "& .\\venv312\\Scripts\\python.exe -m PyInstaller" not in script
+    assert "[switch]$NoClean" in script
+    assert "$args += \"--clean\"" in script
+
+
+def test_windows_installer_packaging_files_exist():
+    root = app_paths.repo_dir()
+    expected = [
+        root / "packaging" / "installer" / "BazaarTracker.iss",
+        root / "packaging" / "installer" / "build_installer.ps1",
+        root / "packaging" / "installer" / "README.md",
+    ]
+    for path in expected:
+        assert path.is_file(), path
+
+
+def test_gitignore_keeps_generated_artifacts_local_and_sources_trackable():
+    gitignore = app_paths.repo_dir() / ".gitignore"
+    lines = [
+        line.strip()
+        for line in gitignore.read_text().splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+
+    ignored_patterns = set(lines)
+    expected_ignored = {
+        "venv312/",
+        ".venv/",
+        "build/",
+        "dist/",
+        ".pytest_cache/",
+        "__pycache__/",
+        "logs/",
+        "static_cache/",
+        "bazaar_runs.db*",
+        "settings.json",
+        "sqlite3.Connection",
+        "*diagnostics*.zip",
+        "*.log",
+    }
+    expected_trackable = {
+        "*.py",
+        "tests/",
+        "README.md",
+        "ROADMAP.md",
+        "CLAUDE.md",
+        "requirements.txt",
+        "packaging/",
+        "packaging/pyinstaller/build_portable.ps1",
+        "packaging/pyinstaller/requirements-build.txt",
+        "karnok_builds.json",
+        "mak_builds.json",
+    }
+
+    assert expected_ignored <= ignored_patterns
+    assert ignored_patterns.isdisjoint(expected_trackable)
