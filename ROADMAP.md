@@ -11,20 +11,6 @@ Status labels:
 
 ## Open Feature Work
 
-### Testing Bugs / Live Run Findings - Open
-
-Reference log for this batch: `logs/tracker_20260429_200345.log` (latest tracker session log at time of entry). Latest diagnostic bundle at time of entry: `logs/bazaar_tracker_diagnostics_20260429_202235.zip`.
-
-1. Passed item names are not rendering.
-   - Observed while running the app after the prod-readiness setup/package work.
-   - Investigate whether the review/overlay payload still contains the passed item identifiers and whether name resolution is failing in `web/review_builder.py`, `web/overlay_state.py`, `name_resolver.py`, or the frontend templates.
-   - Expected behavior: passed item rows should display readable item names, not blank/IDs/missing labels.
-
-2. PVP record is no longer being tracked.
-   - Check whether combat result capture still classifies PVP fights and updates/derives record data from `combat_results`, `runs`, or API game-state snapshots.
-   - Confirm whether this regressed in capture/parsing, database persistence, or dashboard aggregation.
-   - Expected behavior: the app should continue showing current run PVP win/loss record as fights are captured.
-
 ### Multi-Hero Support - Partial
 
 Goal: add more heroes while keeping existing Karnok/Mak behavior stable.

@@ -489,6 +489,94 @@ def _day_to_phase(day: int) -> str:
         return "late"
 
 
+def enrich_offered_names(
+    conn: sqlite3.Connection,
+    run_id: int,
+    api_states: list[dict],
+    dry_run: bool = False,
+) -> int:
+    """
+    Backfill decisions.offered_names and decisions.offered_templates using
+    api_cards instance→template mappings from correlated api_game_states.
+
+    Only fills rows where offered_names is currently NULL.
+    Returns count of decision rows updated.
+    """
+    if not api_states:
+        return 0
+
+    state_ids = [s["id"] for s in api_states if s.get("id")]
+    if not state_ids:
+        return 0
+
+    placeholders = ",".join("?" * len(state_ids))
+    rows = conn.execute(
+        f"""
+        SELECT DISTINCT instance_id, template_id
+        FROM api_cards
+        WHERE game_state_id IN ({placeholders})
+          AND instance_id IS NOT NULL AND instance_id != ''
+          AND template_id IS NOT NULL AND template_id != ''
+        """,
+        state_ids,
+    ).fetchall()
+
+    api_template_map: dict[str, str] = {}
+    for r in rows:
+        iid = r["instance_id"]
+        tid = r["template_id"]
+        if iid and tid and iid not in api_template_map:
+            if not card_cache.is_suspicious_template_id(tid):
+                api_template_map[iid] = tid
+
+    if not api_template_map:
+        return 0
+
+    decisions = conn.execute(
+        """
+        SELECT id, offered
+        FROM decisions
+        WHERE run_id = ? AND offered_names IS NULL
+        ORDER BY decision_seq
+        """,
+        (run_id,),
+    ).fetchall()
+
+    updated = 0
+    for d in decisions:
+        offered_raw: list[str] = json.loads(d["offered"] or "[]")
+        if not offered_raw:
+            continue
+
+        names = []
+        templates: dict[str, str] = {}
+        for iid in offered_raw:
+            tid = api_template_map.get(iid, "")
+            name = card_cache.resolve_template_id(tid) if tid else ""
+            names.append(name or iid)
+            if tid:
+                templates[iid] = tid
+
+        if not dry_run:
+            conn.execute(
+                """
+                UPDATE decisions
+                SET offered_names = ?,
+                    offered_templates = COALESCE(offered_templates, ?)
+                WHERE id = ?
+                """,
+                (json.dumps(names), json.dumps(templates) if templates else None, d["id"]),
+            )
+        updated += 1
+
+    if not dry_run and updated:
+        conn.commit()
+
+    tag = "DRY" if dry_run else "   "
+    print(f"  [{tag}] Filled offered_names for {updated} decision row(s) from api_cards")
+    return updated
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 #  STEP 3: Combat Enrichment
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -685,7 +773,7 @@ def enrich_run(run_id: int, dry_run: bool = False) -> dict:
     conn = db.get_conn()
     try:
         ensure_enrichment_schema(conn)
-        result = {"correlated": 0, "decisions_enriched": 0, "combats_resolved": 0}
+        result = {"correlated": 0, "decisions_enriched": 0, "combats_resolved": 0, "names_filled": 0}
 
         # Step 1: Run Correlation
         api_states = correlate_run(conn, run_id)
@@ -716,12 +804,17 @@ def enrich_run(run_id: int, dry_run: bool = False) -> dict:
         print(f"\n[Bridge] Step 3: Resolving combat outcomes...")
         result["combats_resolved"] = enrich_combat(conn, run_id, api_states, dry_run)
 
+        # Step 4: Offered Names Backfill
+        print(f"\n[Bridge] Step 4: Backfilling offered item names...")
+        result["names_filled"] = enrich_offered_names(conn, run_id, api_states, dry_run)
+
         # Summary
         print(f"\n{'─' * 60}")
         print(f"  Bridge Summary for Run {run_id}")
         print(f"  API snapshots correlated: {result['correlated']}")
         print(f"  Decisions enriched:       {result['decisions_enriched']}")
         print(f"  PvP combats resolved:     {result['combats_resolved']}")
+        print(f"  Offered names filled:     {result['names_filled']}")
         mode = "DRY RUN — no DB changes" if dry_run else "Changes written to DB"
         print(f"  Mode: {mode}")
         print(f"{'─' * 60}\n")
