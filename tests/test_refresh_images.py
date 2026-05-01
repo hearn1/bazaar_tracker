@@ -153,3 +153,41 @@ def test_coverage_report_counts_generated_manifest_aliases(tmp_path, monkeypatch
 
     assert coverage["generated_aliases"] == 1
     assert coverage["coverage_count"] == 1
+
+
+def test_coverage_report_flags_suspect_manifest_hits(tmp_path, monkeypatch):
+    image_dir = _point_images_at(tmp_path, monkeypatch)
+    image_dir.mkdir(parents=True)
+    (image_dir / "manifest.json").write_text(
+        json.dumps({
+            "by_card_key": {
+                "fairycircle": {
+                    "image_file": "CF_L_KAR_FairyCircle_D.png",
+                    "quality_flags": ["low_visible_alpha", "low_opaque_alpha"],
+                    "alpha_visible_percent": 28.0,
+                    "alpha_opaque_percent": 0.8,
+                }
+            },
+            "aliases": {},
+        }),
+        encoding="utf-8",
+    )
+    db.init_db()
+    conn = db.get_conn()
+    try:
+        conn.execute(
+            """
+            INSERT INTO card_cache (template_id, name, card_type, tier, tags, raw_json, cached_at)
+            VALUES ('tid-fairy-circle', 'Fairy Circle', 'TCardItem', 'Gold', '[]', '{}', 'now')
+            """
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    coverage = refresh_images.coverage_report(image_dir)
+
+    assert coverage["coverage_count"] == 1
+    assert coverage["usable_coverage_count"] == 0
+    assert coverage["suspect_count"] == 1
+    assert coverage["suspect_sample"][0]["image_file"] == "CF_L_KAR_FairyCircle_D.png"

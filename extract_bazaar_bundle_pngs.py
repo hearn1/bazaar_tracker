@@ -106,6 +106,87 @@ def _fix_alpha_if_broken(path: Path) -> None:
         pass
 
 
+def _image_quality(path: Path) -> dict:
+    """Return cheap visual diagnostics for spotting raw/incomplete layers."""
+    try:
+        img = _PIL_Image.open(path).convert("RGBA")
+    except Exception as exc:
+        return {
+            "quality_flags": ["image_unreadable"],
+            "quality_suspect": True,
+            "quality_note": str(exc)[:160],
+        }
+
+    total = img.width * img.height
+    if total <= 0:
+        return {"quality_flags": ["image_empty"], "quality_suspect": True}
+
+    alpha_hist = img.getchannel("A").histogram()
+    visible = total - alpha_hist[0]
+    opaque = sum(alpha_hist[250:])
+    visible_ratio = visible / total
+    opaque_ratio = opaque / total
+
+    flags = []
+    if visible_ratio < 0.55:
+        flags.append("low_visible_alpha")
+    if opaque_ratio < 0.03:
+        flags.append("low_opaque_alpha")
+
+    # A raw mask/layer can have visible alpha but almost no useful RGB signal.
+    if visible:
+        sample = img.copy()
+        sample.thumbnail((128, 128))
+        sample_data = sample.tobytes()
+        sample_visible = 0
+        rgb_nonblack = 0
+        rgb_varied = 0
+        for i in range(0, len(sample_data), 4):
+            alpha = sample_data[i + 3]
+            if alpha <= 0:
+                continue
+            sample_visible += 1
+            r, g, b = sample_data[i], sample_data[i + 1], sample_data[i + 2]
+            if max(r, g, b) > 8:
+                rgb_nonblack += 1
+            if max(r, g, b) - min(r, g, b) > 8:
+                rgb_varied += 1
+        rgb_nonblack_ratio = rgb_nonblack / sample_visible if sample_visible else 0.0
+        rgb_varied_ratio = rgb_varied / sample_visible if sample_visible else 0.0
+        if rgb_nonblack_ratio < 0.25:
+            flags.append("mostly_black_visible_pixels")
+        if rgb_varied_ratio < 0.10:
+            flags.append("low_color_variation")
+    else:
+        rgb_nonblack_ratio = 0.0
+        rgb_varied_ratio = 0.0
+        flags.append("fully_transparent")
+
+    severe_flags = {"image_unreadable", "image_empty", "fully_transparent", "mostly_black_visible_pixels"}
+    quality_suspect = (
+        visible_ratio < 0.30
+        or opaque_ratio < 0.01
+        or any(flag in severe_flags for flag in flags)
+    )
+
+    return {
+        "alpha_visible_percent": round(visible_ratio * 100, 2),
+        "alpha_opaque_percent": round(opaque_ratio * 100, 2),
+        "visible_rgb_nonblack_percent": round(rgb_nonblack_ratio * 100, 2),
+        "visible_rgb_varied_percent": round(rgb_varied_ratio * 100, 2),
+        "quality_flags": flags,
+        "quality_suspect": quality_suspect,
+    }
+
+
+def _entry_quality_score(entry: dict) -> tuple[int, float, float, int]:
+    flags = entry.get("quality_flags") or []
+    visible = float(entry.get("alpha_visible_percent") or 0)
+    opaque = float(entry.get("alpha_opaque_percent") or 0)
+    pixels = (entry.get("width") or 0) * (entry.get("height") or 0)
+    return (0 if flags else 1, visible, opaque, pixels)
+
+
 def safe_filename(value: str, fallback: str) -> str:
     value = (value or "").strip() or fallback
     value = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", value)
@@ -256,54 +337,13 @@ def _process_bundle_cards_only(
                 continue
 
             normalized = _normalize_card_name(card_folder)
-            existing = by_card_key.get(normalized)
-
-            if existing is not None:
-                # Highest-resolution wins, preferring _D variants when a
-                # suffix and no-suffix texture exist for the same card.
-                existing_pixels = (existing.get("width") or 0) * (existing.get("height") or 0)
-                new_pixels = width * height
-                existing_has_d_suffix = bool(existing.get("has_d_suffix"))
-                if existing_has_d_suffix and not has_d_suffix:
-                    print(
-                        f"[ScanAll] collision: {normalized!r} - keeping "
-                        f"{existing['image_file']} (_D variant), ignoring "
-                        f"{image_file} (no _D suffix)"
-                    )
-                    counts["collisions"] = counts.get("collisions", 0) + 1
-                    continue
-                if (
-                    (existing_has_d_suffix == has_d_suffix and new_pixels <= existing_pixels)
-                    or (not existing_has_d_suffix and not has_d_suffix and new_pixels <= existing_pixels)
-                ):
-                    print(
-                        f"[ScanAll] collision: {normalized!r} - keeping "
-                        f"{existing['image_file']} ({existing.get('width')}x{existing.get('height')}), "
-                        f"ignoring {image_file} ({width}x{height})"
-                    )
-                    counts["collisions"] = counts.get("collisions", 0) + 1
-                    continue
-                # New entry wins. Remove the old PNG so we don't leave orphans.
-                old_path = out_dir / existing["image_file"]
-                if old_path.is_file():
-                    try:
-                        old_path.unlink()
-                    except OSError:
-                        pass
-                print(
-                    f"[ScanAll] collision: {normalized!r} - replacing "
-                    f"{existing['image_file']} ({existing.get('width')}x{existing.get('height')}) "
-                    f"with {image_file} ({width}x{height})"
-                )
-                counts["collisions"] = counts.get("collisions", 0) + 1
-
             out_dir.mkdir(parents=True, exist_ok=True)
             path = unique_path(out_dir / image_file)
             image.save(path)
             _fix_alpha_if_broken(path)
-            counts["Texture2D"] += 1
+            quality = _image_quality(path)
 
-            by_card_key[normalized] = {
+            entry = {
                 "card_folder": card_folder,
                 "image_file": path.name,
                 "has_d_suffix": has_d_suffix,
@@ -313,8 +353,56 @@ def _process_bundle_cards_only(
                 "height": height,
                 "bundle": bundle_record,
             }
+            entry.update(quality)
 
-            print(f"EXPORTED  {width:4d}x{height:<4d}  {path.name}")
+            existing = by_card_key.get(normalized)
+            if existing is not None:
+                # Prefer explicit _D variants, then visually healthier images,
+                # then higher resolution. This keeps bad raw layers from
+                # winning just because they share the standard 1024x1024 size.
+                existing_has_d_suffix = bool(existing.get("has_d_suffix"))
+                keep_existing = False
+                if existing_has_d_suffix and not has_d_suffix:
+                    keep_existing = True
+                elif not existing_has_d_suffix and has_d_suffix:
+                    keep_existing = False
+                else:
+                    keep_existing = _entry_quality_score(existing) >= _entry_quality_score(entry)
+
+                counts["collisions"] = counts.get("collisions", 0) + 1
+                if keep_existing:
+                    print(
+                        f"[ScanAll] collision: {normalized!r} - keeping "
+                        f"{existing['image_file']} score={_entry_quality_score(existing)}, "
+                        f"ignoring {path.name} score={_entry_quality_score(entry)}"
+                    )
+                    try:
+                        path.unlink()
+                    except OSError:
+                        pass
+                    continue
+
+                # New entry wins. Remove the old PNG so we don't leave orphans.
+                old_path = out_dir / existing["image_file"]
+                if old_path.is_file():
+                    try:
+                        old_path.unlink()
+                    except OSError:
+                        pass
+                print(
+                    f"[ScanAll] collision: {normalized!r} - replacing "
+                    f"{existing['image_file']} score={_entry_quality_score(existing)} "
+                    f"with {path.name} score={_entry_quality_score(entry)}"
+                )
+
+            counts["Texture2D"] += 1
+            if entry.get("quality_flags"):
+                counts["suspect"] = counts.get("suspect", 0) + 1
+            by_card_key[normalized] = entry
+
+            flags = ",".join(entry.get("quality_flags") or [])
+            suffix = f"  flags={flags}" if flags else ""
+            print(f"EXPORTED  {width:4d}x{height:<4d}  {path.name}{suffix}")
         except Exception as e:
             counts["errors"] += 1
             print(f"Skipped Texture2D path_id={getattr(obj, 'path_id', '?')}: {e}")

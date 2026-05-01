@@ -247,19 +247,63 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
         if normalize_card_name(name)
     }
     # A name hits if the manifest has a direct key match OR an alias match.
-    def resolves(key: str) -> bool:
-        return (
-            key in by_card_key
-            or (key in aliases and aliases[key] in by_card_key)
-            or (key in NAME_ALIASES and NAME_ALIASES[key] in by_card_key)
-        )
+    def resolve_entry(key: str) -> tuple[str, dict] | None:
+        if key in by_card_key:
+            return key, by_card_key[key]
+        if key in aliases and aliases[key] in by_card_key:
+            alias_key = aliases[key]
+            return alias_key, by_card_key[alias_key]
+        if key in NAME_ALIASES and NAME_ALIASES[key] in by_card_key:
+            alias_key = NAME_ALIASES[key]
+            return alias_key, by_card_key[alias_key]
+        return None
 
-    hits = sorted(k for k in normalized_names if resolves(k))
-    missing_keys = sorted(k for k in normalized_names if not resolves(k))
+    def entry_has_warning(entry: dict) -> bool:
+        return bool(entry.get("quality_flags") or [])
+
+    def entry_is_suspect(entry: dict) -> bool:
+        if entry.get("quality_suspect"):
+            return True
+        flags = set(entry.get("quality_flags") or [])
+        if flags.intersection({"image_unreadable", "image_empty", "fully_transparent", "mostly_black_visible_pixels"}):
+            return True
+        visible = entry.get("alpha_visible_percent")
+        opaque = entry.get("alpha_opaque_percent")
+        if isinstance(visible, (int, float)) and visible < 30:
+            return True
+        if isinstance(opaque, (int, float)) and opaque < 1:
+            return True
+        return False
+
+    resolved = {key: resolve_entry(key) for key in normalized_names}
+    hits = sorted(k for k, value in resolved.items() if value is not None)
+    warning_keys = sorted(
+        key
+        for key, value in resolved.items()
+        if value is not None and entry_has_warning(value[1])
+    )
+    suspect_keys = sorted(
+        key
+        for key, value in resolved.items()
+        if value is not None and entry_is_suspect(value[1])
+    )
+    missing_keys = sorted(k for k, value in resolved.items() if value is None)
     missing = [
         {"card_key": key, "name": normalized_names[key]}
         for key in missing_keys[:limit]
     ]
+    suspect = []
+    for key in suspect_keys[:limit]:
+        resolved_key, entry = resolved[key] or ("", {})
+        suspect.append({
+            "card_key": key,
+            "name": normalized_names[key],
+            "manifest_key": resolved_key,
+            "image_file": entry.get("image_file"),
+            "quality_flags": entry.get("quality_flags") or [],
+            "alpha_visible_percent": entry.get("alpha_visible_percent"),
+            "alpha_opaque_percent": entry.get("alpha_opaque_percent"),
+        })
     return {
         "image_dir": str(image_dir or app_paths.image_cache_dir()),
         "manifest_entries": len(by_card_key),
@@ -267,6 +311,11 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
         "card_cache_names": len(normalized_names),
         "coverage_count": len(hits),
         "coverage_percent": round((len(hits) / len(normalized_names)) * 100, 1) if normalized_names else 0,
+        "usable_coverage_count": len(hits) - len(suspect_keys),
+        "usable_coverage_percent": round(((len(hits) - len(suspect_keys)) / len(normalized_names)) * 100, 1) if normalized_names else 0,
+        "quality_warning_count": len(warning_keys),
+        "suspect_count": len(suspect_keys),
+        "suspect_sample": suspect,
         "missing_count": len(missing_keys),
         "missing_sample": missing,
     }
@@ -370,6 +419,8 @@ def refresh_images(
 
     manifest_path = out_dir / "manifest.json"
     aliases = generated_aliases(by_card_key)
+    counts["quality_warning_manifest_entries"] = sum(1 for entry in by_card_key.values() if entry.get("quality_flags"))
+    counts["suspect_manifest_entries"] = sum(1 for entry in by_card_key.values() if entry.get("quality_suspect"))
     manifest_path.write_text(
         json.dumps({"by_card_key": by_card_key, "aliases": aliases}, indent=2, sort_keys=True),
         encoding="utf-8",
@@ -400,6 +451,21 @@ def print_summary(summary: dict) -> None:
         f"{coverage.get('coverage_count', 0)}/{coverage.get('card_cache_names', 0)} "
         f"({coverage.get('coverage_percent', 0)}%)"
     )
+    if coverage.get("suspect_count"):
+        print(
+            "  Usable coverage: "
+            f"{coverage.get('usable_coverage_count', 0)}/{coverage.get('card_cache_names', 0)} "
+            f"({coverage.get('usable_coverage_percent', 0)}%); "
+            f"{coverage.get('suspect_count', 0)} visually suspect, "
+            f"{coverage.get('quality_warning_count', 0)} with quality warnings"
+        )
+        print("  Suspect sample:")
+        for item in coverage["suspect_sample"][:10]:
+            flags = ",".join(item.get("quality_flags") or [])
+            print(
+                f"    {item['name']} ({item['card_key']}) -> "
+                f"{item.get('image_file')} [{flags}]"
+            )
     if coverage.get("missing_sample"):
         print("  Missing sample:")
         for item in coverage["missing_sample"][:10]:
