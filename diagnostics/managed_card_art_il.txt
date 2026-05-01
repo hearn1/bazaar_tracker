@@ -1,0 +1,491 @@
+
+METHOD TheBazaar.Game.CardFrames.ItemVisualsController::SetCardFrameMaterial
+IL_0000: ldarg.0      
+IL_0001: ldfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_0006: call         System.Boolean UnityEngine.Object::op_Implicit(UnityEngine.Object)
+IL_000b: brfalse.s    IL_0018: ldarg.0
+IL_000d: ldarg.0      
+IL_000e: ldfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_0013: call         System.Void UnityEngine.Object::Destroy(UnityEngine.Object)
+IL_0018: ldarg.0      
+IL_0019: ldarg.1      
+IL_001a: call         !!0 UnityEngine.Object::Instantiate<UnityEngine.Material>(!!0)
+IL_001f: stfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_0024: ldarg.0      
+IL_0025: ldfld        UnityEngine.Renderer TheBazaar.Game.CardFrames.ItemVisualsController::cardIllustrationRenderer
+IL_002a: ldarg.0      
+IL_002b: ldfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_0030: callvirt     System.Void UnityEngine.Renderer::set_sharedMaterial(UnityEngine.Material)
+IL_0035: ldarg.2      
+IL_0036: brfalse.s    IL_004a: ldarg.0
+IL_0038: ldarg.0      
+IL_0039: ldfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_003e: ldsfld       System.String TheBazaar.Utilities.Shaders.CardArtShaderVariables::PremiumShaderKeyword
+IL_0043: callvirt     System.Void UnityEngine.Material::EnableKeyword(System.String)
+IL_0048: br.s         IL_005a: ldarga.s enchantmentType
+IL_004a: ldarg.0      
+IL_004b: ldfld        UnityEngine.Material TheBazaar.Game.CardFrames.ItemVisualsController::materialInstance
+IL_0050: ldsfld       System.String TheBazaar.Utilities.Shaders.CardArtShaderVariables::PremiumShaderKeyword
+IL_0055: callvirt     System.Void UnityEngine.Material::DisableKeyword(System.String)
+IL_005a: ldarga.s     enchantmentType
+IL_005c: call         System.Boolean System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType>::get_HasValue()
+IL_0061: brfalse.s    IL_0075: leave.s IL_0096
+IL_0063: ldarg.0      
+IL_0064: ldarga.s     enchantmentType
+IL_0066: call         !0 System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType>::get_Value()
+IL_006b: newobj       System.Void System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType>::.ctor(!0)
+IL_0070: call         System.Void TheBazaar.Game.CardFrames.ItemVisualsController::ShowEnchantment(System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType>)
+IL_0075: leave.s      IL_0096: ret
+IL_0077: stloc.0      
+IL_0078: ldstr        Failed to set card frame material {0}
+IL_007d: ldloc.0      
+IL_007e: call         System.String System.String::Format(System.String,System.Object)
+IL_0083: call         System.Void UnityEngine.Debug::LogError(System.Object)
+IL_0088: ldarg.0      
+IL_0089: call         UnityEngine.GameObject UnityEngine.Component::get_gameObject()
+IL_008e: ldc.i4.0     
+IL_008f: call         System.Void Extensions::PoolObject(UnityEngine.GameObject,System.Boolean)
+IL_0094: leave.s      IL_0096: ret
+IL_0096: ret          
+
+
+METHOD TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::MoveNext
+IL_0000: ldarg.0      
+IL_0001: ldfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_0006: stloc.0      
+IL_0007: ldarg.0      
+IL_0008: ldfld        TheBazaar.Game.CardFrames.ItemVisualsController TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>4__this
+IL_000d: stloc.1      
+IL_000e: ldloc.0      
+IL_000f: brfalse      IL_00b0: ldarg.0
+IL_0014: ldloc.0      
+IL_0015: ldc.i4.1     
+IL_0016: beq          IL_013d: ldarg.0
+IL_001b: ldarg.0      
+IL_001c: ldfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardAssetData
+IL_0021: ldnull       
+IL_0022: call         System.Boolean UnityEngine.Object::op_Inequality(UnityEngine.Object,UnityEngine.Object)
+IL_0027: brfalse.s    IL_0059: ldarg.0
+IL_0029: ldarg.0      
+IL_002a: ldfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardAssetData
+IL_002f: ldfld        UnityEngine.Material TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO::cardMaterial
+IL_0034: ldnull       
+IL_0035: call         System.Boolean UnityEngine.Object::op_Inequality(UnityEngine.Object,UnityEngine.Object)
+IL_003a: brfalse.s    IL_0059: ldarg.0
+IL_003c: ldloc.1      
+IL_003d: ldarg.0      
+IL_003e: ldfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardAssetData
+IL_0043: ldfld        UnityEngine.Material TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO::cardMaterial
+IL_0048: ldarg.0      
+IL_0049: ldfld        System.Boolean TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::isPremium
+IL_004e: ldarg.0      
+IL_004f: ldfld        System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType> TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::eEnchantmentType
+IL_0054: call         System.Void TheBazaar.Game.CardFrames.ItemVisualsController::SetCardFrameMaterial(UnityEngine.Material,System.Boolean,System.Nullable`1<BazaarGameShared.Domain.Core.Types.EEnchantmentType>)
+IL_0059: ldarg.0      
+IL_005a: ldfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardBackAsset
+IL_005f: ldnull       
+IL_0060: call         System.Boolean UnityEngine.Object::op_Equality(UnityEngine.Object,UnityEngine.Object)
+IL_0065: brfalse.s    IL_00de: ldloc.1
+IL_0067: ldloc.1      
+IL_0068: ldfld        TheBazaar.CollectionManager TheBazaar.Game.CardFrames.ItemVisualsController::_collectionManager
+IL_006d: ldloca.s     V_6
+IL_006f: initobj      System.Nullable`1<System.Threading.CancellationToken>
+IL_0075: ldloc.s      V_6
+IL_0077: callvirt     System.Threading.Tasks.Task`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO> TheBazaar.CollectionManager::GetEquippedCardBack(System.Nullable`1<System.Threading.CancellationToken>)
+IL_007c: callvirt     System.Runtime.CompilerServices.TaskAwaiter`1<!0> System.Threading.Tasks.Task`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO>::GetAwaiter()
+IL_0081: stloc.s      V_5
+IL_0083: ldloca.s     V_5
+IL_0085: call         System.Boolean System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO>::get_IsCompleted()
+IL_008a: brtrue.s     IL_00cd: ldloca.s V_5
+IL_008c: ldarg.0      
+IL_008d: ldc.i4.0     
+IL_008e: dup          
+IL_008f: stloc.0      
+IL_0090: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_0095: ldarg.0      
+IL_0096: ldloc.s      V_5
+IL_0098: stfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__1
+IL_009d: ldarg.0      
+IL_009e: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>t__builder
+IL_00a3: ldloca.s     V_5
+IL_00a5: ldarg.0      
+IL_00a6: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO>,TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32>(!!0&,!!1&)
+IL_00ab: leave        IL_018f: ret
+IL_00b0: ldarg.0      
+IL_00b1: ldfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__1
+IL_00b6: stloc.s      V_5
+IL_00b8: ldarg.0      
+IL_00b9: ldflda       System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__1
+IL_00be: initobj      System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO>
+IL_00c4: ldarg.0      
+IL_00c5: ldc.i4.m1    
+IL_00c6: dup          
+IL_00c7: stloc.0      
+IL_00c8: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_00cd: ldloca.s     V_5
+IL_00cf: call         !0 System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO>::GetResult()
+IL_00d4: stloc.s      V_4
+IL_00d6: ldarg.0      
+IL_00d7: ldloc.s      V_4
+IL_00d9: stfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardBackAsset
+IL_00de: ldloc.1      
+IL_00df: ldarg.0      
+IL_00e0: ldfld        BazaarGameShared.Domain.Core.Types.ETier TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::tier
+IL_00e5: ldc.i4.0     
+IL_00e6: call         System.Threading.Tasks.Task TheBazaar.Game.CardFrames.ItemVisualsController::SetCardTierAsset(BazaarGameShared.Domain.Core.Types.ETier,System.Boolean)
+IL_00eb: stloc.2      
+IL_00ec: ldloc.1      
+IL_00ed: ldarg.0      
+IL_00ee: ldfld        TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::cardBackAsset
+IL_00f3: call         System.Threading.Tasks.Task TheBazaar.Game.CardFrames.ItemVisualsController::SetCardback(TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardBackAssetDataSO)
+IL_00f8: stloc.3      
+IL_00f9: ldc.i4.2     
+IL_00fa: newarr       System.Threading.Tasks.Task
+IL_00ff: dup          
+IL_0100: ldc.i4.0     
+IL_0101: ldloc.2      
+IL_0102: stelem.ref   
+IL_0103: dup          
+IL_0104: ldc.i4.1     
+IL_0105: ldloc.3      
+IL_0106: stelem.ref   
+IL_0107: call         System.Threading.Tasks.Task System.Threading.Tasks.Task::WhenAll(System.Threading.Tasks.Task[])
+IL_010c: callvirt     System.Runtime.CompilerServices.TaskAwaiter System.Threading.Tasks.Task::GetAwaiter()
+IL_0111: stloc.s      V_7
+IL_0113: ldloca.s     V_7
+IL_0115: call         System.Boolean System.Runtime.CompilerServices.TaskAwaiter::get_IsCompleted()
+IL_011a: brtrue.s     IL_015a: ldloca.s V_7
+IL_011c: ldarg.0      
+IL_011d: ldc.i4.1     
+IL_011e: dup          
+IL_011f: stloc.0      
+IL_0120: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_0125: ldarg.0      
+IL_0126: ldloc.s      V_7
+IL_0128: stfld        System.Runtime.CompilerServices.TaskAwaiter TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__2
+IL_012d: ldarg.0      
+IL_012e: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>t__builder
+IL_0133: ldloca.s     V_7
+IL_0135: ldarg.0      
+IL_0136: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter,TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32>(!!0&,!!1&)
+IL_013b: leave.s      IL_018f: ret
+IL_013d: ldarg.0      
+IL_013e: ldfld        System.Runtime.CompilerServices.TaskAwaiter TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__2
+IL_0143: stloc.s      V_7
+IL_0145: ldarg.0      
+IL_0146: ldflda       System.Runtime.CompilerServices.TaskAwaiter TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>u__2
+IL_014b: initobj      System.Runtime.CompilerServices.TaskAwaiter
+IL_0151: ldarg.0      
+IL_0152: ldc.i4.m1    
+IL_0153: dup          
+IL_0154: stloc.0      
+IL_0155: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_015a: ldloca.s     V_7
+IL_015c: call         System.Void System.Runtime.CompilerServices.TaskAwaiter::GetResult()
+IL_0161: leave.s      IL_017c: ldarg.0
+IL_0163: stloc.s      V_8
+IL_0165: ldarg.0      
+IL_0166: ldc.i4.s     -2
+IL_0168: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_016d: ldarg.0      
+IL_016e: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>t__builder
+IL_0173: ldloc.s      V_8
+IL_0175: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::SetException(System.Exception)
+IL_017a: leave.s      IL_018f: ret
+IL_017c: ldarg.0      
+IL_017d: ldc.i4.s     -2
+IL_017f: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>1__state
+IL_0184: ldarg.0      
+IL_0185: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<Setup>d__32::<>t__builder
+IL_018a: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::SetResult()
+IL_018f: ret          
+
+
+METHOD TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::MoveNext
+IL_0000: ldarg.0      
+IL_0001: ldfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>1__state
+IL_0006: stloc.0      
+IL_0007: ldarg.0      
+IL_0008: ldfld        TheBazaar.Game.CardFrames.ItemVisualsController TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>4__this
+IL_000d: stloc.1      
+IL_000e: ldloc.0      
+IL_000f: brfalse      IL_00ac: ldarg.0
+IL_0014: ldloc.1      
+IL_0015: ldfld        System.Nullable`1<BazaarGameShared.Domain.Core.Types.ETier> TheBazaar.Game.CardFrames.ItemVisualsController::currentTier
+IL_001a: stloc.2      
+IL_001b: ldarg.0      
+IL_001c: ldfld        BazaarGameShared.Domain.Core.Types.ETier TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::tier
+IL_0021: stloc.3      
+IL_0022: ldloca.s     V_2
+IL_0024: call         !0 System.Nullable`1<BazaarGameShared.Domain.Core.Types.ETier>::GetValueOrDefault()
+IL_0029: ldloc.3      
+IL_002a: ceq          
+IL_002c: ldloca.s     V_2
+IL_002e: call         System.Boolean System.Nullable`1<BazaarGameShared.Domain.Core.Types.ETier>::get_HasValue()
+IL_0033: and          
+IL_0034: brfalse.s    IL_003b: ldloc.1
+IL_0036: leave        IL_012d: ldarg.0
+IL_003b: ldloc.1      
+IL_003c: ldfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_0041: call         System.Boolean UnityEngine.Object::op_Implicit(UnityEngine.Object)
+IL_0046: brfalse.s    IL_0054: ldloc.1
+IL_0048: ldloc.1      
+IL_0049: ldfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_004e: ldc.i4.0     
+IL_004f: call         System.Void Extensions::PoolObject(UnityEngine.GameObject,System.Boolean)
+IL_0054: ldloc.1      
+IL_0055: ldnull       
+IL_0056: stfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_005b: ldloc.1      
+IL_005c: ldarg.0      
+IL_005d: ldfld        BazaarGameShared.Domain.Core.Types.ETier TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::tier
+IL_0062: newobj       System.Void System.Nullable`1<BazaarGameShared.Domain.Core.Types.ETier>::.ctor(!0)
+IL_0067: stfld        System.Nullable`1<BazaarGameShared.Domain.Core.Types.ETier> TheBazaar.Game.CardFrames.ItemVisualsController::currentTier
+IL_006c: ldloc.1      
+IL_006d: ldarg.0      
+IL_006e: ldfld        BazaarGameShared.Domain.Core.Types.ETier TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::tier
+IL_0073: call         System.Threading.Tasks.Task`1<UnityEngine.GameObject> TheBazaar.Game.CardFrames.ItemVisualsController::LoadCurrentFrame(BazaarGameShared.Domain.Core.Types.ETier)
+IL_0078: callvirt     System.Runtime.CompilerServices.TaskAwaiter`1<!0> System.Threading.Tasks.Task`1<UnityEngine.GameObject>::GetAwaiter()
+IL_007d: stloc.s      V_5
+IL_007f: ldloca.s     V_5
+IL_0081: call         System.Boolean System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject>::get_IsCompleted()
+IL_0086: brtrue.s     IL_00c9: ldloca.s V_5
+IL_0088: ldarg.0      
+IL_0089: ldc.i4.0     
+IL_008a: dup          
+IL_008b: stloc.0      
+IL_008c: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>1__state
+IL_0091: ldarg.0      
+IL_0092: ldloc.s      V_5
+IL_0094: stfld        System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject> TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>u__1
+IL_0099: ldarg.0      
+IL_009a: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>t__builder
+IL_009f: ldloca.s     V_5
+IL_00a1: ldarg.0      
+IL_00a2: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject>,TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21>(!!0&,!!1&)
+IL_00a7: leave        IL_0140: ret
+IL_00ac: ldarg.0      
+IL_00ad: ldfld        System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject> TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>u__1
+IL_00b2: stloc.s      V_5
+IL_00b4: ldarg.0      
+IL_00b5: ldflda       System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject> TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>u__1
+IL_00ba: initobj      System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject>
+IL_00c0: ldarg.0      
+IL_00c1: ldc.i4.m1    
+IL_00c2: dup          
+IL_00c3: stloc.0      
+IL_00c4: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>1__state
+IL_00c9: ldloca.s     V_5
+IL_00cb: call         !0 System.Runtime.CompilerServices.TaskAwaiter`1<UnityEngine.GameObject>::GetResult()
+IL_00d0: stloc.s      V_4
+IL_00d2: ldloc.1      
+IL_00d3: ldloc.s      V_4
+IL_00d5: stfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_00da: ldloc.1      
+IL_00db: ldfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_00e0: callvirt     UnityEngine.Transform UnityEngine.GameObject::get_transform()
+IL_00e5: ldloc.1      
+IL_00e6: ldfld        UnityEngine.Transform TheBazaar.Game.CardFrames.ItemVisualsController::cardFrameAnchor
+IL_00eb: ldc.i4.0     
+IL_00ec: callvirt     System.Void UnityEngine.Transform::SetParent(UnityEngine.Transform,System.Boolean)
+IL_00f1: ldarg.0      
+IL_00f2: ldfld        System.Boolean TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::hideRenderers
+IL_00f7: brfalse.s    IL_0112: leave.s IL_012d
+IL_00f9: ldloc.1      
+IL_00fa: ldfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_00ff: ldc.i4.1     
+IL_0100: callvirt     System.Void UnityEngine.GameObject::SetActive(System.Boolean)
+IL_0105: ldloc.1      
+IL_0106: ldfld        UnityEngine.GameObject TheBazaar.Game.CardFrames.ItemVisualsController::currentFrame
+IL_010b: ldc.i4.1     
+IL_010c: ldc.i4.1     
+IL_010d: call         System.Void Helpers::SetAllRenderersEnabledState(UnityEngine.GameObject,System.Boolean,System.Boolean)
+IL_0112: leave.s      IL_012d: ldarg.0
+IL_0114: stloc.s      V_6
+IL_0116: ldarg.0      
+IL_0117: ldc.i4.s     -2
+IL_0119: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>1__state
+IL_011e: ldarg.0      
+IL_011f: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>t__builder
+IL_0124: ldloc.s      V_6
+IL_0126: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::SetException(System.Exception)
+IL_012b: leave.s      IL_0140: ret
+IL_012d: ldarg.0      
+IL_012e: ldc.i4.s     -2
+IL_0130: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>1__state
+IL_0135: ldarg.0      
+IL_0136: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder TheBazaar.Game.CardFrames.ItemVisualsController/<SetCardTierAsset>d__21::<>t__builder
+IL_013b: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder::SetResult()
+IL_0140: ret          
+
+
+METHOD TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::MoveNext
+IL_0000: ldarg.0      
+IL_0001: ldfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_0006: stloc.0      
+IL_0007: ldarg.0      
+IL_0008: ldfld        TheBazaar.Game.CardFrames.ItemVisualsController TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>4__this
+IL_000d: stloc.1      
+IL_000e: ldloc.0      
+IL_000f: brfalse      IL_00f4: ldarg.0
+IL_0014: ldloc.0      
+IL_0015: ldc.i4.1     
+IL_0016: beq          IL_017b: ldarg.0
+IL_001b: ldloc.1      
+IL_001c: ldfld        AssetLoader TheBazaar.Game.CardFrames.ItemVisualsController::_assetLoader
+IL_0021: ldnull       
+IL_0022: call         System.Boolean UnityEngine.Object::op_Equality(UnityEngine.Object,UnityEngine.Object)
+IL_0027: brfalse.s    IL_003a: ldnull
+IL_0029: ldstr        No Asset Loader instance
+IL_002e: call         System.Void UnityEngine.Debug::LogError(System.Object)
+IL_0033: ldnull       
+IL_0034: stloc.2      
+IL_0035: leave        IL_01d4: ldarg.0
+IL_003a: ldnull       
+IL_003b: stloc.3      
+IL_003c: ldarg.0      
+IL_003d: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_0042: brfalse      IL_0119: ldloc.3
+IL_0047: ldarg.0      
+IL_0048: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_004d: callvirt     System.String BazaarGameShared.Domain.Cards.ITCard::get_ArtKey()
+IL_0052: call         System.Boolean System.String::IsNullOrEmpty(System.String)
+IL_0057: brtrue       IL_0119: ldloc.3
+IL_005c: ldarg.0      
+IL_005d: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_0062: callvirt     System.String BazaarGameShared.Domain.Cards.ITCard::get_ArtKey()
+IL_0067: ldstr        Invalid
+IL_006c: call         System.Boolean System.String::op_Inequality(System.String,System.String)
+IL_0071: brfalse      IL_0119: ldloc.3
+IL_0076: ldarg.0      
+IL_0077: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_007c: callvirt     System.String BazaarGameShared.Domain.Cards.ITCard::get_ArtKey()
+IL_0081: ldstr        .mat
+IL_0086: callvirt     System.Boolean System.String::EndsWith(System.String)
+IL_008b: brfalse.s    IL_00a7: ldarg.0
+IL_008d: ldarg.0      
+IL_008e: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_0093: callvirt     System.String BazaarGameShared.Domain.Cards.ITCard::get_InternalName()
+IL_0098: ldstr         does not have an updated art key
+IL_009d: call         System.String System.String::Concat(System.String,System.String)
+IL_00a2: call         System.Void UnityEngine.Debug::LogError(System.Object)
+IL_00a7: ldarg.0      
+IL_00a8: ldfld        BazaarGameShared.Domain.Cards.ITCard TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::cardTemplate
+IL_00ad: callvirt     System.String BazaarGameShared.Domain.Cards.ITCard::get_ArtKey()
+IL_00b2: call         UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1<!!0> UnityEngine.AddressableAssets.Addressables::LoadAssetAsync<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>(System.Object)
+IL_00b7: stloc.s      V_5
+IL_00b9: ldloca.s     V_5
+IL_00bb: call         System.Threading.Tasks.Task`1<!0> UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::get_Task()
+IL_00c0: callvirt     System.Runtime.CompilerServices.TaskAwaiter`1<!0> System.Threading.Tasks.Task`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::GetAwaiter()
+IL_00c5: stloc.s      V_4
+IL_00c7: ldloca.s     V_4
+IL_00c9: call         System.Boolean System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::get_IsCompleted()
+IL_00ce: brtrue.s     IL_0111: ldloca.s V_4
+IL_00d0: ldarg.0      
+IL_00d1: ldc.i4.0     
+IL_00d2: dup          
+IL_00d3: stloc.0      
+IL_00d4: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_00d9: ldarg.0      
+IL_00da: ldloc.s      V_4
+IL_00dc: stfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_00e1: ldarg.0      
+IL_00e2: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>t__builder
+IL_00e7: ldloca.s     V_4
+IL_00e9: ldarg.0      
+IL_00ea: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>,TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25>(!!0&,!!1&)
+IL_00ef: leave        IL_01e8: ret
+IL_00f4: ldarg.0      
+IL_00f5: ldfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_00fa: stloc.s      V_4
+IL_00fc: ldarg.0      
+IL_00fd: ldflda       System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_0102: initobj      System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>
+IL_0108: ldarg.0      
+IL_0109: ldc.i4.m1    
+IL_010a: dup          
+IL_010b: stloc.0      
+IL_010c: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_0111: ldloca.s     V_4
+IL_0113: call         !0 System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::GetResult()
+IL_0118: stloc.3      
+IL_0119: ldloc.3      
+IL_011a: ldnull       
+IL_011b: call         System.Boolean UnityEngine.Object::op_Equality(UnityEngine.Object,UnityEngine.Object)
+IL_0120: brfalse      IL_01b7: ldloc.3
+IL_0125: ldloc.1      
+IL_0126: ldfld        UnityEngine.AddressableAssets.AssetReference TheBazaar.Game.CardFrames.ItemVisualsController::defaultArtAssetSO
+IL_012b: callvirt     System.Boolean UnityEngine.AddressableAssets.AssetReference::RuntimeKeyIsValid()
+IL_0130: ldc.i4.0     
+IL_0131: ceq          
+IL_0133: stloc.s      V_6
+IL_0135: ldloc.s      V_6
+IL_0137: brtrue.s     IL_01a9: ldloc.s V_6
+IL_0139: ldloc.1      
+IL_013a: ldfld        AssetLoader TheBazaar.Game.CardFrames.ItemVisualsController::_assetLoader
+IL_013f: ldloc.1      
+IL_0140: ldfld        UnityEngine.AddressableAssets.AssetReference TheBazaar.Game.CardFrames.ItemVisualsController::defaultArtAssetSO
+IL_0145: callvirt     System.Threading.Tasks.Task`1<T> AssetLoader::LoadAssetAsyncByReference<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>(UnityEngine.AddressableAssets.AssetReference)
+IL_014a: callvirt     System.Runtime.CompilerServices.TaskAwaiter`1<!0> System.Threading.Tasks.Task`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::GetAwaiter()
+IL_014f: stloc.s      V_4
+IL_0151: ldloca.s     V_4
+IL_0153: call         System.Boolean System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::get_IsCompleted()
+IL_0158: brtrue.s     IL_0198: ldloca.s V_4
+IL_015a: ldarg.0      
+IL_015b: ldc.i4.1     
+IL_015c: dup          
+IL_015d: stloc.0      
+IL_015e: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_0163: ldarg.0      
+IL_0164: ldloc.s      V_4
+IL_0166: stfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_016b: ldarg.0      
+IL_016c: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>t__builder
+IL_0171: ldloca.s     V_4
+IL_0173: ldarg.0      
+IL_0174: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::AwaitUnsafeOnCompleted<System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>,TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25>(!!0&,!!1&)
+IL_0179: leave.s      IL_01e8: ret
+IL_017b: ldarg.0      
+IL_017c: ldfld        System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_0181: stloc.s      V_4
+IL_0183: ldarg.0      
+IL_0184: ldflda       System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>u__1
+IL_0189: initobj      System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>
+IL_018f: ldarg.0      
+IL_0190: ldc.i4.m1    
+IL_0191: dup          
+IL_0192: stloc.0      
+IL_0193: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_0198: ldloca.s     V_4
+IL_019a: call         !0 System.Runtime.CompilerServices.TaskAwaiter`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::GetResult()
+IL_019f: dup          
+IL_01a0: stloc.3      
+IL_01a1: ldnull       
+IL_01a2: call         System.Boolean UnityEngine.Object::op_Equality(UnityEngine.Object,UnityEngine.Object)
+IL_01a7: stloc.s      V_6
+IL_01a9: ldloc.s      V_6
+IL_01ab: brfalse.s    IL_01b7: ldloc.3
+IL_01ad: ldstr        Failed to load DeveloperArtMaterial Material
+IL_01b2: call         System.Void UnityEngine.Debug::Log(System.Object)
+IL_01b7: ldloc.3      
+IL_01b8: stloc.2      
+IL_01b9: leave.s      IL_01d4: ldarg.0
+IL_01bb: stloc.s      V_7
+IL_01bd: ldarg.0      
+IL_01be: ldc.i4.s     -2
+IL_01c0: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_01c5: ldarg.0      
+IL_01c6: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>t__builder
+IL_01cb: ldloc.s      V_7
+IL_01cd: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::SetException(System.Exception)
+IL_01d2: leave.s      IL_01e8: ret
+IL_01d4: ldarg.0      
+IL_01d5: ldc.i4.s     -2
+IL_01d7: stfld        System.Int32 TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>1__state
+IL_01dc: ldarg.0      
+IL_01dd: ldflda       System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO> TheBazaar.Game.CardFrames.ItemVisualsController/<GetCardAssetData>d__25::<>t__builder
+IL_01e2: ldloc.2      
+IL_01e3: call         System.Void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<TheBazaar.Assets.Scripts.ScriptableObjectsScripts.CardAssetDataSO>::SetResult(!0)
+IL_01e8: ret          
+
+
