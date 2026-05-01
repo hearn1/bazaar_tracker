@@ -27,9 +27,53 @@ MANIFEST_PATH = IMAGE_DIR / "manifest.json"
 # to the same string as card_cache.name. Keys and values are both already-
 # normalized strings (lowercase, alphanumeric only).
 #
-# Add entries here as mismatches are discovered. Example:
-#   "epicepicureanchocolate": "epicepicureanchoclate",  # asset folder is misspelled
-NAME_ALIASES: dict[str, str] = {}
+# Format: normalized_db_name -> normalized_manifest_key
+# Discovered by comparing card_cache display names against Unity asset folder
+# names extracted from Steam card bundles.
+NAME_ALIASES: dict[str, str] = {
+    # Plural / singular mismatches
+    "bagpipes": "bagpipe",
+    "busybee": "busybees",
+    "cinders": "cinder",
+    "fang": "fangs",
+    "golfclubs": "golfclub",
+    "nanobot": "nanobots",
+    "schematics": "schematic",
+    "strawberries": "strawberry",
+    # Typos / misspellings in Unity asset folder names
+    "ballista": "balista",
+    "beasttooth": "beaststooth",
+    "businesscard": "buisnesscard",
+    "colander": "collander",
+    "inertialdampener": "inertiadampener",
+    "jabaliandagger": "jaballiandagger",
+    "jabaliandrum": "jaballiandrum",
+    "ouroborosstatue": "ouroborusstatue",
+    "pillbuggy": "pilbuggy",
+    "sapphire": "saphire",
+    # "Sat-Comm" → "satcomm" (dash stripped); asset has double-t
+    "satcomm": "sattcomm",
+    # Cyrillic С in asset name strips away, leaving "seafoodracker"
+    "seafoodcracker": "seafoodracker",
+    # Cyrillic С at the start of "Cleaver" strips away in the asset name
+    "cleaver": "leaver",
+    # Game renamed these items after the Unity assets were built
+    "bluenanas": "bluebananas",
+    "dooltron": "dootron",
+    "dooltronmainframe": "dootronmainframe",
+    "dragontooth": "dragonstooth",
+    "frozenflame": "frozenfire",
+    "harkuvianlauncher": "hakurvanlauncher",
+    "runicblade": "runeblade",
+    "tommoogun": "tommygun",
+    "trollosaur": "trollolor",
+    "weaselpede": "iceweaselpede",
+    # Word-form differences
+    "banuleaves": "banuleaf",
+    # "Mortar & Pestle" → "mortarpestle"; asset spells out "and"
+    "mortarpestle": "mortarandpestle",
+    "recyclingbin": "recyclebin",
+}
 
 _lock = threading.Lock()
 _manifest_cache: Optional[dict] = None
