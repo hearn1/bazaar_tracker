@@ -35,6 +35,9 @@ sqlite3.Connection
 bazaar_tracker_diagnostics_*.zip
 packaging/pyinstaller/smoke_test_output/
 
+# Claude Code local files
+.claude/
+
 # Windows / editor noise
 Thumbs.db
 ehthumbs.db
