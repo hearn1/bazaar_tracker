@@ -57,7 +57,7 @@ python watcher.py
 
 **7. Run the full one-command workflow** (watch log + launch Mono capture + auto bridge/score on run end):
 ```
-python tracker.py
+<pathToTracker>\venv312\Scripts\python tracker.py
 ```
 This replaces the old three-terminal workflow of `watcher.py`, `capture_mono.py --db`, and `bridge.py --score`.
 Each run also writes a UTF-8 session log to `logs/tracker_YYYYMMDD_HHMMSS.log`, which is the easiest file to share for debugging.

@@ -133,12 +133,20 @@ def load_image_manifest(image_dir: Optional[Path] = None) -> dict:
     return {"by_card_key": {}}
 
 
-def card_cache_names() -> list[str]:
+def card_cache_names(card_type: str = "TCardItem") -> list[str]:
+    """Return distinct non-empty card names from card_cache, filtered by card_type.
+
+    Defaults to TCardItem because only playable items have card art in Unity
+    bundles. Skills, encounters, events, etc. are excluded from coverage
+    calculations to avoid inflating the denominator.
+    """
     db.init_db()
     conn = db.get_conn()
     try:
         rows = conn.execute(
-            "SELECT DISTINCT name FROM card_cache WHERE name IS NOT NULL AND name != '' AND name != 'Unknown'"
+            "SELECT DISTINCT name FROM card_cache "
+            "WHERE card_type = ? AND name IS NOT NULL AND name != '' AND name != 'Unknown'",
+            (card_type,),
         ).fetchall()
         return [str(row["name"]) for row in rows]
     finally:
@@ -146,6 +154,7 @@ def card_cache_names() -> list[str]:
 
 
 def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dict:
+    from web.card_images import NAME_ALIASES
     manifest = load_image_manifest(image_dir)
     by_card_key = manifest.get("by_card_key") or {}
     names = card_cache_names()
@@ -154,8 +163,12 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
         for name in names
         if normalize_card_name(name)
     }
-    hits = sorted(set(normalized_names) & set(by_card_key))
-    missing_keys = sorted(set(normalized_names) - set(by_card_key))
+    # A name hits if the manifest has a direct key match OR an alias match.
+    def resolves(key: str) -> bool:
+        return key in by_card_key or (key in NAME_ALIASES and NAME_ALIASES[key] in by_card_key)
+
+    hits = sorted(k for k in normalized_names if resolves(k))
+    missing_keys = sorted(k for k in normalized_names if not resolves(k))
     missing = [
         {"card_key": key, "name": normalized_names[key]}
         for key in missing_keys[:limit]

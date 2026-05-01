@@ -75,13 +75,10 @@ Current state:
 - `web/card_images.py` loads `static_cache/images/manifest.json`.
 - `web/server.py` serves card images through `/cards/<filename>`.
 - Review/overlay code can attach image URLs when manifest entries exist.
-- Images do not appear to be complete. Further investigation needed to "build" production images.
-- Only about 20-30% image coverage
-
-Known issue:
-- Image coverage is partial. Some card art appears to be created, packed, or referenced through Unity asset structures that the current Texture2D name/path filter does not fully discover.
-- Potential bug / follow-up: `refresh-images --coverage-only` currently reports low raw coverage against all `card_cache` names (for example 799/2733, 29.2%) even after scanning the Steam install successfully. This may be a denominator/classification issue because `card_cache` includes monsters, challenges, levelups, tooltips, events, and other static entries that may not have normal card art. Add a better "expected art" denominator before treating the raw percentage as extraction failure.
-- Testing bug / follow-up: no card images rendered during the latest app run. Reference `logs/tracker_20260429_200345.log` and verify whether this is a manifest path mismatch, missing image URLs in review/overlay payloads, failed `/cards/<filename>` serving, or frontend rendering issue.
+- Images do not appear to be complete. Some have large black portions in the image like something is missing.
+    * likely some type of building happens and thats how enhancements look different. We need to build the "default" non enhanced image
+- Coverage currently at ~80%
+- Images are currently all square. Medium size items render properly, however not following the 3x2 or 1x2 size for Large or Small items so they end up distorted.
 
 Implementation notes:
 - Use `probe_install_card_bundle.py` against representative bundles to inspect `Texture2D`, `Sprite`, atlas, and container path relationships.
