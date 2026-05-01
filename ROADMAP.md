@@ -11,6 +11,39 @@ Status labels:
 
 ## Open Feature Work
 
+### Remove Post-Run Scoring - Open
+
+Goal: make the live scoring path the only scoring path. The bridge should enrich captured decisions with Mono context, but it should no longer trigger a separate post-run rescore.
+
+Relevant files:
+- `bridge.py`
+- `scorer.py`
+- `watcher.py`
+- `run_state.py`
+- `web/review_builder.py`
+- `web/overlay_state.py`
+- tests covering scoring, bridge enrichment, and run completion behavior
+
+Why this is next:
+- Over time it has become clear that scoring should happen when the decision is recorded via `LiveScorer`.
+- Post-run scoring creates two paths that can disagree, makes debugging harder, and can rewrite live coaching decisions after the fact.
+- The bridge still matters for enrichment, but its role should be correlation and metadata fill-in, not scoring authority.
+
+Implementation notes:
+- Remove or disable bridge-triggered post-run scoring/rescoring.
+- Keep `bridge.py` responsible for correlating Player.log decisions with Mono snapshots and filling day/hour/gold/health/combat context where available.
+- Treat stored `score_label` and `score_notes` from the live path as authoritative.
+- Audit `scorer.py` for duplicate live-vs-post-run code paths and collapse shared helpers only where it keeps the live path simple.
+- Update dashboard/review assumptions so enriched metadata can appear after bridge runs without changing the original score.
+- Keep a manual/dev-only rescore command only if it is clearly useful for catalog development, and document that it is not part of normal run completion.
+
+How to test:
+- Complete a run and confirm watcher still triggers bridge enrichment.
+- Confirm decisions keep the `score_label`/`score_notes` written by `LiveScorer`.
+- Confirm enriched day/hour/gold/health fields can update without changing scores.
+- Confirm dashboard and overlay still show completed run review correctly after bridge finishes.
+- Run the scoring/bridge-related pytest suite and a py_compile pass over touched modules.
+
 ### Multi-Hero Support - Partial
 
 Goal: add more heroes while keeping existing Karnok/Mak behavior stable.
@@ -58,7 +91,7 @@ How to test:
 
 ### Add Card Images - Partial
 
-Goal: improve image coverage beyond the currently partial manifest.
+Goal: improve image coverage beyond the currently partial manifest. This work is currently on hold while waiting for BazaarDB guidance/permission on using their hosted item images as an optional local user-side cache source.
 
 Relevant files:
 - `extract_bazaar_bundle_pngs.py`
@@ -76,6 +109,9 @@ Current state:
 - `web/card_images.py` loads `static_cache/images/manifest.json`.
 - `web/server.py` serves card images through `/cards/<filename>`.
 - Review/overlay code can attach image URLs when manifest entries exist.
+- Matt has contacted BazaarDB at `hello@bazaardb.gg` to ask whether the app may optionally download BazaarDB item images for local user-side caching only.
+    * Proposed constraints: no rehosting, include attribution, provide a setting to disable it, and follow any preferred API/CDN format/cache policy/usage limits.
+    * If BazaarDB is not comfortable being used as a source, Matt asked whether they can share how they solved image generation for their database.
 - Images do not appear to be complete. Some have large black portions in the image like something is missing.
     * likely some type of building happens and thats how enhancements look different. We need to build the "default" non enhanced image
 - Current manifest after Steam bundle extraction: 1,072 entries.
@@ -95,13 +131,19 @@ Known bugs to report:
     * The 200-byte neighborhoods expose adjacent CardData/material/card-folder strings, but no `.bundle` names, so the next probe needs to parse Addressables catalog structure rather than relying only on nearby readable strings.
 
 Implementation notes:
-- Next session focus: inspect representative bad cards through Sprite -> Texture2D, Material, mask, atlas, and CardData relationships, then export the composed/default display image rather than the raw `_D` layer.
+- Do not spend the next session on local extraction while BazaarDB response is pending unless explicitly requested.
+- If BazaarDB approves usage, add an install/update-time optional image cache step that downloads images to the user's local cache only.
+- Include attribution in-app/docs if BazaarDB images are used.
+- Add a user setting to disable third-party image downloads.
+- Respect any BazaarDB-preferred API/CDN format, cache policy, and usage limits.
+- If BazaarDB declines or cannot help, resume the local extraction path: inspect representative bad cards through Sprite -> Texture2D, Material, mask, atlas, and CardData relationships, then export the composed/default display image rather than the raw `_D` layer.
 - Use `probe_install_card_bundle.py` against representative bundles to inspect `Texture2D`, `Sprite`, atlas, and container path relationships.
 - Update extractor to follow Sprite-to-Texture references and export sprite crops if full card art is packed into atlases.
 - Keep the manifest keyed by normalized card name so `web/card_images.py` does not need to know Unity internals.
 - Keep coverage reporting split into total manifest hits, usable hits, visually suspect hits, and missing names.
 
 How to test:
+- If BazaarDB approves usage, run install/update image caching against a small sample first and confirm images are stored locally, attributed, and disabled when the setting is off.
 - Run image extraction against both user-data Addressables cache and Steam install bundles.
 - Run `python tracker.py refresh-images --coverage-only` and confirm suspect counts move down when composed/default images replace raw layers.
 - Confirm `static_cache/images/manifest.json` has increased entry count and no stale entries.
