@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A tracker/coach plugin for The Bazaar (a PvP autobattler card game by Tempo Storm). It captures every decision during a run into a local SQLite database, scores them against known build guides, and shows live coaching via an in-game overlay. The project has hero-aware build catalogs for Karnok plus an initial Mak slice, running locally with Python + Flask + PyWebView.
+A tracker/coach plugin for The Bazaar (a PvP autobattler card game by Tempo Storm). It captures every decision during a run into a local SQLite database, scores them against known build guides, and shows live coaching via an in-game overlay. The project has hero-aware build catalogs for Karnok plus an initial Mak slice. Distributed as a Windows installer; first alpha release published at https://github.com/hearn1/bazaar_tracker (tag: v0.1-alpha.1).
 
 ## Common commands
 
@@ -95,21 +95,19 @@ Post-run (auto-triggered by watcher on run end):
 - No frontend build step - index.html and overlay.html are self-contained with inline CSS/JS
 - Google Fonts: Syne (display), DM Sans (body), IBM Plex Mono (data/labels)
 
-## What's Working
+## Features
 
-Everything below is implemented, tested, and stable:
+**Core Pipeline**: Log parsing, decision recording, state machine, combat tracking, card cache (playthebazaar.com static data), bridge enrichment, phase-aware scoring with archetype detection, skip analysis, rejected-set tracking, PvP record from terminal Mono snapshot.
 
-**Core Pipeline**: Log parsing, decision recording, state machine, combat tracking, card cache (playthebazaar.com static data), bridge enrichment, phase-aware scoring with archetype detection, skip analysis, rejected-set tracking, PvP record from terminal Mono snapshot
+**Multi-hero support**: Build loading is hero-aware end-to-end for Karnok and Mak. The shared scorer/server/overlay paths resolve the active run hero's catalog. The Mak catalog covers the main potion, weapons, Poppy, self-poison, Satchel, Torch, and Calc/Retort lines.
 
-**Multi-hero foundation**: Build loading is now hero-aware end-to-end for Karnok and Mak. The shared scorer/server/overlay paths resolve the active run hero's catalog instead of assuming Karnok, and the Mak catalog covers the main potion, weapons, Poppy, self-poison, Satchel, Torch, and Calc/Retort lines from the local guide.
+**Mono Capture**: Frida hooks on HandleMessage for GameSim/CombatSim/GameStateSync/RunInitialized. Optimized to 39ms median hook latency via direct memory reads replacing all NativeFunction calls. Key optimizations: `readGameSimFast` single-pass reader, `_fastReadPlayerAttrs` with cached dict layout, `_directReadMonoString` (UTF-16 direct read), content-hash SelectionSet cache, vtable->klass double-deref, hint-trusting in getSnapshotMatches. Gated behind `FAST_GAMESIM_PATH = true` flag.
 
-**Mono Capture**: Frida hooks on HandleMessage for GameSim/CombatSim/GameStateSync/RunInitialized. Optimized to 39ms median hook latency (down from 260ms) via direct memory reads replacing all NativeFunction calls. Key optimizations: `readGameSimFast` single-pass reader, `_fastReadPlayerAttrs` with cached dict layout, `_directReadMonoString` (UTF-16 direct read), content-hash SelectionSet cache, vtable->klass double-deref, hint-trusting in getSnapshotMatches. Gated behind `FAST_GAMESIM_PATH = true` flag.
+**Dashboard**: Dark HUD-style UI with run history, stat strip (PvP/PvE/Decisions/Archetype/Flagged), key moments with severity-colored cards, phase-divider timeline with score-colored borders, expandable decision detail, combat grid.
 
-**Dashboard**: Dark HUD-style UI with run history, stat strip (PvP/PvE/Decisions/Archetype/Flagged), key moments with severity-colored cards, phase-divider timeline with score-colored borders, expandable decision detail, combat grid. Insights deduplication, unified flagged count, null archetype handling, skip note parsing tests.
+**Overlay**: PyWebView frameless always-on-top window with three tabs — Coach (live archetype detection + item checklist from the active hero's build catalog), Review (last 10 decisions with score badges), Run (PvP/PvE record + phase guidance). F8 toggle collapse, drag-to-move, idle state handling. Live header stats sourced from latest Mono snapshot during active runs, EndRun snapshot for completed runs. Scores written at decision time via LiveScorer — overlay reads stored scores, no per-poll recomputation.
 
-**Overlay**: PyWebView frameless always-on-top window with three tabs - Coach (live archetype detection + item checklist from the active hero's build catalog), Review (last 10 decisions with score badges), Run (PvP/PvE record + phase guidance). F8 toggle collapse, drag-to-move, idle state handling. Live header stats sourced from latest Mono snapshot during active runs, EndRun snapshot for completed runs. Scores written at decision time via LiveScorer — overlay reads stored scores, no per-poll recomputation.
-
-**Infrastructure**: Waitress production WSGI server, session logging to `logs/`, DB writer queue for non-blocking writes, auto bridge+score on run end, centralized app/settings/cache paths, schema/settings migrations, content/image refresh commands, diagnostics/export support, pytest coverage under `tests/`, and PyInstaller/Inno Setup packaging scaffolding.
+**Infrastructure**: Waitress production WSGI server, session logging to `logs/`, DB writer queue for non-blocking writes, auto bridge+score on run end, centralized app/settings/cache paths, schema/settings migrations, content/image refresh commands, diagnostics/export support, pytest coverage under `tests/`, Windows installer via PyInstaller + Inno Setup.
 
 ## Known Quirks (Not Blocking)
 
@@ -126,6 +124,4 @@ Everything below is implemented, tested, and stable:
 - Dict layout cache: `entriesOff=24, countOff=64, entrySize=16, hashOff=0, keyOff=8, valueOff=12, headerAdj=16` - field offsets from `getFields()` include 16-byte MonoObject header; subtracted for value-type array entries
 - `FAST_GAMESIM_PATH = false` reverts all optimizations to the safe NativeFunction path
 
-## Active work
-
-See `ROADMAP.md` for open bugs, features, and UI polish items. Prod-readiness packaging work is ready for first GitHub upload: startup/content refresh resilience, clean-profile doctor consistency, disabled-by-default update checks, malformed GitHub update-check config handling, test directory cleanup, first-commit `.gitignore` hygiene, and portable build script Python/venv selection are implemented and verified.
+See `ROADMAP.md` for open bugs and planned features.
