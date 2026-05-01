@@ -535,7 +535,7 @@
 
     .item-row {
       display: grid;
-      grid-template-columns: 56px minmax(0, 1fr) auto auto;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
       gap: 12px;
       align-items: center;
       padding: 10px 12px;
@@ -596,6 +596,11 @@
       object-fit: cover;
       transform: scale(1.08);
     }
+
+    .card-art.size-small.item-thumb  { width: 28px; }
+    .card-art.size-large.item-thumb  { width: 84px; }
+    .card-art.size-small.review-thumb { width: 26px; }
+    .card-art.size-large.review-thumb { width: 78px; }
 
     .item-thumb {
       width: 56px;
@@ -936,7 +941,7 @@
 
     .review-row {
       display: grid;
-      grid-template-columns: 38px 52px minmax(0, 1fr) auto;
+      grid-template-columns: 38px auto minmax(0, 1fr) auto;
       gap: 12px;
       align-items: center;
       padding: 10px 11px;
@@ -951,14 +956,17 @@
       letter-spacing: 0.05em;
     }
 
-    .review-thumb,
-    .review-thumb-placeholder {
+    .review-thumb {
       width: 52px;
       height: 52px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
     }
     .review-thumb-placeholder {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
       opacity: 0.3;
     }
 
@@ -1504,9 +1512,16 @@
         .toUpperCase() || "?";
     }
 
+    function getSizeClass(imageUrl) {
+      if (!imageUrl) return '';
+      const m = imageUrl.match(/\/CF_([SML])_/);
+      return m ? ({ S: 'size-small', M: 'size-medium', L: 'size-large' }[m[1]] || '') : '';
+    }
+
     function renderItemArt(name, image, className = "item-thumb", owned = false) {
       if (image) {
-        return `<span class="card-art ${className}"><img src="${image}" alt="" loading="lazy" onerror="this.parentElement.style.opacity='0.35'"></span>`;
+        const sc = getSizeClass(image);
+        return `<span class="card-art ${className}${sc ? ' ' + sc : ''}"><img src="${image}" alt="" loading="lazy" onerror="this.parentElement.style.opacity='0.35'"></span>`;
       }
       return `<span class="card-art ${className} item-fallback">${escapeHtml(getInitials(name))}</span>`;
     }

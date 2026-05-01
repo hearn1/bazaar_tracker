@@ -78,7 +78,6 @@ Current state:
 - Images do not appear to be complete. Some have large black portions in the image like something is missing.
     * likely some type of building happens and thats how enhancements look different. We need to build the "default" non enhanced image
 - Coverage currently at ~80%
-- Images are currently all square. Medium size items render properly, however not following the 3x2 or 1x2 size for Large or Small items so they end up distorted.
 
 Implementation notes:
 - Use `probe_install_card_bundle.py` against representative bundles to inspect `Texture2D`, `Sprite`, atlas, and container path relationships.
