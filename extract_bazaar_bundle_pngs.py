@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Optional
 
 import app_paths
+from PIL import Image as _PIL_Image
 
 DEFAULT_BUNDLE = (
     r"C:\Users\Matt\AppData\LocalLow\Unity\Tempo Storm_The Bazaar"
@@ -45,9 +46,13 @@ def _normalize_card_name(value: str) -> str:
 # Card art textures in Bazaar bundles follow the naming convention:
 #   CF_<L|M|S|XL>_<HERO>_<CardFolderName>_D
 # e.g. CF_M_JUL_CheeseWheel_D, CF_S_VAN_CrubbyLobster_D, CF_L_ADV_Wand_D.
-# Hero codes seen so far: ADV, JUL, MAK, KAR, PYG, STE, VAN, DOO, COM, NEU.
-# We accept any 2-5 uppercase letter hero code to stay flexible across patches.
-CARD_NAME_RE = re.compile(r"^CF_[A-Z]+_[A-Z]{2,5}_(.+)_D$")
+# Hero codes seen so far include ADV, JUL, MAK, KAR, PYG, STE, VAN, DOO, COM,
+# NEU, and NTR. Some shipped textures use mixed-case hero codes, numbered _D
+# variants, trailing whitespace after _D, or no suffix at all.
+CARD_NAME_RE = re.compile(
+    r"^CF_[A-Z]+_[A-Za-z]{2,5}_(.+?)(?:_D\d?|_D\s+|)\s*$"
+)
+CARD_D_SUFFIX_RE = re.compile(r"_D(?:\d|\s*)\s*$")
 
 
 def _parse_card_texture_name(name: str) -> Optional[str]:
@@ -65,7 +70,40 @@ def _parse_card_texture_name(name: str) -> Optional[str]:
     match = CARD_NAME_RE.match(name)
     if match is None:
         return None
-    return match.group(1)
+    card_folder = match.group(1)
+    if not _card_texture_has_d_suffix(name):
+        card_folder = re.sub(r"\d+$", "", card_folder)
+    return card_folder or None
+
+
+def _card_texture_has_d_suffix(name: str) -> bool:
+    return bool(CARD_D_SUFFIX_RE.search(name or ""))
+
+
+def _fix_alpha_if_broken(path: Path) -> None:
+    """Force alpha=255 if image has rich RGB but near-zero alpha everywhere."""
+    try:
+        img = _PIL_Image.open(path).convert("RGBA")
+        data = img.tobytes()
+        total = img.width * img.height
+        if total <= 0:
+            return
+
+        alpha_zero = sum(1 for i in range(3, len(data), 4) if data[i] == 0)
+        if alpha_zero / total < 0.90:
+            return
+
+        r_vals = data[0::4]
+        r_mean = sum(r_vals) / total
+        r_std = (sum((x - r_mean) ** 2 for x in r_vals) / total) ** 0.5
+        if r_std < 20:
+            return
+
+        r, g, b, _ = img.split()
+        opaque = _PIL_Image.new("L", img.size, 255)
+        _PIL_Image.merge("RGBA", (r, g, b, opaque)).save(path)
+    except Exception:
+        pass
 
 
 def safe_filename(value: str, fallback: str) -> str:
@@ -197,6 +235,7 @@ def _process_bundle_cards_only(
         if card_folder is None:
             counts["skipped"] += 1
             continue
+        has_d_suffix = _card_texture_has_d_suffix(tex_name)
 
         # Container path is informational only when present; useful for
         # manual inspection but not required.
@@ -212,15 +251,31 @@ def _process_bundle_cards_only(
             if width < min_width or height < min_height:
                 counts["skipped"] += 1
                 continue
+            if not has_d_suffix and (width != 1024 or height != 1024 or "_" in card_folder):
+                counts["skipped"] += 1
+                continue
 
             normalized = _normalize_card_name(card_folder)
             existing = by_card_key.get(normalized)
 
             if existing is not None:
-                # Highest-resolution wins, with first-wins as the tiebreaker.
+                # Highest-resolution wins, preferring _D variants when a
+                # suffix and no-suffix texture exist for the same card.
                 existing_pixels = (existing.get("width") or 0) * (existing.get("height") or 0)
                 new_pixels = width * height
-                if new_pixels <= existing_pixels:
+                existing_has_d_suffix = bool(existing.get("has_d_suffix"))
+                if existing_has_d_suffix and not has_d_suffix:
+                    print(
+                        f"[ScanAll] collision: {normalized!r} - keeping "
+                        f"{existing['image_file']} (_D variant), ignoring "
+                        f"{image_file} (no _D suffix)"
+                    )
+                    counts["collisions"] = counts.get("collisions", 0) + 1
+                    continue
+                if (
+                    (existing_has_d_suffix == has_d_suffix and new_pixels <= existing_pixels)
+                    or (not existing_has_d_suffix and not has_d_suffix and new_pixels <= existing_pixels)
+                ):
                     print(
                         f"[ScanAll] collision: {normalized!r} - keeping "
                         f"{existing['image_file']} ({existing.get('width')}x{existing.get('height')}), "
@@ -245,11 +300,13 @@ def _process_bundle_cards_only(
             out_dir.mkdir(parents=True, exist_ok=True)
             path = unique_path(out_dir / image_file)
             image.save(path)
+            _fix_alpha_if_broken(path)
             counts["Texture2D"] += 1
 
             by_card_key[normalized] = {
                 "card_folder": card_folder,
                 "image_file": path.name,
+                "has_d_suffix": has_d_suffix,
                 "container_key": container_key,
                 "texture_path_id": obj.path_id,
                 "width": width,
@@ -440,6 +497,7 @@ def main() -> int:
             card_folder = _parse_card_texture_name(tex_name)
             if card_folder is None:
                 continue
+            has_d_suffix = _card_texture_has_d_suffix(tex_name)
 
             container_key = container_by_path_id.get(obj.path_id, "")
             image_file = f"{tex_name}.png"
@@ -453,15 +511,40 @@ def main() -> int:
                 if width < args.min_width or height < args.min_height:
                     counts["skipped"] += 1
                     continue
+                if not has_d_suffix and (width != 1024 or height != 1024 or "_" in card_folder):
+                    counts["skipped"] += 1
+                    continue
 
                 out_dir.mkdir(parents=True, exist_ok=True)
                 path = unique_path(out_dir / image_file)
                 image.save(path)
+                _fix_alpha_if_broken(path)
                 counts["Texture2D"] += 1
 
                 normalized = _normalize_card_name(card_folder)
-                if normalized in by_card_key:
+                existing = by_card_key.get(normalized)
+                if existing is not None and existing.get("has_d_suffix") and not has_d_suffix:
                     existing = by_card_key[normalized]
+                    print(
+                        f"[CardsOnly] collision: {normalized!r} - keeping "
+                        f"{existing['image_file']} (_D variant), ignoring "
+                        f"{image_file} (no _D suffix)"
+                    )
+                elif existing is not None and (not existing.get("has_d_suffix") and has_d_suffix):
+                    by_card_key[normalized] = {
+                        "card_folder": card_folder,
+                        "image_file": path.name,
+                        "has_d_suffix": has_d_suffix,
+                        "container_key": container_key,
+                        "texture_path_id": obj.path_id,
+                        "width": width,
+                        "height": height,
+                    }
+                    print(
+                        f"[CardsOnly] collision: {normalized!r} - replacing "
+                        f"{existing['image_file']} (no _D suffix) with {image_file} (_D variant)"
+                    )
+                elif existing is not None:
                     print(
                         f"[CardsOnly] collision: {normalized!r} - keeping "
                         f"{existing['image_file']}, ignoring {image_file}"
@@ -470,6 +553,7 @@ def main() -> int:
                     by_card_key[normalized] = {
                         "card_folder": card_folder,
                         "image_file": path.name,
+                        "has_d_suffix": has_d_suffix,
                         "container_key": container_key,
                         "texture_path_id": obj.path_id,
                         "width": width,

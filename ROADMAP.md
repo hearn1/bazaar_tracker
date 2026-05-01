@@ -77,14 +77,23 @@ Current state:
 - Review/overlay code can attach image URLs when manifest entries exist.
 - Images do not appear to be complete. Some have large black portions in the image like something is missing.
     * likely some type of building happens and thats how enhancements look different. We need to build the "default" non enhanced image
-- Coverage currently at ~80%
+- Current manifest after Steam bundle extraction: 1,072 entries.
+- Current Item coverage from `static_cache/cards.json`: 828/1,123 (74%).
+
+Known bugs to report:
+- `Open`: Some extracted card images are valid manifest hits but visually blank or mostly empty because the extractor exports a raw `Texture2D` layer instead of the composed card art.
+    * Examples from live overlay screenshot: `Hunter's Boots` -> `CF_M_KAR_HuntersBoots_D.png`; `Fairy Circle` -> `CF_L_KAR_FairyCircle_D.png`.
+    * Root-cause evidence: both cards resolve in `static_cache/images/manifest.json` and both PNGs are 1024x1024, but their useful alpha coverage is low/partial compared with good examples. `Fairy Circle` has only ~28% nonzero alpha and <1% fully opaque pixels; `Hunter's Boots` has ~53% nonzero alpha and ~10% fully opaque pixels.
+    * Likely fix direction: stop treating every matching `_D` texture as final card art. Use Unity Sprite/Material relationships, masks, and/or atlas crop metadata to export the composed/default display art.
+- `Open`: GUID ArtKey diagnostics show the local catalog knows the missing items, but the current probe does not resolve the dependency chain from GUID/CardData to final bundle/texture.
+    * `probe_catalog_guids.py` found 237/237 unique missing GUID ArtKeys in `catalog.bin`.
+    * The 200-byte neighborhoods expose adjacent CardData/material/card-folder strings, but no `.bundle` names, so the next probe needs to parse Addressables catalog structure rather than relying only on nearby readable strings.
 
 Implementation notes:
 - Use `probe_install_card_bundle.py` against representative bundles to inspect `Texture2D`, `Sprite`, atlas, and container path relationships.
 - Update extractor to follow Sprite-to-Texture references and export sprite crops if full card art is packed into atlases.
 - Keep the manifest keyed by normalized card name so `web/card_images.py` does not need to know Unity internals.
 - Add coverage reporting: total card names from `card_cache` vs manifest hits.
-- Add aliases in `web/card_images.py` only for true naming mismatches, not missing extraction logic.
 
 How to test:
 - Run image extraction against both user-data Addressables cache and Steam install bundles.
