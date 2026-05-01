@@ -28,7 +28,7 @@ python tracker.py doctor
 python tracker.py export-diagnostics
 
 # Full one-command workflow: log watcher + Flask dashboard + Mono capture
-# subprocess + PyWebView overlay + auto bridge/score on run end.
+# subprocess + PyWebView overlay + auto bridge enrichment on run end.
 python tracker.py
 python tracker.py --no-mono       # skip Frida/Mono subprocess
 python tracker.py --no-overlay    # headless (watcher + Flask only)
@@ -68,23 +68,22 @@ tracker.py                 # single entrypoint - launches everything below
   `- overlay.py            # PyWebView always-on-top launcher
 
 Post-run (auto-triggered by watcher on run end):
-  bridge.py                # correlates log decisions with Mono snapshots
-  scorer.py                # evaluates decisions against per-hero build catalogs
-                           # LiveScorer class for incremental scoring during the run
+  bridge.py                # correlates log decisions with Mono snapshots for enrichment
+  scorer.py                # LiveScorer evaluates decisions during the run
 ```
 
 ## Data Flow
 
 - **Pipeline A (Player.log -> watcher -> run_state)**: Source of truth for decisions - offered/chosen/rejected sets, shops, skills, events, skips, sells. BoardState snapshots inventory at each decision. LiveScorer writes score_label immediately.
 - **Pipeline B (capture_mono.py -> Frida)**: Enrichment - HP, gold, day/hour, PvP record, card template IDs for name resolution via NameResolver.notify_template()
-- **bridge.py**: Correlates the two pipelines post-run, enriches decisions with Mono data (day/gold/health), triggers rescore with enriched data
-- **scorer.py**: Phase-aware scoring against build archetypes in hero-specific build JSON catalogs. LiveScorer scores at decision time; score_run() rescores post-enrichment using the same code path.
+- **bridge.py**: Correlates the two pipelines post-run and enriches decisions with Mono data (day/gold/health). It should not be the scoring authority going forward.
+- **scorer.py**: Phase-aware scoring against build archetypes in hero-specific build JSON catalogs. `LiveScorer` scores at decision time; stored live scores should remain authoritative after bridge enrichment.
 
 ## Key Design Decisions (Post-Refactor)
 
 - **Board state**: `BoardState` class owned by `RunState`. Snapshots written as `board_snapshot_json` column on every `insert_decision`. Overlay reads the snapshot — no replay, no divergence.
 - **Name resolution**: `NameResolver` with in-memory cache + `_UNRESOLVED` sentinel for lazy retry. Single service used by RunState (live) and server.py (per-request). Falls through: cache → template_map → api_cards → mark for retry.
-- **Scoring**: `LiveScorer` instantiated per run. `score_decision()` called after each `insert_decision`, writes score_label/score_notes immediately. `rescore_run()` uses same code path with enriched data. No per-poll scoring.
+- **Scoring**: `LiveScorer` instantiated per run. `score_decision()` called after each `insert_decision`, writes score_label/score_notes immediately. Post-run bridge enrichment may fill context fields, but normal app flow should not rescore decisions after the run. No per-poll scoring.
 - **Server split**: server.py is routes only. Business logic in overlay_state.py, review_builder.py, build_helpers.py.
 - **Shop tracking**: `ShopSession` class encapsulates shop visit state (offered/purchased/disposed/rerolls/decisions). RunState delegates via `self._shop`.
 
@@ -107,10 +106,11 @@ Post-run (auto-triggered by watcher on run end):
 
 **Overlay**: PyWebView frameless always-on-top window with three tabs — Coach (live archetype detection + item checklist from the active hero's build catalog), Review (last 10 decisions with score badges), Run (PvP/PvE record + phase guidance). F8 toggle collapse, drag-to-move, idle state handling. Live header stats sourced from latest Mono snapshot during active runs, EndRun snapshot for completed runs. Scores written at decision time via LiveScorer — overlay reads stored scores, no per-poll recomputation.
 
-**Infrastructure**: Waitress production WSGI server, session logging to `logs/`, DB writer queue for non-blocking writes, auto bridge+score on run end, centralized app/settings/cache paths, schema/settings migrations, content/image refresh commands, diagnostics/export support, pytest coverage under `tests/`, Windows installer via PyInstaller + Inno Setup.
+**Infrastructure**: Waitress production WSGI server, session logging to `logs/`, DB writer queue for non-blocking writes, auto bridge enrichment on run end, centralized app/settings/cache paths, schema/settings migrations, content/image refresh commands, diagnostics/export support, pytest coverage under `tests/`, Windows installer via PyInstaller + Inno Setup.
 
 ## Known Quirks (Not Blocking)
 
+- Post-run scoring/rescoring is planned for cleanup. Live scoring should be the source of truth; bridge should enrich metadata without rewriting scores.
 - `fast_dict_fail` rate is ~41% - managed dict is genuinely mid-update when hook fires. JS-side `_lastGoodAttrs` cache covers the gaps (Gold missing = 0%).
 - SelectionSet content-hash cache: `selset_hits` may show 0 if no action-card states were encountered in a run. Cache is ready but triggers only during Choice/Loot/LevelUp states.
 - `_directReadMonoString` auto-detects chars offset on first call (12 or 16 depending on Mono build).

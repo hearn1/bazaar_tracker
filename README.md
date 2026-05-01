@@ -44,6 +44,7 @@ python tracker.py refresh-images
 python tracker.py refresh-images --coverage-only
 ```
 Image coverage is still partial; see `ROADMAP.md` for the remaining Unity asset extraction work.
+Image work is currently paused while waiting for BazaarDB guidance on optional local user-side image caching.
 
 **5. Parse a completed run** (the log file from a previous session):
 ```
@@ -55,11 +56,11 @@ python watcher.py --parse-only
 python watcher.py
 ```
 
-**7. Run the full one-command workflow** (watch log + launch Mono capture + auto bridge/score on run end):
+**7. Run the full one-command workflow** (watch log + launch Mono capture + auto bridge enrichment on run end):
 ```
 <pathToTracker>\venv312\Scripts\python tracker.py
 ```
-This replaces the old three-terminal workflow of `watcher.py`, `capture_mono.py --db`, and `bridge.py --score`.
+This replaces the old three-terminal workflow of `watcher.py`, `capture_mono.py --db`, and manual bridge runs.
 Each run also writes a UTF-8 session log to `logs/tracker_YYYYMMDD_HHMMSS.log`, which is the easiest file to share for debugging.
 
 The current supported workflow lives in `tracker.py`, `watcher.py`, and the modules they invoke.
@@ -151,18 +152,19 @@ for d in decisions:
 | `combat_results` | Combat outcomes with board state at fight time |
 | `card_cache` | Local copy of card names/tiers from the game's CDN |
 
-The `decisions` table has pre-reserved scoring columns:
-- `score_raw` — numeric score (NULL until scoring engine runs)
+The `decisions` table has live scoring columns:
+- `score_raw` — numeric score written by the live scoring path
 - `score_label` — 'optimal' | 'suboptimal' | 'waste'
-- `score_notes` — explanation text
+- `score_notes` — explanation text written at decision time
 
 ## Roadmap
 
 See `ROADMAP.md` for current open work. Current major statuses:
 - Prod readiness / packaging: ready for first GitHub upload; `.gitignore` hygiene and portable build script Python selection are complete.
+- Remove post-run scoring: next cleanup; live scoring should be authoritative and bridge should only enrich metadata.
 - Multi-hero support: partial.
 - Mak depth: partial.
-- Card images: partial.
+- Card images: partial; paused pending BazaarDB response about optional local caching.
 - Event choice scoring: deprioritized.
 
 ## Architecture
