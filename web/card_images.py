@@ -27,7 +27,8 @@ MANIFEST_PATH = IMAGE_DIR / "manifest.json"
 # to the same string as card_cache.name. Keys and values are both already-
 # normalized strings (lowercase, alphanumeric only).
 #
-# Format: normalized_db_name -> normalized_manifest_key
+# Format: normalized_db_name -> normalized_manifest_key. Generated aliases in
+# manifest.json use the same shape and are checked before this manual fallback.
 # Discovered by comparing card_cache display names against Unity asset folder
 # names extracted from Steam card bundles.
 NAME_ALIASES: dict[str, str] = {
@@ -113,9 +114,13 @@ def lookup_image_file(card_name: str) -> Optional[str]:
     """Return the bare image filename for a card name, or None."""
     if not card_name:
         return None
-    by_card_key = _load_manifest().get("by_card_key", {})
+    manifest = _load_manifest()
+    by_card_key = manifest.get("by_card_key", {})
+    aliases = manifest.get("aliases", {})
     normalized = normalize_card_name(card_name)
     entry = by_card_key.get(normalized)
+    if entry is None and normalized in aliases:
+        entry = by_card_key.get(aliases[normalized])
     if entry is None and normalized in NAME_ALIASES:
         entry = by_card_key.get(NAME_ALIASES[normalized])
     if not entry:

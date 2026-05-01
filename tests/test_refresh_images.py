@@ -67,7 +67,7 @@ def test_refresh_images_extracts_manifest_and_reports_coverage(tmp_path, monkeyp
         conn.execute(
             """
             INSERT INTO card_cache (template_id, name, card_type, tier, tags, raw_json, cached_at)
-            VALUES ('tid-test', 'Test Card', 'Item', 'Bronze', '[]', '{}', 'now')
+            VALUES ('tid-test', 'Test Card', 'TCardItem', 'Bronze', '[]', '{}', 'now')
             """
         )
         conn.commit()
@@ -98,3 +98,58 @@ def test_coverage_only_handles_missing_manifest(tmp_path, monkeypatch):
 
     assert coverage["manifest_entries"] == 0
     assert coverage["coverage_count"] == 0
+
+
+def test_generated_aliases_use_catalog_carddata_names(tmp_path):
+    catalog = tmp_path / "catalog.bin"
+    catalog.write_text(
+        'b93909414ed272f498038076e80a5606"NightVisionContacts_CardData.asset',
+        encoding="latin1",
+    )
+    cards = [
+        {
+            "Type": "Item",
+            "InternalName": "Night Vision",
+            "ArtKey": "b93909414ed272f498038076e80a5606",
+            "Localization": {"Title": {"Text": "Night Vision"}},
+        }
+    ]
+
+    aliases = refresh_images.generated_aliases(
+        {"nightvisioncontacts": {"image_file": "CF_S_KAR_NightVisionContacts_D.png"}},
+        catalog_path=catalog,
+        cards=cards,
+    )
+
+    assert aliases == {"nightvision": "nightvisioncontacts"}
+
+
+def test_coverage_report_counts_generated_manifest_aliases(tmp_path, monkeypatch):
+    image_dir = _point_images_at(tmp_path, monkeypatch)
+    image_dir.mkdir(parents=True)
+    (image_dir / "manifest.json").write_text(
+        json.dumps({
+            "by_card_key": {
+                "nightvisioncontacts": {"image_file": "CF_S_KAR_NightVisionContacts_D.png"}
+            },
+            "aliases": {"nightvision": "nightvisioncontacts"},
+        }),
+        encoding="utf-8",
+    )
+    db.init_db()
+    conn = db.get_conn()
+    try:
+        conn.execute(
+            """
+            INSERT INTO card_cache (template_id, name, card_type, tier, tags, raw_json, cached_at)
+            VALUES ('tid-night-vision', 'Night Vision', 'TCardItem', 'Bronze', '[]', '{}', 'now')
+            """
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    coverage = refresh_images.coverage_report(image_dir)
+
+    assert coverage["generated_aliases"] == 1
+    assert coverage["coverage_count"] == 1

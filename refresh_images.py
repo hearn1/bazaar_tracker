@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -123,14 +124,95 @@ def bundle_files(root: Path) -> list[Path]:
 def load_image_manifest(image_dir: Optional[Path] = None) -> dict:
     path = (image_dir or app_paths.image_cache_dir()) / "manifest.json"
     if not path.is_file():
-        return {"by_card_key": {}}
+        return {"by_card_key": {}, "aliases": {}}
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(data, dict) and isinstance(data.get("by_card_key"), dict):
+            if not isinstance(data.get("aliases"), dict):
+                data["aliases"] = {}
             return data
     except (OSError, json.JSONDecodeError):
         pass
-    return {"by_card_key": {}}
+    return {"by_card_key": {}, "aliases": {}}
+
+
+def _latest_cards_from_static_cache() -> list[dict]:
+    cards_path = app_paths.static_cache_dir() / "cards.json"
+    try:
+        data = json.loads(cards_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    if isinstance(data, dict):
+        latest = list(data.values())[-1] if data else []
+    else:
+        latest = data
+    return latest if isinstance(latest, list) else []
+
+
+def _card_display_name(card: dict) -> str:
+    title = ((card.get("Localization") or {}).get("Title") or {}).get("Text")
+    return str(title or card.get("InternalName") or "")
+
+
+def _catalog_guid_carddata_names(catalog_path: Path) -> dict[str, str]:
+    """Return GUID -> nearest CardData asset name from Addressables catalog.bin."""
+    if not catalog_path.is_file():
+        return {}
+    try:
+        text = catalog_path.read_bytes().decode("latin1", errors="ignore")
+    except OSError:
+        return {}
+
+    pattern = re.compile(
+        r"(?P<guid>[0-9a-f]{32}).{0,12}?(?:CF_[A-Z]+_[A-Za-z]{2,5}_)?"
+        r"(?P<name>[A-Za-z0-9_]+)_CardData\.asset",
+        re.DOTALL,
+    )
+    result: dict[str, str] = {}
+    for match in pattern.finditer(text):
+        result.setdefault(match.group("guid"), match.group("name"))
+    return result
+
+
+def _default_catalog_path() -> Path:
+    return Path(
+        r"C:\Program Files (x86)\Steam\steamapps\common\The Bazaar"
+        r"\TheBazaar_Data\StreamingAssets\aa\catalog.bin"
+    )
+
+
+def generated_aliases(
+    by_card_key: dict[str, dict],
+    *,
+    catalog_path: Optional[Path] = None,
+    cards: Optional[list[dict]] = None,
+) -> dict[str, str]:
+    """Build normalized card-name aliases from cards.json ArtKeys and catalog.bin.
+
+    The public content cache may call a card "Night Vision", while Unity card
+    art and manifests call the same art "NightVisionContacts". Addressables
+    catalog.bin links GUID ArtKeys to those CardData asset names, so we can
+    generate aliases instead of growing NAME_ALIASES by hand.
+    """
+    if not by_card_key:
+        return {}
+    cards = cards if cards is not None else _latest_cards_from_static_cache()
+    guid_to_carddata = _catalog_guid_carddata_names(catalog_path or _default_catalog_path())
+    aliases: dict[str, str] = {}
+    for card in cards:
+        if not isinstance(card, dict) or card.get("Type") != "Item":
+            continue
+        source_key = normalize_card_name(_card_display_name(card))
+        if not source_key or source_key in by_card_key:
+            continue
+        art_key = card.get("ArtKey")
+        if not isinstance(art_key, str):
+            continue
+        carddata_name = guid_to_carddata.get(art_key.lower())
+        target_key = normalize_card_name(carddata_name or "")
+        if target_key and target_key in by_card_key:
+            aliases[source_key] = target_key
+    return aliases
 
 
 def card_cache_names(card_type: str = "TCardItem") -> list[str]:
@@ -157,6 +239,7 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
     from web.card_images import NAME_ALIASES
     manifest = load_image_manifest(image_dir)
     by_card_key = manifest.get("by_card_key") or {}
+    aliases = manifest.get("aliases") or {}
     names = card_cache_names()
     normalized_names = {
         normalize_card_name(name): name
@@ -165,7 +248,11 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
     }
     # A name hits if the manifest has a direct key match OR an alias match.
     def resolves(key: str) -> bool:
-        return key in by_card_key or (key in NAME_ALIASES and NAME_ALIASES[key] in by_card_key)
+        return (
+            key in by_card_key
+            or (key in aliases and aliases[key] in by_card_key)
+            or (key in NAME_ALIASES and NAME_ALIASES[key] in by_card_key)
+        )
 
     hits = sorted(k for k in normalized_names if resolves(k))
     missing_keys = sorted(k for k in normalized_names if not resolves(k))
@@ -176,6 +263,7 @@ def coverage_report(image_dir: Optional[Path] = None, *, limit: int = 25) -> dic
     return {
         "image_dir": str(image_dir or app_paths.image_cache_dir()),
         "manifest_entries": len(by_card_key),
+        "generated_aliases": len(aliases),
         "card_cache_names": len(normalized_names),
         "coverage_count": len(hits),
         "coverage_percent": round((len(hits) / len(normalized_names)) * 100, 1) if normalized_names else 0,
@@ -281,8 +369,9 @@ def refresh_images(
         })
 
     manifest_path = out_dir / "manifest.json"
+    aliases = generated_aliases(by_card_key)
     manifest_path.write_text(
-        json.dumps({"by_card_key": by_card_key}, indent=2, sort_keys=True),
+        json.dumps({"by_card_key": by_card_key, "aliases": aliases}, indent=2, sort_keys=True),
         encoding="utf-8",
     )
     coverage = coverage_report(out_dir)
@@ -305,6 +394,7 @@ def print_summary(summary: dict) -> None:
     print(f"  Manifest: {summary.get('manifest_path')}")
     print(f"  Bundles loaded: {summary.get('bundles_loaded')}/{summary.get('bundles_found')}")
     print(f"  Images exported: {summary.get('manifest_entries')}")
+    print(f"  Generated aliases: {coverage.get('generated_aliases', 0)}")
     print(
         "  Coverage: "
         f"{coverage.get('coverage_count', 0)}/{coverage.get('card_cache_names', 0)} "
