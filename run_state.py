@@ -463,6 +463,132 @@ class RunState:
         except Exception as exc:
             print(f"[RunState] LiveScorer.score_decision failed for decision {decision_id}: {exc}")
 
+    def _phase_from_day(self, day: Optional[int]) -> Optional[str]:
+        if day is None:
+            return None
+        if day <= 4:
+            return "early"
+        if day <= 7:
+            return "early_mid"
+        return "late"
+
+    def _mono_states_compatible(self, log_state: str, mono_state: str) -> bool:
+        if not mono_state:
+            return False
+        if log_state == mono_state:
+            return True
+        compatible = {
+            "EncounterState": {"EncounterState", "ShopState"},
+            "ChoiceState": {"ChoiceState"},
+            "LevelUpState": {"LevelUpState"},
+            "LootState": {"LootState"},
+        }
+        return mono_state in compatible.get(log_state, set())
+
+    def _build_live_decision_context(self, game_state: str, offered: list[str]) -> dict:
+        """Attach the freshest compatible Mono snapshot to a Player.log decision.
+
+        Mono is intentionally optional: if capture is absent or slightly late,
+        decisions still insert and LiveScorer falls back to its existing
+        heuristics.
+        """
+        context = {
+            "offered_names": None,
+            "offered_templates": None,
+            "day": None,
+            "hour": None,
+            "gold": None,
+            "health": None,
+            "health_max": None,
+            "api_game_state_id": None,
+            "phase_actual": None,
+        }
+        if not self.run_id:
+            return context
+
+        conn = db.get_conn()
+        try:
+            rows = conn.execute(
+                """
+                SELECT id, run_state, hero, day, hour, gold, health, health_max
+                FROM api_game_states
+                WHERE (? IS NULL OR hero = ? OR hero IS NULL OR hero = '' OR hero = 'Unknown')
+                ORDER BY
+                    CASE WHEN hero = ? THEN 0 ELSE 1 END,
+                    id DESC
+                LIMIT 30
+                """,
+                (self.hero, self.hero, self.hero),
+            ).fetchall()
+            if not rows:
+                return context
+
+            selected = None
+            for row in rows:
+                if self._mono_states_compatible(game_state, row["run_state"] or ""):
+                    selected = row
+                    break
+            selected = selected or rows[0]
+
+            day = selected["day"]
+            context.update({
+                "day": day,
+                "hour": selected["hour"],
+                "gold": selected["gold"],
+                "health": selected["health"],
+                "health_max": selected["health_max"],
+                "api_game_state_id": selected["id"],
+                "phase_actual": self._phase_from_day(day),
+            })
+
+            if offered:
+                placeholders = ",".join("?" for _ in offered)
+                card_rows = conn.execute(
+                    f"""
+                    SELECT instance_id, template_id
+                    FROM api_cards
+                    WHERE game_state_id = ?
+                      AND category = 'offered'
+                      AND instance_id IN ({placeholders})
+                      AND template_id IS NOT NULL
+                      AND template_id != ''
+                    ORDER BY id
+                    """,
+                    (selected["id"], *offered),
+                ).fetchall()
+                templates: dict[str, str] = {}
+                for row in card_rows:
+                    iid = row["instance_id"]
+                    tid = row["template_id"]
+                    if not iid or not tid or card_cache.is_suspicious_template_id(tid):
+                        continue
+                    if iid not in templates:
+                        templates[iid] = tid
+                        self.resolver.notify_template(iid, tid)
+
+                fallback_names = self.resolver.bulk_resolve(offered)
+                names = []
+                for iid in offered:
+                    tid = templates.get(iid, "")
+                    name = card_cache.resolve_template_id(tid) if tid else ""
+                    names.append(name or fallback_names.get(iid) or iid)
+
+                context["offered_templates"] = templates or None
+                context["offered_names"] = names or None
+        except Exception as exc:
+            print(f"[RunState] Live context lookup failed: {exc}")
+        finally:
+            conn.close()
+        return context
+
+    def _score_context_fields(self, context: dict) -> dict:
+        score_context = dict(context)
+        if context.get("offered_names") is not None:
+            score_context["offered_names"] = json.dumps(context["offered_names"])
+        if context.get("offered_templates") is not None:
+            score_context["offered_templates"] = json.dumps(context["offered_templates"])
+        return score_context
+
     def _log_skip(self, ts: str):
         """Log a shop exit with no purchase as a 'skip' decision."""
         offered = list(self.pending_offered)
@@ -474,6 +600,7 @@ class RunState:
         self.decision_seq += 1
         if self.decision_seq > self._max_persisted_seq:
             score_notes_payload = json.dumps({"resolved_names": names, "rerolls": self._shop.reroll_count})
+            live_context = self._build_live_decision_context("EncounterState", offered)
             decision_id = db.insert_decision(
                 run_id=self.run_id,
                 seq=self.decision_seq,
@@ -488,6 +615,7 @@ class RunState:
                 target_socket="",
                 score_notes=score_notes_payload,
                 board_snapshot_json=self.board.snapshot_json(),
+                **live_context,
             )
             self.board.record_snapshot(self.decision_seq)
             self._score_and_write(decision_id, {
@@ -499,10 +627,8 @@ class RunState:
                 "rejected": json.dumps(offered),
                 "board_section": "",
                 "game_state": "EncounterState",
-                "day": None,
-                "phase_actual": None,
-                "offered_names": None,
                 "score_notes": score_notes_payload,
+                **self._score_context_fields(live_context),
             })
             display_names = names[:4]
             suffix = "…" if len(offered) > 4 else ""
@@ -743,6 +869,7 @@ class RunState:
         self._shop.set_inferred_purchase(instance_id, None)
         self.decision_seq += 1
         if self.decision_seq > self._max_persisted_seq:
+            live_context = self._build_live_decision_context("EncounterState", offered)
             decision_id = db.insert_decision(
                 run_id=self.run_id,
                 seq=self.decision_seq,
@@ -757,6 +884,7 @@ class RunState:
                 target_socket="",
                 score_notes='{"inferred_purchase": true}',
                 board_snapshot_json=self.board.snapshot_json(),
+                **live_context,
             )
             self.board.record_snapshot(self.decision_seq)
             self._shop.set_inferred_purchase(instance_id, decision_id)
@@ -769,10 +897,8 @@ class RunState:
                 "rejected": "[]",
                 "board_section": "Player",
                 "game_state": "EncounterState",
-                "day": None,
-                "phase_actual": None,
-                "offered_names": None,
                 "score_notes": '{"inferred_purchase": true}',
+                **self._score_context_fields(live_context),
             })
             name = card_cache.resolve_template_id(template_id) or instance_id
             reroll_str = f" [r{self._shop.reroll_count}]" if self._shop.reroll_count else ""
@@ -888,6 +1014,7 @@ class RunState:
 
         self.decision_seq += 1
         if self.decision_seq > self._max_persisted_seq:
+            live_context = self._build_live_decision_context(self.current_state, offered)
             decision_id = db.insert_decision(
                 run_id=self.run_id,
                 seq=self.decision_seq,
@@ -901,6 +1028,7 @@ class RunState:
                 board_section=section,
                 target_socket=target_socket,
                 board_snapshot_json=self.board.snapshot_json(),
+                **live_context,
             )
             self.board.record_snapshot(self.decision_seq)
             self._shop.add_decision_id(decision_id)
@@ -913,10 +1041,8 @@ class RunState:
                 "rejected": "[]",
                 "board_section": section,
                 "game_state": self.current_state,
-                "day": None,
-                "phase_actual": None,
-                "offered_names": None,
                 "score_notes": None,
+                **self._score_context_fields(live_context),
             })
             name = card_cache.resolve_template_id(template_id) or instance_id
             tag = "🎁" if dtype == "free_reward" else "🛒"
@@ -939,6 +1065,7 @@ class RunState:
 
         self.decision_seq += 1
         if self.decision_seq > self._max_persisted_seq:
+            live_context = self._build_live_decision_context("ChoiceState", offered)
             decision_id = db.insert_decision(
                 run_id=self.run_id,
                 seq=self.decision_seq,
@@ -952,6 +1079,7 @@ class RunState:
                 board_section="Opponent",
                 target_socket=event["target_socket"],
                 board_snapshot_json=self.board.snapshot_json(),
+                **live_context,
             )
             self.board.record_snapshot(self.decision_seq)
             self._score_and_write(decision_id, {
@@ -963,10 +1091,8 @@ class RunState:
                 "rejected": json.dumps(rejected),
                 "board_section": "Opponent",
                 "game_state": "ChoiceState",
-                "day": None,
-                "phase_actual": None,
-                "offered_names": None,
                 "score_notes": None,
+                **self._score_context_fields(live_context),
             })
             name = card_cache.resolve_template_id(template_id) or instance_id
             print(f"[Decision #{self.decision_seq}] 🗺  Event: {name} | Skipped {len(rejected)} others")
@@ -994,6 +1120,7 @@ class RunState:
 
         self.decision_seq += 1
         if self.decision_seq > self._max_persisted_seq:
+            live_context = self._build_live_decision_context(self.current_state, offered)
             decision_id = db.insert_decision(
                 run_id=self.run_id,
                 seq=self.decision_seq,
@@ -1007,6 +1134,7 @@ class RunState:
                 board_section="Player",
                 target_socket=socket,
                 board_snapshot_json=self.board.snapshot_json(),
+                **live_context,
             )
             self.board.record_snapshot(self.decision_seq)
             self._score_and_write(decision_id, {
@@ -1018,10 +1146,8 @@ class RunState:
                 "rejected": json.dumps(rejected),
                 "board_section": "Player",
                 "game_state": self.current_state,
-                "day": None,
-                "phase_actual": None,
-                "offered_names": None,
                 "score_notes": None,
+                **self._score_context_fields(live_context),
             })
         name = card_cache.resolve_template_id(template_id) if template_id else instance_id
         print(f"[Decision #{self.decision_seq}] 🔮 Skill: {name} | Rejected {len(rejected)}")

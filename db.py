@@ -27,7 +27,7 @@ from typing import Optional
 import app_paths
 
 DB_PATH = app_paths.db_path()
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # Shared connection for the live session (only touched by the writer thread
 # once start_writer() is called).
@@ -242,6 +242,26 @@ def _add_column_if_missing(conn: sqlite3.Connection, table: str, column: str, de
         conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
 
+def _rebuild_table(conn: sqlite3.Connection, table: str, columns: list[tuple[str, str]]) -> None:
+    """Rebuild a table into the canonical column set, preserving shared columns."""
+    if not _table_exists(conn, table):
+        return
+
+    existing = _column_names(conn, table)
+    keep = [name for name, _definition in columns if name in existing]
+    tmp = f"_{table}_migration_v{SCHEMA_VERSION}"
+    column_sql = ",\n            ".join(f"{name} {definition}" for name, definition in columns)
+    conn.execute("PRAGMA foreign_keys=OFF")
+    conn.execute(f"DROP TABLE IF EXISTS {tmp}")
+    conn.execute(f"CREATE TABLE {tmp} (\n            {column_sql}\n        )")
+    if keep:
+        cols = ", ".join(keep)
+        conn.execute(f"INSERT INTO {tmp} ({cols}) SELECT {cols} FROM {table}")
+    conn.execute(f"DROP TABLE {table}")
+    conn.execute(f"ALTER TABLE {tmp} RENAME TO {table}")
+    conn.execute("PRAGMA foreign_keys=ON")
+
+
 def _drop_retired_tables(conn: sqlite3.Connection) -> None:
     conn.executescript("""
         DROP TABLE IF EXISTS move_events;
@@ -265,9 +285,7 @@ def _create_latest_tables(conn: sqlite3.Connection) -> None:
             started_at      TEXT,
             ended_at        TEXT,
             outcome         TEXT,
-            raw_log_path    TEXT,
-            api_time_start  TEXT,
-            api_time_end    TEXT
+            raw_log_path    TEXT
         );
 
         CREATE TABLE IF NOT EXISTS decisions (
@@ -283,7 +301,6 @@ def _create_latest_tables(conn: sqlite3.Connection) -> None:
             rejected            TEXT,
             board_section       TEXT,
             target_socket       TEXT,
-            score_raw           REAL,
             score_label         TEXT,
             score_notes         TEXT DEFAULT '',
             board_snapshot_json TEXT,
@@ -306,8 +323,7 @@ def _create_latest_tables(conn: sqlite3.Connection) -> None:
             combat_type     TEXT DEFAULT 'pve',
             duration_secs   REAL,
             player_board    TEXT,
-            opponent_board  TEXT,
-            pvp_resolved    INTEGER DEFAULT 0
+            opponent_board  TEXT
         );
 
         CREATE TABLE IF NOT EXISTS card_cache (
@@ -417,7 +433,7 @@ def _migration_0_to_1(conn: sqlite3.Connection) -> None:
 
 
 def _migration_1_to_2(conn: sqlite3.Connection) -> None:
-    """Centralize bridge/API enrichment schema previously owned elsewhere."""
+    """Centralize API context schema previously owned elsewhere."""
     _drop_retired_tables(conn)
     _create_latest_tables(conn)
     _add_column_if_missing(conn, "combat_results", "combat_type", "TEXT DEFAULT 'pve'")
@@ -443,9 +459,70 @@ def _migration_1_to_2(conn: sqlite3.Connection) -> None:
     _create_latest_indexes(conn)
 
 
+RUN_COLUMNS = [
+    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
+    ("session_id", "TEXT UNIQUE"),
+    ("account_id", "TEXT"),
+    ("hero", "TEXT"),
+    ("started_at", "TEXT"),
+    ("ended_at", "TEXT"),
+    ("outcome", "TEXT"),
+    ("raw_log_path", "TEXT"),
+]
+
+DECISION_COLUMNS = [
+    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
+    ("run_id", "INTEGER REFERENCES runs(id)"),
+    ("decision_seq", "INTEGER"),
+    ("timestamp", "TEXT"),
+    ("game_state", "TEXT"),
+    ("decision_type", "TEXT"),
+    ("offered", "TEXT"),
+    ("chosen_id", "TEXT"),
+    ("chosen_template", "TEXT"),
+    ("rejected", "TEXT"),
+    ("board_section", "TEXT"),
+    ("target_socket", "TEXT"),
+    ("score_label", "TEXT"),
+    ("score_notes", "TEXT DEFAULT ''"),
+    ("board_snapshot_json", "TEXT"),
+    ("offered_names", "TEXT"),
+    ("offered_templates", "TEXT"),
+    ("day", "INTEGER"),
+    ("hour", "INTEGER"),
+    ("gold", "INTEGER"),
+    ("health", "INTEGER"),
+    ("health_max", "INTEGER"),
+    ("api_game_state_id", "INTEGER"),
+    ("phase_actual", "TEXT"),
+]
+
+COMBAT_COLUMNS = [
+    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
+    ("run_id", "INTEGER REFERENCES runs(id)"),
+    ("timestamp", "TEXT"),
+    ("outcome", "TEXT"),
+    ("combat_type", "TEXT DEFAULT 'pve'"),
+    ("duration_secs", "REAL"),
+    ("player_board", "TEXT"),
+    ("opponent_board", "TEXT"),
+]
+
+
+def _migration_2_to_3(conn: sqlite3.Connection) -> None:
+    """Drop bridge/post-run artifacts while preserving live decision context."""
+    _drop_retired_tables(conn)
+    _create_latest_tables(conn)
+    _rebuild_table(conn, "runs", RUN_COLUMNS)
+    _rebuild_table(conn, "decisions", DECISION_COLUMNS)
+    _rebuild_table(conn, "combat_results", COMBAT_COLUMNS)
+    _create_latest_indexes(conn)
+
+
 MIGRATIONS = {
     0: _migration_0_to_1,
     1: _migration_1_to_2,
+    2: _migration_2_to_3,
 }
 
 
@@ -551,12 +628,31 @@ def insert_decision(run_id: int, seq: int, timestamp: str, game_state: str,
                     chosen_template: str, rejected: list,
                     board_section: str, target_socket: str,
                     score_notes: str = "",
-                    board_snapshot_json: str = "") -> int:
+                    board_snapshot_json: str = "",
+                    *,
+                    offered_names: Optional[list] = None,
+                    offered_templates: Optional[dict] = None,
+                    day: Optional[int] = None,
+                    hour: Optional[int] = None,
+                    gold: Optional[int] = None,
+                    health: Optional[int] = None,
+                    health_max: Optional[int] = None,
+                    api_game_state_id: Optional[int] = None,
+                    phase_actual: Optional[str] = None) -> int:
     return _enqueue_with_result(
         _insert_decision_impl,
         run_id, seq, timestamp, game_state, decision_type, offered,
         chosen_id, chosen_template, rejected, board_section, target_socket,
         score_notes, board_snapshot_json,
+        offered_names=offered_names,
+        offered_templates=offered_templates,
+        day=day,
+        hour=hour,
+        gold=gold,
+        health=health,
+        health_max=health_max,
+        api_game_state_id=api_game_state_id,
+        phase_actual=phase_actual,
     )
 
 
@@ -565,19 +661,33 @@ def _insert_decision_impl(run_id: int, seq: int, timestamp: str, game_state: str
                            chosen_template: str, rejected: list,
                            board_section: str, target_socket: str,
                            score_notes: str = "",
-                           board_snapshot_json: str = "") -> int:
+                           board_snapshot_json: str = "",
+                           *,
+                           offered_names: Optional[list] = None,
+                           offered_templates: Optional[dict] = None,
+                           day: Optional[int] = None,
+                           hour: Optional[int] = None,
+                           gold: Optional[int] = None,
+                           health: Optional[int] = None,
+                           health_max: Optional[int] = None,
+                           api_game_state_id: Optional[int] = None,
+                           phase_actual: Optional[str] = None) -> int:
     conn = get_shared_conn()
     cur = conn.execute("""
         INSERT INTO decisions
             (run_id, decision_seq, timestamp, game_state, decision_type,
              offered, chosen_id, chosen_template, rejected, board_section, target_socket,
-             score_notes, board_snapshot_json)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             score_notes, board_snapshot_json, offered_names, offered_templates,
+             day, hour, gold, health, health_max, api_game_state_id, phase_actual)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         RETURNING id
     """, (run_id, seq, timestamp, game_state, decision_type,
           json.dumps(offered), chosen_id, chosen_template,
           json.dumps(rejected), board_section, target_socket, score_notes,
-          board_snapshot_json or None))
+          board_snapshot_json or None,
+          json.dumps(offered_names) if offered_names is not None else None,
+          json.dumps(offered_templates) if offered_templates is not None else None,
+          day, hour, gold, health, health_max, api_game_state_id, phase_actual))
     dec_id = cur.fetchone()[0]
     return dec_id
 
@@ -586,7 +696,7 @@ def update_decision_score(decision_id: int, label: Optional[str], notes: Optiona
     """Write score_label and score_notes back to a decision row.
 
     Called by LiveScorer immediately after insert_decision so scores are
-    available on the next overlay poll without waiting for bridge/rescore.
+    available on the next overlay poll.
     Fire-and-forget — no return value needed.
     """
     _enqueue_fire_and_forget(_update_decision_score_impl, decision_id, label, notes)

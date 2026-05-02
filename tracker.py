@@ -2,8 +2,8 @@
 tracker.py — Unified Bazaar tracker runner.
 
 Starts the Player.log watcher in-process and, by default, launches the
-Mono capture pipeline in a background subprocess. When a run completes,
-watcher.py automatically invokes bridge.py and scorer.py.
+Mono capture pipeline in a background subprocess. Decisions are scored live
+as RunState records them; run completion closes the run and flushes writes.
 
 Graceful shutdown is triggered by:
   - Ctrl+C (SIGINT) / Task Manager (SIGTERM)
@@ -280,7 +280,7 @@ def main():
     log_handle, original_stdout, original_stderr = start_session_logging()
     
     parser = argparse.ArgumentParser(
-        description="Unified Bazaar tracker runner (watcher + Flask dashboard + overlay + mono capture + auto bridge/scoring)"
+        description="Unified Bazaar tracker runner (watcher + Flask dashboard + overlay + mono capture)"
     )
     parser.add_argument("--log", type=str, default=None,
                         help="Path to Player.log (auto-detected if omitted)")

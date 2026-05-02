@@ -1,30 +1,22 @@
 """
-bridge.py — Post-hoc enrichment bridge between the two capture pipelines.
+bridge.py — Manual diagnostics for comparing Player.log decisions with Mono capture.
 
 Pipeline A (Player.log):  runs, decisions, combat_results
 Pipeline B (Mono capture): api_game_states, api_cards
 
-This module enriches Pipeline A's decision records with Pipeline B's richer data:
-  Step 1: Run Correlation     — match api_game_states to runs by time + hero
-  Step 2: Decision Enrichment — fill day/gold/health/phase_actual for NULL rows
-  Step 3: Combat Enrichment   — resolve PvP outcomes from victory/defeat diffs
+RunState now attaches live Mono context before each decision is scored.
+This module is kept as a manual diagnostic/reporting tool and does not mutate
+decisions, combats, runs, score_label, or score_notes.
 
 Usage:
-    python bridge.py                       # enrich most recent run
-    python bridge.py --run-id 3            # enrich specific run
-    python bridge.py --run-id 3 --dry-run  # preview without DB writes
-    python bridge.py --all                 # enrich all runs
-    python bridge.py --score               # enrich + re-score most recent run
+    python bridge.py                       # inspect most recent run correlation
+    python bridge.py --run-id 3            # inspect specific run
+    python bridge.py --all                 # inspect all runs
+    python bridge.py --report              # print stored live context coverage
 
 Architecture:
-    bridge.py reads from both table sets in bazaar_runs.db, correlates them,
-    and writes enrichment data back into Pipeline A tables. Scorer runs
-    unchanged afterward, but now has access to:
-      - Full offered set with resolved names for every decision
-      - Actual day/hour for phase detection
-      - PvP win/loss from victory/defeat count diffs
-      - Gold/HP at every decision point
-      - Board state snapshots
+    bridge.py reads from both table sets in bazaar_runs.db and reports
+    correlation candidates. Normal tracker flow never calls this module.
 """
 
 import json
@@ -36,22 +28,8 @@ from typing import Any, Optional
 import db
 import card_cache
 
-# ── Schema migrations for enrichment columns ────────────────────────────────
-
-def _ts_diff_seconds(ts_a: str, ts_b: str) -> float:
-    """Return absolute difference in seconds between two ISO-8601 timestamps.
-    Returns a large number if either timestamp is missing or unparseable."""
-    try:
-        from datetime import timezone
-        a = datetime.fromisoformat(ts_a.replace("Z", "+00:00"))
-        b = datetime.fromisoformat(ts_b.replace("Z", "+00:00"))
-        return abs((a - b).total_seconds())
-    except Exception:
-        return 1e18
-
-
 def ensure_enrichment_schema(conn: Optional[sqlite3.Connection] = None):
-    """Compatibility wrapper; DB migrations now own enrichment schema."""
+    """Compatibility wrapper; DB migrations own live-context schema."""
     return db.ensure_schema(conn)
 
 
@@ -418,346 +396,9 @@ def _run_outcome_ordinal(conn: sqlite3.Connection, run_id: int,
 #  STEP 2: Decision Enrichment
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def enrich_decisions(conn: sqlite3.Connection, run_id: int,
-                     api_states: list[dict], dry_run: bool = False) -> int:
-    """
-    For each decision in the run where day/gold/health/phase_actual are NULL,
-    find the nearest api_game_states row by timestamp and fill those columns.
-
-    Returns count of decision rows updated.
-    """
-    decisions = conn.execute("""
-        SELECT id, timestamp FROM decisions
-        WHERE run_id = ?
-          AND (day IS NULL OR gold IS NULL OR health IS NULL OR phase_actual IS NULL)
-        ORDER BY decision_seq
-    """, (run_id,)).fetchall()
-
-    if not decisions or not api_states:
-        return 0
-
-    enriched = 0
-    for d in decisions:
-        d_ts = d["timestamp"] or ""
-        # Find nearest api_game_state by timestamp (simple linear scan;
-        # list is small enough that binary search is not needed).
-        best_gs = min(
-            api_states,
-            key=lambda s: abs(
-                _ts_diff_seconds(d_ts, s.get("captured_at") or "")
-            ),
-        )
-
-        day = best_gs.get("day")
-        hour = best_gs.get("hour")
-        gold = best_gs.get("gold")
-        health = best_gs.get("health")
-        health_max = best_gs.get("health_max")
-        phase_actual = _day_to_phase(day) if day else None
-
-        if not dry_run:
-            conn.execute("""
-                UPDATE decisions SET
-                    day = COALESCE(day, ?),
-                    hour = COALESCE(hour, ?),
-                    gold = COALESCE(gold, ?),
-                    health = COALESCE(health, ?),
-                    health_max = COALESCE(health_max, ?),
-                    api_game_state_id = COALESCE(api_game_state_id, ?),
-                    phase_actual = COALESCE(phase_actual, ?)
-                WHERE id = ?
-            """, (day, hour, gold, health, health_max,
-                  best_gs["id"], phase_actual,
-                  d["id"]))
-        enriched += 1
-
-    if not dry_run and enriched:
-        conn.commit()
-
-    tag = "DRY" if dry_run else "   "
-    print(f"  [{tag}] Filled {enriched} decision row(s) from api_game_states")
-    return enriched
-
-
-def _day_to_phase(day: int) -> str:
-    """Convert in-game day number to phase label."""
-    if day <= 4:
-        return "early"
-    elif day <= 7:
-        return "early_mid"
-    else:
-        return "late"
-
-
-def enrich_offered_names(
-    conn: sqlite3.Connection,
-    run_id: int,
-    api_states: list[dict],
-    dry_run: bool = False,
-) -> int:
-    """
-    Backfill decisions.offered_names and decisions.offered_templates using
-    api_cards instance→template mappings from correlated api_game_states.
-
-    Only fills rows where offered_names is currently NULL.
-    Returns count of decision rows updated.
-    """
-    if not api_states:
-        return 0
-
-    state_ids = [s["id"] for s in api_states if s.get("id")]
-    if not state_ids:
-        return 0
-
-    placeholders = ",".join("?" * len(state_ids))
-    rows = conn.execute(
-        f"""
-        SELECT DISTINCT instance_id, template_id
-        FROM api_cards
-        WHERE game_state_id IN ({placeholders})
-          AND instance_id IS NOT NULL AND instance_id != ''
-          AND template_id IS NOT NULL AND template_id != ''
-        """,
-        state_ids,
-    ).fetchall()
-
-    api_template_map: dict[str, str] = {}
-    for r in rows:
-        iid = r["instance_id"]
-        tid = r["template_id"]
-        if iid and tid and iid not in api_template_map:
-            if not card_cache.is_suspicious_template_id(tid):
-                api_template_map[iid] = tid
-
-    if not api_template_map:
-        return 0
-
-    decisions = conn.execute(
-        """
-        SELECT id, offered
-        FROM decisions
-        WHERE run_id = ? AND offered_names IS NULL
-        ORDER BY decision_seq
-        """,
-        (run_id,),
-    ).fetchall()
-
-    updated = 0
-    for d in decisions:
-        offered_raw: list[str] = json.loads(d["offered"] or "[]")
-        if not offered_raw:
-            continue
-
-        names = []
-        templates: dict[str, str] = {}
-        for iid in offered_raw:
-            tid = api_template_map.get(iid, "")
-            name = card_cache.resolve_template_id(tid) if tid else ""
-            names.append(name or iid)
-            if tid:
-                templates[iid] = tid
-
-        if not dry_run:
-            conn.execute(
-                """
-                UPDATE decisions
-                SET offered_names = ?,
-                    offered_templates = COALESCE(offered_templates, ?)
-                WHERE id = ?
-                """,
-                (json.dumps(names), json.dumps(templates) if templates else None, d["id"]),
-            )
-        updated += 1
-
-    if not dry_run and updated:
-        conn.commit()
-
-    tag = "DRY" if dry_run else "   "
-    print(f"  [{tag}] Filled offered_names for {updated} decision row(s) from api_cards")
-    return updated
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 #  STEP 3: Combat Enrichment
 # ═══════════════════════════════════════════════════════════════════════════════
-
-def enrich_combat(conn: sqlite3.Connection, run_id: int,
-                  api_states: list[dict], dry_run: bool = False) -> int:
-    """
-    Resolve PvP outcomes by diffing consecutive victory/defeat counts
-    in api_game_states around combat transitions.
-
-    Returns count of resolved combats.
-    """
-    combats = conn.execute("""
-        SELECT * FROM combat_results
-        WHERE run_id = ?
-        ORDER BY id
-    """, (run_id,)).fetchall()
-
-    if not combats or not api_states:
-        return 0
-
-    # Find combat transitions in api_states (state changes into/out of Combat/PVPCombat)
-    combat_transitions = []
-    for i in range(1, len(api_states)):
-        prev_state = api_states[i - 1].get("run_state", "")
-        curr_state = api_states[i].get("run_state", "")
-
-        # Detect transition OUT of combat (combat just ended)
-        if prev_state in ("Combat", "PVPCombat", "Replay") and curr_state not in ("Combat", "PVPCombat", "Replay"):
-            combat_transitions.append({
-                "pre_combat": api_states[i - 1],
-                "post_combat": api_states[i],
-                "combat_type": "pvp" if "PVP" in prev_state else "pve",
-                "index": i,
-            })
-
-    # Also check action_events for state_change events
-    if not combat_transitions:
-        # Fall back to diffing victories/defeats across all states
-        combat_transitions = _infer_combats_from_vd_diffs(api_states)
-
-    resolved = 0
-    transition_cursor = 0
-
-    # Dedup protection — a single combat transition (pre_state.id,
-    # post_state.id) must never be attributed to more than one
-    # combat_results row. _match_combat_to_transition already advances its
-    # cursor but, across retries / partial runs, the same cursor slot could
-    # be handed out twice. Track explicitly to make this invariant stick.
-    consumed_transition_keys: set[tuple] = set()
-
-    # Also dedup the target: a single combat_results row should never be
-    # flipped more than once per bridge invocation, even if the outer
-    # transition scan somehow loops. (Belt-and-braces — the row
-    # already-resolved guards below should make this unreachable.)
-    updated_combat_ids: set[int] = set()
-
-    for combat_row in combats:
-        combat_row = dict(combat_row)
-
-        if combat_row.get("pvp_resolved"):
-            continue  # already resolved
-
-        if combat_row.get("outcome") in ("opponent_died", "player_died"):
-            continue  # already definitively classified by run_state
-
-        if combat_row.get("combat_type") not in ("pvp", "pvp_unknown"):
-            # PvE outcomes are already determined upstream by Player.log; nothing to enrich here.
-            continue
-
-        if combat_row["id"] in updated_combat_ids:
-            continue
-
-        # Find the closest combat transition, skipping any that a previous
-        # iteration already consumed.
-        while True:
-            transition_cursor, best_ct = _match_combat_to_transition(
-                combat_row,
-                combat_transitions,
-                transition_cursor,
-            )
-            if not best_ct:
-                break
-            transition_key = (
-                best_ct.get("pre_combat", {}).get("id"),
-                best_ct.get("post_combat", {}).get("id"),
-            )
-            if transition_key in consumed_transition_keys:
-                # Skip over a duplicate and try the next compatible one.
-                continue
-            consumed_transition_keys.add(transition_key)
-            break
-
-        if not best_ct:
-            continue
-
-        pre = best_ct.get("pre_combat", {})
-        post = best_ct.get("post_combat", {})
-
-        pre_v = pre.get("victories") or 0
-        pre_d = pre.get("defeats") or 0
-        post_v = post.get("victories") or 0
-        post_d = post.get("defeats") or 0
-
-        outcome = None
-        if post_v > pre_v:
-            outcome = "opponent_died"  # we won
-        elif post_d > pre_d:
-            outcome = "player_died"    # we lost
-        # else: no change detected, leave as-is
-
-        if outcome and not dry_run:
-            # Guard against no-op churn: only write if something would
-            # actually change. This keeps repeated bridge runs idempotent
-            # and avoids the "duplicate/misattributed entries from bridge
-            # enrichment" pattern called out in the roadmap.
-            prev_outcome = combat_row.get("outcome")
-            prev_type = combat_row.get("combat_type")
-            if prev_outcome == outcome and prev_type == "pvp" and combat_row.get("pvp_resolved"):
-                continue
-            conn.execute("""
-                UPDATE combat_results
-                SET outcome = ?, combat_type = 'pvp', pvp_resolved = 1
-                WHERE id = ? AND pvp_resolved = 0
-            """, (outcome, combat_row["id"]))
-            updated_combat_ids.add(combat_row["id"])
-            resolved += 1
-            icon = "✅ WIN" if outcome == "opponent_died" else "❌ LOSS"
-            print(f"  [PVP] {icon} (V: {pre_v}→{post_v}, D: {pre_d}→{post_d})")
-        elif outcome and dry_run:
-            icon = "✅ WIN" if outcome == "opponent_died" else "❌ LOSS"
-            print(f"  [DRY PVP] {icon} (V: {pre_v}→{post_v}, D: {pre_d}→{post_d})")
-            resolved += 1
-
-    if not dry_run:
-        conn.commit()
-
-    return resolved
-
-
-def _infer_combats_from_vd_diffs(api_states: list[dict]) -> list[dict]:
-    """
-    Infer combat boundaries from changes in victory/defeat counts.
-    """
-    transitions = []
-    for i in range(1, len(api_states)):
-        prev = api_states[i - 1]
-        curr = api_states[i]
-
-        prev_v = prev.get("victories") or 0
-        prev_d = prev.get("defeats") or 0
-        curr_v = curr.get("victories") or 0
-        curr_d = curr.get("defeats") or 0
-
-        if curr_v > prev_v or curr_d > prev_d:
-            transitions.append({
-                "pre_combat": prev,
-                "post_combat": curr,
-                "combat_type": "pvp",  # V/D changes only happen in PvP
-                "index": i,
-            })
-
-    return transitions
-
-
-def _match_combat_to_transition(combat: dict, transitions: list[dict],
-                                start_idx: int = 0) -> tuple[int, Optional[dict]]:
-    """Match a combat_results row to the next compatible combat transition."""
-    if not transitions:
-        return start_idx, None
-
-    combat_type = combat.get("combat_type")
-    wanted_type = None if combat_type in (None, "pvp_unknown") else combat_type
-
-    for idx in range(start_idx, len(transitions)):
-        transition = transitions[idx]
-        if wanted_type is None or transition.get("combat_type") == wanted_type:
-            return idx + 1, transition
-
-    return len(transitions), None
-
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  Main orchestrator
@@ -765,15 +406,16 @@ def _match_combat_to_transition(combat: dict, transitions: list[dict],
 
 def enrich_run(run_id: int, dry_run: bool = False) -> dict:
     """
-    Run the full enrichment pipeline for a single run.
+    Manual-only compatibility wrapper.
 
-    Returns a summary dict:
-      {correlated: int, decisions_enriched: int, combats_resolved: int}
+    Older versions used this function to mutate runs/decisions/combats after a
+    run ended. Normal scoring is live-only now, so this function only reports
+    correlation candidates and leaves stored scores/context untouched.
     """
     conn = db.get_conn()
     try:
         ensure_enrichment_schema(conn)
-        result = {"correlated": 0, "decisions_enriched": 0, "combats_resolved": 0, "names_filled": 0}
+        result = {"correlated": 0}
 
         # Step 1: Run Correlation
         api_states = correlate_run(conn, run_id)
@@ -784,39 +426,11 @@ def enrich_run(run_id: int, dry_run: bool = False) -> dict:
                   f"Run capture_mono.py alongside watcher.py to capture API data.")
             return result
 
-        if not dry_run:
-            conn.execute("""
-                UPDATE runs
-                SET api_time_start = ?, api_time_end = ?
-                WHERE id = ?
-            """, (
-                api_states[0].get("captured_at"),
-                api_states[-1].get("captured_at"),
-                run_id,
-            ))
-            conn.commit()
-
-        # Step 2: Decision Enrichment (includes Steps 4 & 5: phase + gold/HP)
-        print(f"\n[Bridge] Step 2: Enriching decisions...")
-        result["decisions_enriched"] = enrich_decisions(conn, run_id, api_states, dry_run)
-
-        # Step 3: Combat Enrichment
-        print(f"\n[Bridge] Step 3: Resolving combat outcomes...")
-        result["combats_resolved"] = enrich_combat(conn, run_id, api_states, dry_run)
-
-        # Step 4: Offered Names Backfill
-        print(f"\n[Bridge] Step 4: Backfilling offered item names...")
-        result["names_filled"] = enrich_offered_names(conn, run_id, api_states, dry_run)
-
         # Summary
         print(f"\n{'─' * 60}")
-        print(f"  Bridge Summary for Run {run_id}")
+        print(f"  Bridge Diagnostic Summary for Run {run_id}")
         print(f"  API snapshots correlated: {result['correlated']}")
-        print(f"  Decisions enriched:       {result['decisions_enriched']}")
-        print(f"  PvP combats resolved:     {result['combats_resolved']}")
-        print(f"  Offered names filled:     {result['names_filled']}")
-        mode = "DRY RUN — no DB changes" if dry_run else "Changes written to DB"
-        print(f"  Mode: {mode}")
+        print(f"  Mode: manual diagnostics only — no DB changes")
         print(f"{'─' * 60}\n")
 
         return result
@@ -881,18 +495,16 @@ def print_enrichment_report(run_id: int):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Bridge: enrich Pipeline A decisions with Pipeline B capture data"
+        description="Bridge diagnostics: compare Player.log runs with Mono capture without writing"
     )
     parser.add_argument("--run-id", type=int, default=None,
-                        help="Run ID to enrich (default: most recent)")
+                        help="Run ID to inspect (default: most recent)")
     parser.add_argument("--all", action="store_true",
-                        help="Enrich all runs in the database")
+                        help="Inspect all runs in the database")
     parser.add_argument("--dry-run", action="store_true",
-                        help="Preview enrichment without writing to DB")
+                        help="Compatibility no-op; bridge diagnostics never write")
     parser.add_argument("--report", action="store_true",
                         help="Print enrichment report for a run")
-    parser.add_argument("--score", action="store_true",
-                        help="Re-score the run after enrichment")
     args = parser.parse_args()
 
     db.init_db()
@@ -925,13 +537,7 @@ def main():
         conn.close()
 
     for rid in run_ids:
-        result = enrich_run(rid, dry_run=args.dry_run)
-
-        if args.score and result["decisions_enriched"] > 0 and not args.dry_run:
-            print("[Bridge] Re-scoring with enriched data...")
-            import scorer
-            scored = scorer.score_run(rid)
-            scorer.print_report(scored, rid)
+        enrich_run(rid, dry_run=True)
 
 if __name__ == "__main__":
     main()
