@@ -463,6 +463,44 @@
       line-height: 1.45;
     }
 
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-head .section-title {
+      margin-bottom: 0;
+    }
+
+    .collapse-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font: 700 14px/1 var(--mono);
+    }
+
+    .collapse-toggle:hover {
+      border-color: rgba(230, 169, 32, 0.28);
+      color: #fff0c7;
+    }
+
+    .collapse-summary {
+      margin: 2px 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
     .list-group + .list-group { margin-top: 18px; }
 
     .list-label {
@@ -1181,6 +1219,7 @@
     const POLL_MS = 2000;
     const MANUAL_ARCH_KEY = "overlay_manual_arch";
     const COLLAPSED_KEY = "overlay_collapsed";
+    const COACH_SECTION_COLLAPSE_KEY = "overlay_coach_section_collapsed";
     const EXPANDED_SIZE_KEY = "overlay_expanded_size";
     const DISMISSED_RUN_KEY = "overlay_dismissed_run_id";
     const COLLAPSED_HEIGHT = 104;
@@ -1214,6 +1253,7 @@
     let lastStateSignature = "";
     let activeTab = "coach";
     let isCollapsed = localStorage.getItem(COLLAPSED_KEY) === "true";
+    let coachSectionCollapsed = loadCoachSectionCollapsed();
     let resizeSession = null;
     let moveSession = null;
     let resizeFramePending = false;
@@ -1222,6 +1262,51 @@
     let pendingMovePosition = null;
     let pywebviewApiReady = false;
     let cardSearchQuery = "";
+
+    function loadCoachSectionCollapsed() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(COACH_SECTION_COLLAPSE_KEY) || "{}");
+        return parsed && typeof parsed === "object" ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function storeCoachSectionCollapsed() {
+      localStorage.setItem(COACH_SECTION_COLLAPSE_KEY, JSON.stringify(coachSectionCollapsed));
+    }
+
+    function getCoachSectionKey(kind, name = "") {
+      const hero = String(buildCatalog.hero || overlayState?.hero || "unknown").trim() || "unknown";
+      return `${hero}:${kind}:${name}`;
+    }
+
+    function isCoachSectionCollapsed(key, defaultValue = false) {
+      if (Object.prototype.hasOwnProperty.call(coachSectionCollapsed, key)) {
+        return Boolean(coachSectionCollapsed[key]);
+      }
+      return defaultValue;
+    }
+
+    function toggleCoachSection(key) {
+      coachSectionCollapsed[key] = !isCoachSectionCollapsed(key);
+      storeCoachSectionCollapsed();
+      render();
+    }
+
+    function renderCollapseButton(key, collapsed, label) {
+      return `
+        <button
+          class="collapse-toggle"
+          type="button"
+          title="${escapeHtml(collapsed ? `Expand ${label}` : `Collapse ${label}`)}"
+          aria-label="${escapeHtml(collapsed ? `Expand ${label}` : `Collapse ${label}`)}"
+          aria-expanded="${collapsed ? "false" : "true"}"
+          data-collapse-key="${escapeHtml(key)}"
+        >${collapsed ? "+" : "-"}</button>
+      `;
+    }
+
     function compactItems(items) {
       return (items || []).filter(Boolean);
     }
@@ -1405,6 +1490,11 @@
       return buildCatalog.archetypes.find((arch) => arch.name === name) || null;
     }
 
+    function getArchetypeByIndex(index) {
+      const parsed = Number(index);
+      return Number.isInteger(parsed) ? buildCatalog.archetypes[parsed] || null : null;
+    }
+
     function getHeroNotes() {
       return buildCatalog.heroNotes || "Hero notes unavailable.";
     }
@@ -1429,6 +1519,13 @@
     function setManualArch(name) {
       localStorage.setItem(MANUAL_ARCH_KEY, name);
       render();
+    }
+
+    function setManualArchByIndex(index) {
+      const arch = getArchetypeByIndex(index);
+      if (arch?.name) {
+        setManualArch(arch.name);
+      }
     }
 
     function clearManualArch() {
@@ -1739,7 +1836,8 @@
       }
 
       if (pivotTarget) {
-        const matched = pivotTarget.matchedItems.slice(0, 3).join(", ") || "multiple on-board pieces";
+        const matchedItems = Array.isArray(pivotTarget.matchedItems) ? pivotTarget.matchedItems : [];
+        const matched = matchedItems.slice(0, 3).join(", ") || "multiple on-board pieces";
         alerts.push({
           tone: "info",
           title: "Pivot Signal",
@@ -1874,7 +1972,10 @@
     function renderOverrides(coach, state) {
       const manualName = coach.manualArch?.name || "";
       const archScores = state?.arch_scores || [];
-      const buttons = buildCatalog.archetypes.map((arch) => {
+      const collapseKey = getCoachSectionKey("overrides");
+      const defaultCollapsed = buildCatalog.archetypes.length > 4;
+      const collapsed = isCoachSectionCollapsed(collapseKey, defaultCollapsed);
+      const buttons = buildCatalog.archetypes.map((arch, index) => {
         const serverEntry = archScores.find((e) => e.name === arch.name);
         const rawScore = serverEntry?.raw_score ?? serverEntry?.score ?? 0;
         const scorePercent = Math.round(rawScore * 100);
@@ -1883,7 +1984,7 @@
         <button
           class="override-btn ${tone} ${manualName === arch.name ? "active" : ""}"
           type="button"
-          data-arch="${escapeHtml(arch.name)}"
+          data-arch-index="${escapeHtml(index)}"
         >
           <span class="override-name">${escapeHtml(arch.name)}</span>
           <span class="override-score">${escapeHtml(`${scorePercent}%`)}</span>
@@ -1894,17 +1995,26 @@
       return `
         <section class="section">
           <div class="section-kicker">Build override</div>
-          <h3 class="section-title">Manual selection</h3>
-          <div class="override-grid">
-            <button class="override-btn auto ${coach.isManual ? "" : "active"}" type="button" data-auto="true">Auto</button>
-            ${buttons}
+          <div class="section-head">
+            <h3 class="section-title">Manual selection</h3>
+            ${renderCollapseButton(collapseKey, collapsed, "manual selection")}
           </div>
-          <div class="override-note">Weighted fit: 50% core, 35% carry, 15% support.</div>
+          ${collapsed ? `
+            <div class="collapse-summary">
+              ${escapeHtml(coach.isManual ? `Manual: ${manualName}` : `Auto: ${coach.activeArch?.name || "No fit yet"}`)}
+            </div>
+          ` : `
+            <div class="override-grid">
+              <button class="override-btn auto ${coach.isManual ? "" : "active"}" type="button" data-auto="true">Auto</button>
+              ${buttons}
+            </div>
+            <div class="override-note">Weighted fit: 50% core, 35% carry, 15% support.</div>
+          `}
         </section>
       `;
     }
 
-    function renderItemGroup(title, tone, items, ownedNames) {
+    function renderItemGroup(title, tone, items, ownedNames, activeArchName = "") {
       const colorMap = {
         core: "var(--amber)",
         carry: "var(--blue)",
@@ -1919,6 +2029,9 @@
       const compact = compactItems(items);
       const ownedCount = compact.filter((item) => ownedNames.includes(item)).length;
       const pct = compact.length ? Math.round((ownedCount / compact.length) * 100) : 0;
+      const collapseKey = getCoachSectionKey(`checklist-${tone}`, activeArchName);
+      const defaultCollapsed = compact.length > 5 && tone !== "core" && ownedCount === 0;
+      const collapsed = isCoachSectionCollapsed(collapseKey, defaultCollapsed);
 
       const rows = compact.map((item) => {
         const owned = ownedNames.includes(item);
@@ -1938,18 +2051,19 @@
 
       return `
         <div class="list-group" style="color:${colorMap[tone]}">
-          <div class="slot-head">
-            <div class="slot-head-row">
-              <div class="slot-pill">
-                <span class="slot-dot"></span>
-                <span class="list-label">${escapeHtml(title)}</span>
+            <div class="slot-head">
+              <div class="slot-head-row">
+                <div class="slot-pill">
+                  <span class="slot-dot"></span>
+                  <span class="list-label">${escapeHtml(title)}</span>
+                </div>
+                <span class="slot-count">${escapeHtml(`${ownedCount}/${compact.length}`)}</span>
+                <span class="slot-blurb">${escapeHtml(blurbMap[tone] || "")}</span>
+                ${compact.length > 3 ? renderCollapseButton(collapseKey, collapsed, `${title} items`) : ""}
               </div>
-              <span class="slot-count">${escapeHtml(`${ownedCount}/${compact.length}`)}</span>
-              <span class="slot-blurb">${escapeHtml(blurbMap[tone] || "")}</span>
+              <div class="slot-progress"><div class="slot-progress-fill" style="width:${pct}%"></div></div>
             </div>
-            <div class="slot-progress"><div class="slot-progress-fill" style="width:${pct}%"></div></div>
-          </div>
-          <div class="item-list">${rows || `<div class="note">No items listed.</div>`}</div>
+          ${collapsed ? `<div class="collapse-summary">${escapeHtml(compact.slice(0, 4).join(", ") || "No items listed.")}${compact.length > 4 ? "..." : ""}</div>` : `<div class="item-list">${rows || `<div class="note">No items listed.</div>`}</div>`}
         </div>
       `;
     }
@@ -1959,9 +2073,9 @@
         <section class="section">
           <div class="section-kicker">What to look for</div>
           <h3 class="section-title">Item checklist</h3>
-          ${renderItemGroup("Core", "core", coach.activeArch?.core_items, coach.ownedNames)}
-          ${renderItemGroup("Carry", "carry", coach.activeArch?.carry_items, coach.ownedNames)}
-          ${renderItemGroup("Support", "support", coach.activeArch?.support_items, coach.ownedNames)}
+          ${renderItemGroup("Core", "core", coach.activeArch?.core_items, coach.ownedNames, coach.activeArch?.name)}
+          ${renderItemGroup("Carry", "carry", coach.activeArch?.carry_items, coach.ownedNames, coach.activeArch?.name)}
+          ${renderItemGroup("Support", "support", coach.activeArch?.support_items, coach.ownedNames, coach.activeArch?.name)}
         </section>
       `;
     }
@@ -2304,48 +2418,16 @@
         </div>
       `;
 
-      root.querySelectorAll("[data-tab]").forEach((button) => {
-        button.addEventListener("click", () => setActiveTab(button.dataset.tab));
-      });
-
-      const dismissRun = root.querySelector("[data-dismiss-run='true']");
-      if (dismissRun) {
-        dismissRun.addEventListener("click", dismissCompletedRun);
-      }
-
-      const reopenRun = root.querySelector("[data-reopen-run='true']");
-      if (reopenRun) {
-        reopenRun.addEventListener("click", reopenCompletedRun);
-      }
-
       const dragHeader = root.querySelector("[data-drag-header='true']");
       if (dragHeader) {
         dragHeader.addEventListener("mousedown", beginMove);
       }
-
-      root.querySelectorAll("[data-arch]").forEach((button) => {
-        button.addEventListener("click", () => setManualArch(button.dataset.arch));
-      });
-
-      root.querySelectorAll("[data-auto='true']").forEach((button) => {
-        button.addEventListener("click", clearManualArch);
-      });
 
       const cardSearch = root.querySelector("[data-card-search='true']");
       if (cardSearch) {
         cardSearch.addEventListener("input", (event) => {
           cardSearchQuery = event.target.value;
           refreshCardSearchResults();
-        });
-      }
-
-      const clearCardSearch = root.querySelector("[data-card-search-clear='true']");
-      if (clearCardSearch) {
-        clearCardSearch.addEventListener("click", () => {
-          cardSearchQuery = "";
-          render();
-          const nextSearch = root.querySelector("[data-card-search='true']");
-          if (nextSearch) nextSearch.focus();
         });
       }
 
@@ -2397,11 +2479,16 @@
       }
     }
 
+    function isInteractiveTarget(target) {
+      return Boolean(target && target.closest(
+        "button, input, textarea, select, a, [role='button'], [data-no-drag='true']"
+      ));
+    }
+
     function beginMove(event) {
       if (!canMoveOverlay()) return;
       if (event.button !== 0) return;
-      if (event.target.closest("[data-dismiss-run='true']")) return;
-      if (event.target.closest("[data-resize-grip='true']")) return;
+      if (isInteractiveTarget(event.target)) return;
       event.preventDefault();
       moveSession = {
         offsetX: event.screenX - window.screenX,
@@ -2448,6 +2535,60 @@
     function endPointerAction() {
       resizeSession = null;
       moveSession = null;
+    }
+
+    function handleRootClick(event) {
+      const collapseButton = event.target.closest("[data-collapse-key]");
+      if (collapseButton && root.contains(collapseButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleCoachSection(collapseButton.dataset.collapseKey);
+        return;
+      }
+
+      const tabButton = event.target.closest("[data-tab]");
+      if (tabButton && root.contains(tabButton)) {
+        event.preventDefault();
+        setActiveTab(tabButton.dataset.tab);
+        return;
+      }
+
+      const archButton = event.target.closest("[data-arch-index]");
+      if (archButton && root.contains(archButton)) {
+        event.preventDefault();
+        setManualArchByIndex(archButton.dataset.archIndex);
+        return;
+      }
+
+      const autoButton = event.target.closest("[data-auto='true']");
+      if (autoButton && root.contains(autoButton)) {
+        event.preventDefault();
+        clearManualArch();
+        return;
+      }
+
+      const dismissRun = event.target.closest("[data-dismiss-run='true']");
+      if (dismissRun && root.contains(dismissRun)) {
+        event.preventDefault();
+        dismissCompletedRun();
+        return;
+      }
+
+      const reopenRun = event.target.closest("[data-reopen-run='true']");
+      if (reopenRun && root.contains(reopenRun)) {
+        event.preventDefault();
+        reopenCompletedRun();
+        return;
+      }
+
+      const clearCardSearch = event.target.closest("[data-card-search-clear='true']");
+      if (clearCardSearch && root.contains(clearCardSearch)) {
+        event.preventDefault();
+        cardSearchQuery = "";
+        render();
+        const nextSearch = root.querySelector("[data-card-search='true']");
+        if (nextSearch) nextSearch.focus();
+      }
     }
 
     async function fetchBuildCatalog(hero) {
@@ -2578,8 +2719,11 @@
       }
     });
 
+    root.addEventListener("click", handleRootClick);
     document.addEventListener("mousemove", onPointerMove);
     document.addEventListener("mouseup", endPointerAction);
+    document.addEventListener("mouseleave", endPointerAction);
+    window.addEventListener("blur", endPointerAction);
 
     renderLoading();
     // No syncWindowShape() on initial load — Python opens at persisted size.

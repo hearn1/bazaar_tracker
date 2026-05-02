@@ -24,6 +24,22 @@ def test_web_static_folder_uses_bundled_asset_path():
     assert (static_folder / "overlay.html").is_file()
 
 
+def test_overlay_coach_controls_use_persisted_delegated_handlers():
+    overlay = (Path(app.static_folder) / "overlay.html").read_text()
+
+    assert 'const COACH_SECTION_COLLAPSE_KEY = "overlay_coach_section_collapsed"' in overlay
+    assert 'root.addEventListener("click", handleRootClick)' in overlay
+    assert 'data-collapse-key=' in overlay
+    assert 'function isInteractiveTarget(target)' in overlay
+    assert 'if (isInteractiveTarget(event.target)) return;' in overlay
+    assert 'event.target.closest("[data-arch-index]")' in overlay
+    assert 'event.target.closest("[data-tab]")' in overlay
+    assert 'const buttons = buildCatalog.archetypes.map((arch, index) =>' in overlay
+    assert 'function setManualArchByIndex(index)' in overlay
+    assert "Array.isArray(pivotTarget.matchedItems)" in overlay
+    assert 'const visibleArches = collapsed' not in overlay
+
+
 def test_build_catalogs_resolve_from_bundled_root():
     assert scorer._builds_path("Karnok").name == "karnok_builds.json"
     assert scorer._builds_path("Mak").name == "mak_builds.json"

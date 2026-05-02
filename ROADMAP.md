@@ -23,8 +23,6 @@ Keep `bridge.py` manual diagnostics only. Do not reintroduce watcher/tracker cal
 
 Observed during live testing:
 - Between runs, the UI does not automatically advance to the newest run. Clicking "See latest" effectively attaches the UI to the new run, but this should happen automatically when a new active run starts.
-- Coach tab sometimes becomes unclickable. Some build/archetype entries on the Coach tab also cannot be clicked.
-- Coach tab build/archetype sections should be collapsible. They currently take up too much vertical space when several builds are shown.
 - Review tab shows both "missed" and "skip" language; it is unclear whether these mean the same thing or represent different concepts. Clarify labels/copy and/or badge taxonomy.
 
 Relevant files:
