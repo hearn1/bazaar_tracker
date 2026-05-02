@@ -9,27 +9,8 @@ Status labels:
 - `Open`: not yet implemented.
 - `Deprioritized`: low priority feature, leaving as a potential enhancement.
 
-## Completed Work
-
-### Remove Post-Run Bridge/Scoring - Done
-
-Normal run completion no longer triggers post-run bridge enrichment, `scorer.score_run()`, `LiveScorer.rescore_run()`, or any batch rewrite of `score_label` / `score_notes`. `RunState` attaches live Mono context to decisions at insert time, and `LiveScorer` scores from that live context. Live testing confirmed bridge scoring did not occur after run completion.
-
-Keep `bridge.py` manual diagnostics only. Do not reintroduce watcher/tracker calls to `bridge.enrich_run()` or post-run scorer write paths.
-
 ## Open Feature Work
 
-### Overlay/UI Follow-ups - Open
-
-Observed during live testing:
-- Between runs, the UI does not automatically advance to the newest run. Clicking "See latest" effectively attaches the UI to the new run, but this should happen automatically when a new active run starts.
-- Review tab shows both "missed" and "skip" language; it is unclear whether these mean the same thing or represent different concepts. Clarify labels/copy and/or badge taxonomy.
-
-Relevant files:
-- `web/overlay_state.py`
-- `web/review_builder.py`
-- `web/static/index.html`
-- `web/static/overlay.html`
 
 ### Multi-Hero Support - Partial
 
@@ -136,4 +117,3 @@ How to test:
 - Confirm `static_cache/images/manifest.json` has increased entry count and no stale entries.
 - Start `python tracker.py --no-mono`, open dashboard/overlay, and confirm cards with manifest entries render through `/cards/<filename>`.
 - Spot-check missing common cards and use probe scripts to determine whether they are atlas sprites, generated textures, or naming mismatches.
-

@@ -119,16 +119,34 @@ def _get_run_end_snapshot(conn, run: dict) -> Optional[dict]:
 def _build_owned_inventory_projection(conn, run_id: int) -> dict:
     """Read current owned inventory from board_snapshot_json on the latest decision.
 
-    Single source of truth for UI ownership. Falls back to decision-based name
-    accumulation for older runs that predate board_snapshot_json.
+    Prefers the latest decision whose snapshot has a non-empty owned_names list.
+    This handles post-restart state where a fresh RunState writes an empty snapshot
+    on top of a valid board — without this, the coach tab would show 0% for all
+    archetypes after a tracker restart mid-run.
+
+    Falls back to decision-based name accumulation for older runs that predate
+    board_snapshot_json.
     """
     row = conn.execute("""
         SELECT board_snapshot_json
         FROM decisions
         WHERE run_id = ?
+          AND board_snapshot_json IS NOT NULL
+          AND json_array_length(json_extract(board_snapshot_json, '$.owned_names')) > 0
         ORDER BY decision_seq DESC
         LIMIT 1
     """, (run_id,)).fetchone()
+
+    if not row:
+        # No non-empty snapshot found — use absolute latest (may be genuinely
+        # empty at the very start of a run before any purchases).
+        row = conn.execute("""
+            SELECT board_snapshot_json
+            FROM decisions
+            WHERE run_id = ?
+            ORDER BY decision_seq DESC
+            LIMIT 1
+        """, (run_id,)).fetchone()
 
     snapshot_json = row["board_snapshot_json"] if row else None
 

@@ -945,7 +945,7 @@
 
     .review-summary {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 8px;
       margin-bottom: 12px;
     }
@@ -1765,9 +1765,6 @@
       if (raw === "missed") {
         return { label: "Missed", tone: "red" };
       }
-      if (raw === "skip") {
-        return { label: "Skip", tone: "grey" };
-      }
       if (raw === "optimal") {
         return { label: "Optimal", tone: "green" };
       }
@@ -1779,14 +1776,6 @@
       }
       if (raw === "suboptimal" || raw === "warning") {
         return { label: "Suboptimal", tone: "red" };
-      }
-
-      // Legacy skip signal for older payloads.
-      if (decision.decision_type === "skip") {
-        if (decision.skip_has_relevant) {
-          return { label: "Missed", tone: "red" };
-        }
-        return { label: "Skip", tone: "grey" };
       }
 
       return { label: "Unscored", tone: "grey" };
@@ -2115,7 +2104,6 @@
         { label: "Situational", value: scoreSummary.situational || 0 },
         { label: "Suboptimal", value: scoreSummary.suboptimal || 0 },
         { label: "Missed", value: scoreSummary.missed || 0 },
-        { label: "Skip", value: scoreSummary.skip || 0 },
       ].map((entry) => `
         <div class="review-stat">
           <div class="review-stat-label">${escapeHtml(entry.label)}</div>
