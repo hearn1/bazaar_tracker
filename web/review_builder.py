@@ -41,9 +41,9 @@ def _normalize_review_label(decision: dict) -> str:
     if label == "warning":
         label = "suboptimal"
     if label == "info":
-        return "skip" if dtype == "skip" else ""
+        return ""
 
-    if label in ("optimal", "good", "situational", "suboptimal", "missed", "skip"):
+    if label in ("optimal", "good", "situational", "suboptimal", "missed"):
         return label
     return ""
 
@@ -74,9 +74,6 @@ def _fallback_overlay_review_entry(decision: dict) -> Optional[dict]:
         return None
 
     label = _normalize_review_label(decision)
-    if label == "skip":
-        return None
-
     title = _fallback_review_title(decision)
     if not title:
         return None
@@ -244,6 +241,71 @@ def _review_detail_for_match(match: dict, *, missed: bool) -> str:
     return f"Added support to {arch_name}."
 
 
+
+def _emit_shop_visit_missed_entry(
+    anchor_decision: dict,
+    leftover_names: list[str],
+    board_names: list[str],
+    committed_arch: Optional[dict],
+    late_archetypes: list[dict],
+    build_data: Optional[dict] = None,
+) -> Optional[dict]:
+    """Return one 'missed' review row for a shop-close, or None."""
+    focused_archetypes = [committed_arch] if committed_arch else _enabled_review_archetypes(
+        board_names, late_archetypes,
+    )
+    missed_match = None
+    if focused_archetypes:
+        missed_match = _pick_best_review_match(leftover_names, board_names, focused_archetypes)
+        if missed_match is None:
+            missed_match = _pick_best_review_match(leftover_names, board_names, late_archetypes)
+    else:
+        missed_match = _pick_best_review_match(leftover_names, board_names, late_archetypes)
+
+    dtype = anchor_decision.get("decision_type") or ""
+
+    if missed_match:
+        return {
+            "decision_seq": anchor_decision["decision_seq"],
+            "decision_type": dtype,
+            "chosen_name": anchor_decision.get("chosen_name"),
+            "review_title": missed_match["item_name"],
+            "review_detail": _review_detail_for_match(missed_match, missed=True),
+            "review_build_name": missed_match["arch_name"],
+            "review_kind": missed_match["kind"],
+            "derived_score_label": "missed",
+        }
+
+    # Fallback: economy/utility items that don't belong to a scoreable archetype yet.
+    economy_names: set[str] = set()
+    utility_names: set[str] = set()
+    for phase_data in (build_data or {}).get("game_phases", {}).values():
+        economy_names.update(phase_data.get("economy_items", []))
+        utility_names.update(phase_data.get("universal_utility_items", []))
+
+    for n in leftover_names:
+        if n in economy_names:
+            detail = "Economy item — strong pickup regardless of archetype."
+            kind = "economy"
+        elif n in utility_names:
+            detail = "Universal utility — strong pickup regardless of archetype."
+            kind = "utility"
+        else:
+            continue
+        return {
+            "decision_seq": anchor_decision["decision_seq"],
+            "decision_type": dtype,
+            "chosen_name": anchor_decision.get("chosen_name"),
+            "review_title": n,
+            "review_detail": detail,
+            "review_build_name": None,
+            "review_kind": kind,
+            "derived_score_label": "missed",
+        }
+
+    return None
+
+
 def _select_overlay_review_entry(
     decision: dict,
     board_names: list[str],
@@ -251,7 +313,7 @@ def _select_overlay_review_entry(
     late_archetypes: list[dict],
 ) -> Optional[dict]:
     dtype = decision.get("decision_type") or ""
-    if dtype in ("skill", "free_reward", "event_choice"):
+    if dtype in ("skill", "free_reward", "event_choice", "skip"):
         return None
 
     offered_raw = decision.get("offered_raw") or []
@@ -261,65 +323,28 @@ def _select_overlay_review_entry(
     focused_archetypes = [committed_arch] if committed_arch else _enabled_review_archetypes(
         board_names, late_archetypes,
     )
+    if not focused_archetypes:
+        return None
+
     chosen_match = None
-    missed_match = None
-
-    if focused_archetypes:
-        if decision.get("chosen_name"):
-            chosen_match = _pick_best_review_match(
-                [decision["chosen_name"]], board_names, focused_archetypes,
-            )
-        missed_names = (
-            decision.get("resolved_offered") if dtype == "skip"
-            else decision.get("resolved_rejected")
+    if decision.get("chosen_name"):
+        chosen_match = _pick_best_review_match(
+            [decision["chosen_name"]], board_names, focused_archetypes,
         )
-        missed_match = _pick_best_review_match(missed_names, board_names, focused_archetypes)
-        if missed_match is None and chosen_match is None and committed_arch is None:
-            missed_match = _pick_best_review_match(missed_names, board_names, late_archetypes)
-    else:
-        missed_names = (
-            decision.get("resolved_offered") if dtype == "skip"
-            else decision.get("resolved_rejected")
-        )
-        missed_match = _pick_best_review_match(missed_names, board_names, late_archetypes)
 
-    if missed_match and (chosen_match is None or missed_match["rank"] > chosen_match["rank"]):
-        return {
-            "decision_seq": decision["decision_seq"],
-            "decision_type": dtype,
-            "chosen_name": decision.get("chosen_name"),
-            "review_title": missed_match["item_name"],
-            "review_detail": _review_detail_for_match(missed_match, missed=True),
-            "review_build_name": missed_match["arch_name"],
-            "review_kind": missed_match["kind"],
-            "derived_score_label": "missed",
-        }
+    if not chosen_match:
+        return None
 
-    if chosen_match:
-        return {
-            "decision_seq": decision["decision_seq"],
-            "decision_type": dtype,
-            "chosen_name": decision.get("chosen_name"),
-            "review_title": decision.get("chosen_name") or chosen_match["item_name"],
-            "review_detail": _review_detail_for_match(chosen_match, missed=False),
-            "review_build_name": chosen_match["arch_name"],
-            "review_kind": chosen_match["kind"],
-            "derived_score_label": "optimal" if chosen_match["kind"] in ("enable", "carry") else "good",
-        }
-
-    if missed_match:
-        return {
-            "decision_seq": decision["decision_seq"],
-            "decision_type": dtype,
-            "chosen_name": decision.get("chosen_name"),
-            "review_title": missed_match["item_name"],
-            "review_detail": _review_detail_for_match(missed_match, missed=True),
-            "review_build_name": missed_match["arch_name"],
-            "review_kind": missed_match["kind"],
-            "derived_score_label": "missed",
-        }
-
-    return None
+    return {
+        "decision_seq": decision["decision_seq"],
+        "decision_type": dtype,
+        "chosen_name": decision.get("chosen_name"),
+        "review_title": decision.get("chosen_name") or chosen_match["item_name"],
+        "review_detail": _review_detail_for_match(chosen_match, missed=False),
+        "review_build_name": chosen_match["arch_name"],
+        "review_kind": chosen_match["kind"],
+        "derived_score_label": "optimal" if chosen_match["kind"] in ("enable", "carry") else "good",
+    }
 
 
 # ── Name resolution for overlay decisions ────────────────────────────────────
@@ -463,6 +488,8 @@ def build_overlay_review_rows(
     committed_arch = None
     review_rows = []
     resolved_rows = []
+    shop_buffer: list[tuple[dict, list[str]]] = []
+    shop_rejected_key: Optional[str] = None
 
     def _attach_image(entry: Optional[dict]) -> Optional[dict]:
         if entry is None:
@@ -472,6 +499,22 @@ def build_overlay_review_rows(
         else:
             entry["image"] = None
         return entry
+
+    def _flush_buffer() -> None:
+        nonlocal shop_buffer, shop_rejected_key
+        if not shop_buffer:
+            return
+        anchor_row, anchor_board_names = shop_buffer[-1]
+        leftover_names = anchor_row.get("resolved_rejected") or []
+        if leftover_names:
+            missed_entry = _emit_shop_visit_missed_entry(
+                anchor_row, leftover_names, anchor_board_names, committed_arch, late_archetypes,
+                build_data=build_data,
+            )
+            if missed_entry:
+                review_rows.append(_attach_image(missed_entry))
+        shop_buffer = []
+        shop_rejected_key = None
 
     for decision in decisions:
         row = dict(decision)
@@ -490,6 +533,13 @@ def build_overlay_review_rows(
         if committed_arch is None:
             committed_arch, _ = scorer.find_committed_archetype(board_names, build_data)
 
+        dtype = row.get("decision_type") or ""
+        current_rejected_key = row.get("rejected") if dtype == "item" else None
+        if dtype != "item" or current_rejected_key != shop_rejected_key:
+            _flush_buffer()
+        if dtype == "item":
+            shop_rejected_key = current_rejected_key
+
         review_entry = _select_overlay_review_entry(
             row, board_names, committed_arch, late_archetypes,
         )
@@ -499,6 +549,18 @@ def build_overlay_review_rows(
             fallback_entry = _fallback_overlay_review_entry(row)
             if fallback_entry:
                 review_rows.append(_attach_image(fallback_entry))
+
+        if dtype == "item":
+            shop_buffer.append((row, list(board_names)))
+        elif dtype == "skip":
+            leftover_names = row.get("resolved_offered") or []
+            if leftover_names:
+                missed_entry = _emit_shop_visit_missed_entry(
+                    row, leftover_names, board_names, committed_arch, late_archetypes,
+                    build_data=build_data,
+                )
+                if missed_entry:
+                    review_rows.append(_attach_image(missed_entry))
 
         if row.get("decision_type") in ("item", "companion") and row.get("chosen_id"):
             board[row["chosen_id"]] = row.get("chosen_name") or row["chosen_id"]
@@ -513,6 +575,24 @@ def build_overlay_review_rows(
         if committed_arch is None:
             updated_board_names = _resolve_readable_names(list(board.values()))
             committed_arch, _ = scorer.find_committed_archetype(updated_board_names, build_data)
+
+    _flush_buffer()
+
+    # Suppress missed rows for items the player acquired later in the same run.
+    # Covers the case where an item was passed on in a shop but then received as
+    # a free reward (or bought from a subsequent shop) on a later decision.
+    acquired_names = {
+        row.get("chosen_name")
+        for row in resolved_rows
+        if row.get("chosen_name")
+    }
+    review_rows = [
+        r for r in review_rows
+        if not (
+            r.get("derived_score_label") == "missed"
+            and r.get("review_title") in acquired_names
+        )
+    ]
 
     if review_rows:
         return list(reversed(review_rows))
@@ -689,7 +769,7 @@ def format_decision_row(
 def summarize_overlay_review_rows(decision_rows: list[dict]) -> dict:
     summary = {
         "optimal": 0, "good": 0, "situational": 0,
-        "suboptimal": 0, "missed": 0, "skip": 0, "unscored": 0,
+        "suboptimal": 0, "missed": 0, "unscored": 0,
     }
     for row in decision_rows:
         label = (row.get("derived_score_label") or row.get("score_label") or "").strip().lower()
