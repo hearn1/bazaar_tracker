@@ -1,0 +1,401 @@
+{
+  "hero": "Pygmalien",
+  "season": "13",
+  "last_updated": "2026-05-02",
+  "notes": "Pygmalien is an economy-first hero with two primary win conditions: BEATDOWN (Square — front-loaded Damage via Crook snowballing into Dog or Regal Blade) and SCALING (Money Furnace Burn or Double Whammy one-shot via Pawn Shop Value). Economy universals (ATM, Rewards Card, Business Card, Cash Register) fit any build direction. Spare Change items sell for 0 Gold — managing Stash space is critical when running Furnace. Dog and Regal Blade become solo carries once their Quests are completed. Private Hot Springs is a Freeze-lockdown Burn build that punishes any board that cannot one-shot it. Identify your win condition by Day 8 and commit.",
+  "item_tier_list": {
+    "description": "Tier list synthesized from Kripp's Season 13 Mobalytics guides (Square, Money Furnace, Double Whammy) and the Season 13 meta overview (Private Hot Springs). Items not listed score as unranked.",
+    "S": [
+      "Money Furnace",
+      "Double Whammy",
+      "Pawn Shop",
+      "Dog",
+      "Regal Blade",
+      "Billboard",
+      "Private Hot Springs",
+      "Lion Cane"
+    ],
+    "A": [
+      "Crook",
+      "Gramophone",
+      "Belt",
+      "Lumboars",
+      "Atlatl",
+      "Booby Trap",
+      "Caltrops",
+      "Cash Cannon",
+      "Ice Luge",
+      "Textiles",
+      "Bandages",
+      "Balcony",
+      "Flail",
+      "Shadowed Cloak"
+    ],
+    "B": [
+      "ATM",
+      "Rewards Card",
+      "Business Card",
+      "Cash Register",
+      "Piggy Bank",
+      "Safe",
+      "Briefcase",
+      "Money Tree",
+      "Pitchfork",
+      "Gumball Machine",
+      "Vending Machine",
+      "Premium Piggles",
+      "Premium Orange Piggles",
+      "PenFT",
+      "Matchbox",
+      "Globe",
+      "Lemonade Stand",
+      "Chocolate Bar",
+      "Bootstraps",
+      "Loupe",
+      "Keychain",
+      "Luxury Tents",
+      "Showcase",
+      "Weights",
+      "Ganjo",
+      "Atlas Stone",
+      "Boomerang",
+      "Ring King Gauntlets",
+      "Robe",
+      "Grindstone",
+      "Jabalian Recurve Bow",
+      "Icicle",
+      "Invigorating Cold"
+    ]
+  },
+  "pivot_signals": {
+    "signals": [
+      "Money Furnace found Day 1-4 — commit immediately; Spare Change economy is the game plan from here.",
+      "Crook plus early Damage scaling found — play Square beatdown and snowball the lead before the late game.",
+      "Dog Quest completing quickly — prioritize Chocolate Bar and Gumball events; pivot off Crook when Dog is ready.",
+      "Regal Blade Quest progressing — focus cheapest tagged Weapon and Apparel buys to accelerate completion.",
+      "Pawn Shop found with healthy econ — stash it, scale its Value, and survive until Double Whammy is online at Gold-tier.",
+      "Billboard found — supports Money Furnace Burn or any single-threat slow board.",
+      "Private Hot Springs found with Burn skills — Freeze lockdown is live; combine with Furnace for Burn and lockdown.",
+      "Multiple PvP losses and no established carry by Day 8 — pivot off Square into Furnace or Double Whammy."
+    ]
+  },
+  "scoring_weights": {
+    "core": 0.5,
+    "carry": 0.35,
+    "support": 0.15
+  },
+  "game_phases": {
+    "early": {
+      "day_range": "Days 1-4",
+      "description": "Economy first, then a playable board. Always buy ATM when affordable. Crook is the standard early carry and bridges naturally into Square Pyg. Money Furnace only works if found early — it needs time to scale its Value. Stash Pawn Shop immediately if found; do not board it.",
+      "notes": "Best early picks: Crook (consistent early carry, bridges into mid-game), Money Furnace (must find early to scale — only pursue if found Days 1-3), ATM (universal +2 Income from Jungle Ruins event), Flail (early Weapon + good skill host), Lumboars (early Damage scaling). Rewards Card and Business Card are low-commitment Economy pickups regardless of direction. Safe, Briefcase, and Piggy Bank provide Spare Change for Furnace and Value for Pawn Shop at minimal cost.",
+      "universal_utility_items": [
+        "Crook",
+        "ATM",
+        "Rewards Card",
+        "Business Card",
+        "Flail",
+        "Lumboars",
+        "Money Furnace",
+        "Matchbox",
+        "Safe",
+        "Briefcase",
+        "Piggy Bank"
+      ],
+      "economy_items": [
+        "ATM",
+        "Cash Register",
+        "Rewards Card",
+        "Business Card",
+        "Money Tree"
+      ]
+    },
+    "early_mid": {
+      "day_range": "Days 5-7",
+      "description": "Identify your win condition and begin committing. Square Pyg wants to snowball a lead by Day 7. Money Furnace needs Billboard or other Value support to scale. Double Whammy is a patience game — stash Pawn Shop and survive on a bridge carry. Private Hot Springs needs Burn skills to generate real output.",
+      "notes": "Mid-game skills: Large Appetites, Heavy Firepower, and Artillery Spotter are all excellent for Square Pyg. Economic Seminar for Money Furnace is only available early-to-mid — take it now or never. Evaluate Quest progress on Dog and Regal Blade — if far behind, plan a pivot. Belt is a solid mid-game buy for its Health boost and Regal Blade synergy.",
+      "archetypes": [
+        {
+          "name": "Square Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Crook"
+          ],
+          "carry_items": [
+            "Dog",
+            "Regal Blade",
+            "Lumboars",
+            "Flail",
+            "Cash Cannon"
+          ],
+          "support_items": [
+            "Atlatl",
+            "Belt",
+            "ATM",
+            "Rewards Card",
+            "Business Card",
+            "Showcase",
+            "Weights",
+            "Ganjo",
+            "Shadowed Cloak",
+            "Gumball Machine",
+            "Vending Machine"
+          ],
+          "notes": "Crook carries for now — evaluate whether Dog or Regal Blade Quest is closer and double down on that route. Belt is a strong pickup at this stage. Gumball Machine and Vending Machine provide extra Dog Food if Dog is the carry. Atlatl is worth stashing but do not board it until you have significant front-loaded Damage scaling. Business Card is another low-commitment Economy slot if space allows."
+        },
+        {
+          "name": "Furnace Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Money Furnace",
+            "Cash Register"
+          ],
+          "carry_items": [
+            "Billboard",
+            "Money Tree",
+            "Booby Trap",
+            "Private Hot Springs"
+          ],
+          "support_items": [
+            "ATM",
+            "Rewards Card",
+            "Business Card",
+            "Safe",
+            "Briefcase",
+            "Piggy Bank",
+            "Premium Piggles",
+            "Premium Orange Piggles",
+            "PenFT",
+            "Lemonade Stand",
+            "Globe"
+          ],
+          "notes": "Stash space is the main limiting factor — Spare Change sells for 0 Gold so every slot matters. Take the +2 Income from Jungle Ruins. Complete Economic Seminar (Furnace Quest) now — it is generally only available early-to-mid. Rewards Card is awkward to hold alongside Spare Change items but use it to stack Value on Furnace rather than stockpiling Gold. Booby Trap or Private Hot Springs buys time while Furnace scales."
+        },
+        {
+          "name": "Pawn Shop Economy",
+          "phase": "early_mid",
+          "core_items": [
+            "Pawn Shop"
+          ],
+          "carry_items": [
+            "Regal Blade",
+            "Matchbox",
+            "Cash Cannon",
+            "Crook"
+          ],
+          "support_items": [
+            "Rewards Card",
+            "ATM",
+            "Business Card",
+            "Safe",
+            "Briefcase",
+            "Piggy Bank",
+            "Pitchfork",
+            "Cash Register",
+            "Gumball Machine",
+            "Globe",
+            "Booby Trap"
+          ],
+          "notes": "Keep Pawn Shop stashed — do not board it. Scale its Value through Chocolate Bar and Gumball events (best affordable scalers), Rewards Card, and Spare Change items. Crook or Matchbox bridge as early carries while you survive. Prioritize XP events to get level advantage for Max Health scaling. Square Pyg is the natural fallback if Pawn Shop Value is insufficient heading into late game."
+        },
+        {
+          "name": "Hot Springs Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Private Hot Springs"
+          ],
+          "carry_items": [
+            "Money Furnace",
+            "Billboard",
+            "Booby Trap"
+          ],
+          "support_items": [
+            "ATM",
+            "Rewards Card",
+            "Business Card",
+            "Safe",
+            "Briefcase",
+            "Piggy Bank",
+            "Cash Register",
+            "Lemonade Stand",
+            "Globe"
+          ],
+          "notes": "Private Hot Springs triggers a 4-second Freeze at half-Health, punishing any board that cannot one-shot it. The passive Regen counters incoming DoT while the opponent Burns. Pairs naturally with Money Furnace for a combined Burn and lockdown plan. Look for Burn skills to amplify output — this build wins by locking the board and burning the opponent down."
+        }
+      ]
+    },
+    "late": {
+      "day_range": "Day 8+",
+      "description": "Pygmalien closes runs through front-loaded Damage (Square), Burn scaling (Money Furnace or Hot Springs), or a percentage-based one-shot (Double Whammy). Identify the primary threat, then add survivability and Cooldown Reduction around it. Gramophone is a near-universal late-game upgrade for any single-threat board. Enchantments make a large difference — prioritize accordingly.",
+      "notes": "Enchantments: Radiant is ideal for Double Whammy (prevents CC shutdown). Fiery, Toxic, or Obsidian enable Money Tree as a solo carry variant if Furnace was not found. Bootstraps before level 13 is high value for the guaranteed Diamond upgrade or Enchantment spread. Loupe provides extra Gold if found early enough.",
+      "archetypes": [
+        {
+          "name": "Square Pyg",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Fully quested Dog or Regal Blade online as the primary carry. Crook can still contribute but is unlikely to contest past Day 10-11 without upgrades.",
+          "condition_items": [
+            "Dog",
+            "Regal Blade"
+          ],
+          "core_items": [
+            "Dog",
+            "Regal Blade"
+          ],
+          "carry_items": [
+            "Dog",
+            "Regal Blade",
+            "Lumboars",
+            "Atlatl",
+            "Caltrops",
+            "Cash Cannon",
+            "Lion Cane"
+          ],
+          "support_items": [
+            "Belt",
+            "Gramophone",
+            "Crook",
+            "Flail",
+            "Shadowed Cloak",
+            "Atlas Stone",
+            "Boomerang",
+            "Ring King Gauntlets",
+            "Robe"
+          ],
+          "skill_trainers": [
+            "Pygmalien",
+            "Weapon",
+            "Charge"
+          ],
+          "notes": "Identify the primary threat (Dog or Regal Blade) and build around it. If holding multiple threats, go wide. If single carry, prioritize survivability and Cooldown Reduction. Belt is universally solid alongside Regal Blade once its second Quest is complete. Gramophone is highly recommended for single-threat boards. Atlatl is a welcome inclusion only after significant front-loaded Damage scaling — its Cooldown needs to reach one second to be worthwhile. Caltrops can define certain matchups with sufficient scaling. Enchantments can make a large difference — choose wisely."
+        },
+        {
+          "name": "Money Furnace Burn",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Money Furnace online early with Cash Register or Money Tree supplying consistent Spare Change. Only commit if Furnace was found Days 1-3.",
+          "condition_items": [
+            "Money Furnace",
+            "Cash Register"
+          ],
+          "core_items": [
+            "Money Furnace",
+            "Cash Register",
+            "Billboard"
+          ],
+          "carry_items": [
+            "Billboard",
+            "Money Tree",
+            "Gramophone",
+            "Ice Luge",
+            "Textiles",
+            "Bandages"
+          ],
+          "support_items": [
+            "ATM",
+            "Rewards Card",
+            "Business Card",
+            "Safe",
+            "Briefcase",
+            "Piggy Bank",
+            "PenFT",
+            "Booby Trap",
+            "Private Hot Springs",
+            "Belt",
+            "Bootstraps",
+            "Loupe",
+            "Lemonade Stand",
+            "Globe",
+            "Premium Piggles",
+            "Premium Orange Piggles",
+            "Balcony",
+            "Keychain",
+            "Luxury Tents"
+          ],
+          "skill_trainers": [
+            "Pygmalien",
+            "Burn",
+            "Economy"
+          ],
+          "notes": "Billboard provides Shielding and in-combat Value scaling and enables Multicast shenanigans with the right setup. Gramophone is highly recommended (Diamond-tier especially) for Cooldown Reduction. Ice Luge trades upfront speed for excellent Cooldown Reduction — Diamond-tier is the key breakpoint. Textiles with fast Healing items (Bandages) provides persistent Charge support as an alternative. Belt adds a sizeable Health boost. Money Tree has solo carry potential with an Obsidian, Fiery, or Toxic Enchantment — viable if Furnace was not found. The Money Tree solo variant pairs with Balcony, Keychain, and Luxury Tents. Loupe is always welcome for extra funds if found early enough."
+        },
+        {
+          "name": "Double Whammy",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Pawn Shop stashed and scaled throughout the run. Double Whammy becomes available at Gold-tier — this is fundamentally a late-game build that can come back from losses other builds cannot.",
+          "condition_items": [
+            "Double Whammy",
+            "Pawn Shop"
+          ],
+          "core_items": [
+            "Double Whammy",
+            "Pawn Shop",
+            "Belt"
+          ],
+          "carry_items": [
+            "Double Whammy",
+            "Lion Cane",
+            "Icicle"
+          ],
+          "support_items": [
+            "Pawn Shop",
+            "Belt",
+            "Gramophone",
+            "Balcony",
+            "Booby Trap",
+            "Globe",
+            "Gumball Machine",
+            "Invigorating Cold",
+            "Bootstraps",
+            "Loupe",
+            "Rewards Card",
+            "ATM",
+            "Business Card"
+          ],
+          "skill_trainers": [
+            "Pygmalien",
+            "Economy"
+          ],
+          "notes": "Double Whammy scales via percentage-based Damage — easily one-shots once Pawn Shop Value is high. Belt is the best supporting item outside Pawn Shop for its Max Health boost. Radiant is the ideal Enchantment to prevent CC shutdown. Gramophone provides needed Cooldown Reduction. Balcony makes Pawn Shop significantly more effective at the cost of speed or other support slots. Booby Trap buys time with multi-Freeze for Double Whammy to activate. Icicle + Invigorating Cold is a spicy on-start Haste combo for non-standard four-item boards. Lion Cane plays as a companion or standalone alternative if Value is not high enough. Can also be played without Pawn Shop if ahead on levels or Health through other means. Bootstraps before level 13 is high value — use the guaranteed Diamond upgrade on a key carry."
+        },
+        {
+          "name": "Private Hot Springs",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Private Hot Springs online with Burn support. Works best against slow-scaling and sustain-based builds that cannot burst through the 4-second Freeze.",
+          "condition_items": [
+            "Private Hot Springs"
+          ],
+          "core_items": [
+            "Private Hot Springs",
+            "Money Furnace"
+          ],
+          "carry_items": [
+            "Billboard",
+            "Money Furnace",
+            "Cash Cannon",
+            "Lion Cane"
+          ],
+          "support_items": [
+            "Booby Trap",
+            "ATM",
+            "Safe",
+            "Briefcase",
+            "Piggy Bank",
+            "Cash Register",
+            "Lemonade Stand",
+            "Globe",
+            "Belt",
+            "Rewards Card"
+          ],
+          "skill_trainers": [
+            "Pygmalien",
+            "Burn"
+          ],
+          "notes": "The 4-second Freeze on half-Health trigger stalls any board that cannot burst through it in one activation cycle. Passive Regen counteracts incoming DoT while the opponent Burns. Combines naturally with Money Furnace for a Burn and lockdown combo. Billboard adds Shielding and Value scaling to amplify Burn output. Most effective against slow-scaling and sustain-dependent boards. Less reliable against burst or one-shot builds that can activate before the Freeze triggers."
+        }
+      ]
+    }
+  }
+}
