@@ -44,9 +44,11 @@ def test_build_catalogs_resolve_from_bundled_root():
     assert scorer._builds_path("Karnok").name == "karnok_builds.json"
     assert scorer._builds_path("Mak").name == "mak_builds.json"
     assert scorer._builds_path("Pygmalien").name == "pygmalien_builds.json"
+    assert scorer._builds_path("Vanessa").name == "vanessa_builds.json"
     assert scorer._builds_path("Karnok").is_file()
     assert scorer._builds_path("Mak").is_file()
     assert scorer._builds_path("Pygmalien").is_file()
+    assert scorer._builds_path("Vanessa").is_file()
 
 
 def test_pyinstaller_packaging_files_exist():
@@ -68,6 +70,7 @@ def test_pyinstaller_spec_bundles_build_catalogs():
     assert '"karnok_builds.json"' in spec
     assert '"mak_builds.json"' in spec
     assert '"pygmalien_builds.json"' in spec
+    assert '"vanessa_builds.json"' in spec
 
 
 def test_build_portable_selects_python_flexibly():
@@ -169,6 +172,7 @@ def test_gitignore_keeps_generated_artifacts_local_and_sources_trackable():
         "karnok_builds.json",
         "mak_builds.json",
         "pygmalien_builds.json",
+        "vanessa_builds.json",
     }
 
     assert expected_ignored <= ignored_patterns
