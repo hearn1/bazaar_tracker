@@ -194,24 +194,48 @@ class RunState:
                 "SELECT COUNT(*) as cnt, MAX(decision_seq) as max_seq FROM decisions WHERE run_id=?",
                 (self.run_id,)
             ).fetchone()
+
+            existing = row["cnt"]
+            self._max_persisted_seq = row["max_seq"] or 0
+            self.decision_seq = self._max_persisted_seq
+
+            if existing > 0:
+                run_row = conn.execute(
+                    "SELECT outcome FROM runs WHERE id=?", (self.run_id,)
+                ).fetchone()
+                is_restart = run_row and run_row["outcome"] is None
+
+                print(
+                    f"[RunState] Run id={self.run_id} already has {existing} decisions "
+                    f"— resuming from seq {self._max_persisted_seq}"
+                )
+
+                if is_restart:
+                    snap_row = conn.execute("""
+                        SELECT board_snapshot_json
+                        FROM decisions
+                        WHERE run_id = ?
+                          AND board_snapshot_json IS NOT NULL
+                          AND json_array_length(json_extract(board_snapshot_json, '$.owned_names')) > 0
+                        ORDER BY decision_seq DESC
+                        LIMIT 1
+                    """, (self.run_id,)).fetchone()
+                    if snap_row and snap_row["board_snapshot_json"]:
+                        self.board = BoardState.from_snapshot_json(snap_row["board_snapshot_json"])
+                        print(
+                            f"[RunState] Seeded board from snapshot: "
+                            f"{len(self.board.owned_names())} items"
+                        )
+                    else:
+                        print("[RunState] Restarted run has no non-empty board snapshot — board starts empty")
+            else:
+                self._max_persisted_seq = 0
+                print(
+                    f"[RunState] Run record created: id={self.run_id} "
+                    f"hero={self.hero} session={self.session_id[:8]}…"
+                )
         finally:
             conn.close()
-
-        existing = row["cnt"]
-        self._max_persisted_seq = row["max_seq"] or 0
-        self.decision_seq = self._max_persisted_seq
-
-        if existing > 0:
-            print(
-                f"[RunState] Run id={self.run_id} already has {existing} decisions "
-                f"— resuming from seq {self._max_persisted_seq}"
-            )
-        else:
-            self._max_persisted_seq = 0
-            print(
-                f"[RunState] Run record created: id={self.run_id} "
-                f"hero={self.hero} session={self.session_id[:8]}…"
-            )
 
     def _on_state_change(self, event: dict):
         prev = self.current_state
