@@ -1718,10 +1718,6 @@ def print_report(scored: list, run_id: int):
             print("  Silver finish - above MMR threshold")
         elif pvp_wins >= 4:
             print("  Bronze finish - reached the first ranked tier")
-        if False and pvp_wins >= 10:
-            print(f"  🏆 RUN WON!")
-        elif False and pvp_wins >= 7:
-            print(f"  🥈 Silver finish — above MMR threshold")
         print("═" * 70)
 
         label_icons = {
