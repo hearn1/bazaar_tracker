@@ -102,8 +102,13 @@ def score_archetypes(
     *,
     build_data: Optional[dict] = None,
     hero: Optional[str] = None,
+    limit: Optional[int] = None,
 ) -> list[dict]:
-    """Return the top-3 archetype overlap scores for the current board."""
+    """Return archetype overlap scores for the current board.
+
+    By default returns all archetypes sorted by score descending.
+    Pass ``limit=3`` to reproduce the old top-3 behaviour explicitly.
+    """
     if build_data is None:
         build_data, _relevant_items = load_builds(hero)
     if not scorer.has_build_catalog(build_data):
@@ -157,7 +162,7 @@ def score_archetypes(
                 "raw_score": raw_score,
             })
 
-    return sorted(
+    ranked = sorted(
         results,
         key=lambda row: (
             row["raw_score"],
@@ -167,7 +172,8 @@ def score_archetypes(
             row["matches"],
         ),
         reverse=True,
-    )[:3]
+    )
+    return ranked[:limit] if limit is not None else ranked
 
 
 def infer_archetype_from_decisions(

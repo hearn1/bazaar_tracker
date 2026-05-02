@@ -70,6 +70,7 @@
     }
 
     .header {
+      position: relative;
       padding: 14px 14px 12px;
       border-bottom: 1px solid var(--border);
       background:
@@ -95,6 +96,7 @@
       align-items: flex-end;
       gap: 8px;
       flex-shrink: 0;
+      margin-right: 26px;
     }
 
     .eyebrow {
@@ -168,13 +170,17 @@
     }
 
     .header-quit {
-      padding: 6px 8px;
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      padding: 4px 7px;
       border-radius: 999px;
       border: 1px solid rgba(240, 68, 68, 0.2);
       background: rgba(240, 68, 68, 0.08);
       color: var(--muted);
       font: 600 12px/1 var(--mono);
       letter-spacing: 0.08em;
+      cursor: pointer;
     }
 
     .header-quit:hover {
@@ -1210,6 +1216,243 @@
       70% { box-shadow: 0 0 0 12px rgba(77, 156, 245, 0); }
       100% { box-shadow: 0 0 0 0 rgba(77, 156, 245, 0); }
     }
+
+    /* ── Active build hero strip (Coach tab only, pinned below header) ────── */
+    .coach-hero-strip {
+      padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(230,169,32,0.12), rgba(230,169,32,0.02));
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .shell.collapsed .coach-hero-strip { display: none; }
+
+    .build-hero-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .build-hero-eyebrow {
+      font: 700 9px/1 var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 4px;
+    }
+
+    .build-hero-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .build-hero-name {
+      margin: 0;
+      font: 800 22px/1 var(--display);
+      color: #fff;
+    }
+
+    .build-hero-pct {
+      font: 500 11px/1 var(--mono);
+      color: #fff7d9;
+    }
+
+    .build-hero-badge {
+      display: inline-flex;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font: 700 10px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      border: 1px solid transparent;
+    }
+
+    .build-hero-badge.manual {
+      border-color: rgba(167,139,250,0.3);
+      background: rgba(167,139,250,0.12);
+      color: #a78bfa;
+    }
+
+    .build-hero-badge.auto {
+      border-color: rgba(77,156,245,0.25);
+      background: rgba(77,156,245,0.1);
+      color: var(--blue);
+    }
+
+    /* ── Sub-tabs (Pivots / Find card / Coach / Notes) ────────────────────── */
+    .subtab-strip {
+      display: flex;
+      gap: 2px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 10px;
+    }
+
+    .subtab {
+      padding: 5px 8px;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font: 700 9px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .subtab.active {
+      background: rgba(255,255,255,0.04);
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    /* ── Support chips (collapsed state) ──────────────────────────────────── */
+    .support-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+      padding-left: 18px;
+    }
+
+    .support-chip-item {
+      font: 500 11px/1 var(--body);
+      color: var(--muted);
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(167,139,250,0.06);
+      border: 1px solid rgba(167,139,250,0.18);
+    }
+
+    .support-chip-more {
+      font: 500 10px/1 var(--mono);
+      color: var(--muted-2);
+      padding: 2px 4px;
+    }
+
+    /* ── Pivots pane (Variant D — hot list + chip cloud) ──────────────────── */
+    .pivots-hot {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .pivot-hot-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px;
+      align-items: stretch;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: #fff;
+      font: 600 12px/1 var(--body);
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+
+    .pivot-hot-row__name { margin-bottom: 2px; }
+
+    .pivot-hot-row__tier {
+      font: 700 9px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .pivot-hot-row__score {
+      font: 700 14px/1 var(--mono);
+      align-self: center;
+    }
+
+    .pivots-cold { margin-top: 12px; }
+
+    .pivots-cold-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      color: var(--muted-2);
+      font: 700 10px/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .pivots-cold-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .pivot-chip-btn {
+      font: 500 10px/1 var(--body);
+      color: var(--muted-2);
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer;
+    }
+
+    .pivot-chip-btn:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .pivots-empty {
+      color: var(--muted);
+      font-size: 12px;
+      padding: 8px 0;
+    }
+
+    /* ── Build notes sub-tab ──────────────────────────────────────────────── */
+    .build-notes {
+      font: 500 12px/1.5 var(--body);
+      color: var(--muted);
+    }
+
+    /* ── Review filter chips ──────────────────────────────────────────────── */
+    .review-filters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .review-filter-btn {
+      padding: 8px 4px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .review-filter-btn.active {
+      background: rgba(230,169,32,0.1);
+      border-color: rgba(230,169,32,0.3);
+    }
+
+    .review-filter-label {
+      font: 700 8px/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+      margin-bottom: 2px;
+    }
+
+    .review-filter-count {
+      font: 700 16px/1 var(--mono);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1262,6 +1505,9 @@
     let pendingMovePosition = null;
     let pywebviewApiReady = false;
     let cardSearchQuery = "";
+    let coachSubTab = "pivots";
+    let chipCloudOpen = true;
+    let reviewFilter = "all";
 
     function loadCoachSectionCollapsed() {
       try {
@@ -1859,9 +2105,6 @@
         ? `Waiting for first tracked decision | ${escapeHtml(fmtMaybe(state.hero, "Unknown hero"))}`
         : `Run #${escapeHtml(fmtMaybe(state.run_id))} | ${escapeHtml(fmtMaybe(state.hero, "Unknown hero"))}`;
       const runPill = getRunPillMeta(state, idle);
-      const tier = getRunTier(state);
-      const pvpValue = idle ? "--" : `${fmtMaybe(state.pvp_wins, 0)}-${fmtMaybe(state.pvp_losses, 0)}`;
-      const tierValue = idle ? "--" : tier.label;
       const canLeaveCompletedRun = isCompletedRun(state) && !idle;
       return `
         <div class="header" data-drag-header="true">
@@ -1874,18 +2117,8 @@
             <div class="header-actions">
               <div class="run-pill ${escapeHtml(runPill.tone)}">${escapeHtml(runPill.label)}</div>
               ${canLeaveCompletedRun ? `<button class="header-action" type="button" data-dismiss-run="true">Leave Run</button>` : ""}
-              <button class="header-quit" type="button" title="Close tracker" onclick="window.pywebview.api.request_shutdown()">×</button>
             </div>
-          </div>
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-label">PvP</div>
-              <div class="stat-value">${escapeHtml(pvpValue)}</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Tier</div>
-              <div class="stat-value">${escapeHtml(tierValue)}</div>
-            </div>
+            <button class="header-quit" type="button" title="Close tracker" onclick="window.pywebview.api.request_shutdown()">×</button>
           </div>
         </div>
       `;
@@ -2003,7 +2236,7 @@
       `;
     }
 
-    function renderItemGroup(title, tone, items, ownedNames, activeArchName = "") {
+    function renderItemGroup(title, tone, items, ownedNames, activeArchName = "", forceExpand = false) {
       const colorMap = {
         core: "var(--amber)",
         carry: "var(--blue)",
@@ -2020,7 +2253,7 @@
       const pct = compact.length ? Math.round((ownedCount / compact.length) * 100) : 0;
       const collapseKey = getCoachSectionKey(`checklist-${tone}`, activeArchName);
       const defaultCollapsed = compact.length > 5 && tone !== "core" && ownedCount === 0;
-      const collapsed = isCoachSectionCollapsed(collapseKey, defaultCollapsed);
+      const collapsed = forceExpand ? false : isCoachSectionCollapsed(collapseKey, defaultCollapsed);
 
       const rows = compact.map((item) => {
         const owned = ownedNames.includes(item);
@@ -2048,7 +2281,7 @@
                 </div>
                 <span class="slot-count">${escapeHtml(`${ownedCount}/${compact.length}`)}</span>
                 <span class="slot-blurb">${escapeHtml(blurbMap[tone] || "")}</span>
-                ${compact.length > 3 ? renderCollapseButton(collapseKey, collapsed, `${title} items`) : ""}
+                ${(!forceExpand && compact.length > 3) ? renderCollapseButton(collapseKey, collapsed, `${title} items`) : ""}
               </div>
               <div class="slot-progress"><div class="slot-progress-fill" style="width:${pct}%"></div></div>
             </div>
@@ -2062,9 +2295,9 @@
         <section class="section">
           <div class="section-kicker">What to look for</div>
           <h3 class="section-title">Item checklist</h3>
-          ${renderItemGroup("Core", "core", coach.activeArch?.core_items, coach.ownedNames, coach.activeArch?.name)}
-          ${renderItemGroup("Carry", "carry", coach.activeArch?.carry_items, coach.ownedNames, coach.activeArch?.name)}
-          ${renderItemGroup("Support", "support", coach.activeArch?.support_items, coach.ownedNames, coach.activeArch?.name)}
+          ${renderItemGroup("Core", "core", coach.activeArch?.core_items, coach.ownedNames, coach.activeArch?.name, true)}
+          ${renderItemGroup("Carry", "carry", coach.activeArch?.carry_items, coach.ownedNames, coach.activeArch?.name, true)}
+          ${renderSupportGroup(coach.activeArch?.support_items, coach.ownedNames, coach.activeArch?.name)}
         </section>
       `;
     }
@@ -2086,32 +2319,246 @@
       `;
     }
 
+    function renderActiveBuildHero(state, coach) {
+      const confidencePercent = Math.round((coach.confidence || 0) * 100);
+      const activeName = coach.activeArch?.name || "No fit yet";
+      const isManual = coach.isManual;
+      const confidenceWidth = Math.max(4, Math.min(100, confidencePercent));
+      return `
+        <div class="coach-hero-strip">
+          <div class="build-hero-row">
+            <div style="min-width:0;flex:1">
+              <div class="build-hero-eyebrow">On Build</div>
+              <div class="build-hero-title-row">
+                <h2 class="build-hero-name">${escapeHtml(activeName)}</h2>
+                <span class="build-hero-pct">${escapeHtml(`${confidencePercent}%`)}</span>
+              </div>
+              <div class="confidence">
+                <div class="confidence-bar">
+                  <div class="confidence-fill" style="width:${confidenceWidth}%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="build-hero-badge ${isManual ? "manual" : "auto"}">${isManual ? "Manual" : "Auto"}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSubTabsStrip() {
+      const tabs = [
+        { id: "pivots",  label: "Pivots" },
+        { id: "search",  label: "Find card" },
+        { id: "prompts", label: "Coach" },
+        { id: "notes",   label: "Notes" },
+      ];
+      return `
+        <div class="subtab-strip">
+          ${tabs.map(t => `<button type="button" class="subtab ${coachSubTab === t.id ? "active" : ""}" data-subtab="${escapeHtml(t.id)}">${escapeHtml(t.label)}</button>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderPivotsPane(state, coach) {
+      const archScores = state?.arch_scores || [];
+      const activeArchName = coach.activeArch?.name || "";
+      const STRONG_MIN = 0.30;
+      const POSSIBLE_MIN = 0.05;
+
+      const buttons = buildCatalog.archetypes.map((arch, index) => {
+        const serverEntry = archScores.find(e => e.name === arch.name);
+        const score = serverEntry?.raw_score ?? serverEntry?.score ?? 0;
+        const isActive = arch.name === activeArchName;
+        return { name: arch.name, score, isActive, index };
+      });
+
+      const others = buttons.filter(a => !a.isActive);
+      const strong = others.filter(a => a.score >= STRONG_MIN).sort((a, b) => b.score - a.score);
+      const possible = others.filter(a => a.score >= POSSIBLE_MIN && a.score < STRONG_MIN).sort((a, b) => b.score - a.score);
+      const longshot = others.filter(a => a.score < POSSIBLE_MIN);
+      const hot = [...strong, ...possible];
+
+      if (hot.length === 0 && longshot.length === 0) {
+        return `<div class="pivots-empty">Current build is committed.</div>`;
+      }
+
+      const hotRows = hot.map(a => {
+        const isStrong = a.score >= STRONG_MIN;
+        const tierColor = isStrong ? "var(--amber)" : "var(--blue)";
+        const tierLabel = isStrong ? "Strong pivot" : "Possible";
+        const fillPct = Math.round(a.score * 100);
+        const borderColor = isStrong ? "rgba(230,169,32,0.24)" : "rgba(77,156,245,0.24)";
+        const bgFilled = isStrong ? "rgba(230,169,32,0.15)" : "rgba(77,156,245,0.15)";
+        const bgEmpty  = isStrong ? "rgba(230,169,32,0.04)" : "rgba(77,156,245,0.04)";
+        return `
+          <button type="button" class="pivot-hot-row"
+            style="border-color:${borderColor};background:linear-gradient(90deg,${bgFilled} 0%,${bgFilled} ${fillPct}%,${bgEmpty} ${fillPct}%,${bgEmpty} 100%);"
+            data-arch-index="${escapeHtml(String(a.index))}">
+            <div>
+              <div class="pivot-hot-row__name">${escapeHtml(a.name)}</div>
+              <div class="pivot-hot-row__tier" style="color:${tierColor}">${escapeHtml(tierLabel)}</div>
+            </div>
+            <div class="pivot-hot-row__score" style="color:${tierColor}">${fillPct}%</div>
+          </button>
+        `;
+      }).join("");
+
+      const chipRows = longshot.map(a => `
+        <button type="button" class="pivot-chip-btn" data-arch-index="${escapeHtml(String(a.index))}">${escapeHtml(a.name)}</button>
+      `).join("");
+
+      return `
+        <div class="pivots-hot">${hotRows || `<div class="pivots-empty">No strong or possible pivots right now.</div>`}</div>
+        ${longshot.length > 0 ? `
+          <div class="pivots-cold">
+            <button type="button" class="pivots-cold-toggle" data-toggle-chips="true">
+              ${chipCloudOpen ? "▼" : "▶"} ${longshot.length} other build${longshot.length === 1 ? "" : "s"} · 0%
+            </button>
+            ${chipCloudOpen ? `<div class="pivots-cold-chips">${chipRows}</div>` : ""}
+          </div>
+        ` : ""}
+      `;
+    }
+
+    function renderFindCardPane(coach) {
+      return `
+        <div>
+          <div class="search-box">
+            <span class="search-icon">?</span>
+            <input
+              class="search-input"
+              type="text"
+              value="${escapeHtml(cardSearchQuery)}"
+              placeholder="See it in shop, type the name..."
+              autocomplete="off"
+              spellcheck="false"
+              data-card-search="true"
+            >
+            ${cardSearchQuery ? `<button class="search-clear" type="button" data-card-search-clear="true">X</button>` : ""}
+          </div>
+          <div class="search-results" data-card-search-results="true" style="margin-top:10px;">
+            ${renderCardSearchResults(coach)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPromptsPane(state, coach) {
+      const alerts = buildAlerts(state, coach);
+      if (!alerts.length) {
+        return `<div class="note">No active prompts.</div>`;
+      }
+      return `
+        <div class="alert-stack">
+          ${alerts.map(alert => `
+            <div class="alert ${escapeHtml(alert.tone)}">
+              <div class="alert-title">${escapeHtml(alert.title)}</div>
+              <div class="alert-copy">${escapeHtml(alert.copy)}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderBuildNotesPane(coach) {
+      const summary = coach.activeArch?.notes || getHeroNotes() || "No notes available.";
+      return `<div class="build-notes">${escapeHtml(summary)}</div>`;
+    }
+
+    function renderSupportGroup(items, ownedNames, activeArchName) {
+      const compact = compactItems(items);
+      if (!compact.length) return "";
+      const itemImages = buildCatalog.itemImages || {};
+      const ownedCount = compact.filter(i => ownedNames.includes(i)).length;
+      const collapseKey = getCoachSectionKey("checklist-support", activeArchName);
+      const collapsed = isCoachSectionCollapsed(collapseKey, true);
+      const pct = Math.round((ownedCount / compact.length) * 100);
+      const chipContent = compact.slice(0, 5).map(i =>
+        `<span class="support-chip-item">${escapeHtml(i)}</span>`
+      ).join("") + (compact.length > 5 ? `<span class="support-chip-more">+${compact.length - 5}</span>` : "");
+      const rows = compact.map(item => {
+        const owned = ownedNames.includes(item);
+        const img = itemImages[item];
+        return `
+          <div class="item-row ${owned ? "owned" : ""}">
+            ${renderItemArt(item, img, "item-thumb", owned)}
+            <div style="min-width:0">
+              <div class="item-name ${owned ? "owned" : ""}">${escapeHtml(item)}</div>
+              <div class="item-sub ${owned ? "owned" : ""}">${owned ? "In hand" : "Looking for"}</div>
+            </div>
+            <span class="tier">${escapeHtml(getTier(item))}</span>
+            <span class="check ${owned ? "owned" : ""}">${owned ? "OK" : "."}</span>
+          </div>
+        `;
+      }).join("");
+      return `
+        <div class="list-group" style="color:#a78bfa">
+          <div class="slot-head">
+            <div class="slot-head-row">
+              <div class="slot-pill">
+                <span class="slot-dot"></span>
+                <span class="list-label">Support</span>
+              </div>
+              <span class="slot-count">${escapeHtml(`${ownedCount}/${compact.length}`)}</span>
+              <span class="slot-blurb">Glue and utility</span>
+              ${renderCollapseButton(collapseKey, collapsed, "Support items")}
+            </div>
+            <div class="slot-progress"><div class="slot-progress-fill" style="width:${pct}%"></div></div>
+          </div>
+          ${collapsed
+            ? `<div class="support-chips-row">${chipContent}</div>`
+            : `<div class="item-list">${rows || `<div class="note">No items listed.</div>`}</div>`
+          }
+        </div>
+      `;
+    }
+
     function renderCoach(state) {
       const coach = getActiveCoach(state);
       return `
-        ${renderOverview(state, coach)}
-        ${renderCardSearch(coach)}
-        ${renderOverrides(coach, state)}
         ${renderChecklist(coach)}
-        ${renderAlerts(state, coach)}
+        <section class="section">
+          ${renderSubTabsStrip()}
+          ${coachSubTab === "pivots"  ? renderPivotsPane(state, coach) : ""}
+          ${coachSubTab === "search"  ? renderFindCardPane(coach)       : ""}
+          ${coachSubTab === "prompts" ? renderPromptsPane(state, coach) : ""}
+          ${coachSubTab === "notes"   ? renderBuildNotesPane(coach)     : ""}
+        </section>
       `;
     }
 
     function renderReview(state) {
       const scoreSummary = state.score_summary || {};
-      const summaryCards = [
-        { label: "Good", value: (scoreSummary.optimal || 0) + (scoreSummary.good || 0) },
-        { label: "Situational", value: scoreSummary.situational || 0 },
-        { label: "Suboptimal", value: scoreSummary.suboptimal || 0 },
-        { label: "Missed", value: scoreSummary.missed || 0 },
-      ].map((entry) => `
-        <div class="review-stat">
-          <div class="review-stat-label">${escapeHtml(entry.label)}</div>
-          <div class="review-stat-value">${escapeHtml(entry.value)}</div>
-        </div>
+      const goodCount       = (scoreSummary.optimal || 0) + (scoreSummary.good || 0);
+      const sitCount        = scoreSummary.situational || 0;
+      const subCount        = scoreSummary.suboptimal || 0;
+      const missedCount     = scoreSummary.missed || 0;
+      const allCount        = goodCount + sitCount + subCount + missedCount;
+
+      const filterDefs = [
+        { id: "all",        label: "All",        count: allCount,    color: ""              },
+        { id: "good",       label: "Good",       count: goodCount,   color: "var(--green)"  },
+        { id: "suboptimal", label: "Suboptimal", count: subCount,    color: "var(--red)"    },
+        { id: "missed",     label: "Missed",     count: missedCount, color: "var(--red)"    },
+      ];
+
+      const filterChips = filterDefs.map(f => `
+        <button type="button" class="review-filter-btn ${reviewFilter === f.id ? "active" : ""}" data-review-filter="${escapeHtml(f.id)}">
+          <div class="review-filter-label">${escapeHtml(f.label)}</div>
+          <div class="review-filter-count" ${f.color ? `style="color:${f.color}"` : ""}>${escapeHtml(String(f.count))}</div>
+        </button>
       `).join("");
 
-      const rows = (state.decisions || []).map((decision) => {
+      const allDecisions = state.decisions || [];
+      const visibleDecisions = reviewFilter === "all" ? allDecisions : allDecisions.filter(d => {
+        const label = (d.derived_score_label || d.score_label || "").toLowerCase();
+        if (reviewFilter === "good")       return label === "good" || label === "optimal";
+        if (reviewFilter === "suboptimal") return label === "suboptimal" || label === "warning";
+        if (reviewFilter === "missed")     return label === "missed";
+        return true;
+      });
+
+      const rows = visibleDecisions.map((decision) => {
         const badge = getReviewBadge(decision);
         const imgEl = decision.image
           ? renderItemArt(getReviewDisplayName(decision), decision.image, "review-thumb")
@@ -2133,9 +2580,9 @@
         <section class="section">
           <div class="section-kicker">Run review</div>
           <h3 class="section-title">Decision log</h3>
-          <div class="note" style="margin-bottom:12px;">Showing build-defining choices only.</div>
-          <div class="review-summary">${summaryCards}</div>
-          <div class="review-list">${rows || `<div class="note">No build-defining decisions yet.</div>`}</div>
+          <div class="note" style="margin-bottom:8px;">Live · Build-defining choices only.</div>
+          <div class="review-filters">${filterChips}</div>
+          <div class="review-list">${rows || `<div class="note">No matching decisions.</div>`}</div>
         </section>
       `;
     }
@@ -2398,6 +2845,7 @@
       root.innerHTML = `
         <div class="shell ${isCollapsed ? "collapsed" : ""}">
           ${renderHeader(overlayState)}
+          ${!idle && activeTab === "coach" ? renderActiveBuildHero(overlayState, getActiveCoach(overlayState)) : ""}
           ${idle ? "" : renderTabs()}
           <div class="content">
             ${renderActivePane(overlayState)}
@@ -2576,6 +3024,31 @@
         render();
         const nextSearch = root.querySelector("[data-card-search='true']");
         if (nextSearch) nextSearch.focus();
+        return;
+      }
+
+      const subTabButton = event.target.closest("[data-subtab]");
+      if (subTabButton && root.contains(subTabButton)) {
+        event.preventDefault();
+        coachSubTab = subTabButton.dataset.subtab;
+        render();
+        return;
+      }
+
+      const reviewFilterBtn = event.target.closest("[data-review-filter]");
+      if (reviewFilterBtn && root.contains(reviewFilterBtn)) {
+        event.preventDefault();
+        reviewFilter = reviewFilterBtn.dataset.reviewFilter;
+        render();
+        return;
+      }
+
+      const chipToggle = event.target.closest("[data-toggle-chips='true']");
+      if (chipToggle && root.contains(chipToggle)) {
+        event.preventDefault();
+        chipCloudOpen = !chipCloudOpen;
+        render();
+        return;
       }
     }
 

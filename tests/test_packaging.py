@@ -84,6 +84,43 @@ def test_windows_installer_packaging_files_exist():
         assert path.is_file(), path
 
 
+def test_score_archetypes_returns_all_when_no_limit():
+    """score_archetypes must return all scored archetypes, not just top 3."""
+    from web.build_helpers import score_archetypes, load_builds
+
+    build_data, _ = load_builds("Karnok")
+    total_archetypes = sum(
+        len(phase.get("archetypes", []))
+        for phase in build_data.get("game_phases", {}).values()
+        if isinstance(phase, dict)
+    )
+    assert total_archetypes > 3, (
+        f"Test requires >3 archetypes in the Karnok catalog, found {total_archetypes}"
+    )
+
+    result = score_archetypes(set(), build_data=build_data)
+    assert len(result) > 3, (
+        f"score_archetypes should return all archetypes (>3), got {len(result)}"
+    )
+
+    # Verify limit= still works for callers that need truncation
+    top3 = score_archetypes(set(), build_data=build_data, limit=3)
+    assert len(top3) == 3
+    assert top3 == result[:3]
+
+
+def test_overlay_state_arch_scores_exposes_all_archetypes(tmp_path):
+    """The overlay state payload must include more than 3 arch_scores."""
+    import sqlite3
+    from web.build_helpers import load_builds, score_archetypes
+
+    build_data, _ = load_builds("Karnok")
+    all_scores = score_archetypes(set(), build_data=build_data)
+    assert len(all_scores) > 3, (
+        f"Karnok catalog must have >3 archetypes for this test; found {len(all_scores)}"
+    )
+
+
 def test_gitignore_keeps_generated_artifacts_local_and_sources_trackable():
     gitignore = app_paths.repo_dir() / ".gitignore"
     lines = [
