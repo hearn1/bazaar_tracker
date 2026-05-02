@@ -1,0 +1,509 @@
+{
+  "hero": "Vanessa",
+  "season": "13",
+  "last_updated": "2026-05-02",
+  "notes": "Vanessa is a tempo-and-engine hero whose best lines branch from early Weapons, Aquatics, Friends, or a rare build-around. Core win conditions covered here are Tortuga Friends, Slumbering Primordial combo, Gunslinger burst, Aquatic engines, and Langxian snowball. Early Star Chart, Ambergris, Fishing Rod, and Shovel are broadly useful, while Sharkclaws, Switchblade, Honing Steel, Catfish, Beach Ball, Pearl, and Sharkray provide the bridges that keep the run alive until the late carry is clear.",
+  "item_tier_list": {
+    "description": "Tier list synthesized from Season 13 Mobalytics Vanessa guides: Tortuga, Slumbering Primordial, Gunslinger Aggro, Aquatic, and Langxian. Items not listed score as unranked.",
+    "S": [
+      "Tortuga",
+      "Slumbering Primordial",
+      "Orange Julian",
+      "Bladed Hoverboard",
+      "Shuriken",
+      "Pufferfish",
+      "Elemental Depth Charge",
+      "Langxian",
+      "Rowboat",
+      "Shipwreck"
+    ],
+    "A": [
+      "Sharkray",
+      "Piranha",
+      "Narwhal",
+      "Flying Fish",
+      "Beach Ball",
+      "Catfish",
+      "Pearl",
+      "Jellyfish",
+      "Yeti Crab",
+      "Scimitar of the Deep",
+      "Incendiary Rounds",
+      "Dive Weights",
+      "Clamera",
+      "Pop Snappers",
+      "Nesting Doll",
+      "Holsters",
+      "Pistol Sword",
+      "Lockbox",
+      "Figurehead",
+      "Seashadow",
+      "Suppressor",
+      "Star Chart"
+    ],
+    "B": [
+      "Sharkclaws",
+      "Switchblade",
+      "Honing Steel",
+      "Handaxe",
+      "Double Barrel",
+      "Grenade",
+      "Powder Horn",
+      "Katana",
+      "Fang",
+      "Life Preserver",
+      "Seaweed",
+      "Sea Shell",
+      "IllusoRay",
+      "Fishing Rod",
+      "Fishing Net",
+      "Ambergris",
+      "Shovel",
+      "Cove",
+      "Chum",
+      "Cannonball",
+      "Captain's Quarters",
+      "Torpedo",
+      "Captain's Wheel",
+      "Crow's Nest",
+      "Spyglass",
+      "Custom Scope",
+      "Gunpowder",
+      "Zoarcid",
+      "Iceberg",
+      "Water Wheel",
+      "Turtle Shell",
+      "Wanted Poster",
+      "Astrolabe",
+      "Shadowed Cloak",
+      "Nullfrost Altar",
+      "Ballista"
+    ]
+  },
+  "pivot_signals": {
+    "signals": [
+      "Tortuga found with Sharkray, Friends, or fast Aquatics already assembled - commit to Tortuga and prioritize Haste, Charge, and sustain.",
+      "Early Catfish, Beach Ball, Pearl, or Fishing Rod cluster - play Aquatic and decide later between Pufferfish, Elemental Depth Charge, or Sharkray/Tortuga.",
+      "Orange Julian plus Shuriken or Dive Weights - lean Gunslinger; save slots for Ammo and Damage scaling.",
+      "Bladed Hoverboard found while holding Multicast Ammo - move toward the mid-game Gunslinger combo.",
+      "Slumbering Primordial appears with Incendiary Rounds, Dive Weights, Holsters, or Heated Shells - pivot if the board can support Charge loops.",
+      "Langxian found before the first PvE fight and early wins are likely - play for tempo; abandon by Day 3-4 if the damage falls behind.",
+      "Shipwreck found on a mostly Aquatic board - keep the Aquatic shell and upgrade around it.",
+      "Multiple PvP losses with no carry by Day 7 - stop chasing Langxian or pure Weapon tempo and pivot into Aquatic, Tortuga, or Slumbering Primordial if offered."
+    ]
+  },
+  "scoring_weights": {
+    "core": 0.5,
+    "carry": 0.35,
+    "support": 0.15
+  },
+  "game_phases": {
+    "early": {
+      "day_range": "Days 1-4",
+      "description": "Vanessa's early game should either build a real tempo board or buy the economy pieces that make later pivots painless. Weapon starts want fast scaling or front-loaded Damage. Aquatic starts want Haste and trigger density. Langxian only deserves commitment if it appears immediately and wins early fights.",
+      "notes": "Best early pickups: Star Chart for Docks XP, Ambergris for Aquatic income, Fishing Rod for targeted Haste, Sharkclaws/Switchblade/Honing Steel for Weapon scaling, Catfish/Beach Ball/Pearl for Aquatic engines, Orange Julian for Gunslinger scaling, and Sharkray as the Friend/Aquatic signpost. Always buy Shuriken if playing Weapons because it becomes a top combo piece later.",
+      "universal_utility_items": [
+        "Star Chart",
+        "Ambergris",
+        "Fishing Rod",
+        "Shovel",
+        "Fishing Net",
+        "Sharkclaws",
+        "Switchblade",
+        "Honing Steel",
+        "Catfish",
+        "Beach Ball",
+        "Pearl",
+        "Sharkray",
+        "Orange Julian",
+        "Shuriken",
+        "Langxian"
+      ],
+      "economy_items": [
+        "Ambergris",
+        "Fishing Rod",
+        "Fishing Net",
+        "Shovel",
+        "Cove",
+        "Star Chart"
+      ]
+    },
+    "early_mid": {
+      "day_range": "Days 5-7",
+      "description": "The mid-game is about choosing which engine deserves upgrades. Aquatic shells can become Pufferfish, Elemental Depth Charge, Sharkray/Tortuga, or Shipwreck. Weapon shells move toward Orange Julian plus Ammo, Bladed Hoverboard, or Pistol Sword. Langxian must be clearly ahead. Slumbering Primordial is mostly a pivot off existing fast triggers.",
+      "notes": "Prioritize upgrade breakpoints and board space. Vanessa boards often fail by becoming too crowded with medium items. Keep fast Small items when they multiply Haste, Charge, Poison, or Damage triggers. Wanted Poster is best when you are already winning PvP and can spare stash space.",
+      "archetypes": [
+        {
+          "name": "Aquatic Engine Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Catfish",
+            "Beach Ball",
+            "Pearl"
+          ],
+          "carry_items": [
+            "Pufferfish",
+            "Elemental Depth Charge",
+            "Sharkray",
+            "Scimitar of the Deep",
+            "Yeti Crab"
+          ],
+          "support_items": [
+            "Fishing Rod",
+            "Jellyfish",
+            "Clamera",
+            "Powder Horn",
+            "Ambergris",
+            "Fishing Net",
+            "Shovel",
+            "Cove",
+            "Sea Shell",
+            "Seaweed",
+            "IllusoRay",
+            "Life Preserver",
+            "Star Chart"
+          ],
+          "notes": "Use cheap Aquatics and Haste triggers to bridge into a real win condition. Catfish can carry early Poison fights. Beach Ball and Pearl provide the trigger density needed by Pufferfish, Sharkray, and later Charge engines. Avoid clogging the board with too many Medium Aquatics unless they are directly enabling the carry."
+        },
+        {
+          "name": "Gunslinger Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Orange Julian",
+            "Shuriken"
+          ],
+          "carry_items": [
+            "Bladed Hoverboard",
+            "Dive Weights",
+            "Double Barrel",
+            "Grenade",
+            "Torpedo",
+            "Captain's Quarters"
+          ],
+          "support_items": [
+            "Sharkclaws",
+            "Katana",
+            "Switchblade",
+            "Honing Steel",
+            "Handaxe",
+            "Powder Horn",
+            "Cannonball",
+            "Figurehead",
+            "Lockbox",
+            "Shadowed Cloak",
+            "Ambergris",
+            "Shovel",
+            "Fishing Rod",
+            "Star Chart",
+            "Wanted Poster"
+          ],
+          "notes": "Orange Julian is the priority scaler. Shuriken is worth buying before it is playable because it becomes the best Ammo combo piece. Bladed Hoverboard unlocks the huge mid-game damage ceiling, especially with Multicast Ammo such as Shuriken or Dive Weights. Keep enough front-loaded Damage to avoid losing while the combo comes together."
+        },
+        {
+          "name": "Tortuga Friends Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Sharkray",
+            "Beach Ball"
+          ],
+          "carry_items": [
+            "Tortuga",
+            "Piranha",
+            "Narwhal",
+            "Flying Fish",
+            "Pufferfish"
+          ],
+          "support_items": [
+            "Jellyfish",
+            "Chum",
+            "Fishing Net",
+            "Fishing Rod",
+            "Figurehead",
+            "Seashadow",
+            "Dive Weights",
+            "Ambergris",
+            "Star Chart",
+            "Wanted Poster"
+          ],
+          "notes": "Sharkray is the signpost: it turns Haste into Damage and Poison scaling. Piranha, Narwhal, and Flying Fish are fast Friend Weapons that keep the board aggressive. Avoid adding non-Friend Aquatics when Sharkray scaling is the main plan. Tortuga later converts the shell into a board-wide Haste and Damage payoff."
+        },
+        {
+          "name": "Langxian Tempo Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Langxian"
+          ],
+          "carry_items": [
+            "Langxian",
+            "Sharkclaws",
+            "Switchblade",
+            "Honing Steel",
+            "Narwhal",
+            "Fang",
+            "Katana"
+          ],
+          "support_items": [
+            "Life Preserver",
+            "Star Chart",
+            "Fishing Net",
+            "Fishing Rod",
+            "Shovel",
+            "Handaxe",
+            "Flying Fish",
+            "Zoarcid",
+            "Concealed Dagger"
+          ],
+          "notes": "Only stay committed if Langxian was found early and the first PvP fights are wins or near-wins. Use other Weapons to carry the opening because Langxian starts weak. Avoid Ammo Weapons unless you can win before Reload. If the damage is not keeping pace by Day 3-4, pivot."
+        },
+        {
+          "name": "Slumbering Pivot Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Slumbering Primordial"
+          ],
+          "carry_items": [
+            "Incendiary Rounds",
+            "Dive Weights",
+            "Clamera",
+            "Zoarcid"
+          ],
+          "support_items": [
+            "Pop Snappers",
+            "Nesting Doll",
+            "Holsters",
+            "Gunpowder",
+            "Custom Scope",
+            "Iceberg",
+            "Jellyfish",
+            "Pearl",
+            "Star Chart"
+          ],
+          "notes": "Slumbering Primordial is usually discovered late because it is Large and Gold-tier, but Aquatic and fast-trigger boards naturally preserve many of its enablers. Stash likely support if the run can afford it, especially Incendiary Rounds, Dive Weights, Holsters, Pop Snappers, and Nesting Doll."
+        }
+      ]
+    },
+    "late": {
+      "day_range": "Day 8+",
+      "description": "Late Vanessa should commit to one clear payoff: Tortuga Haste/Damage, Slumbering Primordial Charge loops, Gunslinger burst, Aquatic Poison/Charge engines, or Langxian one-Weapon burst. Upgrade quality and startup timing matter more than raw item count.",
+      "notes": "Diamond upgrades are especially important on Tortuga, Slumbering Primordial, Rowboat, and key Cooldown Reduction pieces. Restorative, Shielded, Fiery, Toxic, and other carry enchantments can change matchups. Keep board space disciplined: small fast items often outperform impressive medium filler if they generate more triggers.",
+      "archetypes": [
+        {
+          "name": "Tortuga Friends",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Tortuga online with Friend Weapons, Sharkray scaling, or an Aquatic Haste shell ready to exploit board-wide Haste.",
+          "condition_items": [
+            "Tortuga",
+            "Sharkray"
+          ],
+          "core_items": [
+            "Tortuga",
+            "Sharkray",
+            "Beach Ball"
+          ],
+          "carry_items": [
+            "Tortuga",
+            "Pufferfish",
+            "Piranha",
+            "Narwhal",
+            "Flying Fish",
+            "Shipwreck"
+          ],
+          "support_items": [
+            "Piano",
+            "Dive Weights",
+            "Figurehead",
+            "Seashadow",
+            "Jellyfish",
+            "Chum",
+            "Fishing Net",
+            "Fishing Rod",
+            "Ambergris",
+            "Star Chart",
+            "Wanted Poster"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Aquatic",
+            "Haste",
+            "Charge"
+          ],
+          "notes": "Tortuga can become the sole carry at high tier, but it also turns fast Friends and Poison items into a huge engine. Pufferfish is excellent even without full Poison support because Tortuga supplies repeated Haste triggers. Piano and Dive Weights create extreme Charge lines. Shipwreck is the premium full-Aquatic capstone."
+        },
+        {
+          "name": "Slumbering Primordial",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Slumbering Primordial found and supported by Charge, Multicast, or enchanted trigger loops.",
+          "condition_items": [
+            "Slumbering Primordial",
+            "Incendiary Rounds"
+          ],
+          "core_items": [
+            "Slumbering Primordial",
+            "Incendiary Rounds",
+            "Dive Weights"
+          ],
+          "carry_items": [
+            "Slumbering Primordial",
+            "Iceberg"
+          ],
+          "support_items": [
+            "Gunpowder",
+            "Clamera",
+            "Zoarcid",
+            "Heated Shells",
+            "Nesting Doll",
+            "Pop Snappers",
+            "Holsters",
+            "Custom Scope",
+            "Oceanic Rush",
+            "Tracer Fire",
+            "Jellyfish",
+            "Pearl"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Charge",
+            "Ammo",
+            "Burn"
+          ],
+          "notes": "The build wants Slumbering Primordial at Diamond so its Charge cadence becomes fast enough for late fights. Incendiary Rounds plus Dive Weights creates the largest Charge stream, while Holsters and small items improve startup. Fiery or Toxic enchantments can help establish self-charging loops. Add sustain if the run goes long."
+        },
+        {
+          "name": "Gunslinger Burst",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Orange Julian or another Damage scaler is online with Multicast Ammo and enough startup speed to kill before slower boards stabilize.",
+          "condition_items": [
+            "Orange Julian",
+            "Shuriken"
+          ],
+          "core_items": [
+            "Orange Julian",
+            "Shuriken",
+            "Bladed Hoverboard"
+          ],
+          "carry_items": [
+            "Shuriken",
+            "Dive Weights",
+            "Pistol Sword",
+            "Scimitar of the Deep",
+            "Torpedo",
+            "Ballista"
+          ],
+          "support_items": [
+            "Bladed Hoverboard",
+            "Cannonball",
+            "Holsters",
+            "Cutlass",
+            "Lockbox",
+            "Figurehead",
+            "Rowboat",
+            "Captain's Wheel",
+            "Captain's Quarters",
+            "Nullfrost Altar",
+            "Powder Horn",
+            "Star Chart",
+            "Wanted Poster",
+            "Shadowed Cloak"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Weapon",
+            "Ammo",
+            "Damage"
+          ],
+          "notes": "Gunslinger wins through fast burst and efficient Damage scaling. Pistol Sword can act like an additional Bladed Hoverboard. Orange Julian should trigger before Shuriken and Dive Weights; Rowboat is the cleanest startup, while Captain's Wheel is acceptable. Lockbox and Figurehead are easier but often scale lower in the deepest late game."
+        },
+        {
+          "name": "Aquatic Vanessa",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Aquatic shell assembled with a clear Poison, Charge, or Haste payoff.",
+          "condition_items": [
+            "Pufferfish",
+            "Elemental Depth Charge"
+          ],
+          "core_items": [
+            "Pufferfish",
+            "Elemental Depth Charge",
+            "Pearl"
+          ],
+          "carry_items": [
+            "Pufferfish",
+            "Elemental Depth Charge",
+            "Yeti Crab",
+            "Scimitar of the Deep",
+            "Sharkray",
+            "Shipwreck"
+          ],
+          "support_items": [
+            "Jellyfish",
+            "Figurehead",
+            "Turtle Shell",
+            "Dive Weights",
+            "Zoarcid",
+            "Water Wheel",
+            "Gunpowder",
+            "Powder Horn",
+            "Beach Ball",
+            "Pearl",
+            "Clamera",
+            "Ambergris",
+            "Fishing Rod",
+            "Star Chart",
+            "Astrolabe"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Aquatic",
+            "Poison",
+            "Charge"
+          ],
+          "notes": "Pick one main payoff and tune around it. Pufferfish wants Poison support and Cooldown Reduction. Elemental Depth Charge needs Yeti Crab, Ammo support, and enough time to fire. Jellyfish next to Pufferfish and Pearl creates a huge trigger stream. Shipwreck is the rare but premium late-game upgrade for full Aquatic boards."
+        },
+        {
+          "name": "Langxian Snowball",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Langxian has scaled from early wins or was revived by Shrouded Figure scaling. If it cannot kill in one or two hits, pivot away.",
+          "condition_items": [
+            "Langxian"
+          ],
+          "core_items": [
+            "Langxian",
+            "Rowboat"
+          ],
+          "carry_items": [
+            "Langxian"
+          ],
+          "support_items": [
+            "Rowboat",
+            "Star Chart",
+            "Seashadow",
+            "Suppressor",
+            "Spyglass",
+            "Figurehead",
+            "Cyber-Sai",
+            "Crow's Nest",
+            "Captain's Wheel",
+            "Korxena Crest",
+            "Custom Scope",
+            "Dive Weights",
+            "Clamera",
+            "Wanted Poster",
+            "Life Preserver"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Weapon",
+            "Crit",
+            "Haste"
+          ],
+          "notes": "Langxian is strongest when ahead and weakest when merely average. Rowboat is the best startup support and wants Diamond-tier. Star Chart, Seashadow, and Suppressor provide Cooldown Reduction, while Spyglass can disrupt the opponent. Once Langxian is large enough, move toward a one-Weapon setup with Charge, Haste, and Crit support."
+        }
+      ]
+    }
+  }
+}

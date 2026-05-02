@@ -34,6 +34,7 @@ CATALOG_FILENAMES = {
     "karnok": "karnok_builds.json",
     "mak": "mak_builds.json",
     "pygmalien": "pygmalien_builds.json",
+    "vanessa": "vanessa_builds.json",
 }
 
 SIZE_SLOTS = {"Small": 1, "Medium": 2, "Large": 3}
