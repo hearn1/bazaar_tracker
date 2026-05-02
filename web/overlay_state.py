@@ -39,15 +39,6 @@ def _get_pve_record(conn, run_id: int) -> tuple[int, int]:
 
 def _get_pvp_record(conn, run_id: int, run: dict) -> tuple[int, int]:
     pvp_w, pvp_l = 0, 0
-    if run.get("api_time_start") and run.get("api_time_end"):
-        t = conn.execute("""
-            SELECT victories, defeats FROM api_game_states
-            WHERE captured_at >= ? AND captured_at <= ?
-              AND run_state IN ('EndRunDefeat', 'EndRunVictory')
-            ORDER BY captured_at DESC LIMIT 1
-        """, (run["api_time_start"], run["api_time_end"])).fetchone()
-        if t and t["victories"] is not None:
-            return t["victories"], t["defeats"] or 0
     combats = conn.execute(
         "SELECT outcome, combat_type FROM combat_results WHERE run_id=?", (run_id,)
     ).fetchall()
@@ -57,6 +48,9 @@ def _get_pvp_record(conn, run_id: int, run: dict) -> tuple[int, int]:
                 pvp_w += 1
             elif c["outcome"] == "player_died":
                 pvp_l += 1
+    terminal = _get_run_end_snapshot(conn, run)
+    if terminal and terminal.get("victories") is not None:
+        return terminal["victories"], terminal.get("defeats") or 0
     return pvp_w, pvp_l
 
 
@@ -77,21 +71,48 @@ def _get_latest_live_snapshot(conn) -> Optional[dict]:
 
 
 def _get_run_end_snapshot(conn, run: dict) -> Optional[dict]:
-    """Return the finalized EndRun snapshot for a completed run."""
-    if run.get("api_time_start") and run.get("api_time_end"):
-        row = conn.execute(
-            """
-            SELECT day, hour, gold, health, health_max,
-                   victories, defeats, run_state, captured_at
-            FROM api_game_states
-            WHERE captured_at >= ? AND captured_at <= ?
-              AND run_state IN ('EndRunDefeat', 'EndRunVictory')
-            ORDER BY captured_at DESC LIMIT 1
-            """,
-            (run["api_time_start"], run["api_time_end"]),
-        ).fetchone()
-        if row:
-            return dict(row)
+    """Return a completed-run snapshot linked from decision live context."""
+    latest = conn.execute(
+        """
+        SELECT api_game_state_id
+        FROM decisions
+        WHERE run_id = ? AND api_game_state_id IS NOT NULL
+        ORDER BY decision_seq DESC, id DESC
+        LIMIT 1
+        """,
+        (run["id"],),
+    ).fetchone()
+    if not latest:
+        return None
+    row = conn.execute(
+        """
+        SELECT day, hour, gold, health, health_max,
+               victories, defeats, run_state, captured_at
+        FROM api_game_states
+        WHERE id >= ?
+          AND (? IS NULL OR hero = ? OR hero IS NULL OR hero = '' OR hero = 'Unknown')
+          AND run_state IN ('EndRunDefeat', 'EndRunVictory')
+        ORDER BY id DESC
+        LIMIT 1
+        """,
+        (latest["api_game_state_id"], run.get("hero"), run.get("hero")),
+    ).fetchone()
+    if row:
+        return dict(row)
+    row = conn.execute(
+        """
+        SELECT day, hour, gold, health, health_max,
+               victories, defeats, run_state, captured_at
+        FROM api_game_states
+        WHERE id >= ?
+          AND (? IS NULL OR hero = ? OR hero IS NULL OR hero = '' OR hero = 'Unknown')
+        ORDER BY id DESC
+        LIMIT 1
+        """,
+        (latest["api_game_state_id"], run.get("hero"), run.get("hero")),
+    ).fetchone()
+    if row:
+        return dict(row)
     return None
 
 

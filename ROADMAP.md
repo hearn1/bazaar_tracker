@@ -9,40 +9,29 @@ Status labels:
 - `Open`: not yet implemented.
 - `Deprioritized`: low priority feature, leaving as a potential enhancement.
 
+## Completed Work
+
+### Remove Post-Run Bridge/Scoring - Done
+
+Normal run completion no longer triggers post-run bridge enrichment, `scorer.score_run()`, `LiveScorer.rescore_run()`, or any batch rewrite of `score_label` / `score_notes`. `RunState` attaches live Mono context to decisions at insert time, and `LiveScorer` scores from that live context. Live testing confirmed bridge scoring did not occur after run completion.
+
+Keep `bridge.py` manual diagnostics only. Do not reintroduce watcher/tracker calls to `bridge.enrich_run()` or post-run scorer write paths.
+
 ## Open Feature Work
 
-### Remove Post-Run Scoring - Open
+### Overlay/UI Follow-ups - Open
 
-Goal: make the live scoring path the only scoring path. The bridge should enrich captured decisions with Mono context, but it should no longer trigger a separate post-run rescore.
+Observed during live testing:
+- Between runs, the UI does not automatically advance to the newest run. Clicking "See latest" effectively attaches the UI to the new run, but this should happen automatically when a new active run starts.
+- Coach tab sometimes becomes unclickable. Some build/archetype entries on the Coach tab also cannot be clicked.
+- Coach tab build/archetype sections should be collapsible. They currently take up too much vertical space when several builds are shown.
+- Review tab shows both "missed" and "skip" language; it is unclear whether these mean the same thing or represent different concepts. Clarify labels/copy and/or badge taxonomy.
 
 Relevant files:
-- `bridge.py`
-- `scorer.py`
-- `watcher.py`
-- `run_state.py`
-- `web/review_builder.py`
 - `web/overlay_state.py`
-- tests covering scoring, bridge enrichment, and run completion behavior
-
-Why this is next:
-- Over time it has become clear that scoring should happen when the decision is recorded via `LiveScorer`.
-- Post-run scoring creates two paths that can disagree, makes debugging harder, and can rewrite live coaching decisions after the fact.
-- The bridge still matters for enrichment, but its role should be correlation and metadata fill-in, not scoring authority.
-
-Implementation notes:
-- Remove or disable bridge-triggered post-run scoring/rescoring.
-- Keep `bridge.py` responsible for correlating Player.log decisions with Mono snapshots and filling day/hour/gold/health/combat context where available.
-- Treat stored `score_label` and `score_notes` from the live path as authoritative.
-- Audit `scorer.py` for duplicate live-vs-post-run code paths and collapse shared helpers only where it keeps the live path simple.
-- Update dashboard/review assumptions so enriched metadata can appear after bridge runs without changing the original score.
-- Keep a manual/dev-only rescore command only if it is clearly useful for catalog development, and document that it is not part of normal run completion.
-
-How to test:
-- Complete a run and confirm watcher still triggers bridge enrichment.
-- Confirm decisions keep the `score_label`/`score_notes` written by `LiveScorer`.
-- Confirm enriched day/hour/gold/health fields can update without changing scores.
-- Confirm dashboard and overlay still show completed run review correctly after bridge finishes.
-- Run the scoring/bridge-related pytest suite and a py_compile pass over touched modules.
+- `web/review_builder.py`
+- `web/static/index.html`
+- `web/static/overlay.html`
 
 ### Multi-Hero Support - Partial
 
@@ -149,3 +138,4 @@ How to test:
 - Confirm `static_cache/images/manifest.json` has increased entry count and no stale entries.
 - Start `python tracker.py --no-mono`, open dashboard/overlay, and confirm cards with manifest entries render through `/cards/<filename>`.
 - Spot-check missing common cards and use probe scripts to determine whether they are atlas sprites, generated textures, or naming mismatches.
+

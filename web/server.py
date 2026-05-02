@@ -47,7 +47,7 @@ from web.build_helpers import (
     infer_archetype_from_decisions,
     build_run_summary,
 )
-from web.overlay_state import build_overlay_state
+from web.overlay_state import build_overlay_state, _get_pvp_record
 from web.review_builder import format_decision_row
 from web.card_images import IMAGE_DIR as CARD_IMAGE_DIR, lookup_image_url
 
@@ -139,47 +139,6 @@ def _resolve_instance_ids_via_api_cards(conn, instance_ids: list[str]) -> dict[s
     resolver = make_resolver()
     mapping = resolver.bulk_resolve(instance_ids)
     return {iid: name for iid, name in mapping.items() if not is_unresolved(name)}
-
-
-def _get_pvp_record(conn, run_id: int, run: dict) -> tuple[int, int]:
-    pvp_w, pvp_l = 0, 0
-    if run.get("api_time_start") and run.get("api_time_end"):
-        t = conn.execute("""
-            SELECT victories, defeats FROM api_game_states
-            WHERE captured_at >= ? AND captured_at <= ?
-              AND run_state IN ('EndRunDefeat', 'EndRunVictory')
-            ORDER BY captured_at DESC LIMIT 1
-        """, (run["api_time_start"], run["api_time_end"])).fetchone()
-        if t and t["victories"] is not None:
-            return t["victories"], t["defeats"] or 0
-    combats = conn.execute(
-        "SELECT outcome, combat_type FROM combat_results WHERE run_id=?", (run_id,)
-    ).fetchall()
-    for c in combats:
-        if (c["combat_type"] or "pve") == "pvp":
-            if c["outcome"] == "opponent_died":
-                pvp_w += 1
-            elif c["outcome"] == "player_died":
-                pvp_l += 1
-    return pvp_w, pvp_l
-
-
-def _get_run_end_snapshot(conn, run: dict) -> Optional[dict]:
-    if run.get("api_time_start") and run.get("api_time_end"):
-        row = conn.execute(
-            """
-            SELECT day, hour, gold, health, health_max,
-                   victories, defeats, run_state, captured_at
-            FROM api_game_states
-            WHERE captured_at >= ? AND captured_at <= ?
-              AND run_state IN ('EndRunDefeat', 'EndRunVictory')
-            ORDER BY captured_at DESC LIMIT 1
-            """,
-            (run["api_time_start"], run["api_time_end"]),
-        ).fetchone()
-        if row:
-            return dict(row)
-    return None
 
 
 _ARCHETYPE_PLACEHOLDER_LOWERS = {"", "none", "null", "unknown", "no archetype fit", "no fit"}

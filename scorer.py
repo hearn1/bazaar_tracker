@@ -1,17 +1,17 @@
 """
-scorer.py — Post-run scoring engine for Bazaar run tracker.
+scorer.py — Live scoring engine and manual report tooling for Bazaar tracker.
 
-Evaluates each decision in a completed run against the active hero's build catalog:
+LiveScorer evaluates each decision against the active hero's build catalog as
+RunState records it:
   1. Determines game phase at time of decision (early / early_mid / late)
   2. Identifies which archetypes were viable given the board state
   3. Detects when a build was committed to
   4. Scores each decision: optimal / good / situational / suboptimal
-  5. Writes score_label + score_notes back to the decisions table
+  5. Writes score_label + score_notes back to the decisions table immediately
 
 Usage:
-    python scorer.py                    # score most recent run
-    python scorer.py --run-id 3         # score specific run
-    python scorer.py --run-id 3 --print # print report without writing to DB
+    python scorer.py                    # print manual report for most recent run
+    python scorer.py --run-id 3         # print manual report for a specific run
 """
 
 import json
@@ -218,7 +218,7 @@ def _filter_resolved_names(names: list) -> list[str]:
 
 
 def _resolve_offered_names(decision, offered_raw: list[str], api_template_map: dict | None = None) -> list[str]:
-    """Resolve offered names, preferring bridge enrichment when available."""
+    """Resolve offered names, preferring stored live decision context."""
     offered_names = []
     enriched_names = _load_json_list(decision["offered_names"]) if "offered_names" in decision.keys() else []
 
@@ -409,10 +409,8 @@ def _is_event_or_loot_purchase(decision, offered_raw: list[str]) -> bool:
     if len(offered_raw) == 1 and game_state in ("ChoiceState", "LevelUpState", "LootState"):
         return True
 
-    # Case 2: NULL game_state + single offer → treat as likely event/loot grant.
-    # Only fires when Mono hasn't captured game_state yet (bridge hasn't run).
-    # Real single-item shops always have a non-NULL game_state by the time
-    # bridge runs (e.g. ShopState), so this cannot fire for them post-bridge.
+    # Case 2: NULL game_state + single offer -> treat as likely event/loot grant.
+    # This only applies to older rows without live Mono decision context.
     if len(offered_raw) == 1 and not game_state:
         return True
 
@@ -429,13 +427,20 @@ def _is_event_or_loot_purchase(decision, offered_raw: list[str]) -> bool:
 
 
 def _get_terminal_pvp_row(conn: sqlite3.Connection, run) -> Optional[sqlite3.Row]:
-    """Prefer the current run's terminal API snapshot when available."""
+    """Prefer a terminal Mono snapshot linked to this run's decision context."""
     if not run:
         return None
-    if not {"api_time_start", "api_time_end"}.issubset(set(run.keys())):
-        return None
-    if not run["api_time_start"] or not run["api_time_end"]:
-        print("[Scorer] API time bounds not set for run — bridge enrichment may not have run yet")
+    latest = conn.execute(
+        """
+        SELECT api_game_state_id
+        FROM decisions
+        WHERE run_id = ? AND api_game_state_id IS NOT NULL
+        ORDER BY decision_seq DESC, id DESC
+        LIMIT 1
+        """,
+        (run["id"],),
+    ).fetchone()
+    if not latest:
         return None
 
     outcome_to_state = {
@@ -450,39 +455,36 @@ def _get_terminal_pvp_row(conn: sqlite3.Connection, run) -> Optional[sqlite3.Row
             """
             SELECT victories, defeats
             FROM api_game_states
-            WHERE captured_at >= ?
-              AND captured_at <= ?
+            WHERE id >= ?
               AND run_state = ?
-            ORDER BY captured_at DESC, id DESC
+            ORDER BY id DESC
             LIMIT 1
             """,
-            (run["api_time_start"], run["api_time_end"], desired_state),
+            (latest["api_game_state_id"], desired_state),
         ))
 
     queries.append((
         """
         SELECT victories, defeats
         FROM api_game_states
-        WHERE captured_at >= ?
-          AND captured_at <= ?
+        WHERE id >= ?
           AND run_state IN ('EndRunDefeat', 'EndRunVictory')
-        ORDER BY captured_at DESC, id DESC
+        ORDER BY id DESC
         LIMIT 1
         """,
-        (run["api_time_start"], run["api_time_end"]),
+        (latest["api_game_state_id"],),
     ))
 
     queries.append((
         """
         SELECT victories, defeats
         FROM api_game_states
-        WHERE captured_at >= ?
-          AND captured_at <= ?
+        WHERE id >= ?
           AND victories IS NOT NULL
-        ORDER BY captured_at DESC, id DESC
+        ORDER BY id DESC
         LIMIT 1
         """,
-        (run["api_time_start"], run["api_time_end"]),
+        (latest["api_game_state_id"],),
     ))
 
     for sql, params in queries:
@@ -708,7 +710,7 @@ def _load_board_snapshot_map(conn: sqlite3.Connection, run_id: int) -> dict[int,
 def detect_phase(decision_seq: int, combat_count_so_far: int,
                  day: int = None, phase_actual: str = None) -> str:
     """
-    Infer game phase. Prefers enriched day/phase data from bridge.py
+    Infer game phase. Prefers live Mono day/phase data on the decision
     when available; falls back to decision-count heuristic.
     """
     if phase_actual:
@@ -848,7 +850,7 @@ def find_committed_archetype(board_names: list[str], builds: dict) -> tuple[Opti
 def _timing_progress(day: Optional[int], phase: str) -> float:
     """Map a decision's run-timeline position to a [0.0, 1.0] progress value.
 
-    Day data (from bridge enrichment) wins when present.  Otherwise we fall
+    Day data from live decision context wins when present.  Otherwise we fall
     back to phase-based anchors that approximate the median day each phase
     covers (early ≈ day 2, early_mid ≈ day 6, late ≈ day 10).  Used as the
     independent variable in TIMING_PROFILE_CURVES.
@@ -1167,52 +1169,6 @@ def _score_loaded_run(
     board_snapshots = _load_board_snapshot_map(conn, run_id)
     committed_arch = None
 
-    # Build a map of instance_id -> template_id from api_cards for the run.
-    # api_cards has no run_id column — join through api_game_states using the
-    # run's time window (api_time_start / api_time_end set by bridge).
-    # captured_at is stored in two formats: ISO strings and Unix milliseconds —
-    # query both to ensure full coverage.
-    api_template_map: dict[str, str] = {}
-    try:
-        run_row = conn.execute(
-            "SELECT api_time_start, api_time_end FROM runs WHERE id=?",
-            (run_id,),
-        ).fetchone()
-        if run_row and run_row["api_time_start"] and run_row["api_time_end"]:
-            from datetime import datetime, timezone
-
-            def _iso_to_unix_ms(iso: str) -> int:
-                """Convert ISO timestamp string to Unix milliseconds."""
-                iso_clean = iso.replace("+00:00", "").rstrip("Z")
-                dt = datetime.fromisoformat(iso_clean).replace(tzinfo=timezone.utc)
-                return int(dt.timestamp() * 1000)
-
-            ts_start_ms = _iso_to_unix_ms(run_row["api_time_start"])
-            ts_end_ms = _iso_to_unix_ms(run_row["api_time_end"])
-            iso_start = run_row["api_time_start"]
-            iso_end = run_row["api_time_end"]
-
-            rows = conn.execute(
-                """
-                SELECT DISTINCT ac.instance_id, ac.template_id
-                FROM api_cards ac
-                JOIN api_game_states gs ON ac.game_state_id = gs.id
-                WHERE (
-                    (gs.captured_at >= ? AND gs.captured_at <= ?)
-                    OR
-                    (CAST(gs.captured_at AS INTEGER) >= ? AND CAST(gs.captured_at AS INTEGER) <= ?)
-                )
-                  AND ac.instance_id IS NOT NULL
-                  AND ac.template_id IS NOT NULL
-                  AND ac.template_id != ''
-                """,
-                (iso_start, iso_end, ts_start_ms, ts_end_ms),
-            ).fetchall()
-            for r in rows:
-                api_template_map[r["instance_id"]] = r["template_id"]
-    except Exception:
-        pass
-
     for d in decisions:
         dtype = d["decision_type"]
         item_name = card_cache.resolve_template_id(d["chosen_template"]) if d["chosen_template"] else d["chosen_id"]
@@ -1225,6 +1181,7 @@ def _score_loaded_run(
             phase_actual=d["phase_actual"] if "phase_actual" in d.keys() else None,
         )
         offered_raw = _load_json_list(d["offered"])
+        api_template_map = _load_json_dict(d["offered_templates"]) if "offered_templates" in d.keys() else {}
         snapshot_board = board_snapshots.get(d["id"])
         if snapshot_board is not None:
             board = dict(snapshot_board)
@@ -1241,9 +1198,9 @@ def _score_loaded_run(
                 skip_rerolls = 0
 
             named_offered = [n for n in pre_resolved if n]
-            bridge_names = _resolve_offered_names(d, offered_raw, api_template_map)
-            if bridge_names:
-                named_offered = _filter_resolved_names(bridge_names)
+            live_names = _resolve_offered_names(d, offered_raw, api_template_map)
+            if live_names:
+                named_offered = _filter_resolved_names(live_names)
 
             missed_flags = _find_missed_flags(
                 named_offered,
@@ -1428,10 +1385,6 @@ class LiveScorer:
     ``db.update_decision_score`` so the overlay always reads stored scores
     instead of re-computing them on every poll.
 
-    When bridge enrichment runs post-run, ``rescore_run`` re-executes the same
-    code path over all decisions with the enriched data (resolved names,
-    day/gold/health columns) — no separate scoring logic needed.
-
     Usage::
 
         scorer_instance = LiveScorer(hero_name, conn)
@@ -1488,35 +1441,6 @@ class LiveScorer:
 
         db.update_decision_score(decision_id, label, notes)
         return result
-
-    @classmethod
-    def rescore_run(cls, run_id: int, conn: sqlite3.Connection) -> list[dict]:
-        """Re-score all decisions in a run using enriched data.
-
-        Called by bridge/watcher after enrichment so day/gold/health columns
-        and resolved offered_names are available.  Uses the same code path as
-        live scoring; the richer data simply produces better labels/notes.
-        """
-        run = conn.execute("SELECT * FROM runs WHERE id=?", (run_id,)).fetchone()
-        if not run:
-            return []
-        hero_name = run["hero"] if "hero" in run.keys() else None
-        builds = load_builds(hero_name)
-        if not has_build_catalog(builds):
-            return []
-        decisions = conn.execute(
-            """SELECT * FROM decisions WHERE run_id=?
-               AND decision_type IN ('item','companion','skill','skip','free_reward')
-               ORDER BY decision_seq""",
-            (run_id,),
-        ).fetchall()
-        combats = conn.execute(
-            "SELECT * FROM combat_results WHERE run_id=? ORDER BY id",
-            (run_id,),
-        ).fetchall()
-        if not decisions:
-            return []
-        return _score_loaded_run(conn, run_id, decisions, combats, builds)
 
 
 def _score_single_decision(
@@ -1692,15 +1616,8 @@ def _score_single_decision(
     return {"label": label, "notes": notes, "board": board, "committed_arch": committed_arch}
 
 
-def score_run(run_id: int, dry_run: bool = False) -> list:
-    """Re-score all decisions in a completed run and write results to DB.
-
-    This is the post-run / bridge-triggered path.  It uses the same
-    ``_score_loaded_run`` logic as live scoring but operates over all decisions
-    at once with fully-enriched data (day, gold, health, resolved offered_names).
-
-    dry_run=True returns scored dicts without writing to the DB (CLI --print).
-    """
+def score_run(run_id: int, dry_run: bool = True) -> list:
+    """Compute a manual report for a run without mutating stored scores."""
     conn = db.get_conn()
     try:
         run = conn.execute("SELECT * FROM runs WHERE id=?", (run_id,)).fetchone()
@@ -1732,22 +1649,10 @@ def score_run(run_id: int, dry_run: bool = False) -> list:
             (run_id,),
         ).fetchall()
 
-        print(f"\n[Scorer] Scoring run {run_id} | Hero: {run['hero']} | {len(decisions)} decisions")
+        print(f"\n[Scorer] Manual report for run {run_id} | Hero: {run['hero']} | {len(decisions)} decisions")
         scored = _score_loaded_run(conn, run_id, decisions, combats, builds)
         if not dry_run:
-            conn.executemany(
-                """
-                UPDATE decisions
-                SET score_label = ?, score_notes = ?
-                WHERE id = ?
-                """,
-                [
-                    (s["label"], s["notes"] or "", s["decision_id"])
-                    for s in scored
-                ],
-            )
-            conn.commit()
-            print("[Scorer] Scores written to DB.")
+            print("[Scorer] Stored scores are live-only; manual score_run does not write to DB.")
         return scored
     finally:
         conn.close()
@@ -1803,7 +1708,7 @@ def print_report(scored: list, run_id: int):
         if unresolved_pvp:
             print(
                 f"  Note: {unresolved_pvp} combat(s) still marked pvp_unknown "
-                f"(log-only PvP outcome). Run bridge after Mono capture to resolve.\n"
+                f"(log-only PvP outcome; no terminal Mono context was linked).\n"
             )
         if pvp_wins >= 10 and pvp_losses == 0:
             print("  Perfect finish - 10 wins without losing prestige")
@@ -1860,18 +1765,13 @@ def print_report(scored: list, run_id: int):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Score Bazaar tracker decisions against hero-specific build guidance"
+        description="Print a manual Bazaar tracker scoring report without rewriting stored scores"
     )
     parser.add_argument(
         "--run-id",
         type=int,
         default=None,
-        help="Run ID to score (default: most recent run)",
-    )
-    parser.add_argument(
-        "--print",
-        action="store_true",
-        help="Print the scoring report without writing scores to the database",
+        help="Run ID to report on (default: most recent run)",
     )
     args = parser.parse_args()
 
@@ -1889,7 +1789,7 @@ def main():
         finally:
             conn.close()
 
-    scored = score_run(run_id, dry_run=args.print)
+    scored = score_run(run_id)
     print_report(scored, run_id)
 
 

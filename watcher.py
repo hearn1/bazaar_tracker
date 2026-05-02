@@ -106,18 +106,8 @@ def build_run_complete_handler():
         run_id = info["run_id"]
         hero = info.get("hero") or "Unknown"
         print(f"\n[Watcher] Run {run_id} finished for {hero}.")
-
-        import bridge  # type: ignore
-        print("[Watcher] Running bridge enrichment...")
-        bridge_result = bridge.enrich_run(run_id)
-
-        import scorer
-        print("[Watcher] Running scorer...")
-        scored = scorer.score_run(run_id)
-        scorer.print_report(scored, run_id)
-
-        if bridge_result and bridge_result.get("correlated", 0) == 0:
-            print("[Watcher] Bridge found no correlated API snapshots for this run.")
+        db.flush()
+        print("[Watcher] Run closed; pending writes flushed.")
 
     return _handle_run_complete
 
