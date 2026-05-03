@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(SPECPATH).parents[1]
 
 datas = [
+    (str(ROOT / "dooley_builds.json"), "."),
     (str(ROOT / "karnok_builds.json"), "."),
     (str(ROOT / "mak_builds.json"), "."),
     (str(ROOT / "pygmalien_builds.json"), "."),

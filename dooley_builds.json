@@ -1,0 +1,719 @@
+{
+  "hero": "Dooley",
+  "season": "13",
+  "last_updated": "2026-05-03",
+  "notes": "Dooley is a positioning-first engine hero. His strongest runs usually branch from an early Core shell into one of several real late-game payoffs: Companion Core Friends, Bill Dozer friend engines, Race Carl engines, Terry-Dactyl or Mech-Moles Launcher boards, C.O.R.A. utility-control boards, Weaponized Core tempo, Kinetic Cannon pivot, or Hydraulic Press tag burst. Fast Small items, Charge, Haste, and clean board layout matter more on Dooley than on almost any other hero, so keep your board lean and be willing to reposition between fights.",
+  "item_tier_list": {
+    "description": "Tier list synthesized from the Season 13 Mobalytics Dooley overview plus Kripp guides for Companion Core, Launcher Core, Kinetic Cannon, Weaponized Core, and Hydraulic Press, then validated against recent Bazaar Builds tag archives. Items not listed score as unranked.",
+    "S": [
+      "Companion Core",
+      "Launcher Core",
+      "Kinetic Cannon",
+      "Hydraulic Press",
+      "Weaponized Core",
+      "Terry-Dactyl",
+      "C.O.R.A.",
+      "Bill Dozer",
+      "Race Carl",
+      "Miss Isles",
+      "Launch Pad",
+      "Pulse Rifle",
+      "First Aiden",
+      "Metronome"
+    ],
+    "A": [
+      "Chris Army Knife",
+      "DJ Circuit Breaker",
+      "Omega Ray",
+      "Propeller Hat",
+      "Freefall Simulator",
+      "Party Float",
+      "Arc Blaster",
+      "Battery",
+      "GPU",
+      "Levitation Pad",
+      "Beta Ray",
+      "Monitor Lizard",
+      "RED-F1R3FLY",
+      "Mech-Moles",
+      "Red Button",
+      "Zoarcid",
+      "Z-Shield",
+      "Z-Sword",
+      "Fiber Optics",
+      "Thrusters",
+      "Race Carl",
+      "Nanobot",
+      "Hologram Projector",
+      "Z-Sword",
+      "Sat-Comm",
+      "Temporal Navigator",
+      "SMG"
+    ],
+    "B": [
+      "Bellelista",
+      "BLU-B33TL3",
+      "Clawrence",
+      "Brick Buddy",
+      "Char Cole",
+      "Chronobarrier",
+      "Micro Dave",
+      "Crypto",
+      "Dooltron Mainframe",
+      "Duct Tape",
+      "Gamma Ray",
+      "GRN-W4SP",
+      "Laurel's Fortress",
+      "Messenger Sparrow",
+      "Micro Mach",
+      "Motherboard",
+      "Pierre Conditioner",
+      "Rocket Launcher",
+      "Spider Fern",
+      "Stinger",
+      "Tanky Anky",
+      "Wallace",
+      "Soldering Gun",
+      "Bomb Squad",
+      "Copper Ed",
+      "Hammlet",
+      "Plasma Grenade",
+      "Power Sander",
+      "Rocket Launcher",
+      "Cog",
+      "BLK-SP1D3R",
+      "YLW-M4NT1S"
+    ]
+  },
+  "pivot_signals": {
+    "signals": [
+      "Companion Core with two fast Friends already online means you can safely lean into a Friends shell.",
+      "Launch Pad or Propeller Hat alongside Launcher Core is a real Burn-loop signal, especially if Omega Ray or Burn scaling appears.",
+      "Terry-Dactyl with Launcher Core and any two of Freefall Simulator, Levitation Pad, Party Float, Miss Isles, or Thrusters is a real late-game line.",
+      "Mech-Moles plus Launcher Core, Duct Tape, or Chris Army Knife is a strong signal that the board wants a modern flying-friends shell rather than generic Burn.",
+      "C.O.R.A. with Launcher Core or a support cluster like Z-Sword, Gamma Ray, BLU-B33TL3, Monitor Lizard, or Charging Station is a real archetype, not just random goodstuff.",
+      "Bill Dozer with a dense Friend package and either Companion Core or Launcher Core support is a real engine, not just a value inclusion.",
+      "Race Carl with either Companion Core plus friend density or Launcher Core plus Launch Pad is a real scaling board, not just a stray friend payoff.",
+      "Early Pulse Rifle plus Tech tempo means Weaponized Core is the cleanest default line.",
+      "Hydraulic Press found early is a commit signal, not just value; start hoarding unique tags and prioritize Battery plus Red Button or GPU support.",
+      "Kinetic Cannon appearing at Gold-tier with an established Small-item spam shell is one of Dooley's best late pivots.",
+      "DJ Circuit Breaker can replace Companion Core as the Haste engine when the board already has enough Friends.",
+      "If your board is clunky or overloaded with Medium items by Day 7, cut down and rebuild around the fastest shell you have.",
+      "Sat-Comm or Temporal Navigator in the first few days are strong pickups whenever the board is stable enough to afford economy."
+    ]
+  },
+  "scoring_weights": {
+    "core": 0.5,
+    "carry": 0.35,
+    "support": 0.15
+  },
+  "game_phases": {
+    "early": {
+      "day_range": "Days 1-4",
+      "description": "Prioritize a fast, coherent board over raw stats. Dooley wants low-cooldown Small items, early economy, and an opening that leaves multiple Core branches available.",
+      "notes": "Best early pickups from the guides are First Aiden, Chris Army Knife, Pulse Rifle, Arc Blaster, SMG, Battery, Metronome, and the economy pair of Sat-Comm or Temporal Navigator. Keep board space clean so your eventual Core and positional items actually have room to function. Friends are excellent early because they keep Companion Core open while still supporting later hybrid boards.",
+      "universal_utility_items": [
+        "First Aiden",
+        "Chris Army Knife",
+        "Pulse Rifle",
+        "Arc Blaster",
+        "SMG",
+        "Battery",
+        "Metronome",
+        "Levitation Pad",
+        "Sat-Comm",
+        "Temporal Navigator",
+        "Miss Isles"
+      ],
+      "economy_items": [
+        "Sat-Comm",
+        "Temporal Navigator"
+      ]
+    },
+    "early_mid": {
+      "day_range": "Days 5-7",
+      "description": "Turn your opener into a real shell. By this stage you should know whether the board is headed toward Friends, Burn loops, Tech tempo, a Hydraulic Press one-shot, or a Kinetic Cannon pivot.",
+      "notes": "Dooley boards fail when they keep every decent item instead of preserving alignment and activation density. Cut Medium filler aggressively. Keep fast Small items that either Charge the Core, create Haste, or directly support your identified carry.",
+      "archetypes": [
+        {
+          "name": "Companion Core Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Companion Core",
+            "First Aiden"
+          ],
+          "carry_items": [
+            "Miss Isles",
+            "Chris Army Knife",
+            "Clawrence",
+            "Brick Buddy",
+            "Char Cole",
+            "DJ Circuit Breaker"
+          ],
+          "support_items": [
+            "BLU-B33TL3",
+            "Bellelista",
+            "Hologram Projector",
+            "Monitor Lizard",
+            "Micro Dave",
+            "Crypto",
+            "RED-F1R3FLY",
+            "Wallace",
+            "YLW-M4NT1S",
+            "Nanobot",
+            "Soldering Gun",
+            "Battery"
+          ],
+          "notes": "Companion Core is the straightforward Friends shell. Bazaar Builds lists repeatedly showed First Aiden, Fiber Optics, Monitor Lizard, RED-F1R3FLY, and one or two payoff Friends as the common finishing package."
+        },
+        {
+          "name": "Bill Dozer Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Bill Dozer",
+            "First Aiden"
+          ],
+          "carry_items": [
+            "Companion Core",
+            "DJ Circuit Breaker",
+            "Launcher Core",
+            "Monitor Lizard"
+          ],
+          "support_items": [
+            "Bellelista",
+            "BLK-SP1D3R",
+            "BLU-B33TL3",
+            "GRN-W4SP",
+            "Levitation Pad",
+            "Metronome",
+            "RED-F1R3FLY",
+            "YLW-M4NT1S",
+            "Zoarcid"
+          ],
+          "notes": "The sampled Bill Dozer builds all treated it as an actual engine piece, not a random friend. The shell wants repeated Friend triggers, one of the major Dooley Haste engines, and a payoff package that turns Bill's cooldown pressure into real board output."
+        },
+        {
+          "name": "Race Carl Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Race Carl",
+            "First Aiden"
+          ],
+          "carry_items": [
+            "Companion Core",
+            "DJ Circuit Breaker",
+            "Launch Pad",
+            "Launcher Core"
+          ],
+          "support_items": [
+            "Brick Buddy",
+            "Claw Arm",
+            "Coffee",
+            "Cog",
+            "GPU",
+            "Nanobot",
+            "Proboscis",
+            "Pyrocarbon",
+            "RED-F1R3FLY",
+            "YLW-M4NT1S"
+          ],
+          "notes": "The sampled Race Carl boards split cleanly into two shells: Companion Core friend scaling and Launcher Core plus Launch Pad scaling. In both versions, Race Carl is a real payoff rather than incidental value."
+        },
+        {
+          "name": "Launcher Core Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Launcher Core",
+            "Launch Pad"
+          ],
+          "carry_items": [
+            "Omega Ray",
+            "Propeller Hat",
+            "Beta Ray",
+            "Miss Isles"
+          ],
+          "support_items": [
+            "Z-Shield",
+            "Z-Sword",
+            "BLK-SP1D3R",
+            "YLW-M4NT1S",
+            "Levitation Pad",
+            "Battery"
+          ],
+          "notes": "Launch Pad is the big payoff with Launcher Core. Propeller Hat and Levitation Pad help the Core self-charge while Burn pieces buy time for the loop to take over."
+        },
+        {
+          "name": "Terry-Dactyl Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Launcher Core",
+            "Terry-Dactyl"
+          ],
+          "carry_items": [
+            "Freefall Simulator",
+            "Miss Isles",
+            "Party Float",
+            "Propeller Hat"
+          ],
+          "support_items": [
+            "First Aiden",
+            "Hologram Projector",
+            "Levitation Pad",
+            "SMG",
+            "Tanky Anky",
+            "Thrusters"
+          ],
+          "notes": "Recent Terry-Dactyl builds consistently centered on Launcher Core plus one or two Flying enablers. Miss Isles, Levitation Pad, Thrusters, Party Float, and Freefall Simulator all showed up as real support pieces rather than fringe tech."
+        },
+        {
+          "name": "Weaponized Core Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Weaponized Core",
+            "Pulse Rifle"
+          ],
+          "carry_items": [
+            "Arc Blaster",
+            "SMG",
+            "Miss Isles",
+            "Metronome"
+          ],
+          "support_items": [
+            "Battery",
+            "Cog",
+            "GPU",
+            "Levitation Pad",
+            "Duct Tape"
+          ],
+          "notes": "This is Dooley's most reliable default line. Pulse Rifle carries the mid game and smooths the transition into a cleaner late Weaponized Core board."
+        },
+        {
+          "name": "Kinetic Cannon Pivot Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Pulse Rifle",
+            "Arc Blaster"
+          ],
+          "carry_items": [
+            "Weaponized Core",
+            "Launcher Core",
+            "Companion Core"
+          ],
+          "support_items": [
+            "Battery",
+            "SMG",
+            "Levitation Pad",
+            "Chris Army Knife",
+            "First Aiden",
+            "Cog",
+            "GPU"
+          ],
+          "notes": "Kinetic Cannon is usually a pivot, so the setup is really about preserving a compact Small-item engine that can convert once Cannon appears."
+        },
+        {
+          "name": "Mech-Moles Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Launcher Core",
+            "Mech-Moles"
+          ],
+          "carry_items": [
+            "Chris Army Knife",
+            "Duct Tape",
+            "Motherboard",
+            "Stinger"
+          ],
+          "support_items": [
+            "Cog",
+            "Companion Core",
+            "Metronome",
+            "Miss Isles",
+            "SMG"
+          ],
+          "notes": "Recent Bazaar Builds Mech-Moles lists repeatedly paired the Mole package with Launcher Core and cheap tempo support. The exact payoff can vary, but the shell is clearly real enough to preserve as a pivot."
+        },
+        {
+          "name": "C.O.R.A. Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "C.O.R.A."
+          ],
+          "carry_items": [
+            "Launcher Core",
+            "Monitor Lizard",
+            "Z-Sword",
+            "BLU-B33TL3"
+          ],
+          "support_items": [
+            "Bunker",
+            "Charging Station",
+            "Cog",
+            "Copper Ed",
+            "Dooltron Mainframe",
+            "Gamma Ray",
+            "Messenger Sparrow",
+            "Micro Mach",
+            "Nanobot",
+            "Party Float",
+            "Pierre Conditioner",
+            "Rocket Launcher",
+            "Spider Fern",
+            "Yeti Crab"
+          ],
+          "notes": "The six sampled Bazaar Builds C.O.R.A. boards showed a real, repeatable shell. Launcher Core appeared often, but so did non-Flying utility pieces like Z-Sword, Gamma Ray, BLU-B33TL3, and support one-offs that suggest C.O.R.A. is a flexible utility-control payoff rather than a single fixed combo."
+        },
+        {
+          "name": "Hydraulic Press Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Hydraulic Press"
+          ],
+          "carry_items": [
+            "Battery",
+            "GPU",
+            "Cog",
+            "Chronobarrier",
+            "Chris Army Knife",
+            "Red Button"
+          ],
+          "support_items": [
+            "Charging Station",
+            "Laurel's Fortress",
+            "Levitation Pad",
+            "Sat-Comm",
+            "SMG",
+            "Metronome",
+            "Temporal Navigator",
+            "Fiber Optics",
+            "Thrusters"
+          ],
+          "notes": "Hydraulic Press wants time and unique tags. Bazaar Builds variants repeatedly highlighted Battery plus Red Button, with GPU or Chronobarrier as common acceleration and protection pieces."
+        }
+      ]
+    },
+    "late": {
+      "day_range": "Day 8+",
+      "description": "Late Dooley wins by turning a compact engine into overwhelming repeat value or a near-one-shot. Finalize one main threat, then add only the support that directly speeds it up or protects it.",
+      "notes": "Positioning remains part of your power budget all run. Metronome, Fiber Optics, Thrusters, Launch Pad, and Core placement can matter as much as a full item tier. Re-check board order every time you buy or cut a piece.",
+      "archetypes": [
+        {
+          "name": "Companion Core",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs a dense Friends board so Companion Core or DJ Circuit Breaker can keep permanent Haste rolling.",
+          "condition_items": [
+            "Companion Core",
+            "First Aiden",
+            "Miss Isles"
+          ],
+          "core_items": [
+            "Companion Core",
+            "First Aiden",
+            "Miss Isles"
+          ],
+          "carry_items": [
+            "Bellelista",
+            "DJ Circuit Breaker",
+            "Clawrence",
+            "Brick Buddy",
+            "Char Cole",
+            "Monitor Lizard",
+            "Race Carl"
+          ],
+          "support_items": [
+            "BLU-B33TL3",
+            "Chris Army Knife",
+            "Fiber Optics",
+            "GRN-W4SP",
+            "Hologram Projector",
+            "Micro Dave",
+            "Crypto",
+            "RED-F1R3FLY",
+            "Wallace",
+            "YLW-M4NT1S"
+          ],
+          "notes": "Companion Core is one of the most consistent Dooley endgames. Recent posted builds repeatedly converged on First Aiden plus Fiber Optics, then finished with Monitor Lizard, RED-F1R3FLY, Bellelista, or Char Cole depending on what the run offered."
+        },
+        {
+          "name": "Bill Dozer",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Bill Dozer plus a dense Friend shell so the cooldown reduction and repeated Friend triggers actually snowball the fight.",
+          "condition_items": [
+            "Bill Dozer",
+            "First Aiden"
+          ],
+          "core_items": [
+            "Bill Dozer",
+            "First Aiden"
+          ],
+          "carry_items": [
+            "Companion Core",
+            "DJ Circuit Breaker",
+            "Launcher Core",
+            "Monitor Lizard"
+          ],
+          "support_items": [
+            "Bellelista",
+            "BLK-SP1D3R",
+            "BLU-B33TL3",
+            "GRN-W4SP",
+            "Levitation Pad",
+            "Metronome",
+            "RED-F1R3FLY",
+            "YLW-M4NT1S",
+            "Zoarcid"
+          ],
+          "notes": "Across the three sampled Bill Dozer boards, the recurring pattern was Bill Dozer plus a compact friend engine, with either Companion Core or Launcher Core acting as the main accelerator. Treat it like a real payoff board that can branch between pure Friends and hybrid Flying-friend shells."
+        },
+        {
+          "name": "Race Carl",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Race Carl plus either a compact Companion Core friend engine or a Launch Pad and Launcher Core shell that can keep feeding it triggers.",
+          "condition_items": [
+            "Race Carl",
+            "First Aiden"
+          ],
+          "core_items": [
+            "Race Carl",
+            "First Aiden"
+          ],
+          "carry_items": [
+            "Companion Core",
+            "DJ Circuit Breaker",
+            "Launch Pad",
+            "Launcher Core"
+          ],
+          "support_items": [
+            "Brick Buddy",
+            "Claw Arm",
+            "Coffee",
+            "Cog",
+            "GPU",
+            "Nanobot",
+            "Proboscis",
+            "Pyrocarbon",
+            "RED-F1R3FLY",
+            "YLW-M4NT1S"
+          ],
+          "notes": "Across the three sampled Race Carl boards, the stable pattern was Race Carl plus a real acceleration shell. The archetype can branch into pure friend scaling or a Launcher Core hybrid, but in both cases the board is trying to create a near-infinite or runaway trigger loop around Carl."
+        },
+        {
+          "name": "Launcher Core",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Wants Launch Pad online and enough Haste or Charge to start looping before aggressive boards kill you.",
+          "condition_items": [
+            "Launcher Core",
+            "Launch Pad"
+          ],
+          "core_items": [
+            "Launcher Core",
+            "Launch Pad",
+            "Propeller Hat"
+          ],
+          "carry_items": [
+            "Omega Ray",
+            "Beta Ray",
+            "Miss Isles"
+          ],
+          "support_items": [
+            "Z-Shield",
+            "Z-Sword",
+            "BLK-SP1D3R",
+            "YLW-M4NT1S",
+            "Levitation Pad",
+            "Battery"
+          ],
+          "notes": "Launcher Core produces some of Dooley's wildest loops. Burn scaling, self-charge enablers, and Freeze support all pull this board across the line."
+        },
+        {
+          "name": "Terry-Dactyl",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Launcher Core plus at least one strong Flying accelerator so Terry-Dactyl can cycle before faster tempo boards overwhelm you.",
+          "condition_items": [
+            "Launcher Core",
+            "Terry-Dactyl"
+          ],
+          "core_items": [
+            "Launcher Core",
+            "Terry-Dactyl",
+            "Levitation Pad"
+          ],
+          "carry_items": [
+            "Freefall Simulator",
+            "Miss Isles",
+            "Party Float",
+            "Propeller Hat"
+          ],
+          "support_items": [
+            "First Aiden",
+            "Fiber Optics",
+            "Hologram Projector",
+            "SMG",
+            "Tanky Anky",
+            "Thrusters"
+          ],
+          "notes": "Bazaar Builds Terry-Dactyl lists were remarkably consistent: Launcher Core was the engine, Terry-Dactyl was the payoff, and the rest of the board existed to force more Flying triggers and faster Terry activations."
+        },
+        {
+          "name": "Weaponized Core",
+          "phase": "late",
+          "timing_profile": "tempo",
+          "condition": "Best when your early Tech tempo survived long enough to keep pressing damage without a hard pivot.",
+          "condition_items": [
+            "Weaponized Core",
+            "Pulse Rifle"
+          ],
+          "core_items": [
+            "Weaponized Core",
+            "Pulse Rifle"
+          ],
+          "carry_items": [
+            "Arc Blaster",
+            "Miss Isles",
+            "SMG"
+          ],
+          "support_items": [
+            "Battery",
+            "GPU",
+            "Cog",
+            "Levitation Pad",
+            "Metronome"
+          ],
+          "notes": "Weaponized Core is the stable damage line. It usually peaks earlier than the flashier Dooley builds, so protect tempo and do not over-greed late pivots."
+        },
+        {
+          "name": "Kinetic Cannon",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Requires Kinetic Cannon plus a compact Small-item spam shell that can feed it fast enough.",
+          "condition_items": [
+            "Kinetic Cannon",
+            "Battery",
+            "GPU"
+          ],
+          "core_items": [
+            "Kinetic Cannon",
+            "Battery",
+            "GPU"
+          ],
+          "carry_items": [
+            "Miss Isles",
+            "Arc Blaster",
+            "Pulse Rifle"
+          ],
+          "support_items": [
+            "Companion Core",
+            "Launcher Core",
+            "Weaponized Core",
+            "Levitation Pad",
+            "Chris Army Knife",
+            "First Aiden",
+            "SMG"
+          ],
+          "notes": "Kinetic Cannon is a premium pivot once the shell already exists. Small-item density matters more than raw board quality; every clunky Medium lowers the ceiling."
+        },
+        {
+          "name": "Mech-Moles",
+          "phase": "late",
+          "timing_profile": "neutral",
+          "condition": "Best when the run already has a tight Launcher or Friends shell and Mech-Moles can slot in without slowing the board down.",
+          "condition_items": [
+            "Launcher Core",
+            "Mech-Moles"
+          ],
+          "core_items": [
+            "Launcher Core",
+            "Mech-Moles",
+            "Duct Tape"
+          ],
+          "carry_items": [
+            "Chris Army Knife",
+            "Motherboard",
+            "Stinger"
+          ],
+          "support_items": [
+            "Cog",
+            "Companion Core",
+            "Metronome",
+            "Miss Isles",
+            "SMG"
+          ],
+          "notes": "Recent Mech-Moles posts often looked like a Launcher shell splashing a Mole package for extra scaling and combat presence. Duct Tape, Chris Army Knife, and compact Tech support showed up more often than generic Burn pieces."
+        },
+        {
+          "name": "C.O.R.A.",
+          "phase": "late",
+          "timing_profile": "neutral",
+          "condition": "Needs C.O.R.A. plus either Launcher Core support or a compact utility shell that lets C.O.R.A. convert repeated triggers into board control and pressure.",
+          "condition_items": [
+            "C.O.R.A."
+          ],
+          "core_items": [
+            "C.O.R.A.",
+            "Launcher Core"
+          ],
+          "carry_items": [
+            "BLU-B33TL3",
+            "Gamma Ray",
+            "Monitor Lizard",
+            "Z-Sword"
+          ],
+          "support_items": [
+            "Bunker",
+            "Charging Station",
+            "Cog",
+            "Copper Ed",
+            "Dooltron Mainframe",
+            "Messenger Sparrow",
+            "Micro Mach",
+            "Nanobot",
+            "Party Float",
+            "Pierre Conditioner",
+            "Rocket Launcher",
+            "Spider Fern",
+            "Yeti Crab"
+          ],
+          "notes": "Across the six C.O.R.A. posts, the stable pattern was C.O.R.A. itself plus a highly modular support shell. Launcher Core showed up often enough to matter, but the boards also won with very different utility packages, so treat C.O.R.A. as a flexible late-game payoff that can lean Flying, Friend, or control depending on what the run offers."
+        },
+        {
+          "name": "Hydraulic Press",
+          "phase": "late",
+          "timing_profile": "exodia",
+          "condition": "Needs an early Press, many unique tags, and enough acceleration to win in one or two activations.",
+          "condition_items": [
+            "Hydraulic Press",
+            "Battery",
+            "Red Button"
+          ],
+          "core_items": [
+            "Hydraulic Press",
+            "Battery",
+            "GPU"
+          ],
+          "carry_items": [
+            "Chronobarrier",
+            "Cog",
+            "Chris Army Knife",
+            "Metronome",
+            "Red Button"
+          ],
+          "support_items": [
+            "Charging Station",
+            "Sat-Comm",
+            "Temporal Navigator",
+            "Fiber Optics",
+            "Laurel's Fortress",
+            "Levitation Pad",
+            "SMG",
+            "Thrusters"
+          ],
+          "notes": "Hydraulic Press is the clean burst combo. Bazaar Builds variants strongly reinforced Battery plus Red Button as the default starting shell, with GPU, Chronobarrier, Charging Station, or Laurel's Fortress acting as the usual upgrade path."
+        }
+      ]
+    }
+  }
+}

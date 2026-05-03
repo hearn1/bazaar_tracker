@@ -31,6 +31,7 @@ from board_state import BoardState
 BUILD_GUIDE_DIR = app_paths.bundled_root()
 DEFAULT_HERO = "Karnok"
 CATALOG_FILENAMES = {
+    "dooley": "dooley_builds.json",
     "karnok": "karnok_builds.json",
     "mak": "mak_builds.json",
     "pygmalien": "pygmalien_builds.json",
