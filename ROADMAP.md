@@ -11,6 +11,90 @@ Status labels:
 
 ## Open Feature Work
 
+### Bazaar Builds Catalog Enrichment - Partial
+
+Goal: keep hero build catalogs current by using `bazaar-builds.net` as an evidence source while preserving a human review step before changing `*_builds.json`.
+
+Relevant files:
+- `bazaar_build_enricher.py`
+- `artifacts/*_bazaar_builds_summary.json`
+- `<hero>_builds.json` files
+- `tests/test_bazaar_build_enricher.py`
+- `scorer.py`
+- `web/build_helpers.py`
+
+Current workflow:
+- Run `bazaar_build_enricher.py` for each implemented hero category page.
+- The script starts from the hero category URL, collects recent build links, optionally tries direct post fetches, accepts manual fallback files, normalizes known item-name drift, and emits a JSON artifact.
+- Review the generated artifact by hand, ignoring obvious site-wide noise and low-confidence one-off records.
+- Compare artifact groups against the matching hero catalog.
+- Manually update existing archetypes or add new archetypes only after review.
+- Validate changed catalogs with `python -m json.tool <hero>_builds.json`.
+
+Current hero artifact commands:
+```
+python bazaar_build_enricher.py https://bazaar-builds.net/category/builds/dooley-builds/ --hero Dooley --days 30 --fetch-posts --output artifacts/dooley_bazaar_builds_summary.json
+python bazaar_build_enricher.py https://bazaar-builds.net/category/builds/vanessa-builds/ --hero Vanessa --days 30 --fetch-posts --output artifacts/vanessa_bazaar_builds_summary.json
+python bazaar_build_enricher.py https://bazaar-builds.net/category/builds/karnok-builds/ --hero Karnok --days 30 --fetch-posts --output artifacts/karnok_bazaar_builds_summary.json
+python bazaar_build_enricher.py https://bazaar-builds.net/category/builds/mak-builds/ --hero Mak --days 30 --fetch-posts --output artifacts/mak_bazaar_builds_summary.json
+python bazaar_build_enricher.py https://bazaar-builds.net/category/builds/pygmalien-builds/ --hero Pygmalien --days 30 --fetch-posts --output artifacts/pygmalien_bazaar_builds_summary.json
+```
+
+Known limitations:
+- Direct build pages are not reliable. Some pages work, but others can return internal errors or cache misses.
+- Page-wide item extraction can pick up sidebar/category/shared site content, producing noisy records.
+- Generic pages such as `/category/builds/` and `/build-finder/` can leak into artifacts.
+- Tags are too literal today: `Terry-Dactyl 10-3 Build` and `Terry-Dactyl 10-4 Build` should group under `Terry-Dactyl`.
+- Most artifact groups are one sample, so item frequencies should be treated as evidence, not proof.
+- Current artifacts are good for proposing human-reviewed changes, not for safe automatic catalog mutation.
+
+Implemented safeguards:
+- The enrichment script does not write to or patch `*_builds.json`.
+- Missing manual fallback files are non-fatal and become artifact warnings.
+- Manual fallback files are supported for copied post records or pasted item blocks.
+- Known item-name drift is normalized, including `YLW-MANTIS -> YLW-M4NT1S` and `Nanobots -> Nanobot`.
+
+Next improvements:
+- Add canonical archetype grouping:
+    * Strip hero names, win record strings, player names, and build IDs from titles.
+    * Group examples like `Terry-Dactyl Dooley 10-3 Build` and `Terry-Dactyl Dooley 10-4 Build` under `Terry-Dactyl`.
+- Add stricter hero filtering:
+    * Drop records where title/URL does not match the requested hero.
+    * Drop known generic URLs such as `/category/builds/` and `/build-finder/`.
+    * Drop cross-hero category/tag records.
+- Improve board-specific extraction:
+    * Prefer item lists from the actual build board section when available.
+    * Mark page-wide extraction as `items_confidence: low`.
+    * Exclude low-confidence items from candidate core/support calculations unless manually confirmed.
+- Add artifact-to-catalog comparison mode:
+    * Proposed CLI shape: `python bazaar_build_enricher.py compare artifacts/dooley_bazaar_builds_summary.json dooley_builds.json`.
+    * Output existing-archetype item additions, new-archetype candidates, confidence, evidence count, and ignored noise.
+- Add proposal generation:
+    * Emit `artifacts/<hero>_build_update_proposal.md`.
+    * Include evidence rows, suggested JSON deltas, confidence levels, and review notes.
+    * Do not apply changes automatically.
+- Add optional JSON overlay output:
+    * Emit `artifacts/<hero>_builds_draft_overlay.json`.
+    * Represent suggested additions as paths such as `late.Mech-Moles.support_items`.
+    * Keep overlays separate from real catalogs until explicitly reviewed.
+- Consider an interactive review CLI:
+    * Proposed CLI shape: `python bazaar_build_enricher.py review artifacts/dooley_bazaar_builds_summary.json dooley_builds.json`.
+    * Prompt for each suggested addition or new archetype.
+    * Only write catalog changes after explicit per-change approval.
+- Longer-term: confidence-gated patch proposals.
+    * High confidence: 3+ matching builds, hero/title match, board-section extraction, known item names.
+    * Medium confidence: 2 matching builds or strong overlap with an existing archetype.
+    * Low confidence: one sample, page-wide extraction, or cross-hero-looking items.
+    * Only high-confidence changes should be eligible for patch proposals; medium/low should remain markdown review items.
+
+How to test:
+- Run the existing focused tests for the enrichment parser.
+- Run the five artifact commands and confirm artifacts are produced without touching `*_builds.json`.
+- Confirm generic site records are excluded once filtering is improved.
+- Compare a known Dooley Terry-Dactyl / Mech-Moles sample and confirm canonical grouping merges win-record variants.
+- Validate all changed hero catalogs with `python -m json.tool`.
+- Smoke-test `web.build_helpers.score_archetypes` against an edited catalog to confirm new archetypes are surfaced.
+
 ### Multi-Hero Support - Partial
 
 Goal: add more heroes while keeping existing Karnok/Mak behavior stable.

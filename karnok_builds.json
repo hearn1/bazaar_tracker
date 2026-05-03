@@ -190,7 +190,7 @@
           "core_items": ["Machete", "Fireclaw", "Forest Cloak"],
           "carry_items": ["Flame Sigil", "Assault Sigil"],
           "support_items": [
-            "Trail Markers", "Boar Mask", "Bear Mask", "Hunter's Pack"
+            "Trail Markers", "Boar Mask", "Bear Mask", "Hunter's Pack", "Firefly Lantern", "Tinderbox", "Torch"
           ],
           "enchants": {
             "sigil": ["Offensive enchant required"],
@@ -198,7 +198,7 @@
           },
           "skill_trainers": ["Generic utility", "Freeze", "Slow"],
           "hidden_lake": "Shortened enrage is better in midgame; later you often kill before the second enrage.",
-          "notes": "Fireclaw is a good stand-in for Machete. Trail Markers are extremely important."
+          "notes": "Fireclaw is a good stand-in for Machete. Trail Markers are extremely important. Recent max-health burn evidence suggests Flame Sigil shells can borrow explicit burn support from Firefly Lantern, Tinderbox, and Torch."
         },
         {
           "name": "Slow - Ammo",
@@ -209,7 +209,7 @@
           "core_items": ["Chains", "Tent"],
           "carry_items": ["Shotgun", "Bear Trap"],
           "support_items": [
-            "Ghillie Suit", "Vengeful Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle"
+            "Ghillie Suit", "Vengeful Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle", "Tri-Net"
           ],
           "enchants": {
             "carry": ["Offense", "Defense"],
@@ -217,7 +217,7 @@
           },
           "skill_trainers": ["Slow", "Weapon", "Crit", "Haste", "Charge"],
           "hidden_lake": "Shortened enrage - trigger Tent shielding sooner.",
-          "notes": "Bear Trap also wants extra ammo. Defensive enchant or lifesteal is usually necessary unless Ghillie Suit buys enough time. Fairy Circle is mainly for Shotgun boards."
+          "notes": "Bear Trap also wants extra ammo. Defensive enchant or lifesteal is usually necessary unless Ghillie Suit buys enough time. Fairy Circle is mainly for Shotgun boards. Recent Self-Slow samples reinforce Hunter's Boots, Enervating Sigil, Tent, Bear Trap, Chains, Boa Constrictor, Night Vision, and Tri-Net."
         },
         {
           "name": "Slow - Non-ammo",
@@ -228,7 +228,7 @@
           "core_items": ["Chains"],
           "carry_items": ["Boa Constrictor", "Heavy Crossbow"],
           "support_items": [
-            "Ghillie Suit", "Vengeful Sigil", "Hunter's Blind", "Enervating Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle"
+            "Ghillie Suit", "Vengeful Sigil", "Hunter's Blind", "Enervating Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle", "Wildroot Amulet"
           ],
           "enchants": {
             "carry": ["Offense", "Defense"],
@@ -236,7 +236,7 @@
           },
           "skill_trainers": ["Slow", "Weapon", "Crit", "Haste", "Charge"],
           "hidden_lake": "Shortened enrage is better to reactivate item effects sooner.",
-          "notes": "Defensive enchant or lifesteal is usually necessary unless Ghillie Suit or other defense buys enough time."
+          "notes": "Defensive enchant or lifesteal is usually necessary unless Ghillie Suit or other defense buys enough time. Recent non-ammo slow evidence supports Wildroot Amulet as an additional defensive support piece."
         },
         {
           "name": "Slow - Poison",
@@ -246,7 +246,7 @@
           "core_items": ["Log Trap", "Enervating Sigil"],
           "carry_items": ["Trapvine"],
           "support_items": [
-            "Hunter's Blind", "Night Vision", "Worry Wart", "Security Blanket", "Boa Constrictor", "Machete", "Forest Cloak", "Caustic Solvent", "Bat", "Fairies"
+            "Hunter's Blind", "Night Vision", "Worry Wart", "Security Blanket", "Boa Constrictor", "Machete", "Forest Cloak", "Caustic Solvent", "Bat", "Fairies", "Black Mamba", "Wild Boar"
           ],
           "enchants": {
             "carry": ["Offense", "Defense"],
@@ -256,7 +256,7 @@
           "skill_trainers": ["Karnok", "Slow"],
           "hidden_lake": "Shortened enrage.",
           "pivot_from": ["Sigil build"],
-          "notes": "Very flexible. One active Machete or multiple slow items can work, and base poison from skills or loot matters a lot. Easy Sigil pivot."
+          "notes": "Very flexible. One active Machete or multiple slow items can work, and base poison from skills or loot matters a lot. Easy Sigil pivot. Recent Trapvine builds bridge slow-poison with sustain and max-health pieces, especially Black Mamba and Wild Boar."
         },
         {
           "name": "Sustain",
@@ -267,7 +267,7 @@
           "core_items": ["Furs", "Fairies"],
           "carry_items": ["Karst", "Aurora Vista", "Wild Boar"],
           "support_items": [
-            "Meat", "Snow Wisp", "Flying Squirrel", "Waterskin", "Warding Glyphs", "Stretch Pants"
+            "Meat", "Snow Wisp", "Flying Squirrel", "Waterskin", "Warding Glyphs", "Stretch Pants", "Frog Hollow"
           ],
           "enchants": {
             "carry": ["Offense", "Defense"],
@@ -275,7 +275,7 @@
           },
           "skill_trainers": ["Karnok", "Crit", "Heal", "Shield"],
           "hidden_lake": "Shortened enrage.",
-          "notes": "Tempo build; choose between Wild Boar and Furs based on upgrades and enchants. Karst is usually better than Aurora Vista."
+          "notes": "Tempo build; choose between Wild Boar and Furs based on upgrades and enchants. Karst is usually better than Aurora Vista. Frog Hollow appears in recent Karnok evidence and should be considered a sustain/support bridge when the board can afford it."
         },
         {
           "name": "Sled - Weapon",
