@@ -1,0 +1,1854 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-03T11:33:25.118898+00:00",
+  "source": {
+    "category_url": "https://bazaar-builds.net/category/builds/karnok-builds/",
+    "site": "bazaar-builds.net"
+  },
+  "filters": {
+    "hero": "Karnok",
+    "days": 30,
+    "since": "2026-04-03"
+  },
+  "known_item_count": 414,
+  "record_count": 24,
+  "warnings": [],
+  "groups": [
+    {
+      "tag": "Uncategorized",
+      "sample_count": 4,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Mech-Moles",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Trapvine",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Ice Claw",
+          "count": 2,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [],
+      "candidate_support_items": [
+        "Mech-Moles",
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw"
+      ],
+      "likely_archetype_notes": "Uncategorized: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/",
+          "title": "Builds",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Uncategorized",
+          "items": [
+            "Mech-Moles",
+            "Trapvine",
+            "Frog Hollow",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Builds",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/build-finder/",
+          "title": "Build Finder: Pick Items, Get Matching Builds",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Uncategorized",
+          "items": [],
+          "source": "category",
+          "snippet": "Build Finder: Pick Items, Get Matching Builds",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/discord",
+          "title": "bazaar-builds.net/discord",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Uncategorized",
+          "items": [],
+          "source": "category",
+          "snippet": "bazaar-builds.net/discord",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/",
+          "title": "bazaar-builds.net",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Uncategorized",
+          "items": [
+            "Mech-Moles",
+            "Trapvine",
+            "Frog Hollow",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "bazaar-builds.net",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Build",
+      "sample_count": 3,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Wild Boar",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 3,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Wild Boar",
+        "Trapvine",
+        "Frog Hollow"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Wild Boar, Trapvine, Frog Hollow.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/karnok-builds/#content",
+          "title": "Skip to content",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Build",
+          "items": [
+            "Wild Boar",
+            "Trapvine",
+            "Frog Hollow"
+          ],
+          "source": "category",
+          "snippet": "Skip to content",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/category/builds/karnok-builds/#",
+          "title": "Socials",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Build",
+          "items": [
+            "Wild Boar",
+            "Trapvine",
+            "Frog Hollow"
+          ],
+          "source": "category",
+          "snippet": "Socials",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
+          "title": "The Bazaar - 10 Win Karnok Builds | Updated Daily!",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Build",
+          "items": [
+            "Wild Boar",
+            "Trapvine",
+            "Frog Hollow"
+          ],
+          "source": "json_ld",
+          "snippet": "On this Page, you can find all 10 Win Builds played with Karnok in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Self-Slow 10-5 Build",
+      "sample_count": 2,
+      "date_range": {
+        "start": "2026-04-23",
+        "end": "2026-04-25"
+      },
+      "item_frequencies": [
+        {
+          "item": "Hunter's Boots",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Enervating Sigil",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Tent",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Tri-Net",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Bear Trap",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Boa Constrictor",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Chains",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Fogshroom",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Log Trap",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Night Vision",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Bat",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Money Furnace",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [
+        "Hunter's Boots"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Self-Slow 10-5 Build: 2 sample(s). Repeated core candidates: Hunter's Boots.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/self-slow-karnok-10-5-build-21535-legend-kingpindfx/",
+          "title": "Self-Slow Karnok 10-5 Build #21535 Legend – KingpinDFX",
+          "date": "2026-04-25",
+          "hero": "Karnok",
+          "tag": "Self-Slow 10-5 Build",
+          "items": [
+            "Enervating Sigil",
+            "Hunter's Boots",
+            "Tent",
+            "Tri-Net",
+            "Bear Trap",
+            "Mech-Moles",
+            "Athanor",
+            "Frog Hollow",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Self-Slow Karnok 10-5 Build #21535 Legend – KingpinDFX",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/self-slow-karnok-10-5-build-25624-legend-kingpindfx/",
+          "title": "Self-Slow Karnok 10-5 Build #25624 Legend – KingpinDFX",
+          "date": "2026-04-23",
+          "hero": "Karnok",
+          "tag": "Self-Slow 10-5 Build",
+          "items": [
+            "Boa Constrictor",
+            "Chains",
+            "Fogshroom",
+            "Hunter's Boots",
+            "Log Trap",
+            "Night Vision",
+            "Bat",
+            "Double Whammy",
+            "Trapvine",
+            "Money Furnace",
+            "Crow's Nest"
+          ],
+          "source": "category",
+          "snippet": "Self-Slow Karnok 10-5 Build #25624 Legend – KingpinDFX",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Burst 10-5 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-21",
+        "end": "2026-04-21"
+      },
+      "item_frequencies": [
+        {
+          "item": "Beast Call",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Hunting Knife",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Bear",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wolf",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Bat",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Beast Call",
+        "Hunting Knife",
+        "Wild Bear",
+        "Wolf",
+        "Bat",
+        "Staff of the Moose",
+        "Mech-Moles",
+        "Athanor",
+        "Orange Julian"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Burst 10-5 Build: 1 sample(s). Repeated core candidates: Beast Call, Hunting Knife, Wild Bear, Wolf, Bat, Staff of the Moose, Mech-Moles, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/burst-karnok-10-5-build-heliox/",
+          "title": "Burst Karnok 10-5 Build – HelioX",
+          "date": "2026-04-21",
+          "hero": "Karnok",
+          "tag": "Burst 10-5 Build",
+          "items": [
+            "Beast Call",
+            "Hunting Knife",
+            "Wild Bear",
+            "Wolf",
+            "Bat",
+            "Staff of the Moose",
+            "Mech-Moles",
+            "Athanor",
+            "Orange Julian"
+          ],
+          "source": "category",
+          "snippet": "Burst Karnok 10-5 Build – HelioX",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Frog Hollow 10-3 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-05-01",
+        "end": "2026-05-01"
+      },
+      "item_frequencies": [
+        {
+          "item": "Black Mamba",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Fairies",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Fairy Circle",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Vial Launcher",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Black Mamba",
+        "Fairies",
+        "Fairy Circle",
+        "Staff of the Moose",
+        "Double Whammy",
+        "Orange Julian",
+        "Vial Launcher",
+        "Frog Hollow",
+        "Terry-Dactyl",
+        "Crow's Nest"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Frog Hollow 10-3 Build: 1 sample(s). Repeated core candidates: Black Mamba, Fairies, Fairy Circle, Staff of the Moose, Double Whammy, Orange Julian, Vial Launcher, Frog Hollow.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/frog-hollow-karnok-10-3-build-8363-legend-banastronaut/",
+          "title": "Frog Hollow Karnok 10-3 Build #8363 Legend – banastronaut",
+          "date": "2026-05-01",
+          "hero": "Karnok",
+          "tag": "Frog Hollow 10-3 Build",
+          "items": [
+            "Black Mamba",
+            "Fairies",
+            "Fairy Circle",
+            "Staff of the Moose",
+            "Double Whammy",
+            "Orange Julian",
+            "Vial Launcher",
+            "Frog Hollow",
+            "Terry-Dactyl",
+            "Crow's Nest"
+          ],
+          "source": "category",
+          "snippet": "Frog Hollow Karnok 10-3 Build #8363 Legend – banastronaut",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Max Health Burn 10-2 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-22",
+        "end": "2026-04-22"
+      },
+      "item_frequencies": [
+        {
+          "item": "Firefly Lantern",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Flame Sigil",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Flying Squirrel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Forest Cloak",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tinderbox",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Torch",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Fireclaw",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Firefly Lantern",
+        "Flame Sigil",
+        "Flying Squirrel",
+        "Forest Cloak",
+        "Tinderbox",
+        "Torch",
+        "Fireclaw",
+        "Staff of the Moose",
+        "Crow's Nest",
+        "Tortuga"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Max Health Burn 10-2 Build: 1 sample(s). Repeated core candidates: Firefly Lantern, Flame Sigil, Flying Squirrel, Forest Cloak, Tinderbox, Torch, Fireclaw, Staff of the Moose.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/max-health-burn-karnok-10-2-build-30416-legend-kardigan/",
+          "title": "Max Health Burn Karnok 10-2 Build #30416 Legend – KardigaN",
+          "date": "2026-04-22",
+          "hero": "Karnok",
+          "tag": "Max Health Burn 10-2 Build",
+          "items": [
+            "Firefly Lantern",
+            "Flame Sigil",
+            "Flying Squirrel",
+            "Forest Cloak",
+            "Tinderbox",
+            "Torch",
+            "Fireclaw",
+            "Staff of the Moose",
+            "Crow's Nest",
+            "Tortuga"
+          ],
+          "source": "category",
+          "snippet": "Max Health Burn Karnok 10-2 Build #30416 Legend – KardigaN",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Necronomicon 10-1 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-20",
+        "end": "2026-04-20"
+      },
+      "item_frequencies": [
+        {
+          "item": "Flying Squirrel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Meat",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Spear",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Black Mamba",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Flying Squirrel",
+        "Meat",
+        "Spear",
+        "Black Mamba",
+        "Incendiary Rounds",
+        "Orange Julian",
+        "Terry-Dactyl",
+        "Crow's Nest",
+        "Ice Claw"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Necronomicon 10-1 Build: 1 sample(s). Repeated core candidates: Flying Squirrel, Meat, Spear, Black Mamba, Incendiary Rounds, Orange Julian, Terry-Dactyl, Crow's Nest.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/necronomicon-karnok-10-1-build-6525-legend-gildedsimian/",
+          "title": "Necronomicon Karnok 10-1 Build #6525 Legend – GildedSimian",
+          "date": "2026-04-20",
+          "hero": "Karnok",
+          "tag": "Necronomicon 10-1 Build",
+          "items": [
+            "Flying Squirrel",
+            "Meat",
+            "Spear",
+            "Black Mamba",
+            "Incendiary Rounds",
+            "Orange Julian",
+            "Terry-Dactyl",
+            "Crow's Nest",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Necronomicon Karnok 10-1 Build #6525 Legend – GildedSimian",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Self-Slow 10-0 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-27",
+        "end": "2026-04-27"
+      },
+      "item_frequencies": [
+        {
+          "item": "Boa Constrictor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Chains",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Enervating Sigil",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Night Vision",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wildroot Amulet",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Worry Wart",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Bat",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Boa Constrictor",
+        "Chains",
+        "Enervating Sigil",
+        "Night Vision",
+        "Wildroot Amulet",
+        "Worry Wart",
+        "Bat",
+        "Staff of the Moose",
+        "Mech-Moles",
+        "Double Whammy",
+        "Trapvine",
+        "Terry-Dactyl"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Self-Slow 10-0 Build: 1 sample(s). Repeated core candidates: Boa Constrictor, Chains, Enervating Sigil, Night Vision, Wildroot Amulet, Worry Wart, Bat, Staff of the Moose.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/self-slow-karnok-10-0-build-33186-legend-mike001eiei/",
+          "title": "Self-Slow Karnok 10-0 Build #33186 Legend – Mike001eiei",
+          "date": "2026-04-27",
+          "hero": "Karnok",
+          "tag": "Self-Slow 10-0 Build",
+          "items": [
+            "Boa Constrictor",
+            "Chains",
+            "Enervating Sigil",
+            "Night Vision",
+            "Wildroot Amulet",
+            "Worry Wart",
+            "Bat",
+            "Staff of the Moose",
+            "Mech-Moles",
+            "Double Whammy",
+            "Trapvine",
+            "Terry-Dactyl"
+          ],
+          "source": "category",
+          "snippet": "Self-Slow Karnok 10-0 Build #33186 Legend – Mike001eiei",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Submit your 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/submit-your-build",
+          "title": "Submit your 10 Win Build",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "Submit your 10 Win Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Submit your 10 Win Build",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Trapvine 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-30",
+        "end": "2026-04-30"
+      },
+      "item_frequencies": [
+        {
+          "item": "Flying Squirrel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Furs",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Stretch Pants",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Waterskin",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Black Mamba",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Flying Squirrel",
+        "Furs",
+        "Stretch Pants",
+        "Trapvine",
+        "Waterskin",
+        "Black Mamba",
+        "Athanor",
+        "Wild Boar",
+        "Double Whammy",
+        "Orange Julian",
+        "Terry-Dactyl"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Trapvine 10 Win Build: 1 sample(s). Repeated core candidates: Flying Squirrel, Furs, Stretch Pants, Trapvine, Waterskin, Black Mamba, Athanor, Wild Boar.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/trapvine-karnok-10-win-build-19190-legend-anneo/",
+          "title": "Trapvine Karnok 10 Win Build #19190 Legend – Anneo",
+          "date": "2026-04-30",
+          "hero": "Karnok",
+          "tag": "Trapvine 10 Win Build",
+          "items": [
+            "Flying Squirrel",
+            "Furs",
+            "Stretch Pants",
+            "Trapvine",
+            "Waterskin",
+            "Black Mamba",
+            "Athanor",
+            "Wild Boar",
+            "Double Whammy",
+            "Orange Julian",
+            "Terry-Dactyl"
+          ],
+          "source": "category",
+          "snippet": "Trapvine Karnok 10 Win Build #19190 Legend – Anneo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Trapvine 10-2 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-23",
+        "end": "2026-04-23"
+      },
+      "item_frequencies": [
+        {
+          "item": "Log Trap",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Machete",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Vengeful Sigil",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Boar Mask",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Hydraulic Press",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Log Trap",
+        "Machete",
+        "Trapvine",
+        "Vengeful Sigil",
+        "Boar Mask",
+        "Hydraulic Press",
+        "Athanor",
+        "Wild Boar",
+        "Double Whammy",
+        "Terry-Dactyl"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Trapvine 10-2 Build: 1 sample(s). Repeated core candidates: Log Trap, Machete, Trapvine, Vengeful Sigil, Boar Mask, Hydraulic Press, Athanor, Wild Boar.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/trapvine-karnok-10-2-build-19274-legend-rc13/",
+          "title": "Trapvine Karnok 10-2 Build #19274 Legend – RC13",
+          "date": "2026-04-23",
+          "hero": "Karnok",
+          "tag": "Trapvine 10-2 Build",
+          "items": [
+            "Log Trap",
+            "Machete",
+            "Trapvine",
+            "Vengeful Sigil",
+            "Boar Mask",
+            "Hydraulic Press",
+            "Athanor",
+            "Wild Boar",
+            "Double Whammy",
+            "Terry-Dactyl"
+          ],
+          "source": "category",
+          "snippet": "Trapvine Karnok 10-2 Build #19274 Legend – RC13",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Wild Boar 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-29",
+        "end": "2026-04-29"
+      },
+      "item_frequencies": [
+        {
+          "item": "Black Mamba",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Flying Squirrel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Waterskin",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Aurora Vista",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Black Mamba",
+        "Flying Squirrel",
+        "Waterskin",
+        "Wild Boar",
+        "Aurora Vista",
+        "Athanor",
+        "Double Whammy",
+        "Orange Julian",
+        "Trapvine"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Wild Boar 10 Win Build: 1 sample(s). Repeated core candidates: Black Mamba, Flying Squirrel, Waterskin, Wild Boar, Aurora Vista, Athanor, Double Whammy, Orange Julian.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/wild-boar-karnok-10-win-build-15294-legend-anneo/",
+          "title": "Wild Boar Karnok 10 Win Build #15294 Legend – Anneo",
+          "date": "2026-04-29",
+          "hero": "Karnok",
+          "tag": "Wild Boar 10 Win Build",
+          "items": [
+            "Black Mamba",
+            "Flying Squirrel",
+            "Waterskin",
+            "Wild Boar",
+            "Aurora Vista",
+            "Athanor",
+            "Double Whammy",
+            "Orange Julian",
+            "Trapvine"
+          ],
+          "source": "category",
+          "snippet": "Wild Boar Karnok 10 Win Build #15294 Legend – Anneo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "dooley Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Hydraulic Press",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pulse Rifle",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Hydraulic Press",
+        "Mech-Moles",
+        "Pulse Rifle",
+        "Terry-Dactyl"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "dooley Build: 1 sample(s). Repeated core candidates: Hydraulic Press, Mech-Moles, Pulse Rifle, Terry-Dactyl.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
+          "title": "Dooley",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "dooley Build",
+          "items": [
+            "Hydraulic Press",
+            "Mech-Moles",
+            "Pulse Rifle",
+            "Terry-Dactyl"
+          ],
+          "source": "category",
+          "snippet": "Dooley",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "jules Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "jules Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/jules-builds/",
+          "title": "Jules",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "jules Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Jules",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "mak Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Vial Launcher",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Athanor",
+        "Vial Launcher",
+        "Ice Claw"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "mak Build: 1 sample(s). Repeated core candidates: Athanor, Vial Launcher, Ice Claw.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/mak-builds/",
+          "title": "Mak",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "mak Build",
+          "items": [
+            "Athanor",
+            "Vial Launcher",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Mak",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "pygmalien Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Double Whammy"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "pygmalien Build: 1 sample(s). Repeated core candidates: Double Whammy.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
+          "title": "Pygmalien",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "pygmalien Build",
+          "items": [
+            "Double Whammy"
+          ],
+          "source": "category",
+          "snippet": "Pygmalien",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "stelle Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "stelle Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/stelle-builds/",
+          "title": "Stelle",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "stelle Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Stelle",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "vanessa Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Refractor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Refractor",
+        "Incendiary Rounds"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "vanessa Build: 1 sample(s). Repeated core candidates: Refractor, Incendiary Rounds.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
+          "title": "Vanessa",
+          "date": null,
+          "hero": "Karnok",
+          "tag": "vanessa Build",
+          "items": [
+            "Refractor",
+            "Incendiary Rounds"
+          ],
+          "source": "category",
+          "snippet": "Vanessa",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "url": "https://bazaar-builds.net/category/builds/karnok-builds/#content",
+      "title": "Skip to content",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Build",
+      "items": [
+        "Wild Boar",
+        "Trapvine",
+        "Frog Hollow"
+      ],
+      "source": "category",
+      "snippet": "Skip to content",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/",
+      "title": "Builds",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Uncategorized",
+      "items": [
+        "Mech-Moles",
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "Builds",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
+      "title": "Vanessa",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "vanessa Build",
+      "items": [
+        "Refractor",
+        "Incendiary Rounds"
+      ],
+      "source": "category",
+      "snippet": "Vanessa",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
+      "title": "Dooley",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "dooley Build",
+      "items": [
+        "Hydraulic Press",
+        "Mech-Moles",
+        "Pulse Rifle",
+        "Terry-Dactyl"
+      ],
+      "source": "category",
+      "snippet": "Dooley",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
+      "title": "Pygmalien",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "pygmalien Build",
+      "items": [
+        "Double Whammy"
+      ],
+      "source": "category",
+      "snippet": "Pygmalien",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/mak-builds/",
+      "title": "Mak",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "mak Build",
+      "items": [
+        "Athanor",
+        "Vial Launcher",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "Mak",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/stelle-builds/",
+      "title": "Stelle",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "stelle Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Stelle",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/jules-builds/",
+      "title": "Jules",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "jules Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Jules",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/karnok-builds/#",
+      "title": "Socials",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Build",
+      "items": [
+        "Wild Boar",
+        "Trapvine",
+        "Frog Hollow"
+      ],
+      "source": "category",
+      "snippet": "Socials",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/submit-your-build",
+      "title": "Submit your 10 Win Build",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Submit your 10 Win Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Submit your 10 Win Build",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/build-finder/",
+      "title": "Build Finder: Pick Items, Get Matching Builds",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Uncategorized",
+      "items": [],
+      "source": "category",
+      "snippet": "Build Finder: Pick Items, Get Matching Builds",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/frog-hollow-karnok-10-3-build-8363-legend-banastronaut/",
+      "title": "Frog Hollow Karnok 10-3 Build #8363 Legend – banastronaut",
+      "date": "2026-05-01",
+      "hero": "Karnok",
+      "tag": "Frog Hollow 10-3 Build",
+      "items": [
+        "Black Mamba",
+        "Fairies",
+        "Fairy Circle",
+        "Staff of the Moose",
+        "Double Whammy",
+        "Orange Julian",
+        "Vial Launcher",
+        "Frog Hollow",
+        "Terry-Dactyl",
+        "Crow's Nest"
+      ],
+      "source": "category",
+      "snippet": "Frog Hollow Karnok 10-3 Build #8363 Legend – banastronaut",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/trapvine-karnok-10-win-build-19190-legend-anneo/",
+      "title": "Trapvine Karnok 10 Win Build #19190 Legend – Anneo",
+      "date": "2026-04-30",
+      "hero": "Karnok",
+      "tag": "Trapvine 10 Win Build",
+      "items": [
+        "Flying Squirrel",
+        "Furs",
+        "Stretch Pants",
+        "Trapvine",
+        "Waterskin",
+        "Black Mamba",
+        "Athanor",
+        "Wild Boar",
+        "Double Whammy",
+        "Orange Julian",
+        "Terry-Dactyl"
+      ],
+      "source": "category",
+      "snippet": "Trapvine Karnok 10 Win Build #19190 Legend – Anneo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/wild-boar-karnok-10-win-build-15294-legend-anneo/",
+      "title": "Wild Boar Karnok 10 Win Build #15294 Legend – Anneo",
+      "date": "2026-04-29",
+      "hero": "Karnok",
+      "tag": "Wild Boar 10 Win Build",
+      "items": [
+        "Black Mamba",
+        "Flying Squirrel",
+        "Waterskin",
+        "Wild Boar",
+        "Aurora Vista",
+        "Athanor",
+        "Double Whammy",
+        "Orange Julian",
+        "Trapvine"
+      ],
+      "source": "category",
+      "snippet": "Wild Boar Karnok 10 Win Build #15294 Legend – Anneo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/self-slow-karnok-10-0-build-33186-legend-mike001eiei/",
+      "title": "Self-Slow Karnok 10-0 Build #33186 Legend – Mike001eiei",
+      "date": "2026-04-27",
+      "hero": "Karnok",
+      "tag": "Self-Slow 10-0 Build",
+      "items": [
+        "Boa Constrictor",
+        "Chains",
+        "Enervating Sigil",
+        "Night Vision",
+        "Wildroot Amulet",
+        "Worry Wart",
+        "Bat",
+        "Staff of the Moose",
+        "Mech-Moles",
+        "Double Whammy",
+        "Trapvine",
+        "Terry-Dactyl"
+      ],
+      "source": "category",
+      "snippet": "Self-Slow Karnok 10-0 Build #33186 Legend – Mike001eiei",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/self-slow-karnok-10-5-build-21535-legend-kingpindfx/",
+      "title": "Self-Slow Karnok 10-5 Build #21535 Legend – KingpinDFX",
+      "date": "2026-04-25",
+      "hero": "Karnok",
+      "tag": "Self-Slow 10-5 Build",
+      "items": [
+        "Enervating Sigil",
+        "Hunter's Boots",
+        "Tent",
+        "Tri-Net",
+        "Bear Trap",
+        "Mech-Moles",
+        "Athanor",
+        "Frog Hollow",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "Self-Slow Karnok 10-5 Build #21535 Legend – KingpinDFX",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/trapvine-karnok-10-2-build-19274-legend-rc13/",
+      "title": "Trapvine Karnok 10-2 Build #19274 Legend – RC13",
+      "date": "2026-04-23",
+      "hero": "Karnok",
+      "tag": "Trapvine 10-2 Build",
+      "items": [
+        "Log Trap",
+        "Machete",
+        "Trapvine",
+        "Vengeful Sigil",
+        "Boar Mask",
+        "Hydraulic Press",
+        "Athanor",
+        "Wild Boar",
+        "Double Whammy",
+        "Terry-Dactyl"
+      ],
+      "source": "category",
+      "snippet": "Trapvine Karnok 10-2 Build #19274 Legend – RC13",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/self-slow-karnok-10-5-build-25624-legend-kingpindfx/",
+      "title": "Self-Slow Karnok 10-5 Build #25624 Legend – KingpinDFX",
+      "date": "2026-04-23",
+      "hero": "Karnok",
+      "tag": "Self-Slow 10-5 Build",
+      "items": [
+        "Boa Constrictor",
+        "Chains",
+        "Fogshroom",
+        "Hunter's Boots",
+        "Log Trap",
+        "Night Vision",
+        "Bat",
+        "Double Whammy",
+        "Trapvine",
+        "Money Furnace",
+        "Crow's Nest"
+      ],
+      "source": "category",
+      "snippet": "Self-Slow Karnok 10-5 Build #25624 Legend – KingpinDFX",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/max-health-burn-karnok-10-2-build-30416-legend-kardigan/",
+      "title": "Max Health Burn Karnok 10-2 Build #30416 Legend – KardigaN",
+      "date": "2026-04-22",
+      "hero": "Karnok",
+      "tag": "Max Health Burn 10-2 Build",
+      "items": [
+        "Firefly Lantern",
+        "Flame Sigil",
+        "Flying Squirrel",
+        "Forest Cloak",
+        "Tinderbox",
+        "Torch",
+        "Fireclaw",
+        "Staff of the Moose",
+        "Crow's Nest",
+        "Tortuga"
+      ],
+      "source": "category",
+      "snippet": "Max Health Burn Karnok 10-2 Build #30416 Legend – KardigaN",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/burst-karnok-10-5-build-heliox/",
+      "title": "Burst Karnok 10-5 Build – HelioX",
+      "date": "2026-04-21",
+      "hero": "Karnok",
+      "tag": "Burst 10-5 Build",
+      "items": [
+        "Beast Call",
+        "Hunting Knife",
+        "Wild Bear",
+        "Wolf",
+        "Bat",
+        "Staff of the Moose",
+        "Mech-Moles",
+        "Athanor",
+        "Orange Julian"
+      ],
+      "source": "category",
+      "snippet": "Burst Karnok 10-5 Build – HelioX",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/necronomicon-karnok-10-1-build-6525-legend-gildedsimian/",
+      "title": "Necronomicon Karnok 10-1 Build #6525 Legend – GildedSimian",
+      "date": "2026-04-20",
+      "hero": "Karnok",
+      "tag": "Necronomicon 10-1 Build",
+      "items": [
+        "Flying Squirrel",
+        "Meat",
+        "Spear",
+        "Black Mamba",
+        "Incendiary Rounds",
+        "Orange Julian",
+        "Terry-Dactyl",
+        "Crow's Nest",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "Necronomicon Karnok 10-1 Build #6525 Legend – GildedSimian",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/discord",
+      "title": "bazaar-builds.net/discord",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Uncategorized",
+      "items": [],
+      "source": "category",
+      "snippet": "bazaar-builds.net/discord",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/",
+      "title": "bazaar-builds.net",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Uncategorized",
+      "items": [
+        "Mech-Moles",
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "bazaar-builds.net",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
+      "title": "The Bazaar - 10 Win Karnok Builds | Updated Daily!",
+      "date": null,
+      "hero": "Karnok",
+      "tag": "Build",
+      "items": [
+        "Wild Boar",
+        "Trapvine",
+        "Frog Hollow"
+      ],
+      "source": "json_ld",
+      "snippet": "On this Page, you can find all 10 Win Builds played with Karnok in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    }
+  ],
+  "review_guidance": [
+    "This artifact is evidence for a human review pass; it does not update any *_builds.json file.",
+    "Compare candidate_core_items and candidate_support_items against the matching hero catalog archetype.",
+    "Prefer repeated items from dated/manual-confirmed builds over one-off direct-page scrape matches.",
+    "Use records with empty items as placeholders for manual paste fallback."
+  ]
+}

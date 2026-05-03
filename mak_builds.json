@@ -253,6 +253,7 @@
           ],
           "carry_items": [
             "Eternal Torch",
+            "Fire Claw",
             "Athanor",
             "Blazehowl Warden",
             "Incendiary Rounds"
@@ -261,11 +262,12 @@
             "Ruby",
             "Candles",
             "Excavation Tools",
+            "Flying Potion",
             "Boiling Flask",
             "Library",
             "Laboratory"
           ],
-          "notes": "Complete Torch purchase quest on Day 1 — consistent and very strong. Take enchanted small item if close to finishing quest. Great pivot item: if the burn line doesn't come together, pivot to potions easily."
+          "notes": "Complete Torch purchase quest on Day 1 — consistent and very strong. Take enchanted small item if close to finishing quest. Fire Claw and Flying Potion now look like real bridges into the late Torch/Athanor burn shell. Great pivot item: if the burn line doesn't come together, pivot to potions easily."
         },
         {
           "name": "Satchel Setup",
@@ -398,6 +400,7 @@
             "Eternal Torch",
             "Crocodile Tears",
             "Bottled Lightning",
+            "Energy Potion",
             "Show Globe",
             "Magic Carpet"
           ],
@@ -406,7 +409,7 @@
             "Ammo",
             "Potion"
           ],
-          "notes": "End boards ranked: 1. Bottled Explosion (base damage is king — nodes, skills, loot; doubles with Boiling Flask). 2. Vat of Acid (go to Curio for cheap items/tags; check monster fights for tag items). 3. Athanor + Torch (burn pivot). 4. Plague Glaive. Distillery is premium support — transforms smalls into potions each shop visit. Focus on base damage scaling for Bottled Explosion via nodes, skills, and loot."
+          "notes": "End boards ranked: 1. Bottled Explosion (base damage is king — nodes, skills, loot; doubles with Boiling Flask). 2. Vat of Acid (go to Curio for cheap items/tags; check monster fights for tag items). 3. Athanor + Torch (burn pivot). 4. Plague Glaive. Distillery is premium support — transforms smalls into potions each shop visit. Recent Vial Launcher evidence supports Energy Potion as a useful accelerator. Focus on base damage scaling for Bottled Explosion via nodes, skills, and loot."
         },
         {
           "name": "Weapons Flex",
@@ -580,6 +583,7 @@
           ],
           "carry_items": [
             "Athanor",
+            "Fire Claw",
             "Blazehowl Warden",
             "Incendiary Rounds",
             "Bottled Explosion"
@@ -601,7 +605,7 @@
             "Burn",
             "Charge"
           ],
-          "notes": "Complete Torch purchase quest Day 1 — taking enchanted small item when close is recommended. Lib + Lab combo is a strong scaling option. Palanquin variant needs a defensive enchant. Transitions cleanly into Potion line once support items overlap."
+          "notes": "Complete Torch purchase quest Day 1 — taking enchanted small item when close is recommended. Recent burn samples validate Eternal Torch plus Fire Claw, Athanor, Flying Potion, Torch, and Blazehowl Warden as the burn spine. Lib + Lab combo is a strong scaling option. Palanquin variant needs a defensive enchant. Transitions cleanly into Potion line once support items overlap."
         },
         {
           "name": "Relic Flex",

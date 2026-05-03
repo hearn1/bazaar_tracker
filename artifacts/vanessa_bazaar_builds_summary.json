@@ -1,0 +1,1722 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-03T11:32:26.355801+00:00",
+  "source": {
+    "category_url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
+    "site": "bazaar-builds.net"
+  },
+  "filters": {
+    "hero": "Vanessa",
+    "days": 30,
+    "since": "2026-04-03"
+  },
+  "known_item_count": 414,
+  "record_count": 24,
+  "warnings": [],
+  "groups": [
+    {
+      "tag": "Uncategorized",
+      "sample_count": 4,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Trapvine",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Ice Claw",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 2,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [],
+      "candidate_support_items": [
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw",
+        "Mech-Moles"
+      ],
+      "likely_archetype_notes": "Uncategorized: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/",
+          "title": "Builds",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Uncategorized",
+          "items": [
+            "Trapvine",
+            "Frog Hollow",
+            "Ice Claw",
+            "Mech-Moles"
+          ],
+          "source": "category",
+          "snippet": "Builds",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/build-finder/",
+          "title": "Build Finder: Pick Items, Get Matching Builds",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Uncategorized",
+          "items": [],
+          "source": "category",
+          "snippet": "Build Finder: Pick Items, Get Matching Builds",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/discord",
+          "title": "bazaar-builds.net/discord",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Uncategorized",
+          "items": [],
+          "source": "category",
+          "snippet": "bazaar-builds.net/discord",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/",
+          "title": "bazaar-builds.net",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Uncategorized",
+          "items": [
+            "Trapvine",
+            "Frog Hollow",
+            "Ice Claw",
+            "Mech-Moles"
+          ],
+          "source": "category",
+          "snippet": "bazaar-builds.net",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Build",
+      "sample_count": 3,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Incendiary Rounds",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
+          "item": "Refractor",
+          "count": 3,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Incendiary Rounds",
+        "Refractor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Incendiary Rounds, Refractor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#content",
+          "title": "Skip to content",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Build",
+          "items": [
+            "Incendiary Rounds",
+            "Refractor"
+          ],
+          "source": "category",
+          "snippet": "Skip to content",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#",
+          "title": "Socials",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Build",
+          "items": [
+            "Incendiary Rounds",
+            "Refractor"
+          ],
+          "source": "category",
+          "snippet": "Socials",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
+          "title": "The Bazaar - 10 Win Vanessa Builds | Updated Daily!",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Build",
+          "items": [
+            "Incendiary Rounds",
+            "Refractor"
+          ],
+          "source": "json_ld",
+          "snippet": "On this Page, you can find all 10 Win Builds played with Vanessa in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Burn 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-30",
+        "end": "2026-04-30"
+      },
+      "item_frequencies": [
+        {
+          "item": "Pop Snappers",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Cutlass",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Pop Snappers",
+        "Cutlass",
+        "Staff of the Moose",
+        "Orange Julian"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Burn 10 Win Build: 1 sample(s). Repeated core candidates: Pop Snappers, Cutlass, Staff of the Moose, Orange Julian.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/burn-vanessa-10-win-build-rxt/",
+          "title": "Burn Vanessa 10 Win Build – rXt",
+          "date": "2026-04-30",
+          "hero": "Vanessa",
+          "tag": "Burn 10 Win Build",
+          "items": [
+            "Pop Snappers",
+            "Cutlass",
+            "Staff of the Moose",
+            "Orange Julian"
+          ],
+          "source": "category",
+          "snippet": "Burn Vanessa 10 Win Build – rXt",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Burn 10-3 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-29",
+        "end": "2026-04-29"
+      },
+      "item_frequencies": [
+        {
+          "item": "Lighter",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Rowboat",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Seashadow",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Zoarcid",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Slumbering Primordial",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Lighter",
+        "Rowboat",
+        "Seashadow",
+        "Zoarcid",
+        "Dive Weights",
+        "Weights",
+        "Slumbering Primordial",
+        "Incendiary Rounds",
+        "Tortuga",
+        "Terry-Dactyl",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Burn 10-3 Build: 1 sample(s). Repeated core candidates: Lighter, Rowboat, Seashadow, Zoarcid, Dive Weights, Weights, Slumbering Primordial, Incendiary Rounds.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/burn-vanessa-10-3-build-4652-legend-banastronaut/",
+          "title": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
+          "date": "2026-04-29",
+          "hero": "Vanessa",
+          "tag": "Burn 10-3 Build",
+          "items": [
+            "Lighter",
+            "Rowboat",
+            "Seashadow",
+            "Zoarcid",
+            "Dive Weights",
+            "Weights",
+            "Slumbering Primordial",
+            "Incendiary Rounds",
+            "Tortuga",
+            "Terry-Dactyl",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Burst 10-1 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-26",
+        "end": "2026-04-26"
+      },
+      "item_frequencies": [
+        {
+          "item": "Korxena Crest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pistol Sword",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Scimitar of the Deep",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Shuriken",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Figurehead",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Korxena Crest",
+        "Pistol Sword",
+        "Scimitar of the Deep",
+        "Shuriken",
+        "Figurehead",
+        "Trapvine",
+        "Ice Claw",
+        "Mech-Moles"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Burst 10-1 Build: 1 sample(s). Repeated core candidates: Korxena Crest, Pistol Sword, Scimitar of the Deep, Shuriken, Figurehead, Trapvine, Ice Claw, Mech-Moles.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/burst-vanessa-10-1-build-kecajjo/",
+          "title": "Burst Vanessa 10-1 Build – Kecajjo",
+          "date": "2026-04-26",
+          "hero": "Vanessa",
+          "tag": "Burst 10-1 Build",
+          "items": [
+            "Korxena Crest",
+            "Pistol Sword",
+            "Scimitar of the Deep",
+            "Shuriken",
+            "Figurehead",
+            "Trapvine",
+            "Ice Claw",
+            "Mech-Moles"
+          ],
+          "source": "category",
+          "snippet": "Burst Vanessa 10-1 Build – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Cannonade 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-27",
+        "end": "2026-04-27"
+      },
+      "item_frequencies": [
+        {
+          "item": "Cannonball",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Holsters",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Shuriken",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Battery",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Slumbering Primordial",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weaponized Core",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pulse Rifle",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Cannonball",
+        "Holsters",
+        "Shuriken",
+        "Battery",
+        "Slumbering Primordial",
+        "Trapvine",
+        "Tortuga",
+        "Weaponized Core",
+        "Ice Claw",
+        "Pulse Rifle"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Cannonade 10 Win Build: 1 sample(s). Repeated core candidates: Cannonball, Holsters, Shuriken, Battery, Slumbering Primordial, Trapvine, Tortuga, Weaponized Core.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/cannonade-vanessa-10-win-build-kecajjo/",
+          "title": "Cannonade Vanessa 10 Win Build – Kecajjo",
+          "date": "2026-04-27",
+          "hero": "Vanessa",
+          "tag": "Cannonade 10 Win Build",
+          "items": [
+            "Cannonball",
+            "Holsters",
+            "Shuriken",
+            "Battery",
+            "Slumbering Primordial",
+            "Trapvine",
+            "Tortuga",
+            "Weaponized Core",
+            "Ice Claw",
+            "Pulse Rifle"
+          ],
+          "source": "category",
+          "snippet": "Cannonade Vanessa 10 Win Build – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Incendiary Rounds 10-4 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-26",
+        "end": "2026-04-26"
+      },
+      "item_frequencies": [
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pop Snappers",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Seashadow",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Astrolabe",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Lion Cane",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Incendiary Rounds",
+        "Pop Snappers",
+        "Seashadow",
+        "Astrolabe",
+        "Tortuga",
+        "Lion Cane",
+        "Terry-Dactyl",
+        "Orange Julian"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Incendiary Rounds 10-4 Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Pop Snappers, Seashadow, Astrolabe, Tortuga, Lion Cane, Terry-Dactyl, Orange Julian.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/incendiary-rounds-vanessa-10-4-build-6730-legend-banastronaut/",
+          "title": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
+          "date": "2026-04-26",
+          "hero": "Vanessa",
+          "tag": "Incendiary Rounds 10-4 Build",
+          "items": [
+            "Incendiary Rounds",
+            "Pop Snappers",
+            "Seashadow",
+            "Astrolabe",
+            "Tortuga",
+            "Lion Cane",
+            "Terry-Dactyl",
+            "Orange Julian"
+          ],
+          "source": "category",
+          "snippet": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Refractor 10-4 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-27",
+        "end": "2026-04-27"
+      },
+      "item_frequencies": [
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Nesting Doll",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pearl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pufferfish",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Refractor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Zoarcid",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pulse Rifle",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Incendiary Rounds",
+        "Nesting Doll",
+        "Pearl",
+        "Pufferfish",
+        "Refractor",
+        "Zoarcid",
+        "Dive Weights",
+        "Weights",
+        "Crow's Nest",
+        "Tortuga",
+        "Ice Claw",
+        "Pulse Rifle",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Refractor 10-4 Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Nesting Doll, Pearl, Pufferfish, Refractor, Zoarcid, Dive Weights, Weights.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/refractor-vanessa-10-4-build-kecajjo/",
+          "title": "Refractor Vanessa 10-4 Build – Kecajjo",
+          "date": "2026-04-27",
+          "hero": "Vanessa",
+          "tag": "Refractor 10-4 Build",
+          "items": [
+            "Incendiary Rounds",
+            "Nesting Doll",
+            "Pearl",
+            "Pufferfish",
+            "Refractor",
+            "Zoarcid",
+            "Dive Weights",
+            "Weights",
+            "Crow's Nest",
+            "Tortuga",
+            "Ice Claw",
+            "Pulse Rifle",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Refractor Vanessa 10-4 Build – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Space Laser 10-3 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-25",
+        "end": "2026-04-25"
+      },
+      "item_frequencies": [
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pearl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Captain's Wheel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Vial Launcher",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Dive Weights",
+        "Pearl",
+        "Captain's Wheel",
+        "Weights",
+        "Crow's Nest",
+        "Vial Launcher",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Space Laser 10-3 Build: 1 sample(s). Repeated core candidates: Dive Weights, Pearl, Captain's Wheel, Weights, Crow's Nest, Vial Launcher, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/space-laser-vanessa-10-3-build-kecajjo/",
+          "title": "Space Laser Vanessa 10-3 Build – Kecajjo",
+          "date": "2026-04-25",
+          "hero": "Vanessa",
+          "tag": "Space Laser 10-3 Build",
+          "items": [
+            "Dive Weights",
+            "Pearl",
+            "Captain's Wheel",
+            "Weights",
+            "Crow's Nest",
+            "Vial Launcher",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Space Laser Vanessa 10-3 Build – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Submarine 10-3 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-05-01",
+        "end": "2026-05-01"
+      },
+      "item_frequencies": [
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Seaweed",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Captain's Quarters",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Dive Weights",
+        "Seaweed",
+        "Captain's Quarters",
+        "Weights",
+        "Staff of the Moose",
+        "Incendiary Rounds",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Submarine 10-3 Build: 1 sample(s). Repeated core candidates: Dive Weights, Seaweed, Captain's Quarters, Weights, Staff of the Moose, Incendiary Rounds, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/submarine-vanessa-10-3-build-makher/",
+          "title": "Submarine Vanessa 10-3 Build – Makher",
+          "date": "2026-05-01",
+          "hero": "Vanessa",
+          "tag": "Submarine 10-3 Build",
+          "items": [
+            "Dive Weights",
+            "Seaweed",
+            "Captain's Quarters",
+            "Weights",
+            "Staff of the Moose",
+            "Incendiary Rounds",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Submarine Vanessa 10-3 Build – Makher",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Submit your 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/submit-your-build",
+          "title": "Submit your 10 Win Build",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "Submit your 10 Win Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Submit your 10 Win Build",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "The Boulder 10 Win Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-05-02",
+        "end": "2026-05-02"
+      },
+      "item_frequencies": [
+        {
+          "item": "Nesting Doll",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Rowboat",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Captain's Wheel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Nesting Doll",
+        "Rowboat",
+        "Captain's Wheel",
+        "Wild Boar",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "The Boulder 10 Win Build: 1 sample(s). Repeated core candidates: Nesting Doll, Rowboat, Captain's Wheel, Wild Boar, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/the-boulder-vanessa-10-win-build-29918-legend-kecajjo/",
+          "title": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
+          "date": "2026-05-02",
+          "hero": "Vanessa",
+          "tag": "The Boulder 10 Win Build",
+          "items": [
+            "Nesting Doll",
+            "Rowboat",
+            "Captain's Wheel",
+            "Wild Boar",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Weather Glass 10-5 Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-04-26",
+        "end": "2026-04-26"
+      },
+      "item_frequencies": [
+        {
+          "item": "Clamera",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pufferfish",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Scimitar of the Deep",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Zoarcid",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Clamera",
+        "Pufferfish",
+        "Scimitar of the Deep",
+        "Zoarcid",
+        "Tortuga",
+        "Ice Claw"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Weather Glass 10-5 Build: 1 sample(s). Repeated core candidates: Clamera, Pufferfish, Scimitar of the Deep, Zoarcid, Tortuga, Ice Claw.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/weather-glass-vanessa-10-5-build-kecajjo/",
+          "title": "Weather Glass Vanessa 10-5 Build – Kecajjo",
+          "date": "2026-04-26",
+          "hero": "Vanessa",
+          "tag": "Weather Glass 10-5 Build",
+          "items": [
+            "Clamera",
+            "Pufferfish",
+            "Scimitar of the Deep",
+            "Zoarcid",
+            "Tortuga",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Weather Glass Vanessa 10-5 Build – Kecajjo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "dooley Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Hydraulic Press",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pulse Rifle",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Hydraulic Press",
+        "Terry-Dactyl",
+        "Pulse Rifle",
+        "Mech-Moles"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "dooley Build: 1 sample(s). Repeated core candidates: Hydraulic Press, Terry-Dactyl, Pulse Rifle, Mech-Moles.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
+          "title": "Dooley",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "dooley Build",
+          "items": [
+            "Hydraulic Press",
+            "Terry-Dactyl",
+            "Pulse Rifle",
+            "Mech-Moles"
+          ],
+          "source": "category",
+          "snippet": "Dooley",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "jules Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "jules Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/jules-builds/",
+          "title": "Jules",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "jules Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Jules",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "karnok Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Trapvine",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Trapvine",
+        "Frog Hollow",
+        "Wild Boar"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "karnok Build: 1 sample(s). Repeated core candidates: Trapvine, Frog Hollow, Wild Boar.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
+          "title": "Karnok",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "karnok Build",
+          "items": [
+            "Trapvine",
+            "Frog Hollow",
+            "Wild Boar"
+          ],
+          "source": "category",
+          "snippet": "Karnok",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "mak Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Vial Launcher",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Vial Launcher",
+        "Ice Claw",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "mak Build: 1 sample(s). Repeated core candidates: Vial Launcher, Ice Claw, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/mak-builds/",
+          "title": "Mak",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "mak Build",
+          "items": [
+            "Vial Launcher",
+            "Ice Claw",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Mak",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "pygmalien Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Double Whammy"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "pygmalien Build: 1 sample(s). Repeated core candidates: Double Whammy.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
+          "title": "Pygmalien",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "pygmalien Build",
+          "items": [
+            "Double Whammy"
+          ],
+          "source": "category",
+          "snippet": "Pygmalien",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "stelle Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": null,
+        "end": null
+      },
+      "item_frequencies": [],
+      "candidate_core_items": [],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "stelle Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/category/builds/stelle-builds/",
+          "title": "Stelle",
+          "date": null,
+          "hero": "Vanessa",
+          "tag": "stelle Build",
+          "items": [],
+          "source": "category",
+          "snippet": "Stelle",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#content",
+      "title": "Skip to content",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Build",
+      "items": [
+        "Incendiary Rounds",
+        "Refractor"
+      ],
+      "source": "category",
+      "snippet": "Skip to content",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/",
+      "title": "Builds",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Uncategorized",
+      "items": [
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw",
+        "Mech-Moles"
+      ],
+      "source": "category",
+      "snippet": "Builds",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
+      "title": "Dooley",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "dooley Build",
+      "items": [
+        "Hydraulic Press",
+        "Terry-Dactyl",
+        "Pulse Rifle",
+        "Mech-Moles"
+      ],
+      "source": "category",
+      "snippet": "Dooley",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
+      "title": "Pygmalien",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "pygmalien Build",
+      "items": [
+        "Double Whammy"
+      ],
+      "source": "category",
+      "snippet": "Pygmalien",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/mak-builds/",
+      "title": "Mak",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "mak Build",
+      "items": [
+        "Vial Launcher",
+        "Ice Claw",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Mak",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/stelle-builds/",
+      "title": "Stelle",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "stelle Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Stelle",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/jules-builds/",
+      "title": "Jules",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "jules Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Jules",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
+      "title": "Karnok",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "karnok Build",
+      "items": [
+        "Trapvine",
+        "Frog Hollow",
+        "Wild Boar"
+      ],
+      "source": "category",
+      "snippet": "Karnok",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#",
+      "title": "Socials",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Build",
+      "items": [
+        "Incendiary Rounds",
+        "Refractor"
+      ],
+      "source": "category",
+      "snippet": "Socials",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/submit-your-build",
+      "title": "Submit your 10 Win Build",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Submit your 10 Win Build",
+      "items": [],
+      "source": "category",
+      "snippet": "Submit your 10 Win Build",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/build-finder/",
+      "title": "Build Finder: Pick Items, Get Matching Builds",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Uncategorized",
+      "items": [],
+      "source": "category",
+      "snippet": "Build Finder: Pick Items, Get Matching Builds",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/the-boulder-vanessa-10-win-build-29918-legend-kecajjo/",
+      "title": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
+      "date": "2026-05-02",
+      "hero": "Vanessa",
+      "tag": "The Boulder 10 Win Build",
+      "items": [
+        "Nesting Doll",
+        "Rowboat",
+        "Captain's Wheel",
+        "Wild Boar",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/submarine-vanessa-10-3-build-makher/",
+      "title": "Submarine Vanessa 10-3 Build – Makher",
+      "date": "2026-05-01",
+      "hero": "Vanessa",
+      "tag": "Submarine 10-3 Build",
+      "items": [
+        "Dive Weights",
+        "Seaweed",
+        "Captain's Quarters",
+        "Weights",
+        "Staff of the Moose",
+        "Incendiary Rounds",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Submarine Vanessa 10-3 Build – Makher",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/burn-vanessa-10-win-build-rxt/",
+      "title": "Burn Vanessa 10 Win Build – rXt",
+      "date": "2026-04-30",
+      "hero": "Vanessa",
+      "tag": "Burn 10 Win Build",
+      "items": [
+        "Pop Snappers",
+        "Cutlass",
+        "Staff of the Moose",
+        "Orange Julian"
+      ],
+      "source": "category",
+      "snippet": "Burn Vanessa 10 Win Build – rXt",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/burn-vanessa-10-3-build-4652-legend-banastronaut/",
+      "title": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
+      "date": "2026-04-29",
+      "hero": "Vanessa",
+      "tag": "Burn 10-3 Build",
+      "items": [
+        "Lighter",
+        "Rowboat",
+        "Seashadow",
+        "Zoarcid",
+        "Dive Weights",
+        "Weights",
+        "Slumbering Primordial",
+        "Incendiary Rounds",
+        "Tortuga",
+        "Terry-Dactyl",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/refractor-vanessa-10-4-build-kecajjo/",
+      "title": "Refractor Vanessa 10-4 Build – Kecajjo",
+      "date": "2026-04-27",
+      "hero": "Vanessa",
+      "tag": "Refractor 10-4 Build",
+      "items": [
+        "Incendiary Rounds",
+        "Nesting Doll",
+        "Pearl",
+        "Pufferfish",
+        "Refractor",
+        "Zoarcid",
+        "Dive Weights",
+        "Weights",
+        "Crow's Nest",
+        "Tortuga",
+        "Ice Claw",
+        "Pulse Rifle",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Refractor Vanessa 10-4 Build – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/cannonade-vanessa-10-win-build-kecajjo/",
+      "title": "Cannonade Vanessa 10 Win Build – Kecajjo",
+      "date": "2026-04-27",
+      "hero": "Vanessa",
+      "tag": "Cannonade 10 Win Build",
+      "items": [
+        "Cannonball",
+        "Holsters",
+        "Shuriken",
+        "Battery",
+        "Slumbering Primordial",
+        "Trapvine",
+        "Tortuga",
+        "Weaponized Core",
+        "Ice Claw",
+        "Pulse Rifle"
+      ],
+      "source": "category",
+      "snippet": "Cannonade Vanessa 10 Win Build – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/burst-vanessa-10-1-build-kecajjo/",
+      "title": "Burst Vanessa 10-1 Build – Kecajjo",
+      "date": "2026-04-26",
+      "hero": "Vanessa",
+      "tag": "Burst 10-1 Build",
+      "items": [
+        "Korxena Crest",
+        "Pistol Sword",
+        "Scimitar of the Deep",
+        "Shuriken",
+        "Figurehead",
+        "Trapvine",
+        "Ice Claw",
+        "Mech-Moles"
+      ],
+      "source": "category",
+      "snippet": "Burst Vanessa 10-1 Build – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/incendiary-rounds-vanessa-10-4-build-6730-legend-banastronaut/",
+      "title": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
+      "date": "2026-04-26",
+      "hero": "Vanessa",
+      "tag": "Incendiary Rounds 10-4 Build",
+      "items": [
+        "Incendiary Rounds",
+        "Pop Snappers",
+        "Seashadow",
+        "Astrolabe",
+        "Tortuga",
+        "Lion Cane",
+        "Terry-Dactyl",
+        "Orange Julian"
+      ],
+      "source": "category",
+      "snippet": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/weather-glass-vanessa-10-5-build-kecajjo/",
+      "title": "Weather Glass Vanessa 10-5 Build – Kecajjo",
+      "date": "2026-04-26",
+      "hero": "Vanessa",
+      "tag": "Weather Glass 10-5 Build",
+      "items": [
+        "Clamera",
+        "Pufferfish",
+        "Scimitar of the Deep",
+        "Zoarcid",
+        "Tortuga",
+        "Ice Claw"
+      ],
+      "source": "category",
+      "snippet": "Weather Glass Vanessa 10-5 Build – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/space-laser-vanessa-10-3-build-kecajjo/",
+      "title": "Space Laser Vanessa 10-3 Build – Kecajjo",
+      "date": "2026-04-25",
+      "hero": "Vanessa",
+      "tag": "Space Laser 10-3 Build",
+      "items": [
+        "Dive Weights",
+        "Pearl",
+        "Captain's Wheel",
+        "Weights",
+        "Crow's Nest",
+        "Vial Launcher",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Space Laser Vanessa 10-3 Build – Kecajjo",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/discord",
+      "title": "bazaar-builds.net/discord",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Uncategorized",
+      "items": [],
+      "source": "category",
+      "snippet": "bazaar-builds.net/discord",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/",
+      "title": "bazaar-builds.net",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Uncategorized",
+      "items": [
+        "Trapvine",
+        "Frog Hollow",
+        "Ice Claw",
+        "Mech-Moles"
+      ],
+      "source": "category",
+      "snippet": "bazaar-builds.net",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
+      "title": "The Bazaar - 10 Win Vanessa Builds | Updated Daily!",
+      "date": null,
+      "hero": "Vanessa",
+      "tag": "Build",
+      "items": [
+        "Incendiary Rounds",
+        "Refractor"
+      ],
+      "source": "json_ld",
+      "snippet": "On this Page, you can find all 10 Win Builds played with Vanessa in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    }
+  ],
+  "review_guidance": [
+    "This artifact is evidence for a human review pass; it does not update any *_builds.json file.",
+    "Compare candidate_core_items and candidate_support_items against the matching hero catalog archetype.",
+    "Prefer repeated items from dated/manual-confirmed builds over one-off direct-page scrape matches.",
+    "Use records with empty items as placeholders for manual paste fallback."
+  ]
+}

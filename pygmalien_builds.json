@@ -258,6 +258,8 @@
             "Flail",
             "Shadowed Cloak",
             "Atlas Stone",
+            "Lemonade Stand",
+            "Double Whammy",
             "Boomerang",
             "Ring King Gauntlets",
             "Robe"
@@ -267,7 +269,7 @@
             "Weapon",
             "Charge"
           ],
-          "notes": "Identify the primary threat (Dog or Regal Blade) and build around it. If holding multiple threats, go wide. If single carry, prioritize survivability and Cooldown Reduction. Belt is universally solid alongside Regal Blade once its second Quest is complete. Gramophone is highly recommended for single-threat boards. Atlatl is a welcome inclusion only after significant front-loaded Damage scaling — its Cooldown needs to reach one second to be worthwhile. Caltrops can define certain matchups with sufficient scaling. Enchantments can make a large difference — choose wisely."
+          "notes": "Identify the primary threat (Dog or Regal Blade) and build around it. If holding multiple threats, go wide. If single carry, prioritize survivability and Cooldown Reduction. Belt is universally solid alongside Regal Blade once its second Quest is complete. Gramophone is highly recommended for single-threat boards. Recent Medium Weapon evidence supports Lemonade Stand and Double Whammy as support or bridge pieces. Atlatl is a welcome inclusion only after significant front-loaded Damage scaling — its Cooldown needs to reach one second to be worthwhile. Caltrops can define certain matchups with sufficient scaling. Enchantments can make a large difference — choose wisely."
         },
         {
           "name": "Money Furnace Burn",
@@ -299,6 +301,8 @@
             "Briefcase",
             "Piggy Bank",
             "PenFT",
+            "Mech-Moles",
+            "Orange Julian",
             "Booby Trap",
             "Private Hot Springs",
             "Belt",
@@ -317,7 +321,7 @@
             "Burn",
             "Economy"
           ],
-          "notes": "Billboard provides Shielding and in-combat Value scaling and enables Multicast shenanigans with the right setup. Gramophone is highly recommended (Diamond-tier especially) for Cooldown Reduction. Ice Luge trades upfront speed for excellent Cooldown Reduction — Diamond-tier is the key breakpoint. Textiles with fast Healing items (Bandages) provides persistent Charge support as an alternative. Belt adds a sizeable Health boost. Money Tree has solo carry potential with an Obsidian, Fiery, or Toxic Enchantment — viable if Furnace was not found. The Money Tree solo variant pairs with Balcony, Keychain, and Luxury Tents. Loupe is always welcome for extra funds if found early enough."
+          "notes": "Billboard provides Shielding and in-combat Value scaling and enables Multicast shenanigans with the right setup. Gramophone is highly recommended (Diamond-tier especially) for Cooldown Reduction. Ice Luge trades upfront speed for excellent Cooldown Reduction — Diamond-tier is the key breakpoint. Textiles with fast Healing items (Bandages) provides persistent Charge support as an alternative. Belt adds a sizeable Health boost. Recent Control/Money Furnace samples show Money Furnace alongside Mech-Moles, Orange Julian, Luxury Tents, and Bandages; treat these as flexible late support, not new core. Money Tree has solo carry potential with an Obsidian, Fiery, or Toxic Enchantment — viable if Furnace was not found. The Money Tree solo variant pairs with Balcony, Keychain, and Luxury Tents. Loupe is always welcome for extra funds if found early enough."
         },
         {
           "name": "Double Whammy",
@@ -351,13 +355,44 @@
             "Loupe",
             "Rewards Card",
             "ATM",
-            "Business Card"
+            "Business Card",
+            "Luxury Tents",
+            "Textiles",
+            "PenFT"
           ],
           "skill_trainers": [
             "Pygmalien",
             "Economy"
           ],
-          "notes": "Double Whammy scales via percentage-based Damage — easily one-shots once Pawn Shop Value is high. Belt is the best supporting item outside Pawn Shop for its Max Health boost. Radiant is the ideal Enchantment to prevent CC shutdown. Gramophone provides needed Cooldown Reduction. Balcony makes Pawn Shop significantly more effective at the cost of speed or other support slots. Booby Trap buys time with multi-Freeze for Double Whammy to activate. Icicle + Invigorating Cold is a spicy on-start Haste combo for non-standard four-item boards. Lion Cane plays as a companion or standalone alternative if Value is not high enough. Can also be played without Pawn Shop if ahead on levels or Health through other means. Bootstraps before level 13 is high value — use the guaranteed Diamond upgrade on a key carry."
+          "notes": "Double Whammy scales via percentage-based Damage — easily one-shots once Pawn Shop Value is high. Belt is the best supporting item outside Pawn Shop for its Max Health boost. Radiant is the ideal Enchantment to prevent CC shutdown. Gramophone provides needed Cooldown Reduction. Balcony makes Pawn Shop significantly more effective at the cost of speed or other support slots. Recent Double Whammy and Darts evidence supports value/economy support such as Luxury Tents, Textiles, and PenFT. Booby Trap buys time with multi-Freeze for Double Whammy to activate. Icicle + Invigorating Cold is a spicy on-start Haste combo for non-standard four-item boards. Lion Cane plays as a companion or standalone alternative if Value is not high enough. Can also be played without Pawn Shop if ahead on levels or Health through other means. Bootstraps before level 13 is high value — use the guaranteed Diamond upgrade on a key carry."
+        },
+        {
+          "name": "Laser Security Control",
+          "phase": "late",
+          "timing_profile": "neutral",
+          "condition": "Needs Laser Security System plus property or economy support that lets Pygmalien turn board control into scaling value.",
+          "condition_items": [
+            "Laser Security System",
+            "Billboard"
+          ],
+          "core_items": [
+            "Laser Security System",
+            "Billboard",
+            "Balcony"
+          ],
+          "carry_items": [
+            "Money Furnace",
+            "Private Hot Springs"
+          ],
+          "support_items": [
+            "Trapvine",
+            "Rewards Card",
+            "Business Card",
+            "ATM",
+            "Safe",
+            "Briefcase"
+          ],
+          "notes": "Low-confidence but distinct Bazaar Builds archetype from recent evidence. Laser Security System appeared with Billboard, Balcony, and Trapvine, suggesting a property-control branch that overlaps Money Furnace and Private Hot Springs without being identical to either."
         },
         {
           "name": "Private Hot Springs",

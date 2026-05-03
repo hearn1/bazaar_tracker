@@ -29,6 +29,7 @@
       "Yeti Crab",
       "Scimitar of the Deep",
       "Incendiary Rounds",
+      "Refractor",
       "Dive Weights",
       "Clamera",
       "Pop Snappers",
@@ -263,6 +264,7 @@
           ],
           "carry_items": [
             "Incendiary Rounds",
+            "Refractor",
             "Dive Weights",
             "Clamera",
             "Zoarcid"
@@ -276,9 +278,34 @@
             "Iceberg",
             "Jellyfish",
             "Pearl",
-            "Star Chart"
+            "Star Chart",
+            "Rowboat",
+            "Seashadow"
           ],
-          "notes": "Slumbering Primordial is usually discovered late because it is Large and Gold-tier, but Aquatic and fast-trigger boards naturally preserve many of its enablers. Stash likely support if the run can afford it, especially Incendiary Rounds, Dive Weights, Holsters, Pop Snappers, and Nesting Doll."
+          "notes": "Slumbering Primordial is usually discovered late because it is Large and Gold-tier, but Aquatic and fast-trigger boards naturally preserve many of its enablers. Stash likely support if the run can afford it, especially Incendiary Rounds, Refractor, Dive Weights, Holsters, Pop Snappers, Nesting Doll, Rowboat, and Seashadow."
+        },
+        {
+          "name": "Incendiary Refractor Setup",
+          "phase": "early_mid",
+          "core_items": [
+            "Incendiary Rounds",
+            "Refractor"
+          ],
+          "carry_items": [
+            "Dive Weights",
+            "Pufferfish",
+            "Pearl",
+            "Zoarcid",
+            "Seashadow"
+          ],
+          "support_items": [
+            "Nesting Doll",
+            "Pop Snappers",
+            "Rowboat",
+            "Clamera",
+            "Tortuga"
+          ],
+          "notes": "A flexible setup for Vanessa burn-aquatic boards. If Incendiary Rounds appears with Refractor or multiple aquatic trigger pieces, keep the line open instead of forcing pure Slumbering or pure Aquatic."
         }
       ]
     },
@@ -352,6 +379,7 @@
             "Gunpowder",
             "Clamera",
             "Zoarcid",
+            "Refractor",
             "Heated Shells",
             "Nesting Doll",
             "Pop Snappers",
@@ -368,7 +396,7 @@
             "Ammo",
             "Burn"
           ],
-          "notes": "The build wants Slumbering Primordial at Diamond so its Charge cadence becomes fast enough for late fights. Incendiary Rounds plus Dive Weights creates the largest Charge stream, while Holsters and small items improve startup. Fiery or Toxic enchantments can help establish self-charging loops. Add sustain if the run goes long."
+          "notes": "The build wants Slumbering Primordial at Diamond so its Charge cadence becomes fast enough for late fights. Incendiary Rounds plus Dive Weights creates the largest Charge stream, while Refractor, Rowboat, Seashadow, Holsters, and small items improve startup. Fiery or Toxic enchantments can help establish self-charging loops. Add sustain if the run goes long."
         },
         {
           "name": "Gunslinger Burst",
@@ -406,7 +434,8 @@
             "Powder Horn",
             "Star Chart",
             "Wanted Poster",
-            "Shadowed Cloak"
+            "Shadowed Cloak",
+            "Korxena Crest"
           ],
           "skill_trainers": [
             "Vanessa",
@@ -453,7 +482,8 @@
             "Ambergris",
             "Fishing Rod",
             "Star Chart",
-            "Astrolabe"
+            "Astrolabe",
+            "Refractor"
           ],
           "skill_trainers": [
             "Vanessa",
@@ -461,7 +491,39 @@
             "Poison",
             "Charge"
           ],
-          "notes": "Pick one main payoff and tune around it. Pufferfish wants Poison support and Cooldown Reduction. Elemental Depth Charge needs Yeti Crab, Ammo support, and enough time to fire. Jellyfish next to Pufferfish and Pearl creates a huge trigger stream. Shipwreck is the rare but premium late-game upgrade for full Aquatic boards."
+          "notes": "Pick one main payoff and tune around it. Pufferfish wants Poison support and Cooldown Reduction. Elemental Depth Charge needs Yeti Crab, Ammo support, and enough time to fire. Jellyfish next to Pufferfish and Pearl creates a huge trigger stream. Refractor is a real aquatic-burn bridge when paired with Incendiary Rounds. Shipwreck is the rare but premium late-game upgrade for full Aquatic boards."
+        },
+        {
+          "name": "Incendiary Refractor",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Needs Incendiary Rounds plus Refractor or a dense aquatic trigger shell that can repeatedly convert burn pressure into fight tempo.",
+          "condition_items": [
+            "Incendiary Rounds",
+            "Refractor"
+          ],
+          "core_items": [
+            "Incendiary Rounds",
+            "Refractor",
+            "Dive Weights"
+          ],
+          "carry_items": [
+            "Pufferfish",
+            "Pearl",
+            "Zoarcid",
+            "Seashadow",
+            "Slumbering Primordial"
+          ],
+          "support_items": [
+            "Nesting Doll",
+            "Pop Snappers",
+            "Rowboat",
+            "Tortuga",
+            "Crow's Nest",
+            "Captain's Wheel",
+            "Clamera"
+          ],
+          "notes": "Recent Bazaar Builds Vanessa samples repeatedly surfaced Incendiary Rounds and Refractor as a distinct late shell rather than only generic Slumbering support. Treat it as an aquatic-burn bridge that can overlap Slumbering Primordial or Aquatic Vanessa depending on the run."
         },
         {
           "name": "Langxian Snowball",
