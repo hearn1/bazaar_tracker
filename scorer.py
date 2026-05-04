@@ -1086,9 +1086,10 @@ def _score_loaded_run(
             pre_resolved = []
             try:
                 stored = json.loads(d.get("score_notes") or "{}")
-                pre_resolved = stored.get("resolved_names", [])
-                skip_rerolls = stored.get("rerolls", 0)
-            except Exception:
+                if isinstance(stored, dict):
+                    pre_resolved = stored.get("resolved_names", [])
+                    skip_rerolls = stored.get("rerolls", 0)
+            except (json.JSONDecodeError, TypeError):
                 skip_rerolls = 0
 
             named_offered = [n for n in pre_resolved if n]
@@ -1228,7 +1229,7 @@ def _score_loaded_run(
                         f" {notes}" if notes else ""
                     )
                 else:
-                    notes += f" COMMITTED to {newly_committed_arch['name']} ({reason})."
+                    notes = (notes or "") + f" COMMITTED to {newly_committed_arch['name']} ({reason})."
 
         if phase == "late" and committed_arch is None and d["decision_type"] != "skill":
             arch_counts = {}
@@ -1245,7 +1246,7 @@ def _score_loaded_run(
             if arch_counts:
                 top = max(arch_counts, key=lambda k: len(arch_counts[k]))
                 if len(arch_counts[top]) >= 2:
-                    notes += f" Board converging on {top} ({arch_counts[top]})."
+                    notes = (notes or "") + f" Board converging on {top} ({arch_counts[top]})."
         elif phase == "late" and committed_arch is not None and d["decision_type"] != "skill":
             carry = [c for c in committed_arch.get("carry_items", []) if not c.startswith("TODO")]
             if item_name in carry:
@@ -1253,7 +1254,7 @@ def _score_loaded_run(
                 notes = notes.replace("Keeps options open", f"Build now has carry")
 
         if dtype in ("item", "companion") and rejected_for_notes:
-            notes += f" Passed on: {_summarize_names(rejected_for_notes)}."
+            notes = (notes or "") + f" Passed on: {_summarize_names(rejected_for_notes)}."
             if purchase_missed_flags:
                 notes += f" Missed alternatives: {'; '.join(purchase_missed_flags)}."
 
@@ -1378,10 +1379,11 @@ def _score_single_decision(
         skip_rerolls = 0
         try:
             stored = json.loads(decision.get("score_notes") or "{}")
-            pre_resolved = stored.get("resolved_names", [])
-            skip_rerolls = stored.get("rerolls", 0)
-        except Exception:
-            pass
+            if isinstance(stored, dict):
+                pre_resolved = stored.get("resolved_names", [])
+                skip_rerolls = stored.get("rerolls", 0)
+        except (json.JSONDecodeError, TypeError):
+            skip_rerolls = 0
 
         named_offered = [n for n in pre_resolved if n]
         enriched_names = _load_json_list(decision.get("offered_names"))
@@ -1447,9 +1449,7 @@ def _score_single_decision(
     label: Optional[str] = None
     notes: Optional[str] = None
 
-    if dtype == "skill":
-        pass  # label/notes stay None
-    elif dtype in ("item", "companion") and not _is_catalog_item(item_name, builds):
+    if dtype in ("item", "companion") and not _is_catalog_item(item_name, builds):
         notes = f"Not in {builds.get('hero', 'hero')} catalog — no score assigned."
     elif phase == "early":
         label, notes = score_early_decision(item_name, builds, offered_names)
@@ -1477,7 +1477,7 @@ def _score_single_decision(
                     f" {notes}" if notes else ""
                 )
             elif notes is not None:
-                notes += f" COMMITTED to {newly_committed_arch['name']} ({reason})."
+                notes = (notes or "") + f" COMMITTED to {newly_committed_arch['name']} ({reason})."
 
     if phase == "late" and committed_arch is None and dtype != "skill":
         arch_counts = {}
@@ -1494,7 +1494,7 @@ def _score_single_decision(
         if arch_counts:
             top = max(arch_counts, key=lambda k: len(arch_counts[k]))
             if len(arch_counts[top]) >= 2 and notes is not None:
-                notes += f" Board converging on {top} ({arch_counts[top]})."
+                notes = (notes or "") + f" Board converging on {top} ({arch_counts[top]})."
     elif phase == "late" and committed_arch is not None and dtype != "skill":
         carry = [c for c in committed_arch.get("carry_items", []) if not c.startswith("TODO")]
         if item_name in carry and notes:
@@ -1584,8 +1584,8 @@ def print_report(scored: list, run_id: int):
                 if terminal_row and terminal_row["victories"] is not None:
                     pvp_wins = terminal_row["victories"]
                     pvp_losses = terminal_row["defeats"] or 0
-            except Exception:
-                pass
+            except sqlite3.Error as exc:
+                print(f"[Scorer] Terminal PvP lookup failed: {exc}")
 
         unresolved_pvp = sum(
             1 for c in combats

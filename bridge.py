@@ -28,11 +28,6 @@ from typing import Any, Optional
 import db
 import card_cache
 
-def ensure_enrichment_schema(conn: Optional[sqlite3.Connection] = None):
-    """Compatibility wrapper; DB migrations own live-context schema."""
-    return db.ensure_schema(conn)
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 #  STEP 1: Run Correlation
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -392,32 +387,14 @@ def _run_outcome_ordinal(conn: sqlite3.Connection, run_id: int,
     return int(row["cnt"]) if row is not None else None
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  STEP 2: Decision Enrichment
-# ═══════════════════════════════════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  STEP 3: Combat Enrichment
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Main orchestrator
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def enrich_run(run_id: int, dry_run: bool = False) -> dict:
-    """
-    Manual-only compatibility wrapper.
-
-    Older versions used this function to mutate runs/decisions/combats after a
-    run ended. Normal scoring is live-only now, so this function only reports
-    correlation candidates and leaves stored scores/context untouched.
-    """
+def enrich_run(run_id: int) -> dict:
+    """Report correlation candidates without mutating stored run data."""
     conn = db.get_conn()
     try:
-        ensure_enrichment_schema(conn)
+        db.ensure_schema(conn)
         result = {"correlated": 0}
 
-        # Step 1: Run Correlation
         api_states = correlate_run(conn, run_id)
         result["correlated"] = len(api_states)
 
@@ -501,8 +478,6 @@ def main():
                         help="Run ID to inspect (default: most recent)")
     parser.add_argument("--all", action="store_true",
                         help="Inspect all runs in the database")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Compatibility no-op; bridge diagnostics never write")
     parser.add_argument("--report", action="store_true",
                         help="Print enrichment report for a run")
     args = parser.parse_args()
@@ -511,7 +486,7 @@ def main():
 
     conn = db.get_conn()
     try:
-        ensure_enrichment_schema(conn)
+        db.ensure_schema(conn)
 
         # Resolve run ID
         if args.run_id is None and not args.all:
@@ -537,7 +512,7 @@ def main():
         conn.close()
 
     for rid in run_ids:
-        enrich_run(rid, dry_run=True)
+        enrich_run(rid)
 
 if __name__ == "__main__":
     main()

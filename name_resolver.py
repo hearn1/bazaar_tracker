@@ -154,14 +154,6 @@ class NameResolver:
         if name and not is_unresolved(name):
             self._cache[instance_id] = name
 
-    def resolve_names_list(self, instance_ids: list[str]) -> list[str]:
-        """
-        Convenience: resolve a list of IDs preserving order and duplicates.
-        Returns a list of names in the same order as the input.
-        """
-        mapping = self.bulk_resolve(instance_ids)
-        return [mapping.get(iid, iid) for iid in instance_ids]
-
     def get_readable_names(self, names: list[str]) -> list[str]:
         """
         Filter a list of names to only those that are human-readable

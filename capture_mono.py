@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 capture_mono.py â€” Frida Mono hook for The Bazaar's managed GameStateHandler.
 
@@ -36,7 +36,6 @@ import argparse
 import datetime
 import hashlib
 import json
-import os
 import queue
 import subprocess
 import sys
@@ -70,24 +69,16 @@ const COMMAND_KIND = {
     CommitToPedestalCommand: "pedestal_commit",
     ExitCurrentStateCommand: "exit_state"
 };
-// Re-enabled from W/L-only scope-down: template variables restored
 const FULL_DELTA_CARDS = __FULL_DELTA_CARDS__;
 const ENABLE_PROBES = __ENABLE_PROBES__;
 const ENABLE_BROAD_HOOKS = __ENABLE_BROAD_HOOKS__;
-// Re-enabled from W/L-only scope-down: template variables restored
 const DELTA_PLAYER_ATTRS = __DELTA_PLAYER_ATTRS__;
-// Re-enabled from W/L-only scope-down: template variables restored
 const ACTION_EVENT_CARDS = __ACTION_EVENT_CARDS__;
 const CAPTURE_OPPONENT_BOARD = __CAPTURE_OPPONENT_BOARD__;
 const VERBOSE_HOOK_CALLS = __VERBOSE_HOOK_CALLS__;
-// Re-enabled from W/L-only scope-down (F1): card state sets for gating deferred card reads
 const HEAVY_CARD_STATES = {Choice:true,Loot:true,LevelUp:true,Pedestal:true,EndRunVictory:true,EndRunDefeat:true};
 const ACTION_CARD_STATES = {Choice:true,Encounter:true,Loot:true,LevelUp:true,Pedestal:true,Combat:true,PVPCombat:true,Replay:true,EndRunVictory:true,EndRunDefeat:true};
 const ACTION_TEMPLATE_EVENT_STATES = {Choice:true,Encounter:true,Loot:true,LevelUp:true,Pedestal:true,EndRunVictory:true,EndRunDefeat:true};
-// SCOPED OUT: DISABLE_DICTIONARY_PROBING / MAX_INLINE_CARD_COUNT / INLINE_CARD_STATES unused in W/L-only mode
-// const DISABLE_DICTIONARY_PROBING = true;
-// const MAX_INLINE_CARD_COUNT = 4;
-// const INLINE_CARD_STATES = {Loot:true,LevelUp:true,Choice:true,Encounter:true,Pedestal:true,EndRunVictory:true,EndRunDefeat:true};
 const DISABLE_DICTIONARY_PROBING = false;
 const MAX_INLINE_CARD_COUNT = 4;
 const INLINE_CARD_STATES = {Loot:true,LevelUp:true,Choice:true,Encounter:true,Pedestal:true,EndRunVictory:true,EndRunDefeat:true};
@@ -884,7 +875,6 @@ for (const t of searchTargets) {
 function readRunSnapshot(p){const o=fieldCache['RunSnapshotDTO'];if(!o||!p||p.isNull())return{};const r={};try{if('GameModeId'in o)r.game_mode_id=readGuid(p,o['GameModeId']);if('Day'in o)r.day=p.add(o['Day']).readU32();if('Hour'in o)r.hour=p.add(o['Hour']).readU32();if('Victories'in o)r.victories=p.add(o['Victories']).readU32();if('Defeats'in o)r.defeats=p.add(o['Defeats']).readU32();if('HasVisitedFates'in o)r.visited_fates=p.add(o['HasVisitedFates']).readU8()!==0;if('DataVersion'in o)r.data_version=readMonoString(p.add(o['DataVersion']).readPointer());}catch(e){send({type:'debug',msg:'readRun:'+e});}return r;}
 
 function readRunStateSnapshot(p){const o=fieldCache['RunStateSnapshotDTO'];if(!o||!p||p.isNull())return{};const r={};try{if('StateName'in o){const v=p.add(o['StateName']).readS32();r.state=E_RUN_STATE[v]||('Unknown('+v+')');r.state_int=v;}
-// Re-enabled from W/L-only scope-down
 if('CurrentEncounterId'in o)r.current_encounter_id=readMonoString(p.add(o['CurrentEncounterId']).readPointer());
 if('RerollCost'in o){try{const b=p.add(o['RerollCost']);if(b.readU8())r.reroll_cost=b.add(4).readU32();}catch(e){}}
 if('RerollsRemaining'in o){try{const b=p.add(o['RerollsRemaining']);if(b.readU8())r.rerolls_remaining=b.add(4).readU32();}catch(e){}}
@@ -893,12 +883,10 @@ if('SelectionSet'in o&&ACTION_CARD_STATES[r.state])r.selection_set=readStringLis
 }catch(e){send({type:'debug',msg:'readState:'+e});}return r;}
 
 function readPlayerSnapshot(p){const o=fieldCache['PlayerSnapshotDTO'];if(!o||!p||p.isNull())return{};const r={};try{if('Hero'in o){const v=p.add(o['Hero']).readS32();r.hero=E_HERO[v]||('Unknown('+v+')');}
-// Re-enabled from W/L-only scope-down (F10)
 if('UnlockedSlots'in o)r.unlocked_slots=p.add(o['UnlockedSlots']).readU16();
 // Keep only the live HUD / enrichment attributes to reduce snapshot work.
 if('Attributes'in o){const dp=readObjectField(p,'PlayerSnapshotDTO',['Attributes']);if(dp&&!dp.isNull()){const attrs=readEnumIntDict(dp,'PlayerSnapshotDTO.Attributes',KEEP_PLAYER_ATTR_IDS,KEEP_PLAYER_ATTR_COUNT);for(const[k,v]of Object.entries(attrs))r[E_PLAYER_ATTRIBUTE[parseInt(k)]||('attr_'+k)]=v;}else send({type:'debug',msg:'PlayerSnapshotDTO.Attributes pointer was null'});}}catch(e){send({type:'debug',msg:'readPlayer:'+e});}return r;}
 
-// Re-enabled from W/L-only scope-down (F1)
 function readCardSnapshot(p){const o=fieldCache['CardSnapshotDTO'];if(!o||!isReadablePointer(p))return{};const c={};try{if('InstanceId'in o)c.instance_id=readMonoString(safeReadPointer(p,o['InstanceId']));if('TemplateId'in o)c.template_id=readGuid(p,o['TemplateId']);if('Tier'in o){const v=p.add(o['Tier']).readS32();c.tier=E_TIER[v]||v;}if('Type'in o){const v=p.add(o['Type']).readS32();c.type=E_CARD_TYPE[v]||v;}if('Size'in o){const v=p.add(o['Size']).readS32();c.size=E_CARD_SIZE[v]||v;}if('Owner'in o){try{const b=p.add(o['Owner']);if(b.readU8()){const v=b.add(4).readS32();c.owner=E_COMBATANT[v]||v;}else c.owner=null;}catch(e){c.owner=null;}}if('Socket'in o){try{const b=p.add(o['Socket']);c.socket=b.readU8()?b.add(4).readS32():null;}catch(e){c.socket=null;}}if('Section'in o){try{const b=p.add(o['Section']);if(b.readU8()){const v=b.add(4).readS32();c.section=E_INVENTORY_SECTION[v]||v;}else c.section=null;}catch(e){c.section=null;}}if(isSuspiciousTemplateId(c.template_id)){const probe=buildCardDebugProbe(p,{info:fieldInfoCache['CardSnapshotDTO']},false);if(probe)c._debug_probe=probe;c._debug_source='CardSnapshotDTO';}}catch(e){send({type:'debug',msg:'readCard:'+e});}return c;}
 
 // QW1: _fieldInfoPrewarmed â€” set to true after attach-time pre-warming; once set,
@@ -1191,8 +1179,6 @@ function readPlacementField(basePtr, placementField, names){
 
     return null;
 }
-
-// Re-enabled from W/L-only scope-down (F1)
 function readCardFromFieldMap(basePtr, fieldMeta, inlineValue){
     if(!fieldMeta || !fieldMeta.map || !basePtr) return {};
     const fieldMap = fieldMeta.map;
@@ -1269,11 +1255,7 @@ function readCardFromFieldMap(basePtr, fieldMeta, inlineValue){
     }
     return c;
 }
-
-// Re-enabled from W/L-only scope-down (F1)
 function cardHasUsefulData(card){ return !!(card && (card.instance_id || card.template_id)); }
-
-// Re-enabled from W/L-only scope-down (F1): calls readCardFromFieldMap with value slot's field metadata
 function readCardFromValueSlot(entryBase, valueField, valueFieldInfo, inlineValue){
     if(!valueField || !valueFieldInfo || !valueFieldInfo.map) return null;
     const offsets = getCandidateFieldOffsets(valueField);
@@ -1438,11 +1420,7 @@ function readScalarField(base, field){if(!field)return null;const typeName=field
 function getManagedArrayLength(arrayPtr){if(!isReadablePointer(arrayPtr))return 0;try{const lenAddr=arrayPtr.add(3*Process.pointerSize);if(!isReadableAddress(lenAddr,4))return 0;return lenAddr.readS32();}catch(e){return 0;}}
 
 function getManagedArrayDataPtr(arrayPtr){if(!isReadablePointer(arrayPtr))return ptr(0);try{const dataPtr=arrayPtr.add(4*Process.pointerSize);return isReadablePointer(dataPtr)?dataPtr:ptr(0);}catch(e){return ptr(0);}}
-
-// Re-enabled from W/L-only scope-down (F1)
 function readCardDictionary(sp, fields){try{if(DISABLE_DICTIONARY_PROBING)return[];if(!mono_class_get_element_class||!mono_class_value_size)return[];let eO=-1,cO=-1;for(const f of fields){if(f.name==='_entries'||f.name==='entries')eO=f.offset;if(f.name==='_count'||f.name==='count')cO=f.offset;}if(eO<0||cO<0)return[];const ea=safeReadPointer(sp,eO);const count=sp.add(cO).readS32();if(!isReadablePointer(ea)||count<=0)return[];const arrayKlass=mono_object_get_class(ea);if(!arrayKlass||arrayKlass.isNull())return[];const entryKlass=mono_class_get_element_class(arrayKlass);if(!entryKlass||entryKlass.isNull())return[];const entryFields=getFields(entryKlass);const hashField=entryFields.find(f=>f.name==='hashCode'||f.name==='_hashCode');const keyField=entryFields.find(f=>f.name==='key'||f.name==='Key');const valueField=entryFields.find(f=>f.name==='value'||f.name==='Value'||(f.type&&(f.type.includes('CardSnapshotDTO')||f.type.includes('SimUpdateCard'))));if(!valueField)return[];const inlineValue=isInlineCardValueType(valueField.type);const valueFieldInfo=inlineValue?getFieldInfoForTypeName(valueField.type):null;const align=Memory.alloc(4);align.writeU32(0);const entrySize=mono_class_value_size(entryKlass,align);if(!entrySize||entrySize<=0)return[];const arrLen=getManagedArrayLength(ea);const base=getManagedArrayDataPtr(ea);if(!isReadablePointer(base)||arrLen<=0)return[];const cards=[];const limit=Math.min(arrLen,Math.max(count+16,count),500);for(let i=0;i<limit&&cards.length<count;i++){try{const eb=base.add(i*entrySize);let hashValue=null;if(hashField){for(const off of getCandidateFieldOffsets(hashField)){if(isReadableAddress(eb.add(off),4)){hashValue=eb.add(off).readS32();break;}}if(hashValue!==null&&hashValue<0)continue;}const entryKey=keyField?readEntryStringKey(eb,keyField):null;if(cards.length===0&&keyField&&valueField){logCardEntryProbe('entry-probe:'+(valueField.type||'?'),'Entry probe first-live key='+entryKey+' hash='+hashValue+' keyOffset='+keyField.offset+' valueOffset='+valueField.offset+' entrySize='+entrySize+' entryFields='+describeFieldLayout(entryFields));}let card=null;if(inlineValue&&valueFieldInfo&&valueFieldInfo.map){card=readCardFromValueSlot(eb,valueField,valueFieldInfo,true);}else{for(const off of getCandidateFieldOffsets(valueField)){const vp=safeReadPointer(eb,off);if(vp){card=readCardSnapshot(vp);if(cardHasUsefulData(card))break;}}}if(!card&&entryKey){card={instance_id:entryKey,type:inferCardTypeFromInstanceId(entryKey)};}if(card&&(!card.instance_id)&&entryKey){card.instance_id=entryKey;}if(card&&(!card.type)&&card.instance_id){card.type=inferCardTypeFromInstanceId(card.instance_id);}if(card&&card.instance_id)cards.push(card);}catch(e){}}if(cards.length===0&&count>0){const dictKlass=mono_object_get_class(sp);const valueType=valueField.type||'?';logCardCollectionInfo('dict-empty:'+(classFullName(dictKlass)||'?')+':'+valueType,'Card dictionary '+(classFullName(dictKlass)||'?')+' value='+valueType+' count='+count+' yielded 0 cards; fields: '+describeFieldLayout(fields));}return cards;}catch(e){send({type:'debug',msg:'readCardDictionary:'+e});return[];}}
-
-// Re-enabled from W/L-only scope-down (F1)
 function readCardHashSet(sp){if(!isReadablePointer(sp))return[];try{const klass=mono_object_get_class(sp);const fields=getFields(klass);let sO=-1,cO=-1,lO=-1;for(const f of fields){if(f.name==='_slots'||f.name==='m_slots')sO=f.offset;if(f.name==='_count'||f.name==='m_count')cO=f.offset;if(f.name==='_lastIndex'||f.name==='m_lastIndex')lO=f.offset;}if(sO<0){const dictCards=readCardDictionary(sp,fields);if(dictCards.length>0)return dictCards;logCollectionLayoutOnce('Unsupported card collection',klass,fields);return[];}const sa=safeReadPointer(sp,sO);if(!isReadablePointer(sa))return[];const count=cO>=0?sp.add(cO).readS32():0;const lastIdx=lO>=0?sp.add(lO).readS32():count;if(count<=0)return[];const ml=getManagedArrayLength(sa);const ss=4+4+Process.pointerSize;const base=getManagedArrayDataPtr(sa);if(!isReadablePointer(base)||ml<=0)return[];const cards=[];const lim=Math.min(ml,Math.max(lastIdx,count)+16,500);for(let i=0;i<lim&&cards.length<count;i++){try{const sb=base.add(i*ss);if(isReadableAddress(sb,4)&&sb.readS32()<0)continue;const vp=safeReadPointer(sb,8);if(vp){const card=readCardSnapshot(vp);if(card&&card.instance_id)cards.push(card);}}catch(e){}}if(cards.length===0&&count>0){logCardCollectionInfo('hashset-empty:'+(classFullName(klass)||'?'),'Card set '+(classFullName(klass)||'?')+' count='+count+' lastIndex='+lastIdx+' yielded 0 cards; fields: '+describeFieldLayout(fields));}return cards;}catch(e){send({type:'debug',msg:'readCardHashSet:'+e});return[];}}
 
 function readEnumIntDict(dp, debugLabel, keepKeys, keepCount){if(!isReadablePointer(dp))return{};try{if(!mono_class_get_element_class||!mono_class_value_size){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' missing mono helpers'});return{};}const dictKlass=mono_object_get_class(dp);const dictFields=getFields(dictKlass);const entriesField=findNamedField(dictFields,['_entries','entries']);const countField=findNamedField(dictFields,['_count','count']);if(!entriesField||!countField){if(debugLabel)logCollectionLayoutOnce('Unsupported enum-int dict '+debugLabel,dictKlass,dictFields);return{};}const entriesArray=safeReadPointer(dp,entriesField.offset);const count=dp.add(countField.offset).readS32();if(!isReadablePointer(entriesArray)){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' entries array was null (count='+count+')'});return{};}if(count<=0){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' count='+count});return{};}const arrayKlass=mono_object_get_class(entriesArray);if(!arrayKlass||arrayKlass.isNull()){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' array klass was null'});return{};}const entryKlass=mono_class_get_element_class(arrayKlass);if(!entryKlass||entryKlass.isNull()){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' entry klass was null'});return{};}const entryFields=getFields(entryKlass);const hashField=findNamedField(entryFields,['hashCode','_hashCode']);const keyField=findNamedField(entryFields,['key','Key']);const valueField=findNamedField(entryFields,['value','Value']);if(!keyField||!valueField){if(debugLabel)logDictionaryLayoutOnce('Unsupported enum-int dict '+debugLabel,dictKlass,dictFields,entryKlass,entryFields,{count:count,arrLen:'?',entrySize:'?'},[]);return{};}const align=Memory.alloc(4);align.writeU32(0);const entrySize=mono_class_value_size(entryKlass,align);if(!entrySize||entrySize<=0){if(debugLabel)send({type:'debug',msg:'enum-int dict '+debugLabel+' invalid entry size '+entrySize});return{};}const arrLen=getManagedArrayLength(entriesArray);const base=getManagedArrayDataPtr(entriesArray);if(!isReadablePointer(base)||arrLen<=0)return{};const result={};const samples=[];const limit=Math.min(arrLen,Math.max(count+16,count),500);const useFilter=!!keepKeys;let found=0;let kept=0;for(let i=0;i<limit&&found<count;i++){try{const entryBase=base.add(i*entrySize);if(hashField&&isReadableAddress(entryBase.add(hashField.offset),4)&&entryBase.add(hashField.offset).readS32()<0)continue;const key=readScalarField(entryBase,keyField);const value=readScalarField(entryBase,valueField);found++;if(useFilter&&!keepKeys[key])continue;result[key]=value;if(debugLabel&&samples.length<8)samples.push(key+':'+value);kept++;if(useFilter&&keepCount&&kept>=keepCount)break;}catch(e){}}if(debugLabel)logDictionaryLayoutOnce(debugLabel,dictKlass,dictFields,entryKlass,entryFields,{count:count,arrLen:arrLen,entrySize:entrySize},samples);if(!_playerAttrsDictLayout&&found>0&&entrySize>0){const headerAdj=Math.min(hashField?hashField.offset:999,keyField.offset,valueField.offset);_playerAttrsDictLayout={entriesOff:entriesField.offset,countOff:countField.offset,entrySize:entrySize,hashOff:hashField?(hashField.offset-headerAdj):null,keyOff:keyField.offset-headerAdj,valueOff:valueField.offset-headerAdj,headerAdj:headerAdj};send({type:'info',msg:'QW10 dict layout cached: entriesOff='+entriesField.offset+' countOff='+countField.offset+' entrySize='+entrySize+' hashOff='+(hashField?(hashField.offset-headerAdj):'null')+' keyOff='+(keyField.offset-headerAdj)+' valueOff='+(valueField.offset-headerAdj)+' headerAdj='+headerAdj});}return result;}catch(e){if(debugLabel)send({type:'debug',msg:'readEnumIntDict '+debugLabel+': '+e});return{};}}
@@ -1450,7 +1428,6 @@ function readEnumIntDict(dp, debugLabel, keepKeys, keepCount){if(!isReadablePoin
 function readDynamicRunSnapshot(p){if(!p||p.isNull())return{};const r={};try{const gameModeId=readDynamicGuidField(p,['GameModeId']);if(gameModeId)r.game_mode_id=gameModeId;const day=readDynamicU32Field(p,['Day']);if(day!==null)r.day=day;const hour=readDynamicU32Field(p,['Hour']);if(hour!==null)r.hour=hour;const victories=readDynamicU32Field(p,['Victories']);if(victories!==null)r.victories=victories;const defeats=readDynamicU32Field(p,['Defeats']);if(defeats!==null)r.defeats=defeats;const visitedFates=readDynamicBoolField(p,['HasVisitedFates']);if(visitedFates!==null)r.visited_fates=visitedFates;const dataVersion=readDynamicStringField(p,['DataVersion']);if(dataVersion!==null)r.data_version=dataVersion;}catch(e){send({type:'debug',msg:'readDynRun:'+e});}return r;}
 
 function readDynamicRunStateSnapshot(p){if(!p||p.isNull())return{};const r={};try{const stateInt=readDynamicI32Field(p,['StateName']);if(stateInt!==null){r.state=E_RUN_STATE[stateInt]||('Unknown('+stateInt+')');r.state_int=stateInt;}
-// Re-enabled from W/L-only scope-down (F5)
 const encounterId=readDynamicStringField(p,['CurrentEncounterId']);if(encounterId!==null)r.current_encounter_id=encounterId;
 const rerollCost=readDynamicNullableU32Field(p,['RerollCost']);if(rerollCost!==null)r.reroll_cost=rerollCost;
 const rerollsRemaining=readDynamicNullableU32Field(p,['RerollsRemaining']);if(rerollsRemaining!==null)r.rerolls_remaining=rerollsRemaining;
@@ -1459,7 +1436,6 @@ if(ACTION_CARD_STATES[r.state]){const selectionSetPtr=readDynamicObjectField(p,[
 }catch(e){send({type:'debug',msg:'readDynState:'+e});}return r;}
 
 function readDynamicPlayerSnapshot(p, includeAttributes){if(!p||p.isNull())return{};const r={};try{const heroInt=readDynamicI32Field(p,['Hero']);if(heroInt!==null)r.hero=E_HERO[heroInt]||('Unknown('+heroInt+')');
-// Re-enabled from W/L-only scope-down (F10)
 const unlockedSlots=readDynamicU16Field(p,['UnlockedSlots']);if(unlockedSlots!==null)r.unlocked_slots=unlockedSlots;
 // Keep only the live HUD / enrichment attributes to reduce delta cost.
 if(includeAttributes){const attrsPtr=readDynamicObjectField(p,['Attributes']);if(attrsPtr&&!attrsPtr.isNull()){const attrs=readEnumIntDict(attrsPtr,'DynamicPlayer.Attributes',KEEP_PLAYER_ATTR_IDS,KEEP_PLAYER_ATTR_COUNT);for(const[k,v]of Object.entries(attrs))r[E_PLAYER_ATTRIBUTE[parseInt(k)]||('attr_'+k)]=v;}else send({type:'debug',msg:'DynamicPlayer.Attributes pointer was null'});}
@@ -1911,8 +1887,6 @@ function shouldReadActionTemplateEvents(snapshot){
     const stateName=snapshot.state.state||snapshot.state;
     return !!(ACTION_TEMPLATE_EVENT_STATES[stateName]);
 }
-
-// Re-enabled from W/L-only scope-down (F5): restored reroll cost, rerolls remaining, and selection_set.
 function readDynamicStateLean(dataPtr){if(!dataPtr||dataPtr.isNull())return null;const r={run:{},state:{},player:{},offered:[],player_board:[],player_stash:[],player_skills:[],opponent_board:[]};let sawAny=false;try{const runPtr=readDynamicObjectField(dataPtr,['Run']);if(runPtr&&!runPtr.isNull()){const day=readDynamicU32Field(runPtr,['Day']);if(day!==null)r.run.day=day;const hour=readDynamicU32Field(runPtr,['Hour']);if(hour!==null)r.run.hour=hour;const victories=readDynamicU32Field(runPtr,['Victories']);if(victories!==null)r.run.victories=victories;const defeats=readDynamicU32Field(runPtr,['Defeats']);if(defeats!==null)r.run.defeats=defeats;sawAny=true;}const statePtr=readDynamicObjectField(dataPtr,['CurrentState']);if(statePtr&&!statePtr.isNull()){const stateInt=readDynamicI32Field(statePtr,['StateName']);if(stateInt!==null){r.state.state=E_RUN_STATE[stateInt]||('Unknown('+stateInt+')');r.state.state_int=stateInt;}const rerollCost=readDynamicNullableU32Field(statePtr,['RerollCost']);if(rerollCost!==null)r.state.reroll_cost=rerollCost;const rerollsRemaining=readDynamicNullableU32Field(statePtr,['RerollsRemaining']);if(rerollsRemaining!==null)r.state.rerolls_remaining=rerollsRemaining;const selectionSetPtr=readDynamicObjectField(statePtr,['SelectionSet']);if(selectionSetPtr&&!selectionSetPtr.isNull())r.state.selection_set=readStringList(selectionSetPtr);sawAny=true;}const playerPtr=readDynamicObjectField(dataPtr,['Player']);if(playerPtr&&!playerPtr.isNull()){r.player=readDynamicPlayerLean(playerPtr);sawAny=true;}}catch(e){send({type:'debug',msg:'readDynamicStateLean:'+e});}return sawAny?r:null;}
 
 // Defer heavy Player.Attributes enumeration off the game thread.
@@ -1933,14 +1907,10 @@ function readDynamicStateLean(dataPtr){if(!dataPtr||dataPtr.isNull())return null
 function dispatchDeferredPlayerAttrs(playerPtr,snapshotId){try{const attrsPtr=readDynamicObjectField(playerPtr,['Attributes']);if(!attrsPtr||attrsPtr.isNull())return false;setImmediate(function(){try{const attrsDict=readEnumIntDict(attrsPtr,null,KEEP_PLAYER_ATTR_IDS,KEEP_PLAYER_ATTR_COUNT);const attrs={};for(const[k,v]of Object.entries(attrsDict))attrs[E_PLAYER_ATTRIBUTE[parseInt(k)]||('attr_'+k)]=v;const attrCount=Object.keys(attrs).length;if(attrCount>0){_deferredAttrsSuccessCount++;send({type:'deferred_player_attrs',snapshot_id:snapshotId,attrs:attrs});}else{_deferredAttrsFailureCount++;_pendingSyncAttrsRead=true;}maybeReportAttrsStats();}catch(e){_deferredAttrsFailureCount++;_pendingSyncAttrsRead=true;send({type:'debug',msg:'deferred-player-attrs:'+e});}});return true;}catch(e){return false;}}
 
 function maybeReportAttrsStats(){const now=Date.now();if(now-_lastAttrsStatReportMs<ATTRS_STAT_REPORT_INTERVAL_MS)return;_lastAttrsStatReportMs=now;if(FAST_GAMESIM_PATH&&ATTRS_THROTTLE_ON_STATE_CHANGE){send({type:'info',msg:'QW10 attrs stats: sync_reads='+_attrsSyncReadCount+' throttled='+_attrsSyncThrottledCount+' empty='+_attrsSyncEmptyCount+' from_cache='+_attrsFromCacheCount+' fast_dict='+_fastAttrsReadCount+' fast_dict_fail='+_fastAttrsFailCount+' dict_layout='+(!!_playerAttrsDictLayout)+' selset_hits='+_selectionSetCacheHits+' selset_misses='+_selectionSetCacheMisses});return;}const total=_deferredAttrsSuccessCount+_deferredAttrsFailureCount;if(total===0)return;const failureRate=(_deferredAttrsFailureCount/total*100).toFixed(1);send({type:'info',msg:'deferred_player_attrs stats: success='+_deferredAttrsSuccessCount+' failure='+_deferredAttrsFailureCount+' sync_fallback='+_syncAttrsFallbackCount+' failure_rate='+failureRate+'%'});}
-
-// Re-enabled from W/L-only scope-down (F1): deferred card decode via setImmediate
 // includeCards=true now grabs only the collection pointer on the game thread, then defers heavy decode
 function readDynamicStatePayload(dataPtr, includeCards, includePlayerAttrs, includeTemplateEvents, baseSnapshot){if(!dataPtr||dataPtr.isNull())return null;const r=cloneDynamicSnapshotBase(baseSnapshot);let sawAny=!!baseSnapshot;try{const runPtr=readDynamicObjectField(dataPtr,['Run']);if(runPtr&&!runPtr.isNull()){if(!baseSnapshot||!baseSnapshot.run||Object.keys(baseSnapshot.run).length===0)r.run=readDynamicRunSnapshot(runPtr);sawAny=true;}const statePtr=readDynamicObjectField(dataPtr,['CurrentState']);if(statePtr&&!statePtr.isNull()){if(!baseSnapshot||!baseSnapshot.state||Object.keys(baseSnapshot.state).length===0){r.state=readDynamicRunStateSnapshot(statePtr);}else{const encounterId=readDynamicStringField(statePtr,['CurrentEncounterId']);if(encounterId!==null)r.state.current_encounter_id=encounterId;}sawAny=true;}const playerPtr=readDynamicObjectField(dataPtr,['Player']);if(playerPtr&&!playerPtr.isNull()){const needFullPlayer=includePlayerAttrs||!baseSnapshot||!baseSnapshot.player||Object.keys(baseSnapshot.player).length===0;if(needFullPlayer){const wantAttrsSync=includePlayerAttrs&&_pendingSyncAttrsRead;if(wantAttrsSync){_pendingSyncAttrsRead=false;_syncAttrsFallbackCount++;}r.player=Object.assign({},r.player,readDynamicPlayerSnapshot(playerPtr,wantAttrsSync));if(includePlayerAttrs&&!wantAttrsSync)dispatchDeferredPlayerAttrs(playerPtr,snapshotCounter+1);}sawAny=true;}if(includeTemplateEvents){const eventsPtr=readDynamicObjectField(dataPtr,['Events']);if(eventsPtr&&!eventsPtr.isNull()){const _snapshotId=snapshotCounter+1;setImmediate(function(){try{const templateEvents=readGameSimTemplateEventsFromList(eventsPtr);if(templateEvents.length>0){send({type:'deferred_template_events',snapshot_id:_snapshotId,card_template_events:templateEvents});}}catch(e){send({type:'debug',msg:'deferred-template-events:'+e});}});}}if(includeCards){// Capture-and-release: grab pointer on game thread, decode in setImmediate
 const cardRef=findCardCollectionField(dataPtr,['Cards']);const cardCollectionPtr=cardRef?cardRef.ptr:null;if(cardCollectionPtr&&!cardCollectionPtr.isNull()){const _snapshotId=snapshotCounter+1;// will match snap.id after hookMethod increments
 setImmediate(function(){try{const cards=readCardHashSet(cardCollectionPtr);if(cards.length>0){const deferred={offered:[],player_board:[],player_stash:[],player_skills:[],opponent_board:[]};for(const c of cards)bucketCard(c,deferred);send({type:'deferred_cards',snapshot_id:_snapshotId,cards:deferred});}else{logCardCollectionInfo('deferred-dynamic-empty:'+(cardRef.className||'?'),'Deferred dynamic card collection '+cardRef.className+' yielded 0 cards');}}catch(e){send({type:'debug',msg:'deferred-dynamic-cards:'+e});}});sawAny=true;}}}catch(e){send({type:'debug',msg:'readDynamicStatePayload:'+e});}return sawAny?r:null;}
-
-// Re-enabled from W/L-only scope-down (F1): deferred card decode via setImmediate
 function readGameStateSnapshot(sp, includeCards){if(!sp||sp.isNull())return null;const r={run:{},state:{},player:{},offered:[],player_board:[],player_stash:[],player_skills:[],opponent_board:[]};try{const runPtr=readObjectField(sp,'GameStateSnapshotDTO','Run');const statePtr=readObjectField(sp,'GameStateSnapshotDTO','CurrentState');const playerPtr=readObjectField(sp,'GameStateSnapshotDTO','Player');if(runPtr&&!runPtr.isNull())r.run=readRunSnapshot(runPtr);else logNullField('GameStateSnapshotDTO.Run','was null');if(statePtr&&!statePtr.isNull())r.state=readRunStateSnapshot(statePtr);else logNullField('GameStateSnapshotDTO.CurrentState','was null');if(playerPtr&&!playerPtr.isNull())r.player=readPlayerSnapshot(playerPtr);else logNullField('GameStateSnapshotDTO.Player','was null');if(includeCards){// Capture-and-release: grab pointer on game thread, decode in setImmediate
 const cardRef=findCardCollectionField(sp,['Cards']);const cardCollectionPtr=cardRef?cardRef.ptr:null;if(cardCollectionPtr&&!cardCollectionPtr.isNull()){const _snapshotId=snapshotCounter+1;// will match snap.id after hookMethod increments
 setImmediate(function(){try{const cards=readCardHashSet(cardCollectionPtr);if(cards.length>0){const deferred={offered:[],player_board:[],player_stash:[],player_skills:[],opponent_board:[]};for(const c of cards)bucketCard(c,deferred);send({type:'deferred_cards',snapshot_id:_snapshotId,cards:deferred});}else{logCardCollectionInfo('deferred-snapshot-empty:'+(cardRef.className||'?'),'Deferred snapshot card collection '+(cardRef.className||'?')+' yielded 0 cards');}}catch(e){send({type:'debug',msg:'deferred-snapshot-cards:'+e});}});}else logNullField('GameStateSnapshotDTO.Cards','was null');}}catch(e){send({type:'debug',msg:'readSnapshot:'+e});}return r;}
@@ -2289,11 +2259,8 @@ function isRelevantGlobalMethod(cls,method){
 
 function isRelevantCommandMethod(cls,method){if(method.name.startsWith('add_')||method.name.startsWith('remove_')||method.name.startsWith('<'))return false;if(method.name.startsWith('get_')||method.name.startsWith('set_'))return false;if(method.name==='CanProcessMessages')return false;const className=cls.fullName||'';const hasCommandParam=methodHasCommandParam(method);const commandishName=method.name.includes('Send')||method.name.includes('Handle')||method.name.includes('Execute')||method.name.includes('Process')||method.name.includes('Dispatch')||method.name.includes('Queue');const commandishClass=className.includes('Command')||className.includes('Network')||className.includes('Client')||className.includes('Handler')||className.includes('State')||className.includes('Controller');if(hasCommandParam)return true;if(commandishName&&commandishClass)return true;return false;}
 
-function hookGlobalSearchCandidates(){const assemblies=['TheBazaarRuntime','BazaarGameClient','Assembly-CSharp'];let classCount=0;let methodCount=0;let hooked=0;for(const assemblyName of assemblies){const image=imageMap[assemblyName];if(!image)continue;const classes=enumerateClassesInImage(image,assemblyName);send({type:'info',msg:'Scanning '+classes.length+' classes in '+assemblyName+' for additional state-sync hooks...'});for(const cls of classes){classCount++;if(!isRelevantGlobalClass(cls.fullName))continue;let methods=[];try{methods=getMethods(cls.klass);}catch(e){continue;}const hits=methods.filter(m=>isRelevantGlobalMethod(cls,m));if(hits.length===0)continue;send({type:'debug',msg:'Global candidate '+cls.fullName+' in '+assemblyName+': '+hits.map(formatMethod).join(' | ')});for(const method of hits){// SCOPED OUT: captureCommands disabled in W/L-only mode
-// Re-enabled from W/L-only scope-down: captureCommands and commandHints restored
+function hookGlobalSearchCandidates(){const assemblies=['TheBazaarRuntime','BazaarGameClient','Assembly-CSharp'];let classCount=0;let methodCount=0;let hooked=0;for(const assemblyName of assemblies){const image=imageMap[assemblyName];if(!image)continue;const classes=enumerateClassesInImage(image,assemblyName);send({type:'info',msg:'Scanning '+classes.length+' classes in '+assemblyName+' for additional state-sync hooks...'});for(const cls of classes){classCount++;if(!isRelevantGlobalClass(cls.fullName))continue;let methods=[];try{methods=getMethods(cls.klass);}catch(e){continue;}const hits=methods.filter(m=>isRelevantGlobalMethod(cls,m));if(hits.length===0)continue;send({type:'debug',msg:'Global candidate '+cls.fullName+' in '+assemblyName+': '+hits.map(formatMethod).join(' | ')});for(const method of hits){
 const configured=cloneMethodWithMeta(method,{ownerClass:cls.fullName,snapshotHints:buildSnapshotHints(method),commandHints:buildCommandHints(method),captureCommands:true,commandOnly:false});methodCount++;if(hookMethod(configured))hooked++;}}}send({type:'info',msg:'Global scan checked '+classCount+' classes and '+methodCount+' focused candidate method(s); hooked '+hooked+'.'});return hooked;}
-
-// Re-enabled from W/L-only scope-down (F7+F9): command hooks with fixed allow-list
 const COMMAND_HOOK_ALLOWLIST = {
     SelectItemCommand: true,
     SelectSkillCommand: true,
@@ -2408,7 +2375,6 @@ _COMPACT_SNAPSHOTS = True
 _SNAPSHOT_PRINT_MIN_INTERVAL_MS = 500.0
 _last_snapshot_print_ms: float = 0.0
 _snapshot_prints_suppressed: int = 0
-# Re-enabled from W/L-only scope-down
 _DELTA_PLAYER_ATTRS = True
 # Leave action-time card decoding off by default. It is useful for debugging
 # inferred move/buy/sell coverage, but it adds extra GameSim work during the
@@ -2518,7 +2484,6 @@ def _should_render_snapshot(gs: dict) -> bool:
 
 
 def _render_signature(gs: dict) -> str:
-    # Re-enabled from W/L-only scope-down: selection_set and card counts restored to signature
     run = gs.get("run", {})
     state = gs.get("state", {})
     player = gs.get("player", {})
@@ -2591,7 +2556,6 @@ def _log_hook_perf(payload: dict):
     print(f"[MonoPerf] slow hook: {duration_ms:.1f} ms{suffix}")
 
 
-# Re-enabled from W/L-only scope-down (F2)
 def _clone_snapshot_for_actions(gs: dict) -> dict:
     cloned = {
         "run": dict(gs.get("run", {})),
@@ -2610,7 +2574,6 @@ def _prune_disabled_snapshot_cards(gs: dict) -> dict:
     return gs
 
 
-# Re-enabled from W/L-only scope-down (F2)
 def _card_map(gs: dict) -> dict:
     cards_by_id = {}
     for category in _CARD_LIST_KEYS:
@@ -2630,7 +2593,6 @@ def _card_map(gs: dict) -> dict:
     return cards_by_id
 
 
-# Re-enabled from W/L-only scope-down (F2)
 def _numeric_delta(before, after):
     if isinstance(before, (int, float)) and isinstance(after, (int, float)):
         return after - before
@@ -2927,9 +2889,6 @@ def _context_card_lookup(ctx: dict, instance_id: str | None) -> dict | None:
     if not instance_id:
         return None
     return _card_map(ctx or {}).get(instance_id)
-
-
-# Re-enabled from W/L-only scope-down (F9): build enriched command event from raw JS event
 def _build_direct_command_event(raw_event: dict) -> dict:
     global _pending_direct_rerolls
 
@@ -3241,12 +3200,7 @@ def _snapshot_db_queue_key(gs: dict) -> str | None:
 
 
 def _merge_partial_snapshot(gs):
-    """Overlay dynamic partial updates onto the most recent captured state.
-
-    SCOPED DOWN: W/L-only mode. The run/state/player merging logic is preserved
-    (needed for W/L correlation). The card-reconciliation sections below are
-    no-ops because cards are always empty lists, but kept for easy re-enable.
-    """
+    """Overlay dynamic partial updates onto the most recent captured state."""
     global _last_merged_snapshot, _deferred_attrs_pickup_count
 
     merged = {
@@ -3376,12 +3330,7 @@ def _merge_partial_snapshot(gs):
 
 
 def handle_game_state(gs):
-    """Process a captured game state snapshot.
-
-    SCOPED DOWN: W/L-only mode. Tracks victories, defeats, prestige, hero, day.
-    Card enumeration, action event inference, selection set, and detailed board
-    rendering are all commented out. Re-enable by restoring the commented blocks.
-    """
+    """Process a captured game state snapshot."""
     global _snapshot_count, _duplicate_snapshot_count, _last_action_snapshot
     gs = _merge_partial_snapshot(gs)
     _prune_disabled_snapshot_cards(gs)
@@ -3403,8 +3352,6 @@ def handle_game_state(gs):
 
     _seen_snapshot_keys.add(dedupe_key)
     _snapshot_count += 1
-
-    # Re-enabled from W/L-only scope-down (F2): action event inference
     action_events = _infer_action_events(_last_action_snapshot, gs)
     _last_action_snapshot = _clone_snapshot_for_actions(gs)
     if action_events:
@@ -3634,17 +3581,11 @@ def stop_db_writer():
 def persist_snapshot(gs):
     """Write snapshot artifacts on the background worker.
 
-    SCOPED DOWN: W/L-only mode. Persists api_game_states (victories, defeats,
-    prestige, hero, day, run_state). api_cards inserts and action event logging
-    are disabled. Re-enable by restoring the commented blocks.
+    Persist compact snapshot artifacts and enqueue DB writes when enabled.
     """
     run = gs.get("run", {})
     state = gs.get("state", {})
     player = gs.get("player", {})
-    # SCOPED OUT: offered/board counts and action_events not tracked in W/L-only mode
-    # offered = gs.get("offered", [])
-    # board = gs.get("player_board", [])
-    # action_events = gs.get("action_events", [])
 
     if _do_log and _output_dir:
         snap_id = gs.get("id", 0)
@@ -3666,8 +3607,6 @@ def persist_snapshot(gs):
                 "prestige": player.get("Prestige"),
             }
             _log_file.write(json.dumps(entry) + "\n")
-            # SCOPED OUT: action event logging disabled for W/L-only mode
-            # for event in action_events: ...
             _log_file.flush()
 
     if _do_db:
@@ -3692,9 +3631,6 @@ def persist_action_event(event):
             + "\n"
         )
         _log_file.flush()
-    if _do_db:
-        store_action_event_to_db(event)
-
 
 def store_game_state_to_db(gs):
     """Enqueue snapshot persistence work for the mono DB writer thread."""
@@ -3982,8 +3918,6 @@ def _store_game_state_to_db_impl(gs):
                 json.dumps(gs, default=str),
             ))
             gs_id = cur.fetchone()[0]
-
-            # Re-enabled from W/L-only scope-down (F8): api_cards table inserts
             card_rows = []
             for category, cards in [
                 ("offered", gs.get("offered", [])),
@@ -4022,12 +3956,6 @@ def _store_game_state_to_db_impl(gs):
                 f"message_id={gs.get('message_id')}"
             )
             time.sleep(backoff_s)
-
-
-def store_action_event_to_db(event):
-    # Disabled: action events are sourced from run_state (Pipeline A)
-    return
-
 
 # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 # PROCESS FINDING (reused from capture_frida.py)
@@ -4162,7 +4090,6 @@ def main():
     _VERBOSE_DEBUG = args.verbose_debug
     _RENDER_ALL_SNAPSHOTS = args.all_snapshots
     _DETAILED_SNAPSHOTS = args.detailed_snapshots
-    # Re-enabled from W/L-only scope-down: CLI args now respected
     _FULL_DELTA_CARDS = args.full_delta_cards or _FULL_DELTA_CARDS
     _DELTA_PLAYER_ATTRS = args.delta_player_attrs or _DELTA_PLAYER_ATTRS
     _ACTION_EVENT_CARDS = args.action_delta_cards or _ACTION_EVENT_CARDS

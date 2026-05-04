@@ -79,8 +79,8 @@ def store_raw_message(direction: str, raw_bytes: bytes, rid: str = None,
         raw_objects = decode_raw(raw_bytes)
         if raw_objects:
             decoded_json = json.dumps(raw_objects, default=str)
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"[ApiLog] Raw msgpack decode failed: {exc}")
 
     content_type = (headers or {}).get("content-type", "application/msgpack")
 
@@ -183,18 +183,6 @@ def _store_game_state(conn: sqlite3.Connection, message_id: int,
             ))
 
     conn.commit()
-
-
-def query_offered_at(game_state_id: int) -> list[dict]:
-    """Get all offered cards at a specific game state snapshot."""
-    conn = get_conn()
-    rows = conn.execute("""
-        SELECT instance_id, template_id, card_type, tier, size
-        FROM api_cards
-        WHERE game_state_id = ? AND category = 'offered'
-    """, (game_state_id,)).fetchall()
-    conn.close()
-    return [dict(r) for r in rows]
 
 
 def query_offered_with_names(game_state_id: int) -> list[dict]:
