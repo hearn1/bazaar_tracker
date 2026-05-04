@@ -156,18 +156,6 @@ class BoardState:
             ))
         return result
 
-    def board_names_list(self) -> list[str]:
-        """All names from player_board + player_stash (including unresolved).
-
-        Used by scorer/overlay for archetype overlap checks where we need
-        every card, not just the cleanly-resolved ones.
-        """
-        names = []
-        for card in self._cards.values():
-            if card.get("category") in TRACKED_ITEM_CATEGORIES:
-                names.append(card.get("name") or card.get("instance_id", ""))
-        return names
-
     # ── Snapshots ─────────────────────────────────────────────────────────────
 
     def snapshot(self) -> dict:
@@ -191,10 +179,6 @@ class BoardState:
     def record_snapshot(self, decision_seq: int):
         """Store a snapshot in history keyed by decision_seq."""
         self._history[decision_seq] = self.snapshot()
-
-    def snapshot_at(self, decision_seq: int) -> Optional[dict]:
-        """Retrieve a historical snapshot by decision_seq."""
-        return self._history.get(decision_seq)
 
     # ── Combat board export ───────────────────────────────────────────────────
 

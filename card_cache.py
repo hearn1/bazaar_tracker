@@ -199,7 +199,8 @@ def card_cache_row_count() -> int:
             return int(conn.execute("SELECT COUNT(*) FROM card_cache").fetchone()[0])
         finally:
             conn.close()
-    except Exception:
+    except Exception as exc:
+        print(f"[CardCache] Count failed: {exc}")
         return 0
 
 
@@ -346,7 +347,8 @@ def _prime_template_name_cache():
             name = row["name"]
             if template_id and name and name != "Unknown":
                 _template_name_cache[str(template_id)] = str(name)
-    except Exception:
+    except Exception as exc:
+        print(f"[CardCache] Template-name cache load failed: {exc}")
         _template_name_cache.clear()
     finally:
         conn.close()
@@ -390,7 +392,8 @@ def is_cache_populated() -> bool:
             return count > 100
         finally:
             conn.close()
-    except Exception:
+    except Exception as exc:
+        print(f"[CardCache] Cache population check failed: {exc}")
         return False
 
 
