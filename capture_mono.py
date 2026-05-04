@@ -2456,11 +2456,6 @@ _DEBUG_ALLOW_SUBSTRINGS = (
     "readState:",
     "readRun:",
     "HashSet _slots not found",
-    # Temporary decode-investigation logs; re-enable when tracing DTO layouts.
-    # "graph:",
-    # "PlayerSnapshotDTO.Attributes",
-    # "DynamicPlayer.Attributes",
-    # "enum-int dict ",
 )
 
 

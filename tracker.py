@@ -172,8 +172,8 @@ def _install_signal_handlers():
             import webview
             if webview.windows:
                 webview.windows[0].destroy()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[Tracker] Webview destroy failed during signal handler: {e}")
     
     signal.signal(signal.SIGINT, _signal_handler)
     signal.signal(signal.SIGTERM, _signal_handler)

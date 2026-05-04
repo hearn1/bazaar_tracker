@@ -88,8 +88,8 @@ def _writer_loop():
             if _shared_conn is not None:
                 try:
                     _shared_conn.commit()
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"[DB] Final commit on writer shutdown failed: {e}")
             _write_queue.task_done()
             return
 
@@ -203,8 +203,8 @@ def close_shared_conn():
         try:
             _shared_conn.commit()
             _shared_conn.close()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[DB] close_shared_conn failed: {e}")
         _shared_conn = None
 
 

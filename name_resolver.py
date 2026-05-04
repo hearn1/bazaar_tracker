@@ -241,8 +241,8 @@ class NameResolver:
                             result[iid] = name
             finally:
                 conn.close()
-        except Exception:
-            pass
+        except Exception as exc:
+            print(f"[NameResolver] _batch_resolve_via_api_cards failed: {exc}")
 
         return result
 

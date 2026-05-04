@@ -332,7 +332,8 @@ class RunState:
         sell_signal: str = "sell_command_plus_dispose",
         gold_earned: Optional[int] = None,
     ):
-        self._pending_sell_commands.pop(0) if self._pending_sell_commands else None
+        if self._pending_sell_commands:
+            self._pending_sell_commands.pop(0)
         template_id = card_record.get("template_id") or ""
         from_socket = card_record.get("socket")
         name = card_record.get("name") or card_cache.resolve_template_id(template_id) or card_record.get("instance_id", "")
@@ -650,10 +651,8 @@ class RunState:
                 "score_notes": score_notes_payload,
                 **self._score_context_fields(live_context),
             })
-            display_names = names[:4]
-            suffix = "…" if len(offered) > 4 else ""
             reroll_str = f" (rerolled {self._shop.reroll_count}x)" if self._shop.reroll_count else ""
-            print(f"[Decision #{self.decision_seq}] ⏭  SKIP{reroll_str} | Passed on: {display_names}{suffix}")
+            print(f"[Decision #{self.decision_seq}] ⏭  SKIP{reroll_str} | Passed on: {self._format_name_list(names)}")
         self.pending_offered.clear()
 
     def _on_command_sent(self, event: dict):

@@ -11,6 +11,8 @@ The log path auto-detection looks at the path printed in Player.log itself:
 """
 
 import argparse
+import builtins
+import re
 import time
 import os
 from pathlib import Path
@@ -53,7 +55,6 @@ def parse_existing(log_path: Path, state: RunState, verbose_runs: int = 3) -> in
         print(f"[Watcher] ERROR: Log file not found at {log_path}")
         return 0
 
-    import re, builtins
     session_re = re.compile(r'Captured session id: ([a-f0-9\-]+)')
 
     # First pass: find all session IDs in order
