@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-03T11:32:26.355801+00:00",
+  "generated_at": "2026-05-03T23:54:27.390326+00:00",
   "source": {
     "category_url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
     "site": "bazaar-builds.net"
@@ -10,8 +10,8 @@
     "days": 30,
     "since": "2026-04-03"
   },
-  "known_item_count": 414,
-  "record_count": 24,
+  "known_item_count": 415,
+  "record_count": 19,
   "warnings": [],
   "groups": [
     {
@@ -23,12 +23,17 @@
       },
       "item_frequencies": [
         {
-          "item": "Trapvine",
+          "item": "Laser Security System",
           "count": 2,
           "frequency": 0.5
         },
         {
-          "item": "Frog Hollow",
+          "item": "Torpedo",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Elemental Depth Charge",
           "count": 2,
           "frequency": 0.5
         },
@@ -41,12 +46,18 @@
           "item": "Mech-Moles",
           "count": 2,
           "frequency": 0.5
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 1,
+          "frequency": 0.25
         }
       ],
       "candidate_core_items": [],
       "candidate_support_items": [
-        "Trapvine",
-        "Frog Hollow",
+        "Laser Security System",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Ice Claw",
         "Mech-Moles"
       ],
@@ -59,8 +70,9 @@
           "hero": "Vanessa",
           "tag": "Uncategorized",
           "items": [
-            "Trapvine",
-            "Frog Hollow",
+            "Laser Security System",
+            "Torpedo",
+            "Elemental Depth Charge",
             "Ice Claw",
             "Mech-Moles"
           ],
@@ -100,10 +112,12 @@
           "hero": "Vanessa",
           "tag": "Uncategorized",
           "items": [
-            "Trapvine",
-            "Frog Hollow",
+            "Laser Security System",
+            "Torpedo",
+            "Elemental Depth Charge",
             "Ice Claw",
-            "Mech-Moles"
+            "Mech-Moles",
+            "Frog Hollow"
           ],
           "source": "category",
           "snippet": "bazaar-builds.net",
@@ -126,6 +140,16 @@
           "frequency": 1.0
         },
         {
+          "item": "Torpedo",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
+          "item": "Elemental Depth Charge",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
           "item": "Refractor",
           "count": 3,
           "frequency": 1.0
@@ -133,10 +157,12 @@
       ],
       "candidate_core_items": [
         "Incendiary Rounds",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Refractor"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Incendiary Rounds, Refractor.",
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Incendiary Rounds, Torpedo, Elemental Depth Charge, Refractor.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#content",
@@ -146,6 +172,8 @@
           "tag": "Build",
           "items": [
             "Incendiary Rounds",
+            "Torpedo",
+            "Elemental Depth Charge",
             "Refractor"
           ],
           "source": "category",
@@ -161,6 +189,8 @@
           "tag": "Build",
           "items": [
             "Incendiary Rounds",
+            "Torpedo",
+            "Elemental Depth Charge",
             "Refractor"
           ],
           "source": "category",
@@ -176,6 +206,8 @@
           "tag": "Build",
           "items": [
             "Incendiary Rounds",
+            "Torpedo",
+            "Elemental Depth Charge",
             "Refractor"
           ],
           "source": "json_ld",
@@ -186,49 +218,99 @@
       ]
     },
     {
-      "tag": "Burn 10 Win Build",
-      "sample_count": 1,
+      "tag": "Burn Build",
+      "sample_count": 2,
       "date_range": {
-        "start": "2026-04-30",
+        "start": "2026-04-29",
         "end": "2026-04-30"
       },
       "item_frequencies": [
         {
           "item": "Pop Snappers",
           "count": 1,
-          "frequency": 1.0
+          "frequency": 0.5
         },
         {
           "item": "Cutlass",
           "count": 1,
-          "frequency": 1.0
+          "frequency": 0.5
         },
         {
           "item": "Staff of the Moose",
           "count": 1,
-          "frequency": 1.0
+          "frequency": 0.5
         },
         {
           "item": "Orange Julian",
           "count": 1,
-          "frequency": 1.0
+          "frequency": 0.5
+        },
+        {
+          "item": "Lighter",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Rowboat",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Seashadow",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Zoarcid",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Slumbering Primordial",
+          "count": 1,
+          "frequency": 0.5
         }
       ],
-      "candidate_core_items": [
-        "Pop Snappers",
-        "Cutlass",
-        "Staff of the Moose",
-        "Orange Julian"
-      ],
+      "candidate_core_items": [],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Burn 10 Win Build: 1 sample(s). Repeated core candidates: Pop Snappers, Cutlass, Staff of the Moose, Orange Julian.",
+      "likely_archetype_notes": "Burn Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/burn-vanessa-10-win-build-rxt/",
           "title": "Burn Vanessa 10 Win Build – rXt",
           "date": "2026-04-30",
           "hero": "Vanessa",
-          "tag": "Burn 10 Win Build",
+          "tag": "Burn Build",
           "items": [
             "Pop Snappers",
             "Cutlass",
@@ -239,107 +321,25 @@
           "snippet": "Burn Vanessa 10 Win Build – rXt",
           "fetch_status": "http_200",
           "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Burn 10-3 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-29",
-        "end": "2026-04-29"
-      },
-      "item_frequencies": [
-        {
-          "item": "Lighter",
-          "count": 1,
-          "frequency": 1.0
         },
-        {
-          "item": "Rowboat",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Seashadow",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Zoarcid",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Dive Weights",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Weights",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Slumbering Primordial",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Incendiary Rounds",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Tortuga",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Lighter",
-        "Rowboat",
-        "Seashadow",
-        "Zoarcid",
-        "Dive Weights",
-        "Weights",
-        "Slumbering Primordial",
-        "Incendiary Rounds",
-        "Tortuga",
-        "Terry-Dactyl",
-        "Athanor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Burn 10-3 Build: 1 sample(s). Repeated core candidates: Lighter, Rowboat, Seashadow, Zoarcid, Dive Weights, Weights, Slumbering Primordial, Incendiary Rounds.",
-      "builds": [
         {
           "url": "https://bazaar-builds.net/burn-vanessa-10-3-build-4652-legend-banastronaut/",
           "title": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
           "date": "2026-04-29",
           "hero": "Vanessa",
-          "tag": "Burn 10-3 Build",
+          "tag": "Burn Build",
           "items": [
             "Lighter",
             "Rowboat",
             "Seashadow",
             "Zoarcid",
-            "Dive Weights",
             "Weights",
-            "Slumbering Primordial",
+            "Dive Weights",
+            "Terry-Dactyl",
+            "Athanor",
             "Incendiary Rounds",
             "Tortuga",
-            "Terry-Dactyl",
-            "Athanor"
+            "Slumbering Primordial"
           ],
           "source": "category",
           "snippet": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
@@ -349,7 +349,7 @@
       ]
     },
     {
-      "tag": "Burst 10-1 Build",
+      "tag": "Burst Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-26",
@@ -382,17 +382,17 @@
           "frequency": 1.0
         },
         {
-          "item": "Trapvine",
+          "item": "Wild Boar",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Ice Claw",
+          "item": "Athanor",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Mech-Moles",
+          "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         }
@@ -403,28 +403,28 @@
         "Scimitar of the Deep",
         "Shuriken",
         "Figurehead",
-        "Trapvine",
-        "Ice Claw",
-        "Mech-Moles"
+        "Wild Boar",
+        "Athanor",
+        "Double Whammy"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Burst 10-1 Build: 1 sample(s). Repeated core candidates: Korxena Crest, Pistol Sword, Scimitar of the Deep, Shuriken, Figurehead, Trapvine, Ice Claw, Mech-Moles.",
+      "likely_archetype_notes": "Burst Build: 1 sample(s). Repeated core candidates: Korxena Crest, Pistol Sword, Scimitar of the Deep, Shuriken, Figurehead, Wild Boar, Athanor, Double Whammy.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/burst-vanessa-10-1-build-kecajjo/",
           "title": "Burst Vanessa 10-1 Build – Kecajjo",
           "date": "2026-04-26",
           "hero": "Vanessa",
-          "tag": "Burst 10-1 Build",
+          "tag": "Burst Build",
           "items": [
             "Korxena Crest",
             "Pistol Sword",
             "Scimitar of the Deep",
             "Shuriken",
             "Figurehead",
-            "Trapvine",
-            "Ice Claw",
-            "Mech-Moles"
+            "Wild Boar",
+            "Athanor",
+            "Double Whammy"
           ],
           "source": "category",
           "snippet": "Burst Vanessa 10-1 Build – Kecajjo",
@@ -434,7 +434,7 @@
       ]
     },
     {
-      "tag": "Cannonade 10 Win Build",
+      "tag": "Cannonade Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-27",
@@ -462,7 +462,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Slumbering Primordial",
+          "item": "Weaponized Core",
           "count": 1,
           "frequency": 1.0
         },
@@ -472,12 +472,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Tortuga",
+          "item": "Pulse Rifle",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Weaponized Core",
+          "item": "Tortuga",
           "count": 1,
           "frequency": 1.0
         },
@@ -487,7 +487,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Pulse Rifle",
+          "item": "Slumbering Primordial",
           "count": 1,
           "frequency": 1.0
         }
@@ -497,33 +497,33 @@
         "Holsters",
         "Shuriken",
         "Battery",
-        "Slumbering Primordial",
-        "Trapvine",
-        "Tortuga",
         "Weaponized Core",
+        "Trapvine",
+        "Pulse Rifle",
+        "Tortuga",
         "Ice Claw",
-        "Pulse Rifle"
+        "Slumbering Primordial"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Cannonade 10 Win Build: 1 sample(s). Repeated core candidates: Cannonball, Holsters, Shuriken, Battery, Slumbering Primordial, Trapvine, Tortuga, Weaponized Core.",
+      "likely_archetype_notes": "Cannonade Build: 1 sample(s). Repeated core candidates: Cannonball, Holsters, Shuriken, Battery, Weaponized Core, Trapvine, Pulse Rifle, Tortuga.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/cannonade-vanessa-10-win-build-kecajjo/",
           "title": "Cannonade Vanessa 10 Win Build – Kecajjo",
           "date": "2026-04-27",
           "hero": "Vanessa",
-          "tag": "Cannonade 10 Win Build",
+          "tag": "Cannonade Build",
           "items": [
             "Cannonball",
             "Holsters",
             "Shuriken",
             "Battery",
-            "Slumbering Primordial",
-            "Trapvine",
-            "Tortuga",
             "Weaponized Core",
+            "Trapvine",
+            "Pulse Rifle",
+            "Tortuga",
             "Ice Claw",
-            "Pulse Rifle"
+            "Slumbering Primordial"
           ],
           "source": "category",
           "snippet": "Cannonade Vanessa 10 Win Build – Kecajjo",
@@ -533,7 +533,106 @@
       ]
     },
     {
-      "tag": "Incendiary Rounds 10-4 Build",
+      "tag": "Elemental Depth Charge Build",
+      "sample_count": 1,
+      "date_range": {
+        "start": "2026-05-03",
+        "end": "2026-05-03"
+      },
+      "item_frequencies": [
+        {
+          "item": "Elemental Depth Charge",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pearl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Yeti Crab",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Zoarcid",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Refractor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        }
+      ],
+      "candidate_core_items": [
+        "Elemental Depth Charge",
+        "Pearl",
+        "Yeti Crab",
+        "Zoarcid",
+        "Weights",
+        "Dive Weights",
+        "Athanor",
+        "Incendiary Rounds",
+        "Refractor",
+        "Crow's Nest"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Elemental Depth Charge Build: 1 sample(s). Repeated core candidates: Elemental Depth Charge, Pearl, Yeti Crab, Zoarcid, Weights, Dive Weights, Athanor, Incendiary Rounds.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/elemental-depth-charge-vanessa-10-1-build-publio95/",
+          "title": "Elemental Depth Charge Vanessa 10-1 Build – Publio95",
+          "date": "2026-05-03",
+          "hero": "Vanessa",
+          "tag": "Elemental Depth Charge Build",
+          "items": [
+            "Elemental Depth Charge",
+            "Pearl",
+            "Yeti Crab",
+            "Zoarcid",
+            "Weights",
+            "Dive Weights",
+            "Athanor",
+            "Incendiary Rounds",
+            "Refractor",
+            "Crow's Nest"
+          ],
+          "source": "category",
+          "snippet": "Elemental Depth Charge Vanessa 10-1 Build – Publio95",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Incendiary Rounds Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-26",
@@ -561,22 +660,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Tortuga",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Lion Cane",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
+          "item": "Elemental Depth Charge",
           "count": 1,
           "frequency": 1.0
         }
@@ -586,29 +670,23 @@
         "Pop Snappers",
         "Seashadow",
         "Astrolabe",
-        "Tortuga",
-        "Lion Cane",
-        "Terry-Dactyl",
-        "Orange Julian"
+        "Elemental Depth Charge"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Incendiary Rounds 10-4 Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Pop Snappers, Seashadow, Astrolabe, Tortuga, Lion Cane, Terry-Dactyl, Orange Julian.",
+      "likely_archetype_notes": "Incendiary Rounds Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Pop Snappers, Seashadow, Astrolabe, Elemental Depth Charge.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/incendiary-rounds-vanessa-10-4-build-6730-legend-banastronaut/",
           "title": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
           "date": "2026-04-26",
           "hero": "Vanessa",
-          "tag": "Incendiary Rounds 10-4 Build",
+          "tag": "Incendiary Rounds Build",
           "items": [
             "Incendiary Rounds",
             "Pop Snappers",
             "Seashadow",
             "Astrolabe",
-            "Tortuga",
-            "Lion Cane",
-            "Terry-Dactyl",
-            "Orange Julian"
+            "Elemental Depth Charge"
           ],
           "source": "category",
           "snippet": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
@@ -618,7 +696,7 @@
       ]
     },
     {
-      "tag": "Refractor 10-4 Build",
+      "tag": "Refractor Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-27",
@@ -656,17 +734,22 @@
           "frequency": 1.0
         },
         {
-          "item": "Dive Weights",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Weights",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Crow's Nest",
+          "item": "Dive Weights",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pulse Rifle",
           "count": 1,
           "frequency": 1.0
         },
@@ -681,12 +764,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Pulse Rifle",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
+          "item": "Crow's Nest",
           "count": 1,
           "frequency": 1.0
         }
@@ -698,23 +776,23 @@
         "Pufferfish",
         "Refractor",
         "Zoarcid",
-        "Dive Weights",
         "Weights",
-        "Crow's Nest",
+        "Dive Weights",
+        "Athanor",
+        "Pulse Rifle",
         "Tortuga",
         "Ice Claw",
-        "Pulse Rifle",
-        "Athanor"
+        "Crow's Nest"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Refractor 10-4 Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Nesting Doll, Pearl, Pufferfish, Refractor, Zoarcid, Dive Weights, Weights.",
+      "likely_archetype_notes": "Refractor Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Nesting Doll, Pearl, Pufferfish, Refractor, Zoarcid, Weights, Dive Weights.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/refractor-vanessa-10-4-build-kecajjo/",
           "title": "Refractor Vanessa 10-4 Build – Kecajjo",
           "date": "2026-04-27",
           "hero": "Vanessa",
-          "tag": "Refractor 10-4 Build",
+          "tag": "Refractor Build",
           "items": [
             "Incendiary Rounds",
             "Nesting Doll",
@@ -722,13 +800,13 @@
             "Pufferfish",
             "Refractor",
             "Zoarcid",
-            "Dive Weights",
             "Weights",
-            "Crow's Nest",
+            "Dive Weights",
+            "Athanor",
+            "Pulse Rifle",
             "Tortuga",
             "Ice Claw",
-            "Pulse Rifle",
-            "Athanor"
+            "Crow's Nest"
           ],
           "source": "category",
           "snippet": "Refractor Vanessa 10-4 Build – Kecajjo",
@@ -738,85 +816,7 @@
       ]
     },
     {
-      "tag": "Space Laser 10-3 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-25",
-        "end": "2026-04-25"
-      },
-      "item_frequencies": [
-        {
-          "item": "Dive Weights",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Pearl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Captain's Wheel",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Weights",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Crow's Nest",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Vial Launcher",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Dive Weights",
-        "Pearl",
-        "Captain's Wheel",
-        "Weights",
-        "Crow's Nest",
-        "Vial Launcher",
-        "Athanor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Space Laser 10-3 Build: 1 sample(s). Repeated core candidates: Dive Weights, Pearl, Captain's Wheel, Weights, Crow's Nest, Vial Launcher, Athanor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/space-laser-vanessa-10-3-build-kecajjo/",
-          "title": "Space Laser Vanessa 10-3 Build – Kecajjo",
-          "date": "2026-04-25",
-          "hero": "Vanessa",
-          "tag": "Space Laser 10-3 Build",
-          "items": [
-            "Dive Weights",
-            "Pearl",
-            "Captain's Wheel",
-            "Weights",
-            "Crow's Nest",
-            "Vial Launcher",
-            "Athanor"
-          ],
-          "source": "category",
-          "snippet": "Space Laser Vanessa 10-3 Build – Kecajjo",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Submarine 10-3 Build",
+      "tag": "Submarine Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-05-01",
@@ -849,12 +849,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Incendiary Rounds",
+          "item": "Athanor",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Athanor",
+          "item": "Incendiary Rounds",
           "count": 1,
           "frequency": 1.0
         }
@@ -865,26 +865,26 @@
         "Captain's Quarters",
         "Weights",
         "Staff of the Moose",
-        "Incendiary Rounds",
-        "Athanor"
+        "Athanor",
+        "Incendiary Rounds"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Submarine 10-3 Build: 1 sample(s). Repeated core candidates: Dive Weights, Seaweed, Captain's Quarters, Weights, Staff of the Moose, Incendiary Rounds, Athanor.",
+      "likely_archetype_notes": "Submarine Build: 1 sample(s). Repeated core candidates: Dive Weights, Seaweed, Captain's Quarters, Weights, Staff of the Moose, Athanor, Incendiary Rounds.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/submarine-vanessa-10-3-build-makher/",
           "title": "Submarine Vanessa 10-3 Build – Makher",
           "date": "2026-05-01",
           "hero": "Vanessa",
-          "tag": "Submarine 10-3 Build",
+          "tag": "Submarine Build",
           "items": [
             "Dive Weights",
             "Seaweed",
             "Captain's Quarters",
             "Weights",
             "Staff of the Moose",
-            "Incendiary Rounds",
-            "Athanor"
+            "Athanor",
+            "Incendiary Rounds"
           ],
           "source": "category",
           "snippet": "Submarine Vanessa 10-3 Build – Makher",
@@ -894,33 +894,7 @@
       ]
     },
     {
-      "tag": "Submit your 10 Win Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [],
-      "candidate_core_items": [],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/submit-your-build",
-          "title": "Submit your 10 Win Build",
-          "date": null,
-          "hero": "Vanessa",
-          "tag": "Submit your 10 Win Build",
-          "items": [],
-          "source": "category",
-          "snippet": "Submit your 10 Win Build",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "The Boulder 10 Win Build",
+      "tag": "The Boulder Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-05-02",
@@ -961,14 +935,14 @@
         "Athanor"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "The Boulder 10 Win Build: 1 sample(s). Repeated core candidates: Nesting Doll, Rowboat, Captain's Wheel, Wild Boar, Athanor.",
+      "likely_archetype_notes": "The Boulder Build: 1 sample(s). Repeated core candidates: Nesting Doll, Rowboat, Captain's Wheel, Wild Boar, Athanor.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/the-boulder-vanessa-10-win-build-29918-legend-kecajjo/",
           "title": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
           "date": "2026-05-02",
           "hero": "Vanessa",
-          "tag": "The Boulder 10 Win Build",
+          "tag": "The Boulder Build",
           "items": [
             "Nesting Doll",
             "Rowboat",
@@ -984,35 +958,45 @@
       ]
     },
     {
-      "tag": "Weather Glass 10-5 Build",
+      "tag": "Torpedo Build",
       "sample_count": 1,
       "date_range": {
-        "start": "2026-04-26",
-        "end": "2026-04-26"
+        "start": "2026-05-03",
+        "end": "2026-05-03"
       },
       "item_frequencies": [
         {
-          "item": "Clamera",
+          "item": "Dive Weights",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Pufferfish",
+          "item": "Ice Luge",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Scimitar of the Deep",
+          "item": "Torpedo",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Zoarcid",
+          "item": "Weights",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Tortuga",
+          "item": "Captain's Wheel",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Vial Launcher",
           "count": 1,
           "frequency": 1.0
         },
@@ -1020,92 +1004,53 @@
           "item": "Ice Claw",
           "count": 1,
           "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Clamera",
-        "Pufferfish",
-        "Scimitar of the Deep",
-        "Zoarcid",
-        "Tortuga",
-        "Ice Claw"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Weather Glass 10-5 Build: 1 sample(s). Repeated core candidates: Clamera, Pufferfish, Scimitar of the Deep, Zoarcid, Tortuga, Ice Claw.",
-      "builds": [
+        },
         {
-          "url": "https://bazaar-builds.net/weather-glass-vanessa-10-5-build-kecajjo/",
-          "title": "Weather Glass Vanessa 10-5 Build – Kecajjo",
-          "date": "2026-04-26",
-          "hero": "Vanessa",
-          "tag": "Weather Glass 10-5 Build",
-          "items": [
-            "Clamera",
-            "Pufferfish",
-            "Scimitar of the Deep",
-            "Zoarcid",
-            "Tortuga",
-            "Ice Claw"
-          ],
-          "source": "category",
-          "snippet": "Weather Glass Vanessa 10-5 Build – Kecajjo",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "dooley Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Hydraulic Press",
+          "item": "Frog Hollow",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Pulse Rifle",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
+          "item": "Crow's Nest",
           "count": 1,
           "frequency": 1.0
         }
       ],
       "candidate_core_items": [
-        "Hydraulic Press",
-        "Terry-Dactyl",
-        "Pulse Rifle",
-        "Mech-Moles"
+        "Dive Weights",
+        "Ice Luge",
+        "Torpedo",
+        "Weights",
+        "Captain's Wheel",
+        "Athanor",
+        "Vial Launcher",
+        "Ice Claw",
+        "Frog Hollow",
+        "Crow's Nest"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "dooley Build: 1 sample(s). Repeated core candidates: Hydraulic Press, Terry-Dactyl, Pulse Rifle, Mech-Moles.",
+      "likely_archetype_notes": "Torpedo Build: 1 sample(s). Repeated core candidates: Dive Weights, Ice Luge, Torpedo, Weights, Captain's Wheel, Athanor, Vial Launcher, Ice Claw.",
       "builds": [
         {
-          "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-          "title": "Dooley",
-          "date": null,
+          "url": "https://bazaar-builds.net/torpedo-vanessa-10-6-build-45702-legend-sbianguz/",
+          "title": "Torpedo Vanessa 10-6 Build #45702 Legend – sbianguz",
+          "date": "2026-05-03",
           "hero": "Vanessa",
-          "tag": "dooley Build",
+          "tag": "Torpedo Build",
           "items": [
-            "Hydraulic Press",
-            "Terry-Dactyl",
-            "Pulse Rifle",
-            "Mech-Moles"
+            "Dive Weights",
+            "Ice Luge",
+            "Torpedo",
+            "Weights",
+            "Captain's Wheel",
+            "Athanor",
+            "Vial Launcher",
+            "Ice Claw",
+            "Frog Hollow",
+            "Crow's Nest"
           ],
           "source": "category",
-          "snippet": "Dooley",
+          "snippet": "Torpedo Vanessa 10-6 Build #45702 Legend – sbianguz",
           "fetch_status": "http_200",
           "fetch_error": null
         }
@@ -1132,142 +1077,6 @@
           "items": [],
           "source": "category",
           "snippet": "Jules",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "karnok Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Frog Hollow",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Wild Boar",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Trapvine",
-        "Frog Hollow",
-        "Wild Boar"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "karnok Build: 1 sample(s). Repeated core candidates: Trapvine, Frog Hollow, Wild Boar.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-          "title": "Karnok",
-          "date": null,
-          "hero": "Vanessa",
-          "tag": "karnok Build",
-          "items": [
-            "Trapvine",
-            "Frog Hollow",
-            "Wild Boar"
-          ],
-          "source": "category",
-          "snippet": "Karnok",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "mak Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Vial Launcher",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Ice Claw",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "mak Build: 1 sample(s). Repeated core candidates: Vial Launcher, Ice Claw, Athanor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-          "title": "Mak",
-          "date": null,
-          "hero": "Vanessa",
-          "tag": "mak Build",
-          "items": [
-            "Vial Launcher",
-            "Ice Claw",
-            "Athanor"
-          ],
-          "source": "category",
-          "snippet": "Mak",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "pygmalien Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Double Whammy"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "pygmalien Build: 1 sample(s). Repeated core candidates: Double Whammy.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-          "title": "Pygmalien",
-          "date": null,
-          "hero": "Vanessa",
-          "tag": "pygmalien Build",
-          "items": [
-            "Double Whammy"
-          ],
-          "source": "category",
-          "snippet": "Pygmalien",
           "fetch_status": "http_200",
           "fetch_error": null
         }
@@ -1309,6 +1118,8 @@
       "tag": "Build",
       "items": [
         "Incendiary Rounds",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Refractor"
       ],
       "source": "category",
@@ -1323,60 +1134,14 @@
       "hero": "Vanessa",
       "tag": "Uncategorized",
       "items": [
-        "Trapvine",
-        "Frog Hollow",
+        "Laser Security System",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Ice Claw",
         "Mech-Moles"
       ],
       "source": "category",
       "snippet": "Builds",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-      "title": "Dooley",
-      "date": null,
-      "hero": "Vanessa",
-      "tag": "dooley Build",
-      "items": [
-        "Hydraulic Press",
-        "Terry-Dactyl",
-        "Pulse Rifle",
-        "Mech-Moles"
-      ],
-      "source": "category",
-      "snippet": "Dooley",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-      "title": "Pygmalien",
-      "date": null,
-      "hero": "Vanessa",
-      "tag": "pygmalien Build",
-      "items": [
-        "Double Whammy"
-      ],
-      "source": "category",
-      "snippet": "Pygmalien",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-      "title": "Mak",
-      "date": null,
-      "hero": "Vanessa",
-      "tag": "mak Build",
-      "items": [
-        "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
-      ],
-      "source": "category",
-      "snippet": "Mak",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1405,22 +1170,6 @@
       "fetch_error": null
     },
     {
-      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-      "title": "Karnok",
-      "date": null,
-      "hero": "Vanessa",
-      "tag": "karnok Build",
-      "items": [
-        "Trapvine",
-        "Frog Hollow",
-        "Wild Boar"
-      ],
-      "source": "category",
-      "snippet": "Karnok",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
       "url": "https://bazaar-builds.net/category/builds/vanessa-builds/#",
       "title": "Socials",
       "date": null,
@@ -1428,22 +1177,12 @@
       "tag": "Build",
       "items": [
         "Incendiary Rounds",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Refractor"
       ],
       "source": "category",
       "snippet": "Socials",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/submit-your-build",
-      "title": "Submit your 10 Win Build",
-      "date": null,
-      "hero": "Vanessa",
-      "tag": "Submit your 10 Win Build",
-      "items": [],
-      "source": "category",
-      "snippet": "Submit your 10 Win Build",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1460,11 +1199,57 @@
       "fetch_error": null
     },
     {
+      "url": "https://bazaar-builds.net/torpedo-vanessa-10-6-build-45702-legend-sbianguz/",
+      "title": "Torpedo Vanessa 10-6 Build #45702 Legend – sbianguz",
+      "date": "2026-05-03",
+      "hero": "Vanessa",
+      "tag": "Torpedo Build",
+      "items": [
+        "Dive Weights",
+        "Ice Luge",
+        "Torpedo",
+        "Weights",
+        "Captain's Wheel",
+        "Athanor",
+        "Vial Launcher",
+        "Ice Claw",
+        "Frog Hollow",
+        "Crow's Nest"
+      ],
+      "source": "category",
+      "snippet": "Torpedo Vanessa 10-6 Build #45702 Legend – sbianguz",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
+      "url": "https://bazaar-builds.net/elemental-depth-charge-vanessa-10-1-build-publio95/",
+      "title": "Elemental Depth Charge Vanessa 10-1 Build – Publio95",
+      "date": "2026-05-03",
+      "hero": "Vanessa",
+      "tag": "Elemental Depth Charge Build",
+      "items": [
+        "Elemental Depth Charge",
+        "Pearl",
+        "Yeti Crab",
+        "Zoarcid",
+        "Weights",
+        "Dive Weights",
+        "Athanor",
+        "Incendiary Rounds",
+        "Refractor",
+        "Crow's Nest"
+      ],
+      "source": "category",
+      "snippet": "Elemental Depth Charge Vanessa 10-1 Build – Publio95",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
       "url": "https://bazaar-builds.net/the-boulder-vanessa-10-win-build-29918-legend-kecajjo/",
       "title": "The Boulder Vanessa 10 Win Build #29918 Legend – Kecajjo",
       "date": "2026-05-02",
       "hero": "Vanessa",
-      "tag": "The Boulder 10 Win Build",
+      "tag": "The Boulder Build",
       "items": [
         "Nesting Doll",
         "Rowboat",
@@ -1482,15 +1267,15 @@
       "title": "Submarine Vanessa 10-3 Build – Makher",
       "date": "2026-05-01",
       "hero": "Vanessa",
-      "tag": "Submarine 10-3 Build",
+      "tag": "Submarine Build",
       "items": [
         "Dive Weights",
         "Seaweed",
         "Captain's Quarters",
         "Weights",
         "Staff of the Moose",
-        "Incendiary Rounds",
-        "Athanor"
+        "Athanor",
+        "Incendiary Rounds"
       ],
       "source": "category",
       "snippet": "Submarine Vanessa 10-3 Build – Makher",
@@ -1502,7 +1287,7 @@
       "title": "Burn Vanessa 10 Win Build – rXt",
       "date": "2026-04-30",
       "hero": "Vanessa",
-      "tag": "Burn 10 Win Build",
+      "tag": "Burn Build",
       "items": [
         "Pop Snappers",
         "Cutlass",
@@ -1519,19 +1304,19 @@
       "title": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
       "date": "2026-04-29",
       "hero": "Vanessa",
-      "tag": "Burn 10-3 Build",
+      "tag": "Burn Build",
       "items": [
         "Lighter",
         "Rowboat",
         "Seashadow",
         "Zoarcid",
-        "Dive Weights",
         "Weights",
-        "Slumbering Primordial",
+        "Dive Weights",
+        "Terry-Dactyl",
+        "Athanor",
         "Incendiary Rounds",
         "Tortuga",
-        "Terry-Dactyl",
-        "Athanor"
+        "Slumbering Primordial"
       ],
       "source": "category",
       "snippet": "Burn Vanessa 10-3 Build #4652 Legend – banastronaut",
@@ -1543,7 +1328,7 @@
       "title": "Refractor Vanessa 10-4 Build – Kecajjo",
       "date": "2026-04-27",
       "hero": "Vanessa",
-      "tag": "Refractor 10-4 Build",
+      "tag": "Refractor Build",
       "items": [
         "Incendiary Rounds",
         "Nesting Doll",
@@ -1551,13 +1336,13 @@
         "Pufferfish",
         "Refractor",
         "Zoarcid",
-        "Dive Weights",
         "Weights",
-        "Crow's Nest",
+        "Dive Weights",
+        "Athanor",
+        "Pulse Rifle",
         "Tortuga",
         "Ice Claw",
-        "Pulse Rifle",
-        "Athanor"
+        "Crow's Nest"
       ],
       "source": "category",
       "snippet": "Refractor Vanessa 10-4 Build – Kecajjo",
@@ -1569,18 +1354,18 @@
       "title": "Cannonade Vanessa 10 Win Build – Kecajjo",
       "date": "2026-04-27",
       "hero": "Vanessa",
-      "tag": "Cannonade 10 Win Build",
+      "tag": "Cannonade Build",
       "items": [
         "Cannonball",
         "Holsters",
         "Shuriken",
         "Battery",
-        "Slumbering Primordial",
-        "Trapvine",
-        "Tortuga",
         "Weaponized Core",
+        "Trapvine",
+        "Pulse Rifle",
+        "Tortuga",
         "Ice Claw",
-        "Pulse Rifle"
+        "Slumbering Primordial"
       ],
       "source": "category",
       "snippet": "Cannonade Vanessa 10 Win Build – Kecajjo",
@@ -1592,16 +1377,16 @@
       "title": "Burst Vanessa 10-1 Build – Kecajjo",
       "date": "2026-04-26",
       "hero": "Vanessa",
-      "tag": "Burst 10-1 Build",
+      "tag": "Burst Build",
       "items": [
         "Korxena Crest",
         "Pistol Sword",
         "Scimitar of the Deep",
         "Shuriken",
         "Figurehead",
-        "Trapvine",
-        "Ice Claw",
-        "Mech-Moles"
+        "Wild Boar",
+        "Athanor",
+        "Double Whammy"
       ],
       "source": "category",
       "snippet": "Burst Vanessa 10-1 Build – Kecajjo",
@@ -1613,58 +1398,16 @@
       "title": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
       "date": "2026-04-26",
       "hero": "Vanessa",
-      "tag": "Incendiary Rounds 10-4 Build",
+      "tag": "Incendiary Rounds Build",
       "items": [
         "Incendiary Rounds",
         "Pop Snappers",
         "Seashadow",
         "Astrolabe",
-        "Tortuga",
-        "Lion Cane",
-        "Terry-Dactyl",
-        "Orange Julian"
+        "Elemental Depth Charge"
       ],
       "source": "category",
       "snippet": "Incendiary Rounds Vanessa 10-4 Build #6730 Legend – banastronaut",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/weather-glass-vanessa-10-5-build-kecajjo/",
-      "title": "Weather Glass Vanessa 10-5 Build – Kecajjo",
-      "date": "2026-04-26",
-      "hero": "Vanessa",
-      "tag": "Weather Glass 10-5 Build",
-      "items": [
-        "Clamera",
-        "Pufferfish",
-        "Scimitar of the Deep",
-        "Zoarcid",
-        "Tortuga",
-        "Ice Claw"
-      ],
-      "source": "category",
-      "snippet": "Weather Glass Vanessa 10-5 Build – Kecajjo",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/space-laser-vanessa-10-3-build-kecajjo/",
-      "title": "Space Laser Vanessa 10-3 Build – Kecajjo",
-      "date": "2026-04-25",
-      "hero": "Vanessa",
-      "tag": "Space Laser 10-3 Build",
-      "items": [
-        "Dive Weights",
-        "Pearl",
-        "Captain's Wheel",
-        "Weights",
-        "Crow's Nest",
-        "Vial Launcher",
-        "Athanor"
-      ],
-      "source": "category",
-      "snippet": "Space Laser Vanessa 10-3 Build – Kecajjo",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1687,10 +1430,12 @@
       "hero": "Vanessa",
       "tag": "Uncategorized",
       "items": [
-        "Trapvine",
-        "Frog Hollow",
+        "Laser Security System",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Ice Claw",
-        "Mech-Moles"
+        "Mech-Moles",
+        "Frog Hollow"
       ],
       "source": "category",
       "snippet": "bazaar-builds.net",
@@ -1705,6 +1450,8 @@
       "tag": "Build",
       "items": [
         "Incendiary Rounds",
+        "Torpedo",
+        "Elemental Depth Charge",
         "Refractor"
       ],
       "source": "json_ld",

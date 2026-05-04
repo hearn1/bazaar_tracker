@@ -560,9 +560,11 @@
             "Mech-Moles",
             "SMG",
             "Tanky Anky",
-            "Thrusters"
+            "Thrusters",
+            "Athanor",
+            "Orange Julian"
           ],
-          "notes": "Bazaar Builds Terry-Dactyl lists were remarkably consistent: Launcher Core was the engine, Terry-Dactyl was the payoff, and the rest of the board existed to force more Flying triggers and faster Terry activations. Recent samples also show Mech-Moles as a credible hybrid payoff when the Launcher/Flying shell is already online."
+          "notes": "Bazaar Builds Terry-Dactyl lists were remarkably consistent: Launcher Core was the engine, Terry-Dactyl was the payoff, and the rest of the board existed to force more Flying triggers and faster Terry activations. Recent samples also show Mech-Moles as a credible hybrid payoff when the Launcher/Flying shell is already online. Athanor and Orange Julian both appeared in 2/2 recent samples — treat them as credible late support pieces."
         },
         {
           "name": "Weaponized Core",
@@ -650,9 +652,11 @@
             "Miss Isles",
             "SMG",
             "Party Float",
-            "Power Sander"
+            "Power Sander",
+            "Trapvine",
+            "Athanor"
           ],
-          "notes": "Recent Mech-Moles posts often looked like a Launcher shell splashing a Mole package for extra scaling and combat presence. Duct Tape, Chris Army Knife, and compact Tech support still matter, but newer evidence points to a Launcher/Flying hybrid with Propeller Hat, Terry-Dactyl, Party Float, or Power Sander as common payoff support."
+          "notes": "Recent Mech-Moles posts often looked like a Launcher shell splashing a Mole package for extra scaling and combat presence. Duct Tape, Chris Army Knife, and compact Tech support still matter, but newer evidence points to a Launcher/Flying hybrid with Propeller Hat, Terry-Dactyl, Party Float, or Power Sander as common payoff support. Trapvine and Athanor both appeared in 2/2 recent samples — treat them as credible late support pieces."
         },
         {
           "name": "C.O.R.A.",
@@ -686,9 +690,10 @@
             "Pierre Conditioner",
             "Rocket Launcher",
             "Spider Fern",
-            "Yeti Crab"
+            "Yeti Crab",
+            "Athanor"
           ],
-          "notes": "Across the six C.O.R.A. posts, the stable pattern was C.O.R.A. itself plus a highly modular support shell. Launcher Core showed up often enough to matter, but the boards also won with very different utility packages, including BLK-SP1D3R, so treat C.O.R.A. as a flexible late-game payoff that can lean Flying, Friend, or control depending on what the run offers."
+          "notes": "Across the six C.O.R.A. posts, the stable pattern was C.O.R.A. itself plus a highly modular support shell. Launcher Core showed up often enough to matter, but the boards also won with very different utility packages, including BLK-SP1D3R, so treat C.O.R.A. as a flexible late-game payoff that can lean Flying, Friend, or control depending on what the run offers. Athanor appeared in a recent sample as a utility bridge piece."
         },
         {
           "name": "Dooltron Utility",
@@ -747,9 +752,10 @@
             "Laurel's Fortress",
             "Levitation Pad",
             "SMG",
-            "Thrusters"
+            "Thrusters",
+            "Keychain"
           ],
-          "notes": "Hydraulic Press is the clean burst combo. Bazaar Builds variants strongly reinforced Battery plus Red Button as the default starting shell, with GPU, Chronobarrier, Charging Station, or Laurel's Fortress acting as the usual upgrade path."
+          "notes": "Hydraulic Press is the clean burst combo. Bazaar Builds variants strongly reinforced Battery plus Red Button as the default starting shell, with GPU, Chronobarrier, Charging Station, or Laurel's Fortress acting as the usual upgrade path. Keychain appeared as a support piece in a recent sample."
         }
       ]
     }

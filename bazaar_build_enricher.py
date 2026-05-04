@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
@@ -32,6 +33,12 @@ ITEM_ALIASES = {
     "YLW MANTIS": "YLW-M4NT1S",
     "NANOBOTS": "Nanobot",
 }
+
+KNOWN_HEROES = frozenset(
+    h.casefold() for h in ("Dooley", "Vanessa", "Pygmalien", "Mak", "Karnok", "Jules", "Stelle")
+)
+WIN_RECORD_RE = re.compile(r"\b\d+[-–]\d+\b|\b\d+\s*[Ww]in\b", re.IGNORECASE)
+GENERIC_TAG_PHRASES = frozenset(["submit your", "build finder", "category"])
 
 
 @dataclass
@@ -280,9 +287,13 @@ def tidy_tag(value: str, hero: Optional[str] = None) -> str:
     if hero:
         tag = re.sub(rf"\b{re.escape(hero)}\b", "", tag, flags=re.IGNORECASE)
         tag = clean_space(tag)
-    if tag and not tag.casefold().endswith("build"):
+    tag = WIN_RECORD_RE.sub("", tag)
+    tag = clean_space(tag).strip(" -|")
+    if not tag:
+        return "Uncategorized"
+    if not tag.casefold().endswith("build"):
         tag = f"{tag} Build"
-    return tag or "Uncategorized"
+    return tag
 
 
 def extract_category_records(category_url: str, html: str, hero: Optional[str], limit: int) -> list[BuildRecord]:
@@ -507,14 +518,26 @@ def records_from_text(text: str, hero: Optional[str], known_items: set[str], sou
     return records
 
 
-def filter_records(records: list[BuildRecord], since: Optional[date]) -> list[BuildRecord]:
-    if not since:
-        return records
+def filter_records(
+    records: list[BuildRecord],
+    since: Optional[date],
+    hero: Optional[str] = None,
+) -> list[BuildRecord]:
+    hero_lower = (hero or "").casefold()
     kept = []
     for record in records:
-        record_date = parse_date(record.date)
-        if record_date is None or record_date >= since:
-            kept.append(record)
+        if since:
+            record_date = parse_date(record.date)
+            if record_date is not None and record_date < since:
+                continue
+        if hero_lower:
+            inferred = infer_hero_from_url_or_title(record.url, record.title)
+            if inferred and inferred.casefold() != hero_lower:
+                continue
+        tag_lower = (record.tag or "").casefold()
+        if any(phrase in tag_lower for phrase in GENERIC_TAG_PHRASES):
+            continue
+        kept.append(record)
     return kept
 
 
@@ -633,6 +656,204 @@ def record_to_dict(record: BuildRecord) -> dict:
     }
 
 
+def _arch_lookup_key(name: str) -> str:
+    """Canonical match key: strip win records + ' Build' suffix, casefold, alphanum only."""
+    key = WIN_RECORD_RE.sub("", name.strip())
+    key = re.sub(r"\s+[Bb]uild$", "", clean_space(key))
+    return re.sub(r"[^a-z0-9]", "", key.casefold())
+
+
+def _collect_arch_items(arch: dict) -> set[str]:
+    items: set[str] = set()
+    for field in ("condition_items", "core_items", "carry_items", "support_items"):
+        for item in arch.get(field) or []:
+            if item and not str(item).startswith("TODO"):
+                items.add(str(item))
+    return items
+
+
+def compare_artifact_to_catalog(artifact: dict, catalog: dict) -> dict:
+    """Compare artifact groups against hero build catalog archetypes.
+
+    Returns a dict with keys: hero, updates, new_archetypes, noise.
+    """
+    hero = catalog.get("hero", artifact.get("filters", {}).get("hero") or "Unknown")
+    hero_lower = hero.casefold()
+
+    # Build catalog index: lookup_key -> (phase, archetype_dict)
+    catalog_index: dict[str, tuple[str, dict]] = {}
+    for phase, phase_data in (catalog.get("game_phases") or {}).items():
+        if not isinstance(phase_data, dict):
+            continue
+        for arch in phase_data.get("archetypes") or []:
+            if not isinstance(arch, dict):
+                continue
+            name = arch.get("name", "")
+            if name:
+                catalog_index[_arch_lookup_key(name)] = (phase, arch)
+
+    updates = []
+    new_archetypes = []
+    noise = []
+
+    for group in artifact.get("groups") or []:
+        tag = group.get("tag", "")
+        sample_count = group.get("sample_count", 0)
+        candidate_core = group.get("candidate_core_items") or []
+        candidate_support = group.get("candidate_support_items") or []
+        freq_map = {
+            row["item"]: row
+            for row in (group.get("item_frequencies") or [])
+            if isinstance(row, dict) and "item" in row
+        }
+
+        # Drop Uncategorized and vague generic group names
+        tag_bare = re.sub(r"\s+[Bb]uild$", "", tag.strip()).strip().casefold()
+        if tag_bare in ("uncategorized", "build", "") or any(p in tag.casefold() for p in GENERIC_TAG_PHRASES):
+            noise.append({"group": tag, "reason": "generic or uncategorized"})
+            continue
+
+        # Drop cross-hero groups (title/tag resolves to a different known hero)
+        inferred = infer_hero_from_url_or_title(None, tag)
+        if inferred and inferred.casefold() != hero_lower:
+            noise.append({"group": tag, "reason": f"cross-hero: {inferred}"})
+            continue
+
+        if not candidate_core and not candidate_support:
+            noise.append({"group": tag, "reason": "no item evidence"})
+            continue
+
+        key = _arch_lookup_key(tag)
+        match = catalog_index.get(key)
+
+        if match:
+            phase, arch = match
+            existing_items = _collect_arch_items(arch)
+            missing_core = [i for i in candidate_core if i not in existing_items]
+            missing_support = [i for i in candidate_support if i not in existing_items]
+            if missing_core or missing_support:
+                updates.append({
+                    "group": tag,
+                    "phase": phase,
+                    "archetype": arch.get("name", tag),
+                    "sample_count": sample_count,
+                    "missing_core": missing_core,
+                    "missing_support": missing_support,
+                    "freq_map": freq_map,
+                })
+        else:
+            new_archetypes.append({
+                "group": tag,
+                "sample_count": sample_count,
+                "candidate_core": candidate_core,
+                "candidate_support": candidate_support,
+                "freq_map": freq_map,
+            })
+
+    return {
+        "hero": hero,
+        "updates": updates,
+        "new_archetypes": new_archetypes,
+        "noise": noise,
+    }
+
+
+def _confidence_label(sample_count: int) -> str:
+    if sample_count >= 3:
+        return "high"
+    if sample_count == 2:
+        return "medium"
+    return "low"
+
+
+def _freq_note(item: str, sample_count: int, freq_map: dict) -> str:
+    row = freq_map.get(item)
+    if not row:
+        return ""
+    count = row.get("count", 0)
+    return f" — seen {count}/{sample_count} builds"
+
+
+def generate_proposal_markdown(result: dict) -> str:
+    hero = result["hero"]
+    updates = result["updates"]
+    new_archetypes = result["new_archetypes"]
+    noise = result["noise"]
+    now = datetime.now().strftime("%Y-%m-%d")
+
+    lines: list[str] = []
+    lines.append(f"# {hero} Build Update Proposal")
+    lines.append(f"\nGenerated: {now}")
+    lines.append("\n> Auto-generated by `bazaar_build_enricher.py compare`. "
+                 "Do not apply changes without human review.")
+
+    lines.append("\n---\n")
+
+    # ── Existing archetype updates ──────────────────────────────────────────
+    lines.append("## Existing Archetype Updates\n")
+    if not updates:
+        lines.append("_No missing items found in matched archetypes._\n")
+    for entry in updates:
+        arch = entry["archetype"]
+        phase = entry["phase"]
+        sample_count = entry["sample_count"]
+        freq_map = entry["freq_map"]
+        lines.append(f"### {arch} ({phase})")
+        lines.append(f"Evidence: {sample_count} sample(s), artifact group \"{entry['group']}\"\n")
+        if entry["missing_core"]:
+            lines.append("**Missing core candidates:**")
+            for item in entry["missing_core"]:
+                lines.append(f"- {item}{_freq_note(item, sample_count, freq_map)}")
+            lines.append("")
+        if entry["missing_support"]:
+            lines.append("**Missing support candidates:**")
+            for item in entry["missing_support"]:
+                lines.append(f"- {item}{_freq_note(item, sample_count, freq_map)}")
+            lines.append("")
+
+    lines.append("---\n")
+
+    # ── New archetype candidates ─────────────────────────────────────────────
+    lines.append("## New Archetype Candidates\n")
+    if not new_archetypes:
+        lines.append("_No unmatched groups with item evidence._\n")
+    for entry in new_archetypes:
+        tag = entry["group"]
+        sample_count = entry["sample_count"]
+        confidence = _confidence_label(sample_count)
+        lines.append(f"### {tag} — {confidence} confidence ({sample_count} sample(s))")
+        lines.append("Suggested phase: late  _(verify before committing)_\n")
+        if entry["candidate_core"]:
+            lines.append(f"Candidate core items: {', '.join(entry['candidate_core'])}")
+        if entry["candidate_support"]:
+            lines.append(f"Candidate support items: {', '.join(entry['candidate_support'])}")
+        lines.append("")
+
+    lines.append("---\n")
+
+    # ── Noise / no evidence ──────────────────────────────────────────────────
+    lines.append("## Noise / No Evidence\n")
+    if not noise:
+        lines.append("_No noise groups._\n")
+    for entry in noise:
+        lines.append(f"- \"{entry['group']}\" — {entry['reason']}")
+
+    return "\n".join(lines) + "\n"
+
+
+def run_compare(args) -> None:
+    artifact = json.loads(Path(args.artifact).read_text(encoding="utf-8"))
+    catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
+    result = compare_artifact_to_catalog(artifact, catalog)
+    md = generate_proposal_markdown(result)
+    print(md)
+    if args.output:
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(md, encoding="utf-8")
+        print(f"Proposal written to {args.output}", file=sys.stderr)
+
+
 def parse_since(args) -> Optional[date]:
     if args.since:
         parsed = parse_date(args.since)
@@ -668,7 +889,7 @@ def run(args) -> dict:
     manual_result = load_manual_records(args.manual, args.hero, known_items)
     records.extend(manual_result.records)
     records = dedupe_records(records)
-    records = filter_records(records, since)
+    records = filter_records(records, since, hero=args.hero)
 
     if args.fetch_posts:
         records = [enrich_post(record, known_items, args.timeout) for record in records]
@@ -705,9 +926,26 @@ def build_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def build_compare_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Compare a build artifact against a hero catalog and emit a markdown proposal.",
+        prog="bazaar_build_enricher.py compare",
+    )
+    parser.add_argument("artifact", help="Path to the artifact JSON (e.g. artifacts/dooley_bazaar_builds_summary.json)")
+    parser.add_argument("catalog", help="Path to the hero builds JSON (e.g. dooley_builds.json)")
+    parser.add_argument("--output", help="Write the markdown proposal to this file.")
+    return parser
+
+
 def main(argv: Optional[list[str]] = None) -> int:
+    args_list = list(argv) if argv is not None else sys.argv[1:]
+    if args_list and args_list[0] == "compare":
+        parser = build_compare_parser()
+        args = parser.parse_args(args_list[1:])
+        run_compare(args)
+        return 0
     parser = build_arg_parser()
-    args = parser.parse_args(argv)
+    args = parser.parse_args(args_list)
     summary = run(args)
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     return 0

@@ -228,7 +228,7 @@
           "core_items": ["Chains"],
           "carry_items": ["Boa Constrictor", "Heavy Crossbow"],
           "support_items": [
-            "Ghillie Suit", "Vengeful Sigil", "Hunter's Blind", "Enervating Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle", "Wildroot Amulet"
+            "Ghillie Suit", "Vengeful Sigil", "Hunter's Blind", "Enervating Sigil", "Hunter's Boots", "Night Vision", "Worry Wart", "Security Blanket", "Fairy Circle", "Wildroot Amulet", "Bat", "Trapvine"
           ],
           "enchants": {
             "carry": ["Offense", "Defense"],
@@ -236,7 +236,7 @@
           },
           "skill_trainers": ["Slow", "Weapon", "Crit", "Haste", "Charge"],
           "hidden_lake": "Shortened enrage is better to reactivate item effects sooner.",
-          "notes": "Defensive enchant or lifesteal is usually necessary unless Ghillie Suit or other defense buys enough time. Recent non-ammo slow evidence supports Wildroot Amulet as an additional defensive support piece."
+          "notes": "Defensive enchant or lifesteal is usually necessary unless Ghillie Suit or other defense buys enough time. Recent non-ammo slow evidence supports Wildroot Amulet as an additional defensive support piece. High-confidence Self-Slow builds (3 samples) confirm Boa Constrictor, Chains, Enervating Sigil, Night Vision, and Hunter's Boots as the stable core — all already present here. Bat and Trapvine also surfaced in that evidence and are credible non-ammo slow support pieces."
         },
         {
           "name": "Slow - Poison",

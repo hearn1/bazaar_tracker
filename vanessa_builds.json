@@ -564,6 +564,193 @@
             "Haste"
           ],
           "notes": "Langxian is strongest when ahead and weakest when merely average. Rowboat is the best startup support and wants Diamond-tier. Star Chart, Seashadow, and Suppressor provide Cooldown Reduction, while Spyglass can disrupt the opponent. Once Langxian is large enough, move toward a one-Weapon setup with Charge, Haste, and Crit support."
+        },
+        {
+          "name": "Elemental Depth Charge",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Elemental Depth Charge paired with Yeti Crab and Ammo support to maximize repeated high-damage Charge activations.",
+          "condition_items": [
+            "Elemental Depth Charge",
+            "Yeti Crab"
+          ],
+          "core_items": [
+            "Elemental Depth Charge",
+            "Yeti Crab",
+            "Pearl"
+          ],
+          "carry_items": [
+            "Elemental Depth Charge",
+            "Zoarcid",
+            "Pufferfish",
+            "Scimitar of the Deep"
+          ],
+          "support_items": [
+            "Dive Weights",
+            "Weights",
+            "Athanor",
+            "Incendiary Rounds",
+            "Refractor",
+            "Crow's Nest",
+            "Jellyfish",
+            "Beach Ball",
+            "Ambergris",
+            "Fishing Rod"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Aquatic",
+            "Charge",
+            "Ammo"
+          ],
+          "notes": "A focused Elemental Depth Charge variant distinct from broad Aquatic Vanessa. Yeti Crab generates Ammo for EDC's Charge bursts while Zoarcid adds Poison scaling. Dive Weights and Weights provide additional Charge support. Incendiary Rounds and Refractor are optional bridge support — include if already in the build, otherwise prioritize Aquatic trigger density."
+        },
+        {
+          "name": "Incendiary Rounds",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Incendiary Rounds as a standalone burn engine without Refractor — supported by fast Aquatic triggers and Ammo items.",
+          "condition_items": [
+            "Incendiary Rounds"
+          ],
+          "core_items": [
+            "Incendiary Rounds",
+            "Pop Snappers",
+            "Seashadow"
+          ],
+          "carry_items": [
+            "Elemental Depth Charge",
+            "Slumbering Primordial",
+            "Dive Weights",
+            "Astrolabe"
+          ],
+          "support_items": [
+            "Nesting Doll",
+            "Holsters",
+            "Pearl",
+            "Clamera",
+            "Rowboat",
+            "Jellyfish",
+            "Zoarcid",
+            "Custom Scope"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Burn",
+            "Ammo"
+          ],
+          "notes": "Standalone Incendiary Rounds shell that does not require Refractor as core. Pop Snappers and Seashadow provide Cooldown Reduction and board speed. Astrolabe and Elemental Depth Charge scale damage output. Pairs naturally with Slumbering Primordial if found but functions without it. Distinct from the Incendiary Refractor archetype, which requires both Incendiary Rounds and Refractor together."
+        },
+        {
+          "name": "Refractor",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Refractor as the primary aquatic-burn trigger, supported by Pufferfish or Zoarcid rather than requiring Incendiary Rounds as core.",
+          "condition_items": [
+            "Refractor"
+          ],
+          "core_items": [
+            "Refractor",
+            "Pearl",
+            "Pufferfish"
+          ],
+          "carry_items": [
+            "Elemental Depth Charge",
+            "Zoarcid",
+            "Dive Weights",
+            "Nesting Doll"
+          ],
+          "support_items": [
+            "Incendiary Rounds",
+            "Weights",
+            "Athanor",
+            "Tortuga",
+            "Ice Claw",
+            "Crow's Nest",
+            "Clamera",
+            "Holsters",
+            "Pulse Rifle",
+            "Jellyfish"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Aquatic",
+            "Burn"
+          ],
+          "notes": "Refractor-centric aquatic-burn line distinct from Incendiary Refractor, which pairs both Incendiary Rounds and Refractor together. This shell leans on Pufferfish and Zoarcid as the primary damage engine with Refractor as the trigger multiplier. Incendiary Rounds is a strong support addition but not required as core. Tortuga, Ice Claw, and Crow's Nest provide late board resilience and Haste support."
+        },
+        {
+          "name": "Submarine",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Dive Weights and Captain's Quarters assembled as a depth-based board with Seaweed providing Haste and trigger density.",
+          "condition_items": [
+            "Dive Weights",
+            "Captain's Quarters"
+          ],
+          "core_items": [
+            "Dive Weights",
+            "Seaweed",
+            "Captain's Quarters"
+          ],
+          "carry_items": [
+            "Torpedo",
+            "Ice Luge",
+            "Weights",
+            "Captain's Wheel"
+          ],
+          "support_items": [
+            "Staff of the Moose",
+            "Athanor",
+            "Incendiary Rounds",
+            "Crow's Nest",
+            "Figurehead",
+            "Rowboat",
+            "Jellyfish",
+            "Holsters"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Aquatic",
+            "Ammo"
+          ],
+          "notes": "A distinct depth-board build centered on Dive Weights and Captain's Quarters for Charge and Ammo support. Seaweed provides low-cost trigger density. Torpedo and Ice Luge are the preferred weapons. Staff of the Moose and Athanor bolster longevity. Incendiary Rounds bridges burn damage while the Charge engine spins up."
+        },
+        {
+          "name": "The Boulder",
+          "phase": "late",
+          "timing_profile": "scaling",
+          "condition": "Nesting Doll assembled with Rowboat startup and Captain's Wheel Haste support. Wild Boar provides front-line sustain while the weapon ramps.",
+          "condition_items": [
+            "Nesting Doll",
+            "Rowboat"
+          ],
+          "core_items": [
+            "Nesting Doll",
+            "Rowboat",
+            "Captain's Wheel"
+          ],
+          "carry_items": [
+            "Nesting Doll",
+            "Wild Boar",
+            "Athanor"
+          ],
+          "support_items": [
+            "Pearl",
+            "Jellyfish",
+            "Dive Weights",
+            "Seashadow",
+            "Clamera",
+            "Figurehead",
+            "Weights",
+            "Ambergris"
+          ],
+          "skill_trainers": [
+            "Vanessa",
+            "Weapon",
+            "Haste"
+          ],
+          "notes": "Low-confidence single-sample archetype from recent builds. Nesting Doll scales as it hits, making it a high-ceiling weapon given enough Haste and Cooldown Reduction. Rowboat and Captain's Wheel provide startup burst. Wild Boar adds a durable front-of-board presence. Treat as a work-in-progress archetype pending more evidence."
         }
       ]
     }
