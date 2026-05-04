@@ -135,7 +135,3 @@ def static_cache_dir() -> Path:
 
 def image_cache_dir() -> Path:
     return static_cache_dir() / "images"
-
-
-def content_manifest_path() -> Path:
-    return static_cache_dir() / "content_manifest.json"

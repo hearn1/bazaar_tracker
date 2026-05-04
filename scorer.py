@@ -170,22 +170,6 @@ def get_item_tier(builds: dict, item_name: str) -> Optional[str]:
     return None
 
 
-def get_item_size(template_id: str, conn: sqlite3.Connection) -> str:
-    """Look up item size from card_cache raw_json."""
-    if not template_id:
-        return "Medium"
-    row = conn.execute(
-        "SELECT raw_json FROM card_cache WHERE template_id=?", (template_id,)
-    ).fetchone()
-    if row:
-        try:
-            data = json.loads(row["raw_json"])
-            return data.get("Size") or "Medium"
-        except Exception:
-            pass
-    return "Medium"
-
-
 def _load_json_list(raw_value: str) -> list:
     """Parse a JSON list field defensively."""
     if not raw_value:
@@ -559,88 +543,6 @@ def _decision_owned_category(decision: sqlite3.Row) -> Optional[str]:
     return None
 
 
-def _apply_owned_action_event(
-    conn: sqlite3.Connection,
-    state: dict[str, dict[str, str]],
-    event_row: sqlite3.Row,
-) -> None:
-    """Apply sell/move events so fallback board state stays sell-aware."""
-    instance_id = event_row["instance_id"] or ""
-    details = _load_json_dict(event_row["details_json"]) if "details_json" in event_row.keys() else {}
-    if not instance_id:
-        return
-
-    event_type = event_row["event_type"] or ""
-    if event_type == "sell":
-        for bucket in state.values():
-            bucket.pop(instance_id, None)
-        return
-
-    if event_type == "transform":
-        from_instance_id = str(details.get("from_instance_id") or "")
-        category = event_row["to_category"] or event_row["from_category"] or ""
-
-        if from_instance_id:
-            for bucket_name, bucket in state.items():
-                if bucket.pop(from_instance_id, None) is not None and not category:
-                    category = bucket_name
-                    break
-
-        if category not in state:
-            return
-
-        card_name = _resolve_board_card_name(
-            conn,
-            event_row["template_id"] or "",
-            instance_id,
-        )
-        state[category][instance_id] = card_name
-        return
-
-    if event_type != "move":
-        return
-
-    from_category = event_row["from_category"] or ""
-    to_category = event_row["to_category"] or ""
-    card_name = None
-
-    if from_category in state:
-        card_name = state[from_category].pop(instance_id, None)
-
-    if card_name is None:
-        for bucket in state.values():
-            if instance_id in bucket:
-                card_name = bucket.pop(instance_id)
-                break
-
-    if card_name is None:
-        card_name = _resolve_board_card_name(conn, event_row["template_id"] or "", instance_id)
-
-    if to_category in state:
-        state[to_category][instance_id] = card_name
-
-
-def _apply_decision_to_owned_state(
-    conn: sqlite3.Connection,
-    state: dict[str, dict[str, str]],
-    decision: sqlite3.Row,
-) -> None:
-    """Advance fallback state after a tracked decision resolves."""
-    category = _decision_owned_category(decision)
-    if category not in state:
-        return
-
-    instance_id = decision["chosen_id"] or ""
-    if not instance_id:
-        return
-
-    card_name = _resolve_board_card_name(conn, decision["chosen_template"] or "", instance_id)
-
-    for bucket in state.values():
-        bucket.pop(instance_id, None)
-    state[category][instance_id] = card_name
-
-
 def _build_action_fallback_board_map(
     conn: sqlite3.Connection,
     run_id: int,
@@ -792,17 +694,6 @@ def _get_archetype_overlap(archetype: dict, board_names: list[str]) -> dict:
         "support_hits": support_hits,
         "total_hits": total_hits,
     }
-
-
-def _is_build_signaled(overlap: dict) -> bool:
-    """Only treat core misses as mistakes once the board points somewhere."""
-    if overlap["carry_hits"]:
-        return True
-    if len(overlap["core_hits"]) >= 2:
-        return True
-    if overlap["core_hits"] and overlap["total_hits"] >= 2:
-        return True
-    return False
 
 
 def check_commit_threshold(archetype: dict, board_names: list) -> tuple[bool, str]:

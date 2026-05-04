@@ -13,7 +13,6 @@ Performance notes:
     update_decision_rejected) are fully async.
   - flush() drains the write queue and commits. Call at natural breakpoints.
   - get_conn() still works for one-off scripts that need their own connection.
-  - prune_old_runs() is no longer called automatically on init_db().
 """
 
 import sqlite3
@@ -222,59 +221,8 @@ def _set_schema_version(conn: sqlite3.Connection, version: int) -> None:
     conn.execute(f"PRAGMA user_version = {int(version)}")
 
 
-def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
-    row = conn.execute(
-        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
-        (table,),
-    ).fetchone()
-    return row is not None
-
-
-def _column_names(conn: sqlite3.Connection, table: str) -> set[str]:
-    if not _table_exists(conn, table):
-        return set()
-    return {str(row["name"]) for row in conn.execute(f"PRAGMA table_info({table})").fetchall()}
-
-
-def _add_column_if_missing(conn: sqlite3.Connection, table: str, column: str, definition: str) -> None:
-    if column not in _column_names(conn, table):
-        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
-
-
-def _rebuild_table(conn: sqlite3.Connection, table: str, columns: list[tuple[str, str]]) -> None:
-    """Rebuild a table into the canonical column set, preserving shared columns."""
-    if not _table_exists(conn, table):
-        return
-
-    existing = _column_names(conn, table)
-    keep = [name for name, _definition in columns if name in existing]
-    tmp = f"_{table}_migration_v{SCHEMA_VERSION}"
-    column_sql = ",\n            ".join(f"{name} {definition}" for name, definition in columns)
-    conn.execute("PRAGMA foreign_keys=OFF")
-    conn.execute(f"DROP TABLE IF EXISTS {tmp}")
-    conn.execute(f"CREATE TABLE {tmp} (\n            {column_sql}\n        )")
-    if keep:
-        cols = ", ".join(keep)
-        conn.execute(f"INSERT INTO {tmp} ({cols}) SELECT {cols} FROM {table}")
-    conn.execute(f"DROP TABLE {table}")
-    conn.execute(f"ALTER TABLE {tmp} RENAME TO {table}")
-    conn.execute("PRAGMA foreign_keys=ON")
-
-
-def _drop_retired_tables(conn: sqlite3.Connection) -> None:
-    conn.executescript("""
-        DROP TABLE IF EXISTS move_events;
-        DROP TABLE IF EXISTS board_snapshots;
-        DROP TABLE IF EXISTS api_action_events;
-    """)
-
-
 def _create_latest_tables(conn: sqlite3.Connection) -> None:
-    """Create the latest schema for fresh installs.
-
-    Existing installs still run ordered migrations below, so this function only
-    needs to define canonical table shapes and idempotent indexes.
-    """
+    """Create the latest schema."""
     conn.executescript("""
         CREATE TABLE IF NOT EXISTS runs (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -421,112 +369,8 @@ def _create_latest_indexes(conn: sqlite3.Connection) -> None:
     """)
 
 
-def _migration_0_to_1(conn: sqlite3.Connection) -> None:
-    """Backfill core columns added before migrations were versioned."""
-    _drop_retired_tables(conn)
-    _create_latest_tables(conn)
-    _add_column_if_missing(conn, "combat_results", "combat_type", "TEXT DEFAULT 'pve'")
-    _add_column_if_missing(conn, "decisions", "score_notes", "TEXT DEFAULT ''")
-    _add_column_if_missing(conn, "decisions", "board_snapshot_json", "TEXT")
-    _create_latest_indexes(conn)
-
-
-def _migration_1_to_2(conn: sqlite3.Connection) -> None:
-    """Centralize API context schema previously owned elsewhere."""
-    _drop_retired_tables(conn)
-    _create_latest_tables(conn)
-    _add_column_if_missing(conn, "combat_results", "combat_type", "TEXT DEFAULT 'pve'")
-    _add_column_if_missing(conn, "decisions", "score_notes", "TEXT DEFAULT ''")
-    _add_column_if_missing(conn, "decisions", "board_snapshot_json", "TEXT")
-
-    for column, definition in [
-        ("offered_names", "TEXT"),
-        ("offered_templates", "TEXT"),
-        ("day", "INTEGER"),
-        ("hour", "INTEGER"),
-        ("gold", "INTEGER"),
-        ("health", "INTEGER"),
-        ("health_max", "INTEGER"),
-        ("api_game_state_id", "INTEGER"),
-        ("phase_actual", "TEXT"),
-    ]:
-        _add_column_if_missing(conn, "decisions", column, definition)
-
-    _add_column_if_missing(conn, "runs", "api_time_start", "TEXT")
-    _add_column_if_missing(conn, "runs", "api_time_end", "TEXT")
-    _add_column_if_missing(conn, "combat_results", "pvp_resolved", "INTEGER DEFAULT 0")
-    _create_latest_indexes(conn)
-
-
-RUN_COLUMNS = [
-    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
-    ("session_id", "TEXT UNIQUE"),
-    ("account_id", "TEXT"),
-    ("hero", "TEXT"),
-    ("started_at", "TEXT"),
-    ("ended_at", "TEXT"),
-    ("outcome", "TEXT"),
-    ("raw_log_path", "TEXT"),
-]
-
-DECISION_COLUMNS = [
-    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
-    ("run_id", "INTEGER REFERENCES runs(id)"),
-    ("decision_seq", "INTEGER"),
-    ("timestamp", "TEXT"),
-    ("game_state", "TEXT"),
-    ("decision_type", "TEXT"),
-    ("offered", "TEXT"),
-    ("chosen_id", "TEXT"),
-    ("chosen_template", "TEXT"),
-    ("rejected", "TEXT"),
-    ("board_section", "TEXT"),
-    ("target_socket", "TEXT"),
-    ("score_label", "TEXT"),
-    ("score_notes", "TEXT DEFAULT ''"),
-    ("board_snapshot_json", "TEXT"),
-    ("offered_names", "TEXT"),
-    ("offered_templates", "TEXT"),
-    ("day", "INTEGER"),
-    ("hour", "INTEGER"),
-    ("gold", "INTEGER"),
-    ("health", "INTEGER"),
-    ("health_max", "INTEGER"),
-    ("api_game_state_id", "INTEGER"),
-    ("phase_actual", "TEXT"),
-]
-
-COMBAT_COLUMNS = [
-    ("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
-    ("run_id", "INTEGER REFERENCES runs(id)"),
-    ("timestamp", "TEXT"),
-    ("outcome", "TEXT"),
-    ("combat_type", "TEXT DEFAULT 'pve'"),
-    ("duration_secs", "REAL"),
-    ("player_board", "TEXT"),
-    ("opponent_board", "TEXT"),
-]
-
-
-def _migration_2_to_3(conn: sqlite3.Connection) -> None:
-    """Drop bridge/post-run artifacts while preserving live decision context."""
-    _drop_retired_tables(conn)
-    _create_latest_tables(conn)
-    _rebuild_table(conn, "runs", RUN_COLUMNS)
-    _rebuild_table(conn, "decisions", DECISION_COLUMNS)
-    _rebuild_table(conn, "combat_results", COMBAT_COLUMNS)
-    _create_latest_indexes(conn)
-
-
-MIGRATIONS = {
-    0: _migration_0_to_1,
-    1: _migration_1_to_2,
-    2: _migration_2_to_3,
-}
-
-
 def migrate_db(conn: sqlite3.Connection) -> int:
-    """Apply ordered SQLite migrations and return the final schema version."""
+    """Ensure the latest SQLite schema exists and return its version."""
     current_version = int(conn.execute("PRAGMA user_version").fetchone()[0])
     if current_version > SCHEMA_VERSION:
         print(
@@ -535,16 +379,6 @@ def migrate_db(conn: sqlite3.Connection) -> int:
         )
         return current_version
 
-    while current_version < SCHEMA_VERSION:
-        migration = MIGRATIONS.get(current_version)
-        if migration is None:
-            raise RuntimeError(f"No DB migration registered for v{current_version} -> v{current_version + 1}")
-        migration(conn)
-        current_version += 1
-        _set_schema_version(conn, current_version)
-        conn.commit()
-
-    _drop_retired_tables(conn)
     _create_latest_tables(conn)
     _create_latest_indexes(conn)
     _set_schema_version(conn, SCHEMA_VERSION)

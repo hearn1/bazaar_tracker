@@ -15,8 +15,6 @@ _pick_best_review_match is mocked so tests do not depend on live build catalogs.
 import json
 import sqlite3
 
-import pytest
-
 import db
 import scorer
 import web.review_builder as rb

@@ -56,7 +56,7 @@ python watcher.py --parse-only
 python watcher.py
 ```
 
-**7. Run the full one-command workflow** (watch log + launch Mono capture + auto bridge enrichment on run end):
+**7. Run the full one-command workflow** (watch log + launch Mono capture + live scoring):
 ```
 <pathToTracker>\venv312\Scripts\python tracker.py
 ```
@@ -153,7 +153,6 @@ for d in decisions:
 | `card_cache` | Local copy of card names/tiers from the game's CDN |
 
 The `decisions` table has live scoring columns:
-- `score_raw` — numeric score written by the live scoring path
 - `score_label` — 'optimal' | 'suboptimal' | 'waste'
 - `score_notes` — explanation text written at decision time
 
@@ -161,7 +160,7 @@ The `decisions` table has live scoring columns:
 
 See `ROADMAP.md` for current open work. Current major statuses:
 - Prod readiness / packaging: ready for first GitHub upload; `.gitignore` hygiene and portable build script Python selection are complete.
-- Remove post-run scoring: next cleanup; live scoring should be authoritative and bridge should only enrich metadata.
+- Remove post-run scoring: complete; live scoring is authoritative and bridge is manual diagnostics only.
 - Multi-hero support: partial.
 - Mak depth: partial.
 - Card images: partial; paused pending BazaarDB response about optional local caching.
