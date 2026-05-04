@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-03T14:05:15.919610+00:00",
+  "generated_at": "2026-05-03T23:55:07.369132+00:00",
   "source": {
     "category_url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
     "site": "bazaar-builds.net"
@@ -10,8 +10,8 @@
     "days": 30,
     "since": "2026-04-03"
   },
-  "known_item_count": 414,
-  "record_count": 23,
+  "known_item_count": 415,
+  "record_count": 18,
   "warnings": [],
   "groups": [
     {
@@ -23,7 +23,7 @@
       },
       "item_frequencies": [
         {
-          "item": "Torpedo",
+          "item": "Laser Security System",
           "count": 2,
           "frequency": 0.5
         },
@@ -34,6 +34,11 @@
         },
         {
           "item": "Elemental Depth Charge",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Torpedo",
           "count": 2,
           "frequency": 0.5
         },
@@ -50,9 +55,10 @@
       ],
       "candidate_core_items": [],
       "candidate_support_items": [
-        "Torpedo",
+        "Laser Security System",
         "Mech-Moles",
         "Elemental Depth Charge",
+        "Torpedo",
         "Ice Claw"
       ],
       "likely_archetype_notes": "Uncategorized: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
@@ -64,9 +70,10 @@
           "hero": "Pygmalien",
           "tag": "Uncategorized",
           "items": [
-            "Torpedo",
+            "Laser Security System",
             "Mech-Moles",
             "Elemental Depth Charge",
+            "Torpedo",
             "Ice Claw"
           ],
           "source": "category",
@@ -105,11 +112,12 @@
           "hero": "Pygmalien",
           "tag": "Uncategorized",
           "items": [
-            "Frog Hollow",
-            "Torpedo",
+            "Laser Security System",
             "Mech-Moles",
             "Elemental Depth Charge",
-            "Ice Claw"
+            "Torpedo",
+            "Ice Claw",
+            "Frog Hollow"
           ],
           "source": "category",
           "snippet": "bazaar-builds.net",
@@ -127,16 +135,22 @@
       },
       "item_frequencies": [
         {
+          "item": "Laser Security System",
+          "count": 3,
+          "frequency": 1.0
+        },
+        {
           "item": "Double Whammy",
           "count": 3,
           "frequency": 1.0
         }
       ],
       "candidate_core_items": [
+        "Laser Security System",
         "Double Whammy"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Double Whammy.",
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Laser Security System, Double Whammy.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/#content",
@@ -145,6 +159,7 @@
           "hero": "Pygmalien",
           "tag": "Build",
           "items": [
+            "Laser Security System",
             "Double Whammy"
           ],
           "source": "category",
@@ -159,6 +174,7 @@
           "hero": "Pygmalien",
           "tag": "Build",
           "items": [
+            "Laser Security System",
             "Double Whammy"
           ],
           "source": "category",
@@ -173,6 +189,7 @@
           "hero": "Pygmalien",
           "tag": "Build",
           "items": [
+            "Laser Security System",
             "Double Whammy"
           ],
           "source": "json_ld",
@@ -183,7 +200,115 @@
       ]
     },
     {
-      "tag": "Beast of Burden 10-3 Build",
+      "tag": "Control Build",
+      "sample_count": 2,
+      "date_range": {
+        "start": "2026-04-26",
+        "end": "2026-04-26"
+      },
+      "item_frequencies": [
+        {
+          "item": "Mech-Moles",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Double Whammy",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Money Furnace",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Orange Julian",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Luxury Tents",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Bandages",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [
+        "Mech-Moles",
+        "Double Whammy",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Control Build: 2 sample(s). Repeated core candidates: Mech-Moles, Double Whammy, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/control-pygmalien-10-0-build-makmolse/",
+          "title": "Control Pygmalien 10-0 Build – Makmolse",
+          "date": null,
+          "hero": "Pygmalien",
+          "tag": "Control Build",
+          "items": [
+            "Money Furnace",
+            "Mech-Moles",
+            "Double Whammy",
+            "Athanor",
+            "Orange Julian"
+          ],
+          "source": "category",
+          "snippet": "Control Pygmalien 10-0 Build – Makmolse",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/control-pygmalien-10-4-build-41445-legend-kuroihanabi/",
+          "title": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
+          "date": "2026-04-26",
+          "hero": "Pygmalien",
+          "tag": "Control Build",
+          "items": [
+            "Luxury Tents",
+            "Bandages",
+            "Mech-Moles",
+            "Double Whammy",
+            "Incendiary Rounds",
+            "Athanor",
+            "Wild Boar",
+            "Crow's Nest"
+          ],
+          "source": "category",
+          "snippet": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Beast of Burden Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-05-02",
@@ -212,14 +337,14 @@
         "Incendiary Rounds"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Beast of Burden 10-3 Build: 1 sample(s). Repeated core candidates: Flying Squirrel, Gramophone, Incendiary Rounds.",
+      "likely_archetype_notes": "Beast of Burden Build: 1 sample(s). Repeated core candidates: Flying Squirrel, Gramophone, Incendiary Rounds.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/beast-of-burden-pygmalien-10-3-build-41212-legend-mike001eiei/",
           "title": "Beast of Burden Pygmalien 10-3 Build #41212 Legend – Mike001eiei",
           "date": "2026-05-02",
           "hero": "Pygmalien",
-          "tag": "Beast of Burden 10-3 Build",
+          "tag": "Beast of Burden Build",
           "items": [
             "Flying Squirrel",
             "Gramophone",
@@ -233,7 +358,7 @@
       ]
     },
     {
-      "tag": "Burn Poison 10-7 Build",
+      "tag": "Burn Poison Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-25",
@@ -262,14 +387,14 @@
         "Ice Claw"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Burn Poison 10-7 Build: 1 sample(s). Repeated core candidates: RED-F1R3FLY, Trapvine, Ice Claw.",
+      "likely_archetype_notes": "Burn Poison Build: 1 sample(s). Repeated core candidates: RED-F1R3FLY, Trapvine, Ice Claw.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/burn-poison-pygmalien-10-7-build-15000-legend-andr/",
           "title": "Burn Poison Pygmalien 10-7 Build #15000 Legend – Andr",
           "date": "2026-04-25",
           "hero": "Pygmalien",
-          "tag": "Burn Poison 10-7 Build",
+          "tag": "Burn Poison Build",
           "items": [
             "RED-F1R3FLY",
             "Trapvine",
@@ -283,149 +408,7 @@
       ]
     },
     {
-      "tag": "Control 10-0 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Money Furnace",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Money Furnace",
-        "Mech-Moles",
-        "Orange Julian",
-        "Double Whammy",
-        "Athanor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Control 10-0 Build: 1 sample(s). Repeated core candidates: Money Furnace, Mech-Moles, Orange Julian, Double Whammy, Athanor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/control-pygmalien-10-0-build-makmolse/",
-          "title": "Control Pygmalien 10-0 Build – Makmolse",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "Control 10-0 Build",
-          "items": [
-            "Money Furnace",
-            "Mech-Moles",
-            "Orange Julian",
-            "Double Whammy",
-            "Athanor"
-          ],
-          "source": "category",
-          "snippet": "Control Pygmalien 10-0 Build – Makmolse",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Control 10-4 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-26",
-        "end": "2026-04-26"
-      },
-      "item_frequencies": [
-        {
-          "item": "Luxury Tents",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Bandages",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Frog Hollow",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Money Furnace",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Luxury Tents",
-        "Bandages",
-        "Frog Hollow",
-        "Money Furnace",
-        "Mech-Moles",
-        "Orange Julian",
-        "Terry-Dactyl"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Control 10-4 Build: 1 sample(s). Repeated core candidates: Luxury Tents, Bandages, Frog Hollow, Money Furnace, Mech-Moles, Orange Julian, Terry-Dactyl.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/control-pygmalien-10-4-build-41445-legend-kuroihanabi/",
-          "title": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
-          "date": "2026-04-26",
-          "hero": "Pygmalien",
-          "tag": "Control 10-4 Build",
-          "items": [
-            "Luxury Tents",
-            "Bandages",
-            "Frog Hollow",
-            "Money Furnace",
-            "Mech-Moles",
-            "Orange Julian",
-            "Terry-Dactyl"
-          ],
-          "source": "category",
-          "snippet": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Darts 10-3 Build",
+      "tag": "Darts Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-30",
@@ -438,12 +421,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Orange Julian",
+          "item": "Terry-Dactyl",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Terry-Dactyl",
+          "item": "Staff of the Moose",
           "count": 1,
           "frequency": 1.0
         },
@@ -453,33 +436,33 @@
           "frequency": 1.0
         },
         {
-          "item": "Staff of the Moose",
+          "item": "Orange Julian",
           "count": 1,
           "frequency": 1.0
         }
       ],
       "candidate_core_items": [
         "PenFT",
-        "Orange Julian",
         "Terry-Dactyl",
+        "Staff of the Moose",
         "Double Whammy",
-        "Staff of the Moose"
+        "Orange Julian"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Darts 10-3 Build: 1 sample(s). Repeated core candidates: PenFT, Orange Julian, Terry-Dactyl, Double Whammy, Staff of the Moose.",
+      "likely_archetype_notes": "Darts Build: 1 sample(s). Repeated core candidates: PenFT, Terry-Dactyl, Staff of the Moose, Double Whammy, Orange Julian.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/darts-pygmalien-10-3-build-41348-legend-walkingthecow/",
           "title": "Darts Pygmalien 10-3 Build #41348 Legend – Walkingthecow",
           "date": "2026-04-30",
           "hero": "Pygmalien",
-          "tag": "Darts 10-3 Build",
+          "tag": "Darts Build",
           "items": [
             "PenFT",
-            "Orange Julian",
             "Terry-Dactyl",
+            "Staff of the Moose",
             "Double Whammy",
-            "Staff of the Moose"
+            "Orange Julian"
           ],
           "source": "category",
           "snippet": "Darts Pygmalien 10-3 Build #41348 Legend – Walkingthecow",
@@ -489,7 +472,7 @@
       ]
     },
     {
-      "tag": "Double Whammy 10-5 Build",
+      "tag": "Double Whammy Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-26",
@@ -507,32 +490,17 @@
           "frequency": 1.0
         },
         {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Tortuga",
+          "item": "Frog Hollow",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Crow's Nest",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
+          "item": "Hydraulic Press",
           "count": 1,
           "frequency": 1.0
         }
@@ -540,31 +508,25 @@
       "candidate_core_items": [
         "Luxury Tents",
         "Textiles",
-        "Orange Julian",
-        "Terry-Dactyl",
         "Double Whammy",
-        "Tortuga",
-        "Crow's Nest",
-        "Athanor"
+        "Frog Hollow",
+        "Hydraulic Press"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Double Whammy 10-5 Build: 1 sample(s). Repeated core candidates: Luxury Tents, Textiles, Orange Julian, Terry-Dactyl, Double Whammy, Tortuga, Crow's Nest, Athanor.",
+      "likely_archetype_notes": "Double Whammy Build: 1 sample(s). Repeated core candidates: Luxury Tents, Textiles, Double Whammy, Frog Hollow, Hydraulic Press.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/double-whammy-pygmalien-10-5-build-12146-legend-m4g1n/",
           "title": "Double Whammy Pygmalien 10-5 Build #12146 Legend – M4g1n",
           "date": "2026-04-26",
           "hero": "Pygmalien",
-          "tag": "Double Whammy 10-5 Build",
+          "tag": "Double Whammy Build",
           "items": [
             "Luxury Tents",
             "Textiles",
-            "Orange Julian",
-            "Terry-Dactyl",
             "Double Whammy",
-            "Tortuga",
-            "Crow's Nest",
-            "Athanor"
+            "Frog Hollow",
+            "Hydraulic Press"
           ],
           "source": "category",
           "snippet": "Double Whammy Pygmalien 10-5 Build #12146 Legend – M4g1n",
@@ -574,7 +536,7 @@
       ]
     },
     {
-      "tag": "Laser Security System 10-4 Build",
+      "tag": "Laser Security System Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-05-03",
@@ -583,6 +545,11 @@
       "item_frequencies": [
         {
           "item": "Billboard",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Laser Security System",
           "count": 1,
           "frequency": 1.0
         },
@@ -599,20 +566,22 @@
       ],
       "candidate_core_items": [
         "Billboard",
+        "Laser Security System",
         "Balcony",
         "Trapvine"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Laser Security System 10-4 Build: 1 sample(s). Repeated core candidates: Billboard, Balcony, Trapvine.",
+      "likely_archetype_notes": "Laser Security System Build: 1 sample(s). Repeated core candidates: Billboard, Laser Security System, Balcony, Trapvine.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/laser-security-system-pygmalien-10-4-build-39945-legend-bludbornfan/",
           "title": "Laser Security System Pygmalien 10-4 Build #39945 Legend – BludbornFan",
           "date": "2026-05-03",
           "hero": "Pygmalien",
-          "tag": "Laser Security System 10-4 Build",
+          "tag": "Laser Security System Build",
           "items": [
             "Billboard",
+            "Laser Security System",
             "Balcony",
             "Trapvine"
           ],
@@ -624,7 +593,7 @@
       ]
     },
     {
-      "tag": "Medium Weapon 10-1 Build",
+      "tag": "Medium Weapon Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-30",
@@ -657,12 +626,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Lemonade Stand",
+          "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Double Whammy",
+          "item": "Lemonade Stand",
           "count": 1,
           "frequency": 1.0
         },
@@ -678,27 +647,27 @@
         "Lion Cane",
         "Regal Blade",
         "Atlas Stone",
-        "Lemonade Stand",
         "Double Whammy",
+        "Lemonade Stand",
         "Hydraulic Press"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Medium Weapon 10-1 Build: 1 sample(s). Repeated core candidates: Crook, Dog, Lion Cane, Regal Blade, Atlas Stone, Lemonade Stand, Double Whammy, Hydraulic Press.",
+      "likely_archetype_notes": "Medium Weapon Build: 1 sample(s). Repeated core candidates: Crook, Dog, Lion Cane, Regal Blade, Atlas Stone, Double Whammy, Lemonade Stand, Hydraulic Press.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/medium-weapon-pygmalien-10-1-build-edws/",
           "title": "Medium Weapon Pygmalien 10-1 Build – edws",
           "date": "2026-04-30",
           "hero": "Pygmalien",
-          "tag": "Medium Weapon 10-1 Build",
+          "tag": "Medium Weapon Build",
           "items": [
             "Crook",
             "Dog",
             "Lion Cane",
             "Regal Blade",
             "Atlas Stone",
-            "Lemonade Stand",
             "Double Whammy",
+            "Lemonade Stand",
             "Hydraulic Press"
           ],
           "source": "category",
@@ -709,33 +678,7 @@
       ]
     },
     {
-      "tag": "Submit your 10 Win Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [],
-      "candidate_core_items": [],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/submit-your-build",
-          "title": "Submit your 10 Win Build",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "Submit your 10 Win Build",
-          "items": [],
-          "source": "category",
-          "snippet": "Submit your 10 Win Build",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Yetarian Club 10-4 Build",
+      "tag": "Yetarian Club Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-28",
@@ -758,22 +701,22 @@
           "frequency": 1.0
         },
         {
-          "item": "Incendiary Rounds",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Pearl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         },
         {
+          "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
           "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Pearl",
           "count": 1,
           "frequency": 1.0
         }
@@ -782,81 +725,31 @@
         "Iceberg",
         "Gramophone",
         "Globe",
-        "Incendiary Rounds",
-        "Pearl",
         "Double Whammy",
-        "Crow's Nest"
+        "Incendiary Rounds",
+        "Crow's Nest",
+        "Pearl"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Yetarian Club 10-4 Build: 1 sample(s). Repeated core candidates: Iceberg, Gramophone, Globe, Incendiary Rounds, Pearl, Double Whammy, Crow's Nest.",
+      "likely_archetype_notes": "Yetarian Club Build: 1 sample(s). Repeated core candidates: Iceberg, Gramophone, Globe, Double Whammy, Incendiary Rounds, Crow's Nest, Pearl.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/yetarian-club-pygmalien-10-4-build-2355-legend-mondomantra/",
           "title": "Yetarian Club Pygmalien 10-4 Build #2355 Legend – mondomantra",
           "date": "2026-04-28",
           "hero": "Pygmalien",
-          "tag": "Yetarian Club 10-4 Build",
+          "tag": "Yetarian Club Build",
           "items": [
             "Iceberg",
             "Gramophone",
             "Globe",
-            "Incendiary Rounds",
-            "Pearl",
             "Double Whammy",
-            "Crow's Nest"
+            "Incendiary Rounds",
+            "Crow's Nest",
+            "Pearl"
           ],
           "source": "category",
           "snippet": "Yetarian Club Pygmalien 10-4 Build #2355 Legend – mondomantra",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "dooley Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Hydraulic Press",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Mech-Moles",
-        "Terry-Dactyl",
-        "Hydraulic Press"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "dooley Build: 1 sample(s). Repeated core candidates: Mech-Moles, Terry-Dactyl, Hydraulic Press.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-          "title": "Dooley",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "dooley Build",
-          "items": [
-            "Mech-Moles",
-            "Terry-Dactyl",
-            "Hydraulic Press"
-          ],
-          "source": "category",
-          "snippet": "Dooley",
           "fetch_status": "http_200",
           "fetch_error": null
         }
@@ -889,106 +782,6 @@
       ]
     },
     {
-      "tag": "karnok Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Frog Hollow",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Wild Boar",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Frog Hollow",
-        "Trapvine",
-        "Wild Boar"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "karnok Build: 1 sample(s). Repeated core candidates: Frog Hollow, Trapvine, Wild Boar.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-          "title": "Karnok",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "karnok Build",
-          "items": [
-            "Frog Hollow",
-            "Trapvine",
-            "Wild Boar"
-          ],
-          "source": "category",
-          "snippet": "Karnok",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "mak Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Vial Launcher",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Ice Claw",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "mak Build: 1 sample(s). Repeated core candidates: Vial Launcher, Ice Claw, Athanor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-          "title": "Mak",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "mak Build",
-          "items": [
-            "Vial Launcher",
-            "Ice Claw",
-            "Athanor"
-          ],
-          "source": "category",
-          "snippet": "Mak",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
       "tag": "stelle Build",
       "sample_count": 1,
       "date_range": {
@@ -1013,63 +806,6 @@
           "fetch_error": null
         }
       ]
-    },
-    {
-      "tag": "vanessa Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Refractor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Incendiary Rounds",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Torpedo",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Elemental Depth Charge",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Refractor",
-        "Incendiary Rounds",
-        "Torpedo",
-        "Elemental Depth Charge"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "vanessa Build: 1 sample(s). Repeated core candidates: Refractor, Incendiary Rounds, Torpedo, Elemental Depth Charge.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-          "title": "Vanessa",
-          "date": null,
-          "hero": "Pygmalien",
-          "tag": "vanessa Build",
-          "items": [
-            "Refractor",
-            "Incendiary Rounds",
-            "Torpedo",
-            "Elemental Depth Charge"
-          ],
-          "source": "category",
-          "snippet": "Vanessa",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
     }
   ],
   "records": [
@@ -1080,6 +816,7 @@
       "hero": "Pygmalien",
       "tag": "Build",
       "items": [
+        "Laser Security System",
         "Double Whammy"
       ],
       "source": "category",
@@ -1094,62 +831,14 @@
       "hero": "Pygmalien",
       "tag": "Uncategorized",
       "items": [
-        "Torpedo",
+        "Laser Security System",
         "Mech-Moles",
         "Elemental Depth Charge",
+        "Torpedo",
         "Ice Claw"
       ],
       "source": "category",
       "snippet": "Builds",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-      "title": "Vanessa",
-      "date": null,
-      "hero": "Pygmalien",
-      "tag": "vanessa Build",
-      "items": [
-        "Refractor",
-        "Incendiary Rounds",
-        "Torpedo",
-        "Elemental Depth Charge"
-      ],
-      "source": "category",
-      "snippet": "Vanessa",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-      "title": "Dooley",
-      "date": null,
-      "hero": "Pygmalien",
-      "tag": "dooley Build",
-      "items": [
-        "Mech-Moles",
-        "Terry-Dactyl",
-        "Hydraulic Press"
-      ],
-      "source": "category",
-      "snippet": "Dooley",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-      "title": "Mak",
-      "date": null,
-      "hero": "Pygmalien",
-      "tag": "mak Build",
-      "items": [
-        "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
-      ],
-      "source": "category",
-      "snippet": "Mak",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1178,44 +867,17 @@
       "fetch_error": null
     },
     {
-      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-      "title": "Karnok",
-      "date": null,
-      "hero": "Pygmalien",
-      "tag": "karnok Build",
-      "items": [
-        "Frog Hollow",
-        "Trapvine",
-        "Wild Boar"
-      ],
-      "source": "category",
-      "snippet": "Karnok",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
       "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/#",
       "title": "Socials",
       "date": null,
       "hero": "Pygmalien",
       "tag": "Build",
       "items": [
+        "Laser Security System",
         "Double Whammy"
       ],
       "source": "category",
       "snippet": "Socials",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/submit-your-build",
-      "title": "Submit your 10 Win Build",
-      "date": null,
-      "hero": "Pygmalien",
-      "tag": "Submit your 10 Win Build",
-      "items": [],
-      "source": "category",
-      "snippet": "Submit your 10 Win Build",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1236,9 +898,10 @@
       "title": "Laser Security System Pygmalien 10-4 Build #39945 Legend – BludbornFan",
       "date": "2026-05-03",
       "hero": "Pygmalien",
-      "tag": "Laser Security System 10-4 Build",
+      "tag": "Laser Security System Build",
       "items": [
         "Billboard",
+        "Laser Security System",
         "Balcony",
         "Trapvine"
       ],
@@ -1252,7 +915,7 @@
       "title": "Beast of Burden Pygmalien 10-3 Build #41212 Legend – Mike001eiei",
       "date": "2026-05-02",
       "hero": "Pygmalien",
-      "tag": "Beast of Burden 10-3 Build",
+      "tag": "Beast of Burden Build",
       "items": [
         "Flying Squirrel",
         "Gramophone",
@@ -1268,15 +931,15 @@
       "title": "Medium Weapon Pygmalien 10-1 Build – edws",
       "date": "2026-04-30",
       "hero": "Pygmalien",
-      "tag": "Medium Weapon 10-1 Build",
+      "tag": "Medium Weapon Build",
       "items": [
         "Crook",
         "Dog",
         "Lion Cane",
         "Regal Blade",
         "Atlas Stone",
-        "Lemonade Stand",
         "Double Whammy",
+        "Lemonade Stand",
         "Hydraulic Press"
       ],
       "source": "category",
@@ -1289,13 +952,13 @@
       "title": "Darts Pygmalien 10-3 Build #41348 Legend – Walkingthecow",
       "date": "2026-04-30",
       "hero": "Pygmalien",
-      "tag": "Darts 10-3 Build",
+      "tag": "Darts Build",
       "items": [
         "PenFT",
-        "Orange Julian",
         "Terry-Dactyl",
+        "Staff of the Moose",
         "Double Whammy",
-        "Staff of the Moose"
+        "Orange Julian"
       ],
       "source": "category",
       "snippet": "Darts Pygmalien 10-3 Build #41348 Legend – Walkingthecow",
@@ -1307,13 +970,13 @@
       "title": "Control Pygmalien 10-0 Build – Makmolse",
       "date": null,
       "hero": "Pygmalien",
-      "tag": "Control 10-0 Build",
+      "tag": "Control Build",
       "items": [
         "Money Furnace",
         "Mech-Moles",
-        "Orange Julian",
         "Double Whammy",
-        "Athanor"
+        "Athanor",
+        "Orange Julian"
       ],
       "source": "category",
       "snippet": "Control Pygmalien 10-0 Build – Makmolse",
@@ -1325,15 +988,15 @@
       "title": "Yetarian Club Pygmalien 10-4 Build #2355 Legend – mondomantra",
       "date": "2026-04-28",
       "hero": "Pygmalien",
-      "tag": "Yetarian Club 10-4 Build",
+      "tag": "Yetarian Club Build",
       "items": [
         "Iceberg",
         "Gramophone",
         "Globe",
-        "Incendiary Rounds",
-        "Pearl",
         "Double Whammy",
-        "Crow's Nest"
+        "Incendiary Rounds",
+        "Crow's Nest",
+        "Pearl"
       ],
       "source": "category",
       "snippet": "Yetarian Club Pygmalien 10-4 Build #2355 Legend – mondomantra",
@@ -1345,16 +1008,13 @@
       "title": "Double Whammy Pygmalien 10-5 Build #12146 Legend – M4g1n",
       "date": "2026-04-26",
       "hero": "Pygmalien",
-      "tag": "Double Whammy 10-5 Build",
+      "tag": "Double Whammy Build",
       "items": [
         "Luxury Tents",
         "Textiles",
-        "Orange Julian",
-        "Terry-Dactyl",
         "Double Whammy",
-        "Tortuga",
-        "Crow's Nest",
-        "Athanor"
+        "Frog Hollow",
+        "Hydraulic Press"
       ],
       "source": "category",
       "snippet": "Double Whammy Pygmalien 10-5 Build #12146 Legend – M4g1n",
@@ -1366,15 +1026,16 @@
       "title": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
       "date": "2026-04-26",
       "hero": "Pygmalien",
-      "tag": "Control 10-4 Build",
+      "tag": "Control Build",
       "items": [
         "Luxury Tents",
         "Bandages",
-        "Frog Hollow",
-        "Money Furnace",
         "Mech-Moles",
-        "Orange Julian",
-        "Terry-Dactyl"
+        "Double Whammy",
+        "Incendiary Rounds",
+        "Athanor",
+        "Wild Boar",
+        "Crow's Nest"
       ],
       "source": "category",
       "snippet": "Control Pygmalien 10-4 Build #41445 Legend – KuroiHanabi",
@@ -1386,7 +1047,7 @@
       "title": "Burn Poison Pygmalien 10-7 Build #15000 Legend – Andr",
       "date": "2026-04-25",
       "hero": "Pygmalien",
-      "tag": "Burn Poison 10-7 Build",
+      "tag": "Burn Poison Build",
       "items": [
         "RED-F1R3FLY",
         "Trapvine",
@@ -1416,11 +1077,12 @@
       "hero": "Pygmalien",
       "tag": "Uncategorized",
       "items": [
-        "Frog Hollow",
-        "Torpedo",
+        "Laser Security System",
         "Mech-Moles",
         "Elemental Depth Charge",
-        "Ice Claw"
+        "Torpedo",
+        "Ice Claw",
+        "Frog Hollow"
       ],
       "source": "category",
       "snippet": "bazaar-builds.net",
@@ -1434,6 +1096,7 @@
       "hero": "Pygmalien",
       "tag": "Build",
       "items": [
+        "Laser Security System",
         "Double Whammy"
       ],
       "source": "json_ld",

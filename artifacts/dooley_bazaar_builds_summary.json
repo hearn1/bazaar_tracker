@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-03T11:29:18.158858+00:00",
+  "generated_at": "2026-05-03T23:55:52.462324+00:00",
   "source": {
     "category_url": "https://bazaar-builds.net/category/builds/dooley-builds/",
     "site": "bazaar-builds.net"
@@ -10,8 +10,8 @@
     "days": 30,
     "since": "2026-04-03"
   },
-  "known_item_count": 414,
-  "record_count": 24,
+  "known_item_count": 415,
+  "record_count": 19,
   "warnings": [],
   "groups": [
     {
@@ -28,27 +28,38 @@
           "frequency": 0.5
         },
         {
-          "item": "Frog Hollow",
-          "count": 2,
-          "frequency": 0.5
-        },
-        {
           "item": "Mech-Moles",
           "count": 2,
           "frequency": 0.5
         },
         {
-          "item": "Trapvine",
+          "item": "Torpedo",
           "count": 2,
           "frequency": 0.5
+        },
+        {
+          "item": "Laser Security System",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Elemental Depth Charge",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Frog Hollow",
+          "count": 1,
+          "frequency": 0.25
         }
       ],
       "candidate_core_items": [],
       "candidate_support_items": [
         "Ice Claw",
-        "Frog Hollow",
         "Mech-Moles",
-        "Trapvine"
+        "Torpedo",
+        "Laser Security System",
+        "Elemental Depth Charge"
       ],
       "likely_archetype_notes": "Uncategorized: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
       "builds": [
@@ -60,9 +71,10 @@
           "tag": "Uncategorized",
           "items": [
             "Ice Claw",
-            "Frog Hollow",
             "Mech-Moles",
-            "Trapvine"
+            "Torpedo",
+            "Laser Security System",
+            "Elemental Depth Charge"
           ],
           "source": "category",
           "snippet": "Builds",
@@ -101,9 +113,11 @@
           "tag": "Uncategorized",
           "items": [
             "Ice Claw",
-            "Frog Hollow",
             "Mech-Moles",
-            "Trapvine"
+            "Frog Hollow",
+            "Torpedo",
+            "Laser Security System",
+            "Elemental Depth Charge"
           ],
           "source": "category",
           "snippet": "bazaar-builds.net",
@@ -126,11 +140,6 @@
           "frequency": 1.0
         },
         {
-          "item": "Pulse Rifle",
-          "count": 3,
-          "frequency": 1.0
-        },
-        {
           "item": "Mech-Moles",
           "count": 3,
           "frequency": 1.0
@@ -143,12 +152,11 @@
       ],
       "candidate_core_items": [
         "Terry-Dactyl",
-        "Pulse Rifle",
         "Mech-Moles",
         "Hydraulic Press"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Terry-Dactyl, Pulse Rifle, Mech-Moles, Hydraulic Press.",
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Terry-Dactyl, Mech-Moles, Hydraulic Press.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/category/builds/dooley-builds/#content",
@@ -158,7 +166,6 @@
           "tag": "Build",
           "items": [
             "Terry-Dactyl",
-            "Pulse Rifle",
             "Mech-Moles",
             "Hydraulic Press"
           ],
@@ -175,7 +182,6 @@
           "tag": "Build",
           "items": [
             "Terry-Dactyl",
-            "Pulse Rifle",
             "Mech-Moles",
             "Hydraulic Press"
           ],
@@ -192,7 +198,6 @@
           "tag": "Build",
           "items": [
             "Terry-Dactyl",
-            "Pulse Rifle",
             "Mech-Moles",
             "Hydraulic Press"
           ],
@@ -204,7 +209,231 @@
       ]
     },
     {
-      "tag": "C.O.R.A. 10-5 Build",
+      "tag": "Mech-Moles Build",
+      "sample_count": 2,
+      "date_range": {
+        "start": "2026-04-22",
+        "end": "2026-05-01"
+      },
+      "item_frequencies": [
+        {
+          "item": "Mech-Moles",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Propeller Hat",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Launcher Core",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Trapvine",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Power Sander",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Wild Boar",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Party Float",
+          "count": 1,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [
+        "Mech-Moles",
+        "Propeller Hat",
+        "Launcher Core",
+        "Terry-Dactyl",
+        "Trapvine",
+        "Athanor"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Mech-Moles Build: 2 sample(s). Repeated core candidates: Mech-Moles, Propeller Hat, Launcher Core, Terry-Dactyl, Trapvine, Athanor.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/mech-moles-dooley-10-win-build-22279-legend-anneo/",
+          "title": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
+          "date": "2026-05-01",
+          "hero": "Dooley",
+          "tag": "Mech-Moles Build",
+          "items": [
+            "Mech-Moles",
+            "Power Sander",
+            "Propeller Hat",
+            "Launcher Core",
+            "Wild Boar",
+            "Terry-Dactyl",
+            "Trapvine",
+            "Staff of the Moose",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/mech-moles-dooley-10-1-build-32677-legend-anneo/",
+          "title": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
+          "date": "2026-04-22",
+          "hero": "Dooley",
+          "tag": "Mech-Moles Build",
+          "items": [
+            "Mech-Moles",
+            "Party Float",
+            "Propeller Hat",
+            "Launcher Core",
+            "Terry-Dactyl",
+            "Trapvine",
+            "Athanor"
+          ],
+          "source": "category",
+          "snippet": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Terry-Dactyl Build",
+      "sample_count": 2,
+      "date_range": {
+        "start": "2026-04-24",
+        "end": "2026-04-24"
+      },
+      "item_frequencies": [
+        {
+          "item": "Terry-Dactyl",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Freefall Simulator",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Launcher Core",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Party Float",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Crow's Nest",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Staff of the Moose",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [
+        "Terry-Dactyl",
+        "Freefall Simulator",
+        "Athanor",
+        "Orange Julian"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Terry-Dactyl Build: 2 sample(s). Repeated core candidates: Terry-Dactyl, Freefall Simulator, Athanor, Orange Julian.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/terry-dactyl-dooley-10-3-build-burn-slow/",
+          "title": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
+          "date": "2026-04-24",
+          "hero": "Dooley",
+          "tag": "Terry-Dactyl Build",
+          "items": [
+            "Launcher Core",
+            "Party Float",
+            "Terry-Dactyl",
+            "Freefall Simulator",
+            "Mech-Moles",
+            "Athanor",
+            "Orange Julian"
+          ],
+          "source": "category",
+          "snippet": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/terry-dactyl-dooley-10-4-build-11925-legend-m4g1n/",
+          "title": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
+          "date": "2026-04-24",
+          "hero": "Dooley",
+          "tag": "Terry-Dactyl Build",
+          "items": [
+            "Terry-Dactyl",
+            "Freefall Simulator",
+            "Crow's Nest",
+            "Staff of the Moose",
+            "Athanor",
+            "Orange Julian",
+            "Double Whammy"
+          ],
+          "source": "category",
+          "snippet": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "C.O.R.A. Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-24",
@@ -237,12 +466,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Athanor",
+          "item": "Hydraulic Press",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Hydraulic Press",
+          "item": "Athanor",
           "count": 1,
           "frequency": 1.0
         }
@@ -253,26 +482,26 @@
         "Monitor Lizard",
         "Nanobot",
         "BLK-SP1D3R",
-        "Athanor",
-        "Hydraulic Press"
+        "Hydraulic Press",
+        "Athanor"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "C.O.R.A. 10-5 Build: 1 sample(s). Repeated core candidates: C.O.R.A., Dooltron Mainframe, Monitor Lizard, Nanobot, BLK-SP1D3R, Athanor, Hydraulic Press.",
+      "likely_archetype_notes": "C.O.R.A. Build: 1 sample(s). Repeated core candidates: C.O.R.A., Dooltron Mainframe, Monitor Lizard, Nanobot, BLK-SP1D3R, Hydraulic Press, Athanor.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/c-o-r-a-dooley-10-5-build-burn-slow/",
           "title": "C.O.R.A. Dooley 10-5 Build – burn.slow",
           "date": "2026-04-24",
           "hero": "Dooley",
-          "tag": "C.O.R.A. 10-5 Build",
+          "tag": "C.O.R.A. Build",
           "items": [
             "C.O.R.A.",
             "Dooltron Mainframe",
             "Monitor Lizard",
             "Nanobot",
             "BLK-SP1D3R",
-            "Athanor",
-            "Hydraulic Press"
+            "Hydraulic Press",
+            "Athanor"
           ],
           "source": "category",
           "snippet": "C.O.R.A. Dooley 10-5 Build – burn.slow",
@@ -282,7 +511,7 @@
       ]
     },
     {
-      "tag": "Crane 10-2 Build",
+      "tag": "Crane Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-25",
@@ -300,12 +529,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Double Whammy",
+          "item": "Refractor",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Refractor",
+          "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         }
@@ -313,23 +542,23 @@
       "candidate_core_items": [
         "Fiber Optics",
         "Flying Squirrel",
-        "Double Whammy",
-        "Refractor"
+        "Refractor",
+        "Double Whammy"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Crane 10-2 Build: 1 sample(s). Repeated core candidates: Fiber Optics, Flying Squirrel, Double Whammy, Refractor.",
+      "likely_archetype_notes": "Crane Build: 1 sample(s). Repeated core candidates: Fiber Optics, Flying Squirrel, Refractor, Double Whammy.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/crane-dooley-10-2-build-jellybeanmixup/",
           "title": "Crane Dooley 10-2 Build – JellybeanMixup",
           "date": "2026-04-25",
           "hero": "Dooley",
-          "tag": "Crane 10-2 Build",
+          "tag": "Crane Build",
           "items": [
             "Fiber Optics",
             "Flying Squirrel",
-            "Double Whammy",
-            "Refractor"
+            "Refractor",
+            "Double Whammy"
           ],
           "source": "category",
           "snippet": "Crane Dooley 10-2 Build – JellybeanMixup",
@@ -339,7 +568,7 @@
       ]
     },
     {
-      "tag": "Dooltron 10-0 Build",
+      "tag": "Dooltron Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-25",
@@ -362,22 +591,22 @@
           "frequency": 1.0
         },
         {
-          "item": "Copper Ed",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Bomb Squad",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Double Whammy",
+          "item": "Copper Ed",
           "count": 1,
           "frequency": 1.0
         },
         {
           "item": "Incendiary Rounds",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Ice Claw",
           "count": 1,
           "frequency": 1.0
         },
@@ -392,7 +621,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Ice Claw",
+          "item": "Double Whammy",
           "count": 1,
           "frequency": 1.0
         }
@@ -401,34 +630,34 @@
         "Dooltron Mainframe",
         "Metronome",
         "RED-F1R3FLY",
-        "Copper Ed",
         "Bomb Squad",
-        "Double Whammy",
+        "Copper Ed",
         "Incendiary Rounds",
+        "Ice Claw",
         "Crow's Nest",
         "Athanor",
-        "Ice Claw"
+        "Double Whammy"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Dooltron 10-0 Build: 1 sample(s). Repeated core candidates: Dooltron Mainframe, Metronome, RED-F1R3FLY, Copper Ed, Bomb Squad, Double Whammy, Incendiary Rounds, Crow's Nest.",
+      "likely_archetype_notes": "Dooltron Build: 1 sample(s). Repeated core candidates: Dooltron Mainframe, Metronome, RED-F1R3FLY, Bomb Squad, Copper Ed, Incendiary Rounds, Ice Claw, Crow's Nest.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/dooltron-dooley-10-0-build-15450-legend-m4g1n/",
           "title": "Dooltron Dooley 10-0 Build #15450 Legend – M4g1n",
           "date": "2026-04-25",
           "hero": "Dooley",
-          "tag": "Dooltron 10-0 Build",
+          "tag": "Dooltron Build",
           "items": [
             "Dooltron Mainframe",
             "Metronome",
             "RED-F1R3FLY",
-            "Copper Ed",
             "Bomb Squad",
-            "Double Whammy",
+            "Copper Ed",
             "Incendiary Rounds",
+            "Ice Claw",
             "Crow's Nest",
             "Athanor",
-            "Ice Claw"
+            "Double Whammy"
           ],
           "source": "category",
           "snippet": "Dooltron Dooley 10-0 Build #15450 Legend – M4g1n",
@@ -438,7 +667,7 @@
       ]
     },
     {
-      "tag": "Hydraulic Press 10-3 Build",
+      "tag": "Hydraulic Press Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-29",
@@ -466,7 +695,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Tortuga",
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
           "count": 1,
           "frequency": 1.0
         },
@@ -476,12 +710,7 @@
           "frequency": 1.0
         },
         {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
+          "item": "Tortuga",
           "count": 1,
           "frequency": 1.0
         },
@@ -496,30 +725,30 @@
         "Keychain",
         "SMG",
         "Charging Station",
-        "Tortuga",
-        "Vial Launcher",
         "Terry-Dactyl",
         "Mech-Moles",
+        "Vial Launcher",
+        "Tortuga",
         "Juggler"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Hydraulic Press 10-3 Build: 1 sample(s). Repeated core candidates: Hydraulic Press, Keychain, SMG, Charging Station, Tortuga, Vial Launcher, Terry-Dactyl, Mech-Moles.",
+      "likely_archetype_notes": "Hydraulic Press Build: 1 sample(s). Repeated core candidates: Hydraulic Press, Keychain, SMG, Charging Station, Terry-Dactyl, Mech-Moles, Vial Launcher, Tortuga.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/hydraulic-press-dooley-10-3-build-jextman/",
           "title": "Hydraulic Press Dooley 10-3 Build – Jextman",
           "date": "2026-04-29",
           "hero": "Dooley",
-          "tag": "Hydraulic Press 10-3 Build",
+          "tag": "Hydraulic Press Build",
           "items": [
             "Hydraulic Press",
             "Keychain",
             "SMG",
             "Charging Station",
-            "Tortuga",
-            "Vial Launcher",
             "Terry-Dactyl",
             "Mech-Moles",
+            "Vial Launcher",
+            "Tortuga",
             "Juggler"
           ],
           "source": "category",
@@ -530,35 +759,15 @@
       ]
     },
     {
-      "tag": "Mech-Moles 10 Win Build",
+      "tag": "Momma-Saur Build",
       "sample_count": 1,
       "date_range": {
-        "start": "2026-05-01",
-        "end": "2026-05-01"
+        "start": null,
+        "end": null
       },
       "item_frequencies": [
         {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Power Sander",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Propeller Hat",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Launcher Core",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
+          "item": "Refractor",
           "count": 1,
           "frequency": 1.0
         },
@@ -566,141 +775,34 @@
           "item": "Athanor",
           "count": 1,
           "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Staff of the Moose",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Wild Boar",
-          "count": 1,
-          "frequency": 1.0
         }
       ],
       "candidate_core_items": [
-        "Mech-Moles",
-        "Power Sander",
-        "Propeller Hat",
-        "Launcher Core",
-        "Terry-Dactyl",
-        "Athanor",
-        "Trapvine",
-        "Staff of the Moose",
-        "Wild Boar"
+        "Refractor",
+        "Athanor"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Mech-Moles 10 Win Build: 1 sample(s). Repeated core candidates: Mech-Moles, Power Sander, Propeller Hat, Launcher Core, Terry-Dactyl, Athanor, Trapvine, Staff of the Moose.",
+      "likely_archetype_notes": "Momma-Saur Build: 1 sample(s). Repeated core candidates: Refractor, Athanor.",
       "builds": [
         {
-          "url": "https://bazaar-builds.net/mech-moles-dooley-10-win-build-22279-legend-anneo/",
-          "title": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
-          "date": "2026-05-01",
+          "url": "https://bazaar-builds.net/momma-saur-dooley-10-win-build-skeks/",
+          "title": "Momma-Saur Dooley 10 Win Build – Skeks",
+          "date": null,
           "hero": "Dooley",
-          "tag": "Mech-Moles 10 Win Build",
+          "tag": "Momma-Saur Build",
           "items": [
-            "Mech-Moles",
-            "Power Sander",
-            "Propeller Hat",
-            "Launcher Core",
-            "Terry-Dactyl",
-            "Athanor",
-            "Trapvine",
-            "Staff of the Moose",
-            "Wild Boar"
+            "Refractor",
+            "Athanor"
           ],
           "source": "category",
-          "snippet": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
+          "snippet": "Momma-Saur Dooley 10 Win Build – Skeks",
           "fetch_status": "http_200",
           "fetch_error": null
         }
       ]
     },
     {
-      "tag": "Mech-Moles 10-1 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-22",
-        "end": "2026-04-22"
-      },
-      "item_frequencies": [
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Party Float",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Propeller Hat",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Launcher Core",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Mech-Moles",
-        "Party Float",
-        "Propeller Hat",
-        "Launcher Core",
-        "Terry-Dactyl",
-        "Athanor",
-        "Trapvine"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Mech-Moles 10-1 Build: 1 sample(s). Repeated core candidates: Mech-Moles, Party Float, Propeller Hat, Launcher Core, Terry-Dactyl, Athanor, Trapvine.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/mech-moles-dooley-10-1-build-32677-legend-anneo/",
-          "title": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
-          "date": "2026-04-22",
-          "hero": "Dooley",
-          "tag": "Mech-Moles 10-1 Build",
-          "items": [
-            "Mech-Moles",
-            "Party Float",
-            "Propeller Hat",
-            "Launcher Core",
-            "Terry-Dactyl",
-            "Athanor",
-            "Trapvine"
-          ],
-          "source": "category",
-          "snippet": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Power Drill 10-4 Build",
+      "tag": "Power Drill Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-23",
@@ -759,14 +861,14 @@
         "Orange Julian"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Power Drill 10-4 Build: 1 sample(s). Repeated core candidates: BLK-SP1D3R, Duct Tape, Hammlet, Levitation Pad, Plasma Grenade, Grenade, Terry-Dactyl, Orange Julian.",
+      "likely_archetype_notes": "Power Drill Build: 1 sample(s). Repeated core candidates: BLK-SP1D3R, Duct Tape, Hammlet, Levitation Pad, Plasma Grenade, Grenade, Terry-Dactyl, Orange Julian.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/power-drill-dooley-10-4-build-burn-slow/",
           "title": "Power Drill Dooley 10-4 Build – burn.slow",
           "date": "2026-04-23",
           "hero": "Dooley",
-          "tag": "Power Drill 10-4 Build",
+          "tag": "Power Drill Build",
           "items": [
             "BLK-SP1D3R",
             "Duct Tape",
@@ -779,280 +881,6 @@
           ],
           "source": "category",
           "snippet": "Power Drill Dooley 10-4 Build – burn.slow",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Pulse Rifle 10-1 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-21",
-        "end": "2026-04-21"
-      },
-      "item_frequencies": [
-        {
-          "item": "First Aiden",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Levitation Pad",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Metronome",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Pulse Rifle",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Claw Arm",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Crow's Nest",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Refractor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Ice Claw",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "First Aiden",
-        "Levitation Pad",
-        "Metronome",
-        "Pulse Rifle",
-        "Claw Arm",
-        "Crow's Nest",
-        "Refractor",
-        "Athanor",
-        "Ice Claw"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Pulse Rifle 10-1 Build: 1 sample(s). Repeated core candidates: First Aiden, Levitation Pad, Metronome, Pulse Rifle, Claw Arm, Crow's Nest, Refractor, Athanor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/pulse-rifle-dooley-10-1-build-jellybeanmixup/",
-          "title": "Pulse Rifle Dooley 10-1 Build – JellybeanMixup",
-          "date": "2026-04-21",
-          "hero": "Dooley",
-          "tag": "Pulse Rifle 10-1 Build",
-          "items": [
-            "First Aiden",
-            "Levitation Pad",
-            "Metronome",
-            "Pulse Rifle",
-            "Claw Arm",
-            "Crow's Nest",
-            "Refractor",
-            "Athanor",
-            "Ice Claw"
-          ],
-          "source": "category",
-          "snippet": "Pulse Rifle Dooley 10-1 Build – JellybeanMixup",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Submit your 10 Win Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [],
-      "candidate_core_items": [],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/submit-your-build",
-          "title": "Submit your 10 Win Build",
-          "date": null,
-          "hero": "Dooley",
-          "tag": "Submit your 10 Win Build",
-          "items": [],
-          "source": "category",
-          "snippet": "Submit your 10 Win Build",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Terry-Dactyl 10-3 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-24",
-        "end": "2026-04-24"
-      },
-      "item_frequencies": [
-        {
-          "item": "Launcher Core",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Party Float",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Freefall Simulator",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Launcher Core",
-        "Party Float",
-        "Terry-Dactyl",
-        "Freefall Simulator",
-        "Athanor",
-        "Orange Julian",
-        "Mech-Moles"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Terry-Dactyl 10-3 Build: 1 sample(s). Repeated core candidates: Launcher Core, Party Float, Terry-Dactyl, Freefall Simulator, Athanor, Orange Julian, Mech-Moles.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/terry-dactyl-dooley-10-3-build-burn-slow/",
-          "title": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
-          "date": "2026-04-24",
-          "hero": "Dooley",
-          "tag": "Terry-Dactyl 10-3 Build",
-          "items": [
-            "Launcher Core",
-            "Party Float",
-            "Terry-Dactyl",
-            "Freefall Simulator",
-            "Athanor",
-            "Orange Julian",
-            "Mech-Moles"
-          ],
-          "source": "category",
-          "snippet": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Terry-Dactyl 10-4 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-24",
-        "end": "2026-04-24"
-      },
-      "item_frequencies": [
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Freefall Simulator",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Crow's Nest",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Staff of the Moose",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Terry-Dactyl",
-        "Freefall Simulator",
-        "Double Whammy",
-        "Crow's Nest",
-        "Athanor",
-        "Orange Julian",
-        "Staff of the Moose"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Terry-Dactyl 10-4 Build: 1 sample(s). Repeated core candidates: Terry-Dactyl, Freefall Simulator, Double Whammy, Crow's Nest, Athanor, Orange Julian, Staff of the Moose.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/terry-dactyl-dooley-10-4-build-11925-legend-m4g1n/",
-          "title": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
-          "date": "2026-04-24",
-          "hero": "Dooley",
-          "tag": "Terry-Dactyl 10-4 Build",
-          "items": [
-            "Terry-Dactyl",
-            "Freefall Simulator",
-            "Double Whammy",
-            "Crow's Nest",
-            "Athanor",
-            "Orange Julian",
-            "Staff of the Moose"
-          ],
-          "source": "category",
-          "snippet": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
           "fetch_status": "http_200",
           "fetch_error": null
         }
@@ -1085,142 +913,6 @@
       ]
     },
     {
-      "tag": "karnok Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Frog Hollow",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Wild Boar",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Frog Hollow",
-        "Trapvine",
-        "Wild Boar"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "karnok Build: 1 sample(s). Repeated core candidates: Frog Hollow, Trapvine, Wild Boar.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-          "title": "Karnok",
-          "date": null,
-          "hero": "Dooley",
-          "tag": "karnok Build",
-          "items": [
-            "Frog Hollow",
-            "Trapvine",
-            "Wild Boar"
-          ],
-          "source": "category",
-          "snippet": "Karnok",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "mak Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Vial Launcher",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Ice Claw",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Vial Launcher",
-        "Athanor",
-        "Ice Claw"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "mak Build: 1 sample(s). Repeated core candidates: Vial Launcher, Athanor, Ice Claw.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-          "title": "Mak",
-          "date": null,
-          "hero": "Dooley",
-          "tag": "mak Build",
-          "items": [
-            "Vial Launcher",
-            "Athanor",
-            "Ice Claw"
-          ],
-          "source": "category",
-          "snippet": "Mak",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "pygmalien Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Double Whammy"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "pygmalien Build: 1 sample(s). Repeated core candidates: Double Whammy.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-          "title": "Pygmalien",
-          "date": null,
-          "hero": "Dooley",
-          "tag": "pygmalien Build",
-          "items": [
-            "Double Whammy"
-          ],
-          "source": "category",
-          "snippet": "Pygmalien",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
       "tag": "stelle Build",
       "sample_count": 1,
       "date_range": {
@@ -1245,49 +937,6 @@
           "fetch_error": null
         }
       ]
-    },
-    {
-      "tag": "vanessa Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Incendiary Rounds",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Refractor",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Incendiary Rounds",
-        "Refractor"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "vanessa Build: 1 sample(s). Repeated core candidates: Incendiary Rounds, Refractor.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-          "title": "Vanessa",
-          "date": null,
-          "hero": "Dooley",
-          "tag": "vanessa Build",
-          "items": [
-            "Incendiary Rounds",
-            "Refractor"
-          ],
-          "source": "category",
-          "snippet": "Vanessa",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
     }
   ],
   "records": [
@@ -1299,7 +948,6 @@
       "tag": "Build",
       "items": [
         "Terry-Dactyl",
-        "Pulse Rifle",
         "Mech-Moles",
         "Hydraulic Press"
       ],
@@ -1316,57 +964,13 @@
       "tag": "Uncategorized",
       "items": [
         "Ice Claw",
-        "Frog Hollow",
         "Mech-Moles",
-        "Trapvine"
+        "Torpedo",
+        "Laser Security System",
+        "Elemental Depth Charge"
       ],
       "source": "category",
       "snippet": "Builds",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-      "title": "Vanessa",
-      "date": null,
-      "hero": "Dooley",
-      "tag": "vanessa Build",
-      "items": [
-        "Incendiary Rounds",
-        "Refractor"
-      ],
-      "source": "category",
-      "snippet": "Vanessa",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-      "title": "Pygmalien",
-      "date": null,
-      "hero": "Dooley",
-      "tag": "pygmalien Build",
-      "items": [
-        "Double Whammy"
-      ],
-      "source": "category",
-      "snippet": "Pygmalien",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/mak-builds/",
-      "title": "Mak",
-      "date": null,
-      "hero": "Dooley",
-      "tag": "mak Build",
-      "items": [
-        "Vial Launcher",
-        "Athanor",
-        "Ice Claw"
-      ],
-      "source": "category",
-      "snippet": "Mak",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1395,22 +999,6 @@
       "fetch_error": null
     },
     {
-      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-      "title": "Karnok",
-      "date": null,
-      "hero": "Dooley",
-      "tag": "karnok Build",
-      "items": [
-        "Frog Hollow",
-        "Trapvine",
-        "Wild Boar"
-      ],
-      "source": "category",
-      "snippet": "Karnok",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
       "url": "https://bazaar-builds.net/category/builds/dooley-builds/#",
       "title": "Socials",
       "date": null,
@@ -1418,24 +1006,11 @@
       "tag": "Build",
       "items": [
         "Terry-Dactyl",
-        "Pulse Rifle",
         "Mech-Moles",
         "Hydraulic Press"
       ],
       "source": "category",
       "snippet": "Socials",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/submit-your-build",
-      "title": "Submit your 10 Win Build",
-      "date": null,
-      "hero": "Dooley",
-      "tag": "Submit your 10 Win Build",
-      "items": [],
-      "source": "category",
-      "snippet": "Submit your 10 Win Build",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1452,21 +1027,36 @@
       "fetch_error": null
     },
     {
+      "url": "https://bazaar-builds.net/momma-saur-dooley-10-win-build-skeks/",
+      "title": "Momma-Saur Dooley 10 Win Build – Skeks",
+      "date": null,
+      "hero": "Dooley",
+      "tag": "Momma-Saur Build",
+      "items": [
+        "Refractor",
+        "Athanor"
+      ],
+      "source": "category",
+      "snippet": "Momma-Saur Dooley 10 Win Build – Skeks",
+      "fetch_status": "http_200",
+      "fetch_error": null
+    },
+    {
       "url": "https://bazaar-builds.net/mech-moles-dooley-10-win-build-22279-legend-anneo/",
       "title": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
       "date": "2026-05-01",
       "hero": "Dooley",
-      "tag": "Mech-Moles 10 Win Build",
+      "tag": "Mech-Moles Build",
       "items": [
         "Mech-Moles",
         "Power Sander",
         "Propeller Hat",
         "Launcher Core",
+        "Wild Boar",
         "Terry-Dactyl",
-        "Athanor",
         "Trapvine",
         "Staff of the Moose",
-        "Wild Boar"
+        "Athanor"
       ],
       "source": "category",
       "snippet": "Mech-Moles Dooley 10 Win Build #22279 Legend – Anneo",
@@ -1478,16 +1068,16 @@
       "title": "Hydraulic Press Dooley 10-3 Build – Jextman",
       "date": "2026-04-29",
       "hero": "Dooley",
-      "tag": "Hydraulic Press 10-3 Build",
+      "tag": "Hydraulic Press Build",
       "items": [
         "Hydraulic Press",
         "Keychain",
         "SMG",
         "Charging Station",
-        "Tortuga",
-        "Vial Launcher",
         "Terry-Dactyl",
         "Mech-Moles",
+        "Vial Launcher",
+        "Tortuga",
         "Juggler"
       ],
       "source": "category",
@@ -1500,18 +1090,18 @@
       "title": "Dooltron Dooley 10-0 Build #15450 Legend – M4g1n",
       "date": "2026-04-25",
       "hero": "Dooley",
-      "tag": "Dooltron 10-0 Build",
+      "tag": "Dooltron Build",
       "items": [
         "Dooltron Mainframe",
         "Metronome",
         "RED-F1R3FLY",
-        "Copper Ed",
         "Bomb Squad",
-        "Double Whammy",
+        "Copper Ed",
         "Incendiary Rounds",
+        "Ice Claw",
         "Crow's Nest",
         "Athanor",
-        "Ice Claw"
+        "Double Whammy"
       ],
       "source": "category",
       "snippet": "Dooltron Dooley 10-0 Build #15450 Legend – M4g1n",
@@ -1523,12 +1113,12 @@
       "title": "Crane Dooley 10-2 Build – JellybeanMixup",
       "date": "2026-04-25",
       "hero": "Dooley",
-      "tag": "Crane 10-2 Build",
+      "tag": "Crane Build",
       "items": [
         "Fiber Optics",
         "Flying Squirrel",
-        "Double Whammy",
-        "Refractor"
+        "Refractor",
+        "Double Whammy"
       ],
       "source": "category",
       "snippet": "Crane Dooley 10-2 Build – JellybeanMixup",
@@ -1540,15 +1130,15 @@
       "title": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
       "date": "2026-04-24",
       "hero": "Dooley",
-      "tag": "Terry-Dactyl 10-3 Build",
+      "tag": "Terry-Dactyl Build",
       "items": [
         "Launcher Core",
         "Party Float",
         "Terry-Dactyl",
         "Freefall Simulator",
+        "Mech-Moles",
         "Athanor",
-        "Orange Julian",
-        "Mech-Moles"
+        "Orange Julian"
       ],
       "source": "category",
       "snippet": "Terry-Dactyl Dooley 10-3 Build – burn.slow",
@@ -1560,15 +1150,15 @@
       "title": "C.O.R.A. Dooley 10-5 Build – burn.slow",
       "date": "2026-04-24",
       "hero": "Dooley",
-      "tag": "C.O.R.A. 10-5 Build",
+      "tag": "C.O.R.A. Build",
       "items": [
         "C.O.R.A.",
         "Dooltron Mainframe",
         "Monitor Lizard",
         "Nanobot",
         "BLK-SP1D3R",
-        "Athanor",
-        "Hydraulic Press"
+        "Hydraulic Press",
+        "Athanor"
       ],
       "source": "category",
       "snippet": "C.O.R.A. Dooley 10-5 Build – burn.slow",
@@ -1580,15 +1170,15 @@
       "title": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
       "date": "2026-04-24",
       "hero": "Dooley",
-      "tag": "Terry-Dactyl 10-4 Build",
+      "tag": "Terry-Dactyl Build",
       "items": [
         "Terry-Dactyl",
         "Freefall Simulator",
-        "Double Whammy",
         "Crow's Nest",
+        "Staff of the Moose",
         "Athanor",
         "Orange Julian",
-        "Staff of the Moose"
+        "Double Whammy"
       ],
       "source": "category",
       "snippet": "Terry-Dactyl Dooley 10-4 Build #11925 Legend – M4g1n",
@@ -1600,7 +1190,7 @@
       "title": "Power Drill Dooley 10-4 Build – burn.slow",
       "date": "2026-04-23",
       "hero": "Dooley",
-      "tag": "Power Drill 10-4 Build",
+      "tag": "Power Drill Build",
       "items": [
         "BLK-SP1D3R",
         "Duct Tape",
@@ -1621,40 +1211,18 @@
       "title": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
       "date": "2026-04-22",
       "hero": "Dooley",
-      "tag": "Mech-Moles 10-1 Build",
+      "tag": "Mech-Moles Build",
       "items": [
         "Mech-Moles",
         "Party Float",
         "Propeller Hat",
         "Launcher Core",
         "Terry-Dactyl",
-        "Athanor",
-        "Trapvine"
+        "Trapvine",
+        "Athanor"
       ],
       "source": "category",
       "snippet": "Mech-Moles Dooley 10-1 Build #32677 Legend – Anneo",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/pulse-rifle-dooley-10-1-build-jellybeanmixup/",
-      "title": "Pulse Rifle Dooley 10-1 Build – JellybeanMixup",
-      "date": "2026-04-21",
-      "hero": "Dooley",
-      "tag": "Pulse Rifle 10-1 Build",
-      "items": [
-        "First Aiden",
-        "Levitation Pad",
-        "Metronome",
-        "Pulse Rifle",
-        "Claw Arm",
-        "Crow's Nest",
-        "Refractor",
-        "Athanor",
-        "Ice Claw"
-      ],
-      "source": "category",
-      "snippet": "Pulse Rifle Dooley 10-1 Build – JellybeanMixup",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1678,9 +1246,11 @@
       "tag": "Uncategorized",
       "items": [
         "Ice Claw",
-        "Frog Hollow",
         "Mech-Moles",
-        "Trapvine"
+        "Frog Hollow",
+        "Torpedo",
+        "Laser Security System",
+        "Elemental Depth Charge"
       ],
       "source": "category",
       "snippet": "bazaar-builds.net",
@@ -1695,7 +1265,6 @@
       "tag": "Build",
       "items": [
         "Terry-Dactyl",
-        "Pulse Rifle",
         "Mech-Moles",
         "Hydraulic Press"
       ],

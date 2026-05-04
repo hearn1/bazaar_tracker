@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-03T12:54:51.597959+00:00",
+  "generated_at": "2026-05-03T23:57:13.952364+00:00",
   "source": {
     "category_url": "https://bazaar-builds.net/category/builds/mak-builds/",
     "site": "bazaar-builds.net"
@@ -10,8 +10,8 @@
     "days": 30,
     "since": "2026-04-03"
   },
-  "known_item_count": 414,
-  "record_count": 24,
+  "known_item_count": 415,
+  "record_count": 19,
   "warnings": [],
   "groups": [
     {
@@ -23,7 +23,7 @@
       },
       "item_frequencies": [
         {
-          "item": "Mech-Moles",
+          "item": "Laser Security System",
           "count": 2,
           "frequency": 0.5
         },
@@ -33,12 +33,17 @@
           "frequency": 0.5
         },
         {
-          "item": "Ice Claw",
+          "item": "Elemental Depth Charge",
           "count": 2,
           "frequency": 0.5
         },
         {
-          "item": "Elemental Depth Charge",
+          "item": "Mech-Moles",
+          "count": 2,
+          "frequency": 0.5
+        },
+        {
+          "item": "Ice Claw",
           "count": 2,
           "frequency": 0.5
         },
@@ -50,10 +55,11 @@
       ],
       "candidate_core_items": [],
       "candidate_support_items": [
-        "Mech-Moles",
+        "Laser Security System",
         "Torpedo",
-        "Ice Claw",
-        "Elemental Depth Charge"
+        "Elemental Depth Charge",
+        "Mech-Moles",
+        "Ice Claw"
       ],
       "likely_archetype_notes": "Uncategorized: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
       "builds": [
@@ -64,10 +70,11 @@
           "hero": "Mak",
           "tag": "Uncategorized",
           "items": [
-            "Mech-Moles",
+            "Laser Security System",
             "Torpedo",
-            "Ice Claw",
-            "Elemental Depth Charge"
+            "Elemental Depth Charge",
+            "Mech-Moles",
+            "Ice Claw"
           ],
           "source": "category",
           "snippet": "Builds",
@@ -105,11 +112,12 @@
           "hero": "Mak",
           "tag": "Uncategorized",
           "items": [
-            "Mech-Moles",
-            "Frog Hollow",
+            "Laser Security System",
             "Torpedo",
-            "Ice Claw",
-            "Elemental Depth Charge"
+            "Frog Hollow",
+            "Elemental Depth Charge",
+            "Mech-Moles",
+            "Ice Claw"
           ],
           "source": "category",
           "snippet": "bazaar-builds.net",
@@ -132,23 +140,23 @@
           "frequency": 1.0
         },
         {
-          "item": "Ice Claw",
+          "item": "Athanor",
           "count": 3,
           "frequency": 1.0
         },
         {
-          "item": "Athanor",
+          "item": "Ice Claw",
           "count": 3,
           "frequency": 1.0
         }
       ],
       "candidate_core_items": [
         "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
+        "Athanor",
+        "Ice Claw"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Vial Launcher, Ice Claw, Athanor.",
+      "likely_archetype_notes": "Build: 3 sample(s). Repeated core candidates: Vial Launcher, Athanor, Ice Claw.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/category/builds/mak-builds/#content",
@@ -158,8 +166,8 @@
           "tag": "Build",
           "items": [
             "Vial Launcher",
-            "Ice Claw",
-            "Athanor"
+            "Athanor",
+            "Ice Claw"
           ],
           "source": "category",
           "snippet": "Skip to content",
@@ -174,8 +182,8 @@
           "tag": "Build",
           "items": [
             "Vial Launcher",
-            "Ice Claw",
-            "Athanor"
+            "Athanor",
+            "Ice Claw"
           ],
           "source": "category",
           "snippet": "Socials",
@@ -190,8 +198,8 @@
           "tag": "Build",
           "items": [
             "Vial Launcher",
-            "Ice Claw",
-            "Athanor"
+            "Athanor",
+            "Ice Claw"
           ],
           "source": "json_ld",
           "snippet": "On this Page, you can find all 10 Win Builds played with Mak in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",
@@ -201,7 +209,129 @@
       ]
     },
     {
-      "tag": "Athanor 10-1 Build",
+      "tag": "Burn Build",
+      "sample_count": 2,
+      "date_range": {
+        "start": "2026-04-27",
+        "end": "2026-04-28"
+      },
+      "item_frequencies": [
+        {
+          "item": "Eternal Torch",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Fire Claw",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Torch",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Orange Julian",
+          "count": 2,
+          "frequency": 1.0
+        },
+        {
+          "item": "Flying Potion",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Tortuga",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Fireflies",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Hourglass",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Smelling Salts",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Blazehowl Warden",
+          "count": 1,
+          "frequency": 0.5
+        },
+        {
+          "item": "Ice Claw",
+          "count": 1,
+          "frequency": 0.5
+        }
+      ],
+      "candidate_core_items": [
+        "Eternal Torch",
+        "Fire Claw",
+        "Torch",
+        "Orange Julian"
+      ],
+      "candidate_support_items": [],
+      "likely_archetype_notes": "Burn Build: 2 sample(s). Repeated core candidates: Eternal Torch, Fire Claw, Torch, Orange Julian.",
+      "builds": [
+        {
+          "url": "https://bazaar-builds.net/burn-mak-10-win-build-zn0w/",
+          "title": "Burn Mak 10 Win Build – Zn0w",
+          "date": "2026-04-28",
+          "hero": "Mak",
+          "tag": "Burn Build",
+          "items": [
+            "Eternal Torch",
+            "Fire Claw",
+            "Flying Potion",
+            "Torch",
+            "Athanor",
+            "Orange Julian",
+            "Tortuga"
+          ],
+          "source": "category",
+          "snippet": "Burn Mak 10 Win Build – Zn0w",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        },
+        {
+          "url": "https://bazaar-builds.net/burn-mak-10-0-build-41487-legend-saulz/",
+          "title": "Burn Mak 10-0 Build #41487 Legend – Saulz",
+          "date": "2026-04-27",
+          "hero": "Mak",
+          "tag": "Burn Build",
+          "items": [
+            "Eternal Torch",
+            "Fire Claw",
+            "Fireflies",
+            "Hourglass",
+            "Smelling Salts",
+            "Torch",
+            "Blazehowl Warden",
+            "Orange Julian",
+            "Ice Claw"
+          ],
+          "source": "category",
+          "snippet": "Burn Mak 10-0 Build #41487 Legend – Saulz",
+          "fetch_status": "http_200",
+          "fetch_error": null
+        }
+      ]
+    },
+    {
+      "tag": "Athanor Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-28",
@@ -224,32 +354,17 @@
           "frequency": 1.0
         },
         {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Globe",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Orange Julian",
+          "item": "Athanor",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Tortuga",
+          "item": "Crow's Nest",
           "count": 1,
           "frequency": 1.0
         },
@@ -259,83 +374,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Crow's Nest",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Infinite Potion",
-        "Show Globe",
-        "Strength Potion",
-        "Athanor",
-        "Globe",
-        "Orange Julian",
-        "Terry-Dactyl",
-        "Trapvine",
-        "Tortuga",
-        "Double Whammy",
-        "Crow's Nest"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Athanor 10-1 Build: 1 sample(s). Repeated core candidates: Infinite Potion, Show Globe, Strength Potion, Athanor, Globe, Orange Julian, Terry-Dactyl, Trapvine.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/athanor-mak-10-1-build-44119-legend-eschen/",
-          "title": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
-          "date": "2026-04-28",
-          "hero": "Mak",
-          "tag": "Athanor 10-1 Build",
-          "items": [
-            "Infinite Potion",
-            "Show Globe",
-            "Strength Potion",
-            "Athanor",
-            "Globe",
-            "Orange Julian",
-            "Terry-Dactyl",
-            "Trapvine",
-            "Tortuga",
-            "Double Whammy",
-            "Crow's Nest"
-          ],
-          "source": "category",
-          "snippet": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Burn 10 Win Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-28",
-        "end": "2026-04-28"
-      },
-      "item_frequencies": [
-        {
-          "item": "Eternal Torch",
+          "item": "Trapvine",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Fire Claw",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Flying Potion",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Torch",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
+          "item": "Terry-Dactyl",
           "count": 1,
           "frequency": 1.0
         },
@@ -351,133 +395,49 @@
         }
       ],
       "candidate_core_items": [
-        "Eternal Torch",
-        "Fire Claw",
-        "Flying Potion",
-        "Torch",
+        "Infinite Potion",
+        "Show Globe",
+        "Strength Potion",
+        "Globe",
         "Athanor",
+        "Crow's Nest",
+        "Double Whammy",
+        "Trapvine",
+        "Terry-Dactyl",
         "Orange Julian",
         "Tortuga"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Burn 10 Win Build: 1 sample(s). Repeated core candidates: Eternal Torch, Fire Claw, Flying Potion, Torch, Athanor, Orange Julian, Tortuga.",
+      "likely_archetype_notes": "Athanor Build: 1 sample(s). Repeated core candidates: Infinite Potion, Show Globe, Strength Potion, Globe, Athanor, Crow's Nest, Double Whammy, Trapvine.",
       "builds": [
         {
-          "url": "https://bazaar-builds.net/burn-mak-10-win-build-zn0w/",
-          "title": "Burn Mak 10 Win Build – Zn0w",
+          "url": "https://bazaar-builds.net/athanor-mak-10-1-build-44119-legend-eschen/",
+          "title": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
           "date": "2026-04-28",
           "hero": "Mak",
-          "tag": "Burn 10 Win Build",
+          "tag": "Athanor Build",
           "items": [
-            "Eternal Torch",
-            "Fire Claw",
-            "Flying Potion",
-            "Torch",
+            "Infinite Potion",
+            "Show Globe",
+            "Strength Potion",
+            "Globe",
             "Athanor",
+            "Crow's Nest",
+            "Double Whammy",
+            "Trapvine",
+            "Terry-Dactyl",
             "Orange Julian",
             "Tortuga"
           ],
           "source": "category",
-          "snippet": "Burn Mak 10 Win Build – Zn0w",
+          "snippet": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
           "fetch_status": "http_200",
           "fetch_error": null
         }
       ]
     },
     {
-      "tag": "Burn 10-0 Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": "2026-04-27",
-        "end": "2026-04-27"
-      },
-      "item_frequencies": [
-        {
-          "item": "Eternal Torch",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Fire Claw",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Fireflies",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Hourglass",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Smelling Salts",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Blazehowl Warden",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Torch",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Orange Julian",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Ice Claw",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Eternal Torch",
-        "Fire Claw",
-        "Fireflies",
-        "Hourglass",
-        "Smelling Salts",
-        "Blazehowl Warden",
-        "Torch",
-        "Orange Julian",
-        "Ice Claw"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Burn 10-0 Build: 1 sample(s). Repeated core candidates: Eternal Torch, Fire Claw, Fireflies, Hourglass, Smelling Salts, Blazehowl Warden, Torch, Orange Julian.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/burn-mak-10-0-build-41487-legend-saulz/",
-          "title": "Burn Mak 10-0 Build #41487 Legend – Saulz",
-          "date": "2026-04-27",
-          "hero": "Mak",
-          "tag": "Burn 10-0 Build",
-          "items": [
-            "Eternal Torch",
-            "Fire Claw",
-            "Fireflies",
-            "Hourglass",
-            "Smelling Salts",
-            "Blazehowl Warden",
-            "Torch",
-            "Orange Julian",
-            "Ice Claw"
-          ],
-          "source": "category",
-          "snippet": "Burn Mak 10-0 Build #41487 Legend – Saulz",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Burn Poison 10-2 Build",
+      "tag": "Burn Poison Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-28",
@@ -510,7 +470,22 @@
           "frequency": 1.0
         },
         {
+          "item": "Double Whammy",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Athanor",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
           "item": "Tortuga",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Potion Distillery",
           "count": 1,
           "frequency": 1.0
         },
@@ -523,21 +498,6 @@
           "item": "Ice Claw",
           "count": 1,
           "frequency": 1.0
-        },
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Athanor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Potion Distillery",
-          "count": 1,
-          "frequency": 1.0
         }
       ],
       "candidate_core_items": [
@@ -546,34 +506,34 @@
         "Scales",
         "Strength Potion",
         "Calcinator",
-        "Tortuga",
-        "Staff of the Moose",
-        "Ice Claw",
         "Double Whammy",
         "Athanor",
-        "Potion Distillery"
+        "Tortuga",
+        "Potion Distillery",
+        "Staff of the Moose",
+        "Ice Claw"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Burn Poison 10-2 Build: 1 sample(s). Repeated core candidates: Library, Retort, Scales, Strength Potion, Calcinator, Tortuga, Staff of the Moose, Ice Claw.",
+      "likely_archetype_notes": "Burn Poison Build: 1 sample(s). Repeated core candidates: Library, Retort, Scales, Strength Potion, Calcinator, Double Whammy, Athanor, Tortuga.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/burn-poison-mak-10-2-build-2750-legend-jabazam/",
           "title": "Burn Poison Mak 10-2 Build #2750 Legend – jabazam",
           "date": "2026-04-28",
           "hero": "Mak",
-          "tag": "Burn Poison 10-2 Build",
+          "tag": "Burn Poison Build",
           "items": [
             "Library",
             "Retort",
             "Scales",
             "Strength Potion",
             "Calcinator",
-            "Tortuga",
-            "Staff of the Moose",
-            "Ice Claw",
             "Double Whammy",
             "Athanor",
-            "Potion Distillery"
+            "Tortuga",
+            "Potion Distillery",
+            "Staff of the Moose",
+            "Ice Claw"
           ],
           "source": "category",
           "snippet": "Burn Poison Mak 10-2 Build #2750 Legend – jabazam",
@@ -583,7 +543,7 @@
       ]
     },
     {
-      "tag": "Cauldron 10-4 Build",
+      "tag": "Cauldron Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-27",
@@ -606,22 +566,22 @@
           "frequency": 1.0
         },
         {
-          "item": "Pulse Rifle",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Trapvine",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Staff of the Moose",
+          "item": "Athanor",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Athanor",
+          "item": "Pulse Rifle",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Staff of the Moose",
           "count": 1,
           "frequency": 1.0
         }
@@ -630,28 +590,28 @@
         "Cloud Wisp",
         "Earrings",
         "Atmospheric Sampler",
-        "Pulse Rifle",
         "Trapvine",
-        "Staff of the Moose",
-        "Athanor"
+        "Athanor",
+        "Pulse Rifle",
+        "Staff of the Moose"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Cauldron 10-4 Build: 1 sample(s). Repeated core candidates: Cloud Wisp, Earrings, Atmospheric Sampler, Pulse Rifle, Trapvine, Staff of the Moose, Athanor.",
+      "likely_archetype_notes": "Cauldron Build: 1 sample(s). Repeated core candidates: Cloud Wisp, Earrings, Atmospheric Sampler, Trapvine, Athanor, Pulse Rifle, Staff of the Moose.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/cauldron-mak-10-4-build-25528-legend-bucksh0t/",
           "title": "Cauldron Mak 10-4 Build #25528 Legend – bucksh0t",
           "date": "2026-04-27",
           "hero": "Mak",
-          "tag": "Cauldron 10-4 Build",
+          "tag": "Cauldron Build",
           "items": [
             "Cloud Wisp",
             "Earrings",
             "Atmospheric Sampler",
-            "Pulse Rifle",
             "Trapvine",
-            "Staff of the Moose",
-            "Athanor"
+            "Athanor",
+            "Pulse Rifle",
+            "Staff of the Moose"
           ],
           "source": "category",
           "snippet": "Cauldron Mak 10-4 Build #25528 Legend – bucksh0t",
@@ -661,7 +621,7 @@
       ]
     },
     {
-      "tag": "Frozen Flame 10-5 Build",
+      "tag": "Frozen Flame Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-30",
@@ -684,6 +644,11 @@
           "frequency": 1.0
         },
         {
+          "item": "Vial Launcher",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
           "item": "Wild Boar",
           "count": 1,
           "frequency": 1.0
@@ -692,37 +657,32 @@
           "item": "Orange Julian",
           "count": 1,
           "frequency": 1.0
-        },
-        {
-          "item": "Vial Launcher",
-          "count": 1,
-          "frequency": 1.0
         }
       ],
       "candidate_core_items": [
         "Frozen Horror",
         "Library",
         "Cellar",
+        "Vial Launcher",
         "Wild Boar",
-        "Orange Julian",
-        "Vial Launcher"
+        "Orange Julian"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Frozen Flame 10-5 Build: 1 sample(s). Repeated core candidates: Frozen Horror, Library, Cellar, Wild Boar, Orange Julian, Vial Launcher.",
+      "likely_archetype_notes": "Frozen Flame Build: 1 sample(s). Repeated core candidates: Frozen Horror, Library, Cellar, Vial Launcher, Wild Boar, Orange Julian.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/frozen-flame-mak-10-5-build-23514-legend-mike001eiei/",
           "title": "Frozen Flame Mak 10-5 Build #23514 Legend – Mike001eiei",
           "date": "2026-04-30",
           "hero": "Mak",
-          "tag": "Frozen Flame 10-5 Build",
+          "tag": "Frozen Flame Build",
           "items": [
             "Frozen Horror",
             "Library",
             "Cellar",
+            "Vial Launcher",
             "Wild Boar",
-            "Orange Julian",
-            "Vial Launcher"
+            "Orange Julian"
           ],
           "source": "category",
           "snippet": "Frozen Flame Mak 10-5 Build #23514 Legend – Mike001eiei",
@@ -732,7 +692,7 @@
       ]
     },
     {
-      "tag": "Ice Claw 10-3 Build",
+      "tag": "Ice Claw Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-05-02",
@@ -761,14 +721,14 @@
         "Athanor"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Ice Claw 10-3 Build: 1 sample(s). Repeated core candidates: Blank Slate, Ice Claw, Athanor.",
+      "likely_archetype_notes": "Ice Claw Build: 1 sample(s). Repeated core candidates: Blank Slate, Ice Claw, Athanor.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/ice-claw-mak-10-3-build-34813-legend-saulz/",
           "title": "Ice Claw Mak 10-3 Build #34813 Legend – Saulz",
           "date": "2026-05-02",
           "hero": "Mak",
-          "tag": "Ice Claw 10-3 Build",
+          "tag": "Ice Claw Build",
           "items": [
             "Blank Slate",
             "Ice Claw",
@@ -782,7 +742,7 @@
       ]
     },
     {
-      "tag": "Poison Freeze 10-4 Build",
+      "tag": "Poison Freeze Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-29",
@@ -800,12 +760,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Staff of the Moose",
+          "item": "Crow's Nest",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Crow's Nest",
+          "item": "Staff of the Moose",
           "count": 1,
           "frequency": 1.0
         }
@@ -813,23 +773,23 @@
       "candidate_core_items": [
         "Idol of Decay",
         "Atmospheric Sampler",
-        "Staff of the Moose",
-        "Crow's Nest"
+        "Crow's Nest",
+        "Staff of the Moose"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Poison Freeze 10-4 Build: 1 sample(s). Repeated core candidates: Idol of Decay, Atmospheric Sampler, Staff of the Moose, Crow's Nest.",
+      "likely_archetype_notes": "Poison Freeze Build: 1 sample(s). Repeated core candidates: Idol of Decay, Atmospheric Sampler, Crow's Nest, Staff of the Moose.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/poison-freeze-mak-10-4-build-31456-legend-mike001eiei/",
           "title": "Poison Freeze Mak 10-4 Build #31456 Legend – Mike001eiei",
           "date": "2026-04-29",
           "hero": "Mak",
-          "tag": "Poison Freeze 10-4 Build",
+          "tag": "Poison Freeze Build",
           "items": [
             "Idol of Decay",
             "Atmospheric Sampler",
-            "Staff of the Moose",
-            "Crow's Nest"
+            "Crow's Nest",
+            "Staff of the Moose"
           ],
           "source": "category",
           "snippet": "Poison Freeze Mak 10-4 Build #31456 Legend – Mike001eiei",
@@ -839,7 +799,7 @@
       ]
     },
     {
-      "tag": "Potion 10-2 Build",
+      "tag": "Potion Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-29",
@@ -862,16 +822,6 @@
           "frequency": 1.0
         },
         {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
           "item": "Vial Launcher",
           "count": 1,
           "frequency": 1.0
@@ -885,36 +835,46 @@
           "item": "Athanor",
           "count": 1,
           "frequency": 1.0
+        },
+        {
+          "item": "Terry-Dactyl",
+          "count": 1,
+          "frequency": 1.0
+        },
+        {
+          "item": "Mech-Moles",
+          "count": 1,
+          "frequency": 1.0
         }
       ],
       "candidate_core_items": [
         "Flying Potion",
         "Satchel",
         "Boiling Flask",
-        "Terry-Dactyl",
-        "Mech-Moles",
         "Vial Launcher",
         "Slumbering Primordial",
-        "Athanor"
+        "Athanor",
+        "Terry-Dactyl",
+        "Mech-Moles"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Potion 10-2 Build: 1 sample(s). Repeated core candidates: Flying Potion, Satchel, Boiling Flask, Terry-Dactyl, Mech-Moles, Vial Launcher, Slumbering Primordial, Athanor.",
+      "likely_archetype_notes": "Potion Build: 1 sample(s). Repeated core candidates: Flying Potion, Satchel, Boiling Flask, Vial Launcher, Slumbering Primordial, Athanor, Terry-Dactyl, Mech-Moles.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/potion-mak-10-2-build-zn0w/",
           "title": "Potion Mak 10-2 Build – Zn0w",
           "date": "2026-04-29",
           "hero": "Mak",
-          "tag": "Potion 10-2 Build",
+          "tag": "Potion Build",
           "items": [
             "Flying Potion",
             "Satchel",
             "Boiling Flask",
-            "Terry-Dactyl",
-            "Mech-Moles",
             "Vial Launcher",
             "Slumbering Primordial",
-            "Athanor"
+            "Athanor",
+            "Terry-Dactyl",
+            "Mech-Moles"
           ],
           "source": "category",
           "snippet": "Potion Mak 10-2 Build – Zn0w",
@@ -924,33 +884,7 @@
       ]
     },
     {
-      "tag": "Submit your 10 Win Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [],
-      "candidate_core_items": [],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "Submit your 10 Win Build: not enough repeated item evidence yet; add manual paste records or fetch more samples.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/submit-your-build",
-          "title": "Submit your 10 Win Build",
-          "date": null,
-          "hero": "Mak",
-          "tag": "Submit your 10 Win Build",
-          "items": [],
-          "source": "category",
-          "snippet": "Submit your 10 Win Build",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "Vial Launcher 10-2 Build",
+      "tag": "Vial Launcher Build",
       "sample_count": 1,
       "date_range": {
         "start": "2026-04-28",
@@ -983,12 +917,12 @@
           "frequency": 1.0
         },
         {
-          "item": "Staff of the Moose",
+          "item": "Crow's Nest",
           "count": 1,
           "frequency": 1.0
         },
         {
-          "item": "Crow's Nest",
+          "item": "Staff of the Moose",
           "count": 1,
           "frequency": 1.0
         }
@@ -999,79 +933,29 @@
         "Recycling Bin",
         "Vial Launcher",
         "Boiling Flask",
-        "Staff of the Moose",
-        "Crow's Nest"
+        "Crow's Nest",
+        "Staff of the Moose"
       ],
       "candidate_support_items": [],
-      "likely_archetype_notes": "Vial Launcher 10-2 Build: 1 sample(s). Repeated core candidates: Crocodile Tears, Energy Potion, Recycling Bin, Vial Launcher, Boiling Flask, Staff of the Moose, Crow's Nest.",
+      "likely_archetype_notes": "Vial Launcher Build: 1 sample(s). Repeated core candidates: Crocodile Tears, Energy Potion, Recycling Bin, Vial Launcher, Boiling Flask, Crow's Nest, Staff of the Moose.",
       "builds": [
         {
           "url": "https://bazaar-builds.net/vial-launcher-mak-10-2-build-jetstrm3652/",
           "title": "Vial Launcher Mak 10-2 Build – jetstrm3652",
           "date": "2026-04-28",
           "hero": "Mak",
-          "tag": "Vial Launcher 10-2 Build",
+          "tag": "Vial Launcher Build",
           "items": [
             "Crocodile Tears",
             "Energy Potion",
             "Recycling Bin",
             "Vial Launcher",
             "Boiling Flask",
-            "Staff of the Moose",
-            "Crow's Nest"
+            "Crow's Nest",
+            "Staff of the Moose"
           ],
           "source": "category",
           "snippet": "Vial Launcher Mak 10-2 Build – jetstrm3652",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "dooley Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Terry-Dactyl",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Mech-Moles",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Hydraulic Press",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Terry-Dactyl",
-        "Mech-Moles",
-        "Hydraulic Press"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "dooley Build: 1 sample(s). Repeated core candidates: Terry-Dactyl, Mech-Moles, Hydraulic Press.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-          "title": "Dooley",
-          "date": null,
-          "hero": "Mak",
-          "tag": "dooley Build",
-          "items": [
-            "Terry-Dactyl",
-            "Mech-Moles",
-            "Hydraulic Press"
-          ],
-          "source": "category",
-          "snippet": "Dooley",
           "fetch_status": "http_200",
           "fetch_error": null
         }
@@ -1104,92 +988,6 @@
       ]
     },
     {
-      "tag": "karnok Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Wild Boar",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Trapvine",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Frog Hollow",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Wild Boar",
-        "Trapvine",
-        "Frog Hollow"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "karnok Build: 1 sample(s). Repeated core candidates: Wild Boar, Trapvine, Frog Hollow.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-          "title": "Karnok",
-          "date": null,
-          "hero": "Mak",
-          "tag": "karnok Build",
-          "items": [
-            "Wild Boar",
-            "Trapvine",
-            "Frog Hollow"
-          ],
-          "source": "category",
-          "snippet": "Karnok",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
-      "tag": "pygmalien Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Double Whammy",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Double Whammy"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "pygmalien Build: 1 sample(s). Repeated core candidates: Double Whammy.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-          "title": "Pygmalien",
-          "date": null,
-          "hero": "Mak",
-          "tag": "pygmalien Build",
-          "items": [
-            "Double Whammy"
-          ],
-          "source": "category",
-          "snippet": "Pygmalien",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
-    },
-    {
       "tag": "stelle Build",
       "sample_count": 1,
       "date_range": {
@@ -1214,63 +1012,6 @@
           "fetch_error": null
         }
       ]
-    },
-    {
-      "tag": "vanessa Build",
-      "sample_count": 1,
-      "date_range": {
-        "start": null,
-        "end": null
-      },
-      "item_frequencies": [
-        {
-          "item": "Torpedo",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Elemental Depth Charge",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Refractor",
-          "count": 1,
-          "frequency": 1.0
-        },
-        {
-          "item": "Incendiary Rounds",
-          "count": 1,
-          "frequency": 1.0
-        }
-      ],
-      "candidate_core_items": [
-        "Torpedo",
-        "Elemental Depth Charge",
-        "Refractor",
-        "Incendiary Rounds"
-      ],
-      "candidate_support_items": [],
-      "likely_archetype_notes": "vanessa Build: 1 sample(s). Repeated core candidates: Torpedo, Elemental Depth Charge, Refractor, Incendiary Rounds.",
-      "builds": [
-        {
-          "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-          "title": "Vanessa",
-          "date": null,
-          "hero": "Mak",
-          "tag": "vanessa Build",
-          "items": [
-            "Torpedo",
-            "Elemental Depth Charge",
-            "Refractor",
-            "Incendiary Rounds"
-          ],
-          "source": "category",
-          "snippet": "Vanessa",
-          "fetch_status": "http_200",
-          "fetch_error": null
-        }
-      ]
     }
   ],
   "records": [
@@ -1282,8 +1023,8 @@
       "tag": "Build",
       "items": [
         "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
+        "Athanor",
+        "Ice Claw"
       ],
       "source": "category",
       "snippet": "Skip to content",
@@ -1297,60 +1038,14 @@
       "hero": "Mak",
       "tag": "Uncategorized",
       "items": [
-        "Mech-Moles",
+        "Laser Security System",
         "Torpedo",
-        "Ice Claw",
-        "Elemental Depth Charge"
+        "Elemental Depth Charge",
+        "Mech-Moles",
+        "Ice Claw"
       ],
       "source": "category",
       "snippet": "Builds",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/vanessa-builds/",
-      "title": "Vanessa",
-      "date": null,
-      "hero": "Mak",
-      "tag": "vanessa Build",
-      "items": [
-        "Torpedo",
-        "Elemental Depth Charge",
-        "Refractor",
-        "Incendiary Rounds"
-      ],
-      "source": "category",
-      "snippet": "Vanessa",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/dooley-builds/",
-      "title": "Dooley",
-      "date": null,
-      "hero": "Mak",
-      "tag": "dooley Build",
-      "items": [
-        "Terry-Dactyl",
-        "Mech-Moles",
-        "Hydraulic Press"
-      ],
-      "source": "category",
-      "snippet": "Dooley",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/category/builds/pygmalien-builds/",
-      "title": "Pygmalien",
-      "date": null,
-      "hero": "Mak",
-      "tag": "pygmalien Build",
-      "items": [
-        "Double Whammy"
-      ],
-      "source": "category",
-      "snippet": "Pygmalien",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1379,22 +1074,6 @@
       "fetch_error": null
     },
     {
-      "url": "https://bazaar-builds.net/category/builds/karnok-builds/",
-      "title": "Karnok",
-      "date": null,
-      "hero": "Mak",
-      "tag": "karnok Build",
-      "items": [
-        "Wild Boar",
-        "Trapvine",
-        "Frog Hollow"
-      ],
-      "source": "category",
-      "snippet": "Karnok",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
       "url": "https://bazaar-builds.net/category/builds/mak-builds/#",
       "title": "Socials",
       "date": null,
@@ -1402,23 +1081,11 @@
       "tag": "Build",
       "items": [
         "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
+        "Athanor",
+        "Ice Claw"
       ],
       "source": "category",
       "snippet": "Socials",
-      "fetch_status": "http_200",
-      "fetch_error": null
-    },
-    {
-      "url": "https://bazaar-builds.net/submit-your-build",
-      "title": "Submit your 10 Win Build",
-      "date": null,
-      "hero": "Mak",
-      "tag": "Submit your 10 Win Build",
-      "items": [],
-      "source": "category",
-      "snippet": "Submit your 10 Win Build",
       "fetch_status": "http_200",
       "fetch_error": null
     },
@@ -1439,7 +1106,7 @@
       "title": "Ice Claw Mak 10-3 Build #34813 Legend – Saulz",
       "date": "2026-05-02",
       "hero": "Mak",
-      "tag": "Ice Claw 10-3 Build",
+      "tag": "Ice Claw Build",
       "items": [
         "Blank Slate",
         "Ice Claw",
@@ -1455,14 +1122,14 @@
       "title": "Frozen Flame Mak 10-5 Build #23514 Legend – Mike001eiei",
       "date": "2026-04-30",
       "hero": "Mak",
-      "tag": "Frozen Flame 10-5 Build",
+      "tag": "Frozen Flame Build",
       "items": [
         "Frozen Horror",
         "Library",
         "Cellar",
+        "Vial Launcher",
         "Wild Boar",
-        "Orange Julian",
-        "Vial Launcher"
+        "Orange Julian"
       ],
       "source": "category",
       "snippet": "Frozen Flame Mak 10-5 Build #23514 Legend – Mike001eiei",
@@ -1474,16 +1141,16 @@
       "title": "Potion Mak 10-2 Build – Zn0w",
       "date": "2026-04-29",
       "hero": "Mak",
-      "tag": "Potion 10-2 Build",
+      "tag": "Potion Build",
       "items": [
         "Flying Potion",
         "Satchel",
         "Boiling Flask",
-        "Terry-Dactyl",
-        "Mech-Moles",
         "Vial Launcher",
         "Slumbering Primordial",
-        "Athanor"
+        "Athanor",
+        "Terry-Dactyl",
+        "Mech-Moles"
       ],
       "source": "category",
       "snippet": "Potion Mak 10-2 Build – Zn0w",
@@ -1495,12 +1162,12 @@
       "title": "Poison Freeze Mak 10-4 Build #31456 Legend – Mike001eiei",
       "date": "2026-04-29",
       "hero": "Mak",
-      "tag": "Poison Freeze 10-4 Build",
+      "tag": "Poison Freeze Build",
       "items": [
         "Idol of Decay",
         "Atmospheric Sampler",
-        "Staff of the Moose",
-        "Crow's Nest"
+        "Crow's Nest",
+        "Staff of the Moose"
       ],
       "source": "category",
       "snippet": "Poison Freeze Mak 10-4 Build #31456 Legend – Mike001eiei",
@@ -1512,7 +1179,7 @@
       "title": "Burn Mak 10 Win Build – Zn0w",
       "date": "2026-04-28",
       "hero": "Mak",
-      "tag": "Burn 10 Win Build",
+      "tag": "Burn Build",
       "items": [
         "Eternal Torch",
         "Fire Claw",
@@ -1532,19 +1199,19 @@
       "title": "Burn Poison Mak 10-2 Build #2750 Legend – jabazam",
       "date": "2026-04-28",
       "hero": "Mak",
-      "tag": "Burn Poison 10-2 Build",
+      "tag": "Burn Poison Build",
       "items": [
         "Library",
         "Retort",
         "Scales",
         "Strength Potion",
         "Calcinator",
-        "Tortuga",
-        "Staff of the Moose",
-        "Ice Claw",
         "Double Whammy",
         "Athanor",
-        "Potion Distillery"
+        "Tortuga",
+        "Potion Distillery",
+        "Staff of the Moose",
+        "Ice Claw"
       ],
       "source": "category",
       "snippet": "Burn Poison Mak 10-2 Build #2750 Legend – jabazam",
@@ -1556,15 +1223,15 @@
       "title": "Vial Launcher Mak 10-2 Build – jetstrm3652",
       "date": "2026-04-28",
       "hero": "Mak",
-      "tag": "Vial Launcher 10-2 Build",
+      "tag": "Vial Launcher Build",
       "items": [
         "Crocodile Tears",
         "Energy Potion",
         "Recycling Bin",
         "Vial Launcher",
         "Boiling Flask",
-        "Staff of the Moose",
-        "Crow's Nest"
+        "Crow's Nest",
+        "Staff of the Moose"
       ],
       "source": "category",
       "snippet": "Vial Launcher Mak 10-2 Build – jetstrm3652",
@@ -1576,19 +1243,19 @@
       "title": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
       "date": "2026-04-28",
       "hero": "Mak",
-      "tag": "Athanor 10-1 Build",
+      "tag": "Athanor Build",
       "items": [
         "Infinite Potion",
         "Show Globe",
         "Strength Potion",
-        "Athanor",
         "Globe",
-        "Orange Julian",
-        "Terry-Dactyl",
-        "Trapvine",
-        "Tortuga",
+        "Athanor",
+        "Crow's Nest",
         "Double Whammy",
-        "Crow's Nest"
+        "Trapvine",
+        "Terry-Dactyl",
+        "Orange Julian",
+        "Tortuga"
       ],
       "source": "category",
       "snippet": "Athanor Mak 10-1 Build #44119 Legend – Eschen",
@@ -1600,15 +1267,15 @@
       "title": "Burn Mak 10-0 Build #41487 Legend – Saulz",
       "date": "2026-04-27",
       "hero": "Mak",
-      "tag": "Burn 10-0 Build",
+      "tag": "Burn Build",
       "items": [
         "Eternal Torch",
         "Fire Claw",
         "Fireflies",
         "Hourglass",
         "Smelling Salts",
-        "Blazehowl Warden",
         "Torch",
+        "Blazehowl Warden",
         "Orange Julian",
         "Ice Claw"
       ],
@@ -1622,15 +1289,15 @@
       "title": "Cauldron Mak 10-4 Build #25528 Legend – bucksh0t",
       "date": "2026-04-27",
       "hero": "Mak",
-      "tag": "Cauldron 10-4 Build",
+      "tag": "Cauldron Build",
       "items": [
         "Cloud Wisp",
         "Earrings",
         "Atmospheric Sampler",
-        "Pulse Rifle",
         "Trapvine",
-        "Staff of the Moose",
-        "Athanor"
+        "Athanor",
+        "Pulse Rifle",
+        "Staff of the Moose"
       ],
       "source": "category",
       "snippet": "Cauldron Mak 10-4 Build #25528 Legend – bucksh0t",
@@ -1656,11 +1323,12 @@
       "hero": "Mak",
       "tag": "Uncategorized",
       "items": [
-        "Mech-Moles",
-        "Frog Hollow",
+        "Laser Security System",
         "Torpedo",
-        "Ice Claw",
-        "Elemental Depth Charge"
+        "Frog Hollow",
+        "Elemental Depth Charge",
+        "Mech-Moles",
+        "Ice Claw"
       ],
       "source": "category",
       "snippet": "bazaar-builds.net",
@@ -1675,8 +1343,8 @@
       "tag": "Build",
       "items": [
         "Vial Launcher",
-        "Ice Claw",
-        "Athanor"
+        "Athanor",
+        "Ice Claw"
       ],
       "source": "json_ld",
       "snippet": "On this Page, you can find all 10 Win Builds played with Mak in the Bazaar - Can you get 10 Wins with it? Builds by Legend Players, Streamers & More",

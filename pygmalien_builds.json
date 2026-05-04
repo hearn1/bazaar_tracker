@@ -358,7 +358,8 @@
             "Business Card",
             "Luxury Tents",
             "Textiles",
-            "PenFT"
+            "PenFT",
+            "Frog Hollow"
           ],
           "skill_trainers": [
             "Pygmalien",
@@ -386,13 +387,20 @@
           ],
           "support_items": [
             "Trapvine",
+            "Gramophone",
+            "Belt",
+            "Booby Trap",
+            "Globe",
+            "Lemonade Stand",
+            "Luxury Tents",
+            "Invigorating Cold",
             "Rewards Card",
             "Business Card",
             "ATM",
             "Safe",
             "Briefcase"
           ],
-          "notes": "Low-confidence but distinct Bazaar Builds archetype from recent evidence. Laser Security System appeared with Billboard, Balcony, and Trapvine, suggesting a property-control branch that overlaps Money Furnace and Private Hot Springs without being identical to either."
+          "notes": "Property-control build that uses Laser Security System as board disruption alongside Billboard and Balcony for scaling value. Trapvine provides additional slow/lockdown. Gramophone and Belt are broadly strong late supports. Booby Trap buys time. Economy universals (Globe, Lemonade Stand, Luxury Tents) keep the engine running. Overlaps with Money Furnace and Private Hot Springs without requiring either as core."
         },
         {
           "name": "Private Hot Springs",
