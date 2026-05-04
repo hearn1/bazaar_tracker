@@ -176,6 +176,10 @@ class NameResolver:
             readable.append(name)
         return readable
 
+    def get_template_id(self, instance_id: str) -> str:
+        """Return the known template_id for an instance, or empty string."""
+        return self._template_map.get(instance_id, "")
+
     def clear(self):
         """Clear all caches.  Call on run reset."""
         self._cache.clear()

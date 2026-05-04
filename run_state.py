@@ -327,19 +327,15 @@ class RunState:
     def _record_sell_disposal(
         self,
         *,
-        timestamp: str,
-        instance_id: str,
         category: str,
         card_record: dict,
-        matched_owned_ids: list[str],
-        disposed_batch: list[str],
         sell_signal: str = "sell_command_plus_dispose",
         gold_earned: Optional[int] = None,
     ):
-        sell_command = self._pending_sell_commands.pop(0) if self._pending_sell_commands else {}
+        self._pending_sell_commands.pop(0) if self._pending_sell_commands else None
         template_id = card_record.get("template_id") or ""
         from_socket = card_record.get("socket")
-        name = card_record.get("name") or card_cache.resolve_template_id(template_id) or instance_id
+        name = card_record.get("name") or card_cache.resolve_template_id(template_id) or card_record.get("instance_id", "")
         print(
             f"[Action] SELL {name} | {category}:{from_socket} | "
             f"signal={sell_signal} gold={gold_earned}"
@@ -676,8 +672,6 @@ class RunState:
                 self._encounter_mode = "shop"
                 self._shop.on_select_command()
             return
-        if not self._in_shop:
-            return
 
     def _on_cards_spawned(self, instance_ids: list[str]):
         non_item_ids = []
@@ -781,12 +775,8 @@ class RunState:
                 category, card_record = self.board.pop(sold_instance_id)
                 if category and card_record is not None:
                     self._record_sell_disposal(
-                        timestamp=event.get("ts", ""),
-                        instance_id=sold_instance_id,
                         category=category,
                         card_record=card_record,
-                        matched_owned_ids=matched_owned_ids,
-                        disposed_batch=list(instance_ids),
                     )
             elif len(matched_owned_ids) > 1:
                 print(
@@ -819,12 +809,8 @@ class RunState:
             return
         signal = "sell_command_plus_sold_line" if self._pending_sell_commands else "sold_line"
         self._record_sell_disposal(
-            timestamp=event.get("ts", ""),
-            instance_id=instance_id,
             category=category,
             card_record=card_record,
-            matched_owned_ids=[instance_id],
-            disposed_batch=[],
             sell_signal=signal,
             gold_earned=gold_earned,
         )
@@ -877,7 +863,7 @@ class RunState:
             return
 
         instance_id = self.pending_offered[0]
-        template_id = self.resolver._template_map.get(instance_id, "")
+        template_id = self.resolver.get_template_id(instance_id)
         offered = [instance_id]
         dtype = self._classify_purchase(instance_id)
         if dtype == "skill":
@@ -1127,7 +1113,7 @@ class RunState:
             return
         instance_id = event["instance_id"]
         socket      = event["socket"]
-        template_id = self.resolver._template_map.get(instance_id, "")
+        template_id = self.resolver.get_template_id(instance_id)
         offered     = list(self.pending_offered)
         rejected    = [x for x in offered if x != instance_id]
         self.board.buy(
