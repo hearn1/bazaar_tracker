@@ -8,7 +8,6 @@ import importlib.metadata
 import json
 import os
 import platform
-import shutil
 import socket
 import sqlite3
 import subprocess

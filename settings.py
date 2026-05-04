@@ -41,25 +41,6 @@ import app_paths
 SCHEMA_VERSION = 3
 
 
-def _migration_noop(data: dict) -> dict:
-    return data
-
-
-def _migration_1_to_2(data: dict) -> dict:
-    data.setdefault("setup", {})
-    return data
-
-
-def _migration_2_to_3(data: dict) -> dict:
-    data.setdefault("updates", {})
-    return data
-
-
-SETTINGS_MIGRATIONS = {
-    1: _migration_1_to_2,
-    2: _migration_2_to_3,
-}
-
 DEFAULTS = {
     "schema_version": SCHEMA_VERSION,
     "overlay": {
@@ -258,12 +239,6 @@ def save() -> bool:
 
 
 def migrate_settings(data: dict) -> dict:
-    """
-    Apply ordered settings migrations up to SCHEMA_VERSION.
-
-    The migration table is intentionally explicit so future schema changes can
-    be added without hiding compatibility behavior inside default merging.
-    """
     out = copy.deepcopy(data)
     raw_version = out.get("schema_version", 0)
     try:
@@ -278,17 +253,7 @@ def migrate_settings(data: dict) -> dict:
         )
         return out
 
-    while current_version < SCHEMA_VERSION:
-        migration = SETTINGS_MIGRATIONS.get(current_version)
-        if migration is None:
-            # No structural migration needed for this version step.
-            current_version += 1
-            out["schema_version"] = current_version
-            continue
-        out = migration(out)
-        current_version += 1
-        out["schema_version"] = current_version
-
+    out["schema_version"] = SCHEMA_VERSION
     return out
 
 

@@ -119,15 +119,6 @@ def debug_structure(obj, indent=0, max_depth=4):
 
 # -- Schema-aware parsing ------------------------------------------------------
 
-def _get_map_value(obj, key):
-    """Extract a value from a __map__ encoded dict."""
-    if isinstance(obj, list) and obj and obj[0] == "__map__":
-        for k, v in obj[1]:
-            if k == key:
-                return v
-    return None
-
-
 def _map_to_dict(obj):
     """Convert a __map__ encoded object to a plain dict."""
     if isinstance(obj, list) and obj and obj[0] == "__map__":

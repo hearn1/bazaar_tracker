@@ -2041,8 +2041,6 @@ function getSnapshotMatches(method, args) {
         return matchHintedArgs(args, method.snapshotHints, isRelevantSnapshotArg);
     }
     return [];
-    // debug return
-    // return inspectArgs(method,args);
 }
 
 
@@ -2051,8 +2049,6 @@ function getCommandMatches(method,args){
         return matchHintedArgs(args,method.commandHints,(className,paramType)=>isCommandClassName(className)||isCommandParamType(paramType));
     }
     return [];
-    // debug return
-    // return inspectArgs(method,args).filter(match=>isCommandClassName(match.className));
 }
 
 function emitCommandProbe(method, reason, matches, args) {
@@ -2673,24 +2669,6 @@ def _make_action_event(gs: dict, event_type: str, **details) -> dict:
         "gold": player.get("Gold"),
         "details": details,
     }
-
-
-def _bucket_signature(gs: dict) -> str:
-    """F2: Lightweight bucket signature â€” card count + first few instance_ids per bucket.
-
-    Much cheaper than full _card_map comparison: just count cards and sample a
-    few instance IDs per category. Only if the signature changes do we do the
-    full delta walk.
-    """
-    parts = []
-    for key in _CARD_LIST_KEYS:
-        cards = gs.get(key) or []
-        count = len(cards)
-        sample_ids = ",".join(
-            str(c.get("instance_id") or "") for c in cards[:3]
-        )
-        parts.append(f"{key}:{count}:{sample_ids}")
-    return "|".join(parts)
 
 
 def _infer_action_events(prev: dict | None, curr: dict) -> list[dict]:

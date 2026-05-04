@@ -123,16 +123,6 @@ def _resolve_image(conn, template_id: str) -> Optional[str]:
     return lookup_image_url(name)
 
 
-def _resolve_chosen_template(d: dict) -> str:
-    chosen_template = d.get("chosen_template") or ""
-    if chosen_template:
-        return chosen_template
-    offered_templates = _safe_json(d.get("offered_templates"))
-    if isinstance(offered_templates, dict):
-        return offered_templates.get(d.get("chosen_id"), "") or ""
-    return ""
-
-
 def _resolve_instance_ids_via_api_cards(conn, instance_ids: list[str]) -> dict[str, str]:
     if not instance_ids:
         return {}
