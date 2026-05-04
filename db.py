@@ -21,7 +21,6 @@ import json
 import queue
 import threading
 import time
-from pathlib import Path
 from typing import Optional
 
 import app_paths
@@ -588,28 +587,6 @@ def _upsert_run_impl(session_id: str, account_id: str, hero: str, started_at: st
     run_id = cur.fetchone()[0]
     conn.commit()
     return run_id
-
-
-def prune_old_runs(keep: int = 10):
-    """Delete all but the most recent `keep` runs and their associated data.
-    Not called automatically — invoke explicitly when needed.
-    """
-    conn = get_conn()
-    try:
-        old_ids = conn.execute(
-            "SELECT id FROM runs ORDER BY id DESC LIMIT -1 OFFSET ?", (keep,)
-        ).fetchall()
-        if not old_ids:
-            return
-        ids = [r[0] for r in old_ids]
-        placeholders = ",".join("?" * len(ids))
-        for table in ("decisions", "combat_results"):
-            conn.execute(f"DELETE FROM {table} WHERE run_id IN ({placeholders})", ids)
-        conn.execute(f"DELETE FROM runs WHERE id IN ({placeholders})", ids)
-        conn.commit()
-        print(f"[DB] Pruned {len(ids)} old run(s), keeping last {keep}.")
-    finally:
-        conn.close()
 
 
 def close_run(run_id: int, ended_at: str, outcome: str):
