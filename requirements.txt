@@ -25,5 +25,8 @@ frida  # unpinned — must match game build
 UnityPy
 pillow
 
+# Build catalog schema validation
+jsonschema==4.23.0
+
 # Test framework
 pytest==9.0.3

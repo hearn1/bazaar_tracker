@@ -30,6 +30,12 @@ from board_state import BoardState
 
 BUILD_GUIDE_DIR = app_paths.bundled_root()
 DEFAULT_HERO = "Karnok"
+
+# Schema versioning — refuse catalogs outside [MIN, MAX] on both ends so an
+# old tracker never silently misreads a future schema (see design doc §4).
+BUILDS_SCHEMA_MIN = 1
+BUILDS_SCHEMA_MAX = 1
+
 CATALOG_FILENAMES = {
     "dooley": "dooley_builds.json",
     "karnok": "karnok_builds.json",
@@ -134,11 +140,63 @@ def _empty_builds(hero: str) -> dict:
 
 
 @lru_cache(maxsize=None)
+def _load_builds_schema() -> Optional[dict]:
+    schema_path = BUILD_GUIDE_DIR / "builds_schema.json"
+    if not schema_path.exists():
+        print(f"[Scorer] builds_schema.json not found at {schema_path} — skipping validation")
+        return None
+    try:
+        return json.loads(schema_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        print(f"[Scorer] Could not load builds_schema.json: {exc}")
+        return None
+
+
+def validate_builds_catalog(data: dict) -> tuple[bool, str]:
+    """Validate a catalog dict against builds_schema.json and check schema_version.
+
+    Returns (ok, error_message). Called by _load_builds_cached and directly by
+    tests. Returns (True, '') when the schema file is missing so that the
+    tracker degrades gracefully rather than crashing on a missing schema.
+    """
+    schema = _load_builds_schema()
+    if schema is not None:
+        try:
+            import jsonschema
+            jsonschema.validate(instance=data, schema=schema)
+        except jsonschema.ValidationError as exc:
+            return False, f"Schema validation failed: {exc.message}"
+        except jsonschema.SchemaError as exc:
+            print(f"[Scorer] builds_schema.json itself is invalid: {exc.message}")
+
+    version = data.get("schema_version")
+    if not isinstance(version, int):
+        return False, (
+            f"schema_version missing or not an integer (got {type(version).__name__!r})"
+        )
+    if version < BUILDS_SCHEMA_MIN or version > BUILDS_SCHEMA_MAX:
+        return False, (
+            f"schema_version {version} is outside supported range "
+            f"[{BUILDS_SCHEMA_MIN}, {BUILDS_SCHEMA_MAX}]"
+        )
+    return True, ""
+
+
+@lru_cache(maxsize=None)
 def _load_builds_cached(hero_name: str) -> dict:
     path = _builds_path(hero_name)
-    if path.exists():
-        return json.loads(path.read_text(encoding="utf-8"))
-    return _empty_builds(hero_name)
+    if not path.exists():
+        return _empty_builds(hero_name)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        print(f"[Scorer] Failed to read catalog {path.name}: {exc}")
+        return _empty_builds(hero_name)
+    ok, err = validate_builds_catalog(data)
+    if not ok:
+        print(f"[Scorer] Refusing catalog {path.name}: {err}. Falling back to empty catalog.")
+        return _empty_builds(hero_name)
+    return data
 
 
 def load_builds(hero: Optional[str] = None) -> dict:

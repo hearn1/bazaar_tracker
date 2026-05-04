@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bazaar Tracker Build Catalog",
+  "description": "Schema for <hero>_builds.json catalogs consumed by scorer.py and web/build_helpers.py. Required fields are strict; additionalProperties: true so the enricher can add new optional fields without a coordinated schema bump.",
+  "type": "object",
+  "required": ["schema_version", "hero", "season", "last_updated", "notes", "item_tier_list", "game_phases"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Integer contract version. Tracker refuses catalogs outside [BUILDS_SCHEMA_MIN, BUILDS_SCHEMA_MAX]."
+    },
+    "hero": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name of the hero this catalog covers (e.g. 'Karnok')."
+    },
+    "season": {
+      "oneOf": [{"type": "integer"}, {"type": "string"}],
+      "description": "Season number. Accepted as integer or string for backward compatibility."
+    },
+    "last_updated": {
+      "type": "string",
+      "description": "Human-readable provenance date (ISO 8601 preferred, e.g. '2026-04-25')."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Top-level curator notes about the hero's playstyle and win conditions."
+    },
+    "item_tier_list": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Overall item quality ranking. Keys are tier labels (S/A/B/C/D/F) with string-array values, plus an optional 'description' string.",
+      "properties": {
+        "description": {"type": "string"}
+      }
+    },
+    "game_phases": {
+      "type": "object",
+      "required": ["early", "early_mid", "late"],
+      "additionalProperties": true,
+      "properties": {
+        "early": {"$ref": "#/definitions/early_phase"},
+        "early_mid": {"$ref": "#/definitions/archetype_phase"},
+        "late": {"$ref": "#/definitions/archetype_phase"}
+      }
+    }
+  },
+  "definitions": {
+    "early_phase": {
+      "type": "object",
+      "required": ["day_range", "description", "universal_utility_items", "economy_items"],
+      "additionalProperties": true,
+      "properties": {
+        "day_range": {"type": "string"},
+        "description": {"type": "string"},
+        "notes": {"type": "string"},
+        "universal_utility_items": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Items the runtime reads to score early picks. Required by scorer.score_early_decision."
+        },
+        "economy_items": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Economy-priority items for the early phase. Required by scorer.score_early_decision."
+        }
+      }
+    },
+    "archetype_phase": {
+      "type": "object",
+      "required": ["day_range", "description", "archetypes"],
+      "additionalProperties": true,
+      "properties": {
+        "day_range": {"type": "string"},
+        "description": {"type": "string"},
+        "notes": {"type": "string"},
+        "archetypes": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/archetype"},
+          "description": "Build archetypes for this phase. Consumed by scorer and web/build_helpers."
+        }
+      }
+    },
+    "archetype": {
+      "type": "object",
+      "required": ["name", "carry_items", "support_items"],
+      "additionalProperties": true,
+      "description": "A single build archetype. Runtime reads name, core_items, carry_items, support_items, timing_profile.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Archetype display name referenced in score notes and overlay."
+        },
+        "core_items": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Items that define the build identity. Used for commit detection in scorer.check_commit_threshold."
+        },
+        "carry_items": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Primary damage/scaling items. Required for commit detection."
+        },
+        "support_items": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Enabling or synergy items."
+        },
+        "timing_profile": {
+          "type": "string",
+          "enum": ["tempo", "scaling", "exodia", "neutral"],
+          "description": "When the archetype's payoff comes online. Used in TIMING_PROFILE_CURVES weighting."
+        }
+      }
+    }
+  }
+}
