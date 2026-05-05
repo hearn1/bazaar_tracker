@@ -38,9 +38,10 @@ Sample size from one curator's account, even with occasional opt-in player uploa
 - **Deduplication between sources**: a single winning run could appear as a bazaar-builds.net post *and* feed into bazaardb's aggregate. Probably fine — they're at different aggregation levels — but worth a sanity check during dry-run.
 - Whether the in-house tracker should aggregate runs across heroes for cross-validation (cross-hero item appearance is sometimes informative — e.g., a generic utility item).
 
-**Pre-implementation research tasks (must resolve before subtask 1):**
-- **Shape of `bazaardb.gg/run/meta`** — does bazaardb expose a JSON endpoint, or is it HTML only? Determines whether ingestion is brittle (HTML, breaks on layout changes) or stable (JSON), and how the 30-day window is requested.
-- **Mobalytics article structure** — confirm pages are freeform article HTML (presumed). Validates the LLM-parsing path in §9 vs. a cheaper structured extractor.
+**Pre-implementation research task (must resolve before subtask 1):** a single source-shape probe session that covers all three external sources. For each: HTTP shape (HTML vs JSON endpoint), freshness model (rolling aggregate vs. filterable window), parseability (structured DOM/JSON vs. freeform article), rate-limit posture, and a small fetched sample committed for reference. Specifically:
+- **`bazaardb.gg/run/meta`** — JSON endpoint or HTML only? How is the 30-day window expressed (URL param, dropdown, computed client-side)?
+- **`mobalytics.gg/the-bazaar/guides/meta-builds` and `/builds`** — confirm freeform article HTML (presumed); identify any structured fragments (item tags, JSON-LD, embedded data) that would let a deterministic extractor cover part of the parse before the LLM stage takes over.
+- **`bazaar-builds.net`** — verify today's enricher selectors still hold; flag any layout drift since the last enricher run. Already integrated, lowest-risk source, but the cron will run unattended so silent drift is the failure mode to guard against.
 
 ---
 
