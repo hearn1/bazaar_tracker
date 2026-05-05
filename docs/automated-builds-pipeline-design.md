@@ -6,26 +6,36 @@
 
 ## 1. Signal Source(s)
 
-**Decision: bazaar-builds.net stays primary. In-house tracker SQLite is a secondary sanity check, not an independent trigger. BazaarDB and community ladder data are parked.**
+**Decision: four-source pipeline with assigned roles. `bazaardb.gg/run/meta` is the primary statistical baseline. Mobalytics curated guides corroborate. `bazaar-builds.net` per-run posts enrich late-game/archetype-internal item evidence. In-house tracker SQLite is a tertiary sanity check.**
 
-The current enricher already scrapes bazaar-builds.net and is the only source with usable coverage today. Switching the primary off it without a validated replacement throws away the existing dry-run baseline (subtask 1's test plan: replay against historical artifacts).
+| Source | Role | Why |
+|---|---|---|
+| `bazaardb.gg/run/meta` | **primary** — statistical baseline ("what's winning right now") | Already pre-aggregated meta view; biggest sample, smallest per-run noise |
+| `mobalytics.gg/the-bazaar/guides/meta-builds` | **secondary** — curated archetype confirmation (~3 builds/hero/season) | Low volume but high editorial bar. Inclusion in a Mobalytics meta guide is a strong signal an archetype/item *belongs*, even if bazaardb's aggregate hasn't caught up yet |
+| `mobalytics.gg/the-bazaar/builds` | **secondary** — guide-cadence supplemental | Updates when new guides post, a touch broader than the meta-builds page |
+| `bazaar-builds.net/category/builds/` | **tertiary** — late-game item enrichment, per-run granularity | Per-win-run posts surface late-game item choices the aggregate views may not break down. Today's enricher logic already handles this; keep as the archetype-internal item evidence pathway |
+| in-house `bazaar_runs.db` | sanity check | One curator's runs are too low-volume to drive decisions but useful as a "did the meta really shift?" confirmation lens in the PR body |
 
-In-house runs from `bazaar_runs.db` (one curator, occasionally a few opt-in players if multi-player upload ever lands) cannot drive add/remove decisions on their own — sample size is too small to distinguish a meta shift from one bad week of runs. Use them only as a confirmation lens in the PR body ("this candidate-remove item appeared in N tracker runs in the same window"), never as a gate.
-
-**Rejected: BazaarDB API as primary**
-
-Status unknown. The "Build Archetype Images" ROADMAP entry already notes outreach is open. Until BazaarDB confirms a public API and licensing terms, treat it as research-only. **Unresolved:** confirm whether BazaarDB exposes a stable, documented API and what its terms allow.
-
-**Rejected: community ladder data**
-
-Tempo Storm doesn't publish a public ladder feed that I'm aware of. **Unresolved:** confirm — if there's an undocumented endpoint or third-party aggregator with terms allowing redistribution, this could become a primary source on its own merit (richer than scraped build posts).
+The four external sources have different *shapes*, not just different freshness. bazaardb is a pre-aggregated ranking; Mobalytics is hand-picked guides; bazaar-builds.net is raw per-run posts. The pipeline shouldn't blend them into a single weighted score from day one — it should attribute evidence per-source in the diff JSON (§8) so the curator sees *which* sources flagged a change.
 
 **Rejected: weighted blend across sources from day one**
 
-A weighting scheme (e.g., 70% scrape + 30% tracker) requires per-source calibration that's hard to validate with current sample volume. Defer until at least one secondary source has been observed to disagree with the primary in a useful way.
+A scoring formula (e.g., 0.5·bazaardb + 0.3·mobalytics + 0.2·bazaar-builds) requires per-source calibration that's hard to validate before any source has been observed disagreeing with another in a useful way. Cleaner: thresholds are *per-source* (§2), and the proposal surfaces evidence from each source separately. The curator does the implicit weighting at review time.
+
+**Rejected: keep bazaar-builds.net as primary**
+
+Today's enricher uses it because it's the only source the prior workflow integrated. Now that bazaardb.gg/run/meta is on the table, demoting bazaar-builds.net to "late-game item enrichment" matches its actual shape — per-run posts are good for "which late-game items did winners pick" but noisier than an aggregate for "which archetypes are dominant."
+
+**Rejected: in-house tracker as a primary signal**
+
+Sample size from one curator's account, even with occasional opt-in player uploads, is far below what's needed to distinguish meta shifts from week-to-week noise.
 
 **Unresolved sub-questions:**
-- Licensing posture for ongoing automated scraping of bazaar-builds.net. Manual enricher use is presumably tolerated; a daily-or-weekly bot is more visible. Worth a courtesy email to the site owner before the cron goes live.
+- **Shape of `bazaardb.gg/run/meta`**: HTML scrape only, or does bazaardb expose a JSON endpoint? Subtask 1 should probe before locking the schema. Affects whether ingestion is brittle (HTML, breaks on layout changes) or stable (JSON).
+- **Freshness model of `bazaardb.gg/run/meta`**: is it a rolling aggregate over the last N days, or filterable by window? Determines what "window" means for this source in §2's thresholds and §3's stats sidecar.
+- **Mobalytics page parseability**: are the build pages structured (item lists, archetype tags) or freeform article HTML? Determines how cheap it is to extract item evidence vs. a hand-maintained mapping.
+- **Source-disagreement resolution**: if bazaardb says item X is hot but no Mobalytics guide includes it, what does the proposal say? Default: trust bazaardb's statistical signal, surface the Mobalytics gap as context ("not yet in any Mobalytics build"), let the curator decide. Pin in subtask 1.
+- **Deduplication between sources**: a single winning run can appear as a bazaar-builds.net post *and* feed into bazaardb's aggregate. Probably fine — they're at different aggregation levels, not duplicate counts of the same evidence — but worth a sanity check during dry-run.
 - Whether the in-house tracker should aggregate runs across heroes for cross-validation (cross-hero item appearance is sometimes informative — e.g., a generic utility item).
 
 ---
@@ -34,16 +44,20 @@ A weighting scheme (e.g., 70% scrape + 30% tracker) requires per-source calibrat
 
 **Push back on the framing.** "Auto-add liberal, auto-remove conservative" is the right shape for a system that auto-applies. This pipeline doesn't auto-apply — every change goes through curator PR review (§5). The pipeline's job is *evidence assembly*, not catalog mutation. Both sides should be conservative on the *proposal* threshold so the curator's review queue stays signal-rich.
 
-**Decision: both sides conservative. Add and remove are *proposed* with concrete thresholds; the curator is the liberal/conservative axis.**
+**Decision: both sides conservative. Add and remove are *proposed* with per-source thresholds; the curator is the liberal/conservative axis.**
+
+With the multi-source picture in §1, thresholds split per source. A signal that satisfies *any* source's add-threshold gets surfaced in the proposal (with attribution), so the curator sees both strong-single-source and weak-multi-source evidence. Removes require *all available sources* to agree on absence, since one source going stale shouldn't drop catalog items.
 
 Initial thresholds (subject to subtask 1 dry-run validation):
 
-| Direction | Threshold | Notes |
+| Direction | Source | Threshold |
 |---|---|---|
-| Add candidate (existing archetype, missing item) | item appears in ≥2 of last 3 windows AND freq ≥0.4 in latest window AND latest window sample_count ≥3 | Mirrors today's enricher's `core_threshold`/`support_threshold` logic but applied across windows, not within one |
-| Add candidate (new archetype) | tag appears in ≥2 of last 3 windows with sample_count ≥2 each AND ≥1 candidate core item carries across | Avoids one-off hot-take posts spinning up archetypes |
-| Remove candidate (item) | item present in catalog but absent from observed builds for last 4 consecutive windows | Window cadence ties to §6 |
-| Remove candidate (archetype) | archetype name unmatched by any tag for last 6 consecutive windows | Higher bar — archetype removal is more disruptive |
+| Add (existing archetype, missing item) | bazaardb meta | item ranks in top-K of its archetype's item list (K TBD by source shape) for ≥2 of last 3 windows |
+| Add (existing archetype, missing item) | Mobalytics | item appears in ≥1 published Mobalytics build for the matching archetype |
+| Add (existing archetype, missing item) | bazaar-builds.net | item appears in ≥2 of last 3 windows AND freq ≥0.4 in latest window AND latest sample_count ≥3 (matches today's enricher logic, applied across windows) |
+| Add (new archetype) | any source | tag appears in ≥2 of last 3 windows AND ≥1 candidate core item carries across windows |
+| Remove candidate (item) | all available sources | item present in catalog but absent from *every* source for last 4 consecutive windows |
+| Remove candidate (archetype) | all available sources | archetype unmatched by any source's tagging for last 6 consecutive windows |
 
 "Candidate" means *surfaced in the PR body*, not applied. Removals never auto-mutate the catalog file; they appear in the diff JSON's `*_removal_candidates` slot for curator action.
 
@@ -55,7 +69,9 @@ Catalog ships to all players via `refresh-builds`. Auto-removal means a single s
 
 **Unresolved:**
 - Window cadence (§6) directly determines what "4 consecutive windows" means in calendar time. Pin those together.
-- Whether thresholds should differ per hero (some heroes have lower scrape volume — Pygmalien posts ≪ Dooley posts). Default no; revisit if dry-run shows a hero starves the pipeline.
+- Whether thresholds should differ per hero (some heroes have lower volume — Pygmalien evidence ≪ Dooley evidence across all sources). Default no; revisit if dry-run shows a hero starves the pipeline.
+- Whether Mobalytics inclusion alone (one curated guide) should propose an item as **core** rather than **support**. Editorial inclusion is a stronger signal than statistical frequency, but a single guide is also a single editor's opinion. Default: propose as support; curator promotes to core in review.
+- "All sources agree on absence" for removes is the right posture in principle but breaks if one source is *temporarily broken* (scrape regression, site outage). Need a definition of "available" that excludes sources with no data in the latest window — otherwise a scrape regression silently disables remove proposals.
 
 ---
 
@@ -103,6 +119,7 @@ Same argument as the prior design rejected a third "data" repo. Solo curator, no
 - History window: keep last N windows (~6 months at weekly cadence?) or unbounded? Lean toward bounded with a configurable `--retain-windows` flag — disk is cheap but unbounded growth eventually makes the file unwieldy in PR diffs of bazaar-builds itself.
 - Whether stats commits to bazaar-builds go on `main` directly or via PR. Direct push is fine — the file is bot-written, no review value, just provenance.
 - File-locking / concurrent-run safety. Probably moot if §6's concurrency control prevents overlapping runs, but worth a mention in the implementation spec.
+- **Multi-source schema**: per-item entries need per-source breakdowns (e.g., `per_source: {bazaardb: {...}, mobalytics: {...}, bazaar_builds_net: {...}}`) so the diff generator can attribute evidence in the PR body. One file per (hero, source) is also viable but loses cross-source joinability. Lean toward single file per hero with nested per-source.
 
 ---
 
@@ -139,6 +156,7 @@ Viable, but means the curator wakes up to a 30-archetype removal PR the day afte
 **Unresolved:**
 - Whether freeze should auto-trigger if catalog `last_updated` was edited within the last 7 days (proxy for "curator just touched this hero, presumably for a patch"). Probably no — false positives on routine edits.
 - Whether the freeze should be per-hero or global. Lean per-hero; some patches only touch one hero's items.
+- Source-specific freeze nuance: bazaardb's aggregate re-stabilizes within days post-patch; Mobalytics guides update on editorial cadence (slower). A 14-day blanket freeze is conservative for bazaardb and possibly too short for Mobalytics. Default to one global window for simplicity; revisit if dry-runs show systematic mis-timing.
 
 ---
 
@@ -248,7 +266,14 @@ Diff JSON shape (finalize in subtask 3):
     "archetype_updates": [
       {
         "phase": "early_mid", "archetype": "Axe", "sample_count_latest": 7,
-        "missing_core": [{"item": "X", "windows_seen": 3, "freq_latest": 0.71, "first_seen_window": "..."}],
+        "missing_core": [{
+          "item": "X", "windows_seen": 3, "first_seen_window": "...",
+          "evidence_by_source": {
+            "bazaardb": {"rank": 4, "windows_in_top_k": 3},
+            "mobalytics": {"in_guide_count": 1, "guide_urls": ["..."]},
+            "bazaar_builds_net": {"freq_latest": 0.71, "appearances_latest": 5, "sample_count_latest": 7}
+          }
+        }],
         "missing_support": [...]
       }
     ],
