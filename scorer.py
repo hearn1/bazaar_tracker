@@ -106,6 +106,15 @@ def _builds_path(hero: Optional[str] = None) -> Path:
     return BUILD_GUIDE_DIR / _hero_catalog_filename(hero_name)
 
 
+def _writable_builds_dir() -> Path:
+    return app_paths.data_dir() / "builds"
+
+
+def _writable_builds_path(hero: Optional[str] = None) -> Path:
+    hero_name = normalize_hero_name(hero) or DEFAULT_HERO
+    return _writable_builds_dir() / _hero_catalog_filename(hero_name)
+
+
 def _empty_builds(hero: str) -> dict:
     return {
         "hero": hero,
@@ -184,19 +193,74 @@ def validate_builds_catalog(data: dict) -> tuple[bool, str]:
 
 @lru_cache(maxsize=None)
 def _load_builds_cached(hero_name: str) -> dict:
-    path = _builds_path(hero_name)
-    if not path.exists():
-        return _empty_builds(hero_name)
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError) as exc:
-        print(f"[Scorer] Failed to read catalog {path.name}: {exc}")
-        return _empty_builds(hero_name)
-    ok, err = validate_builds_catalog(data)
-    if not ok:
-        print(f"[Scorer] Refusing catalog {path.name}: {err}. Falling back to empty catalog.")
-        return _empty_builds(hero_name)
-    return data
+    for source, path in (
+        ("writable", _writable_builds_path(hero_name)),
+        ("bundled", _builds_path(hero_name)),
+    ):
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as exc:
+            print(f"[Scorer] Failed to read {source} catalog {path.name}: {exc}")
+            continue
+        if not isinstance(data, dict):
+            print(f"[Scorer] Refusing {source} catalog {path.name}: catalog root is not an object")
+            continue
+        ok, err = validate_builds_catalog(data)
+        if not ok:
+            print(f"[Scorer] Refusing {source} catalog {path.name}: {err}")
+            continue
+        print(
+            f"[Scorer] Loaded {source} build catalog for {hero_name}: "
+            f"{path.name} (last_updated={data.get('last_updated')})"
+        )
+        return data
+    print(f"[Scorer] No valid build catalog found for {hero_name}; using empty catalog.")
+    return _empty_builds(hero_name)
+
+
+def catalog_source_status(hero: str) -> dict:
+    """Return source/last_updated details for doctor without mutating the load cache."""
+    hero_name = normalize_hero_name(hero) or DEFAULT_HERO
+    filename = _hero_catalog_filename(hero_name)
+    candidates = []
+    selected = None
+    for source, path in (
+        ("writable", _writable_builds_path(hero_name)),
+        ("bundled", _builds_path(hero_name)),
+    ):
+        details = {
+            "source": source,
+            "path": str(path),
+            "exists": path.exists(),
+            "valid": False,
+            "last_updated": None,
+            "error": None,
+        }
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    ok, err = validate_builds_catalog(data)
+                    details["valid"] = ok
+                    details["last_updated"] = data.get("last_updated")
+                    if not ok:
+                        details["error"] = err
+                else:
+                    details["error"] = "catalog root is not an object"
+            except (json.JSONDecodeError, OSError) as exc:
+                details["error"] = str(exc)
+        candidates.append(details)
+        if selected is None and details["valid"]:
+            selected = details
+    return {
+        "hero": hero_name,
+        "filename": filename,
+        "source": selected["source"] if selected else "empty",
+        "last_updated": selected["last_updated"] if selected else None,
+        "candidates": candidates,
+    }
 
 
 def load_builds(hero: Optional[str] = None) -> dict:

@@ -246,6 +246,9 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "refresh-images":
         import refresh_images
         raise SystemExit(refresh_images.main(sys.argv[2:]))
+    if len(sys.argv) > 1 and sys.argv[1] == "refresh-builds":
+        import refresh_builds
+        raise SystemExit(refresh_builds.main(sys.argv[2:]))
     if len(sys.argv) > 1 and sys.argv[1] == "check-updates":
         import update_checker
         raise SystemExit(update_checker.main(sys.argv[2:]))

@@ -33,11 +33,11 @@ How to test:
 - Verify `scorer.py` loads the new catalog instead of falling back to no-score behavior.
 - Verify overlay Coach tab displays the new hero's archetypes and condition items.
 
-### Build Enricher Repo Split - Partial
+### Build Enricher Repo Split - Done
 
 Goal: separate the build-enrichment toolchain from the runtime tracker. The enricher is a curator-side tool that consumes external sources and produces `<hero>_builds.json` updates; it does not need to ship with the installer or run on player machines.
 
-Status: Steps 1 and 2 done. `bazaar_build_enricher.py`, `probe_*.py`, and `artifacts/` have been extracted to [github.com/hearn1/bazaar-builds](https://github.com/hearn1/bazaar-builds). `<hero>_builds.json` and `builds_schema.json` stay here (consumer owns the contract). Step 3 — tracker-side `refresh-builds` ingestion — is outstanding.
+Status: Steps 1-3 done. `bazaar_build_enricher.py`, `probe_*.py`, and `artifacts/` have been extracted to [github.com/hearn1/bazaar-builds](https://github.com/hearn1/bazaar-builds). `<hero>_builds.json` and `builds_schema.json` stay here (consumer owns the contract). `tracker.py refresh-builds` now pulls the latest published catalogs from `raw.githubusercontent.com/hearn1/bazaar_tracker/main/` into the writable data directory without requiring a reinstall.
 
 Relevant files (this repo):
 - `<hero>_builds.json` — build catalogs consumed by `scorer.py`, `web/build_helpers.py`
@@ -53,10 +53,12 @@ Completed subtasks:
 2. ✅ **Define the builds-data contract** — `builds_schema.json` added, `schema_version` field in all catalogs, tracker validation in `scorer.py` and pytest
 3. ✅ **Extract enricher repo** — `bazaar_build_enricher.py`, `probe_*.py`, `artifacts/` moved to `bazaar-builds`; `app_paths` dependency replaced with `--catalog-dir`/`--names-file` CLI args
 
-Outstanding:
-4. **Tracker-side ingestion** — add `refresh-builds` command (or extend `refresh-content`) to fetch `<hero>_builds.json` from `raw.githubusercontent.com/hearn1/bazaar_tracker/main/` into `app_paths.data_dir()`. See `docs/build-enricher-split-design.md` §6 for failure-mode requirements.
+4. Done: **Tracker-side ingestion** - `refresh-builds` fetches `<hero>_builds.json` from tracker `main`, validates each catalog, writes atomically to `app_paths.data_dir()/builds`, and `scorer.py` prefers compatible writable catalogs before bundled catalogs.
 
-How to test (Step 4):
+Follow-up:
+- Surface `refresh-builds` in player-facing docs/UI as the lightweight catalog-pull mechanism for players. CLI support is wired; no automatic startup refresh and no UI button yet.
+
+How to test:
 - A tracker install with no network access still loads the bundled builds for every supported hero.
 - `refresh-builds` with GitHub unreachable exits non-zero and logs a warning without touching the writable copy.
 - Schema validation failure on a fetched file discards the fetch and leaves the existing writable copy in place.
@@ -68,7 +70,7 @@ Goal: a scheduled job (daily) that fetches fresh build data, regenerates `<hero>
 
 Status: today the loop is fully manual — run `bazaar_build_enricher.py` (in the [bazaar-builds](https://github.com/hearn1/bazaar-builds) repo), eyeball the `*_build_update_proposal.md` artifact, hand-edit `<hero>_builds.json` here, commit. No automation, no signal-based pruning.
 
-Depends on: **Build Enricher Repo Split** (above, now Partial) — automation should live in the `bazaar-builds` repo.
+Depends on: **Build Enricher Repo Split** (above, now Done) — automation should live in the `bazaar-builds` repo.
 
 Open questions (needs its own deep-dive session before implementation):
 - Add vs. remove signals: how do we decide an item or archetype belongs in the catalog and when it should be dropped? Need a usage / win-rate / recency signal that survives a single run-day's noise.

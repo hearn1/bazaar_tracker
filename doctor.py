@@ -24,6 +24,7 @@ import content_manifest
 import db
 import settings
 import refresh_images
+import scorer
 from version import APP_VERSION
 
 
@@ -256,6 +257,16 @@ def collect_image_coverage() -> dict:
     }
 
 
+def collect_build_catalog_sources() -> dict:
+    catalogs = []
+    for hero in sorted(scorer.CATALOG_FILENAMES):
+        catalogs.append(scorer.catalog_source_status(hero))
+    return {
+        "builds_dir": str(app_paths.data_dir() / "builds"),
+        "catalogs": catalogs,
+    }
+
+
 def collect_doctor_report() -> dict:
     settings.load()
     checks: list[CheckResult] = []
@@ -359,6 +370,18 @@ def collect_doctor_report() -> dict:
         image_message = f"Image manifest missing at {image_coverage['manifest_path']}"
     checks.append(_result("image manifest", image_status, image_message, **image_coverage))
 
+    build_catalogs = collect_build_catalog_sources()
+    catalog_parts = [
+        f"{item['hero']}: {item['source']} ({item.get('last_updated') or 'unknown'})"
+        for item in build_catalogs["catalogs"]
+    ]
+    checks.append(_result(
+        "build catalogs",
+        "warn" if any(item["source"] == "empty" for item in build_catalogs["catalogs"]) else "ok",
+        "; ".join(catalog_parts),
+        **build_catalogs,
+    ))
+
     log_path = find_player_log_path()
     checks.append(_result(
         "Player.log",
@@ -409,6 +432,7 @@ def collect_doctor_report() -> dict:
         "db_summary": db_summary,
         "content_manifest": manifest,
         "image_coverage": image_coverage,
+        "build_catalogs": build_catalogs,
         "dependency_versions": deps,
     }
 
@@ -455,6 +479,7 @@ def export_diagnostics(output: Path | None = None, *, include_db: bool = False) 
         _write_json(zipf, "db_schema_summary.json", db_summary)
         _write_json(zipf, "content_manifest.json", report["content_manifest"])
         _write_json(zipf, "image_coverage.json", report["image_coverage"])
+        _write_json(zipf, "build_catalogs.json", report["build_catalogs"])
         _write_json(zipf, "unresolved_template_ids.json", unresolved_report)
         _write_json(zipf, "dependency_versions.json", report["dependency_versions"])
 

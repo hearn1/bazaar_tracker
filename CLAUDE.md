@@ -19,6 +19,9 @@ venv312\Scripts\python.exe tracker.py setup --refresh-content never
 # Refresh static content when online. Re-run after major game patches.
 venv312\Scripts\python.exe tracker.py refresh-content
 
+# Refresh latest published build catalogs without reinstalling.
+venv312\Scripts\python.exe tracker.py refresh-builds
+
 # Refresh/report card image cache coverage.
 venv312\Scripts\python.exe tracker.py refresh-images
 venv312\Scripts\python.exe tracker.py refresh-images --coverage-only
@@ -41,7 +44,7 @@ venv312\Scripts\python.exe watcher.py --log "PATH"
 
 # Tests live in tests/ and pytest.ini sets pythonpath/testpaths
 venv312\Scripts\python.exe -m pytest -q
-venv312\Scripts\python.exe -B -m py_compile tracker.py first_run.py update_checker.py doctor.py refresh_images.py settings.py card_cache.py content_manifest.py web/server.py
+venv312\Scripts\python.exe -B -m py_compile tracker.py first_run.py update_checker.py doctor.py refresh_builds.py refresh_images.py settings.py card_cache.py content_manifest.py web/server.py
 ```
 
 The dashboard is served on `http://127.0.0.1:5555` (`DEFAULT_WEB_PORT` in `tracker.py`). Each tracker session writes a UTF-8 mirror of stdout/stderr to `logs/tracker_YYYYMMDD_HHMMSS.log` — easiest file to share for debugging.
@@ -77,7 +80,7 @@ Manual diagnostics:
 - **Pipeline A (Player.log -> watcher -> run_state)**: Source of truth for decisions - offered/chosen/rejected sets, shops, skills, events, skips, sells. BoardState snapshots inventory at each decision. LiveScorer writes score_label immediately.
 - **Pipeline B (capture_mono.py -> Frida)**: Enrichment - HP, gold, day/hour, PvP record, card template IDs for name resolution via NameResolver.notify_template()
 - **Live Mono context**: `RunState` looks up the latest/nearest Mono snapshot as each decision is recorded and stores day/gold/health/phase/offered names/templates on the decision before scoring.
-- **scorer.py**: Phase-aware scoring against build archetypes in hero-specific build JSON catalogs. `LiveScorer` scores at decision time; stored live scores are authoritative in normal app flow.
+- **scorer.py**: Phase-aware scoring against build archetypes in hero-specific build JSON catalogs. It prefers refreshed writable catalogs in `app_paths.data_dir()/builds`, then falls back to bundled repo/installer catalogs. `LiveScorer` scores at decision time; stored live scores are authoritative in normal app flow.
 
 ## Key Design Decisions (Post-Refactor)
 
@@ -98,7 +101,7 @@ Manual diagnostics:
 
 **Core Pipeline**: Log parsing, decision recording, state machine, combat tracking, card cache (playthebazaar.com static data), live Mono context attachment, phase-aware scoring with archetype detection, skip analysis, rejected-set tracking, PvP record from terminal Mono snapshot.
 
-**Multi-hero support**: Build loading is hero-aware end-to-end for Karnok and Mak. The shared scorer/server/overlay paths resolve the active run hero's catalog. The Mak catalog covers the main potion, weapons, Poppy, self-poison, Satchel, Torch, and Calc/Retort lines. To add a new hero, use the fetch + compare workflow in the [bazaar-builds](https://github.com/hearn1/bazaar-builds) repo to populate initial archetypes, then hand-edit the new `<hero>_builds.json` here.
+**Multi-hero support**: Build loading is hero-aware end-to-end for Karnok, Mak, Dooley, Vanessa, and Pygmalien. The shared scorer/server/overlay paths resolve the active run hero's catalog, preferring the writable copy created by `refresh-builds` and falling back to the bundled copy for offline play or incompatible refreshes. To add a new hero, use the fetch + compare workflow in the [bazaar-builds](https://github.com/hearn1/bazaar-builds) repo to populate initial archetypes, then hand-edit the new `<hero>_builds.json` here.
 
 **Mono Capture**: Frida hooks on HandleMessage for GameSim/CombatSim/GameStateSync/RunInitialized. Optimized to 39ms median hook latency via direct memory reads replacing all NativeFunction calls. Key optimizations: `readGameSimFast` single-pass reader, `_fastReadPlayerAttrs` with cached dict layout, `_directReadMonoString` (UTF-16 direct read), content-hash SelectionSet cache, vtable->klass double-deref, hint-trusting in getSnapshotMatches. Gated behind `FAST_GAMESIM_PATH = true` flag.
 
@@ -126,7 +129,7 @@ Manual diagnostics:
 
 ## Catalog Curation
 
-`<hero>_builds.json` files (and `builds_schema.json`) live in this repo and ship with the installer. The curator toolchain that produces them — `bazaar_build_enricher.py` and `probe_*.py` — has been extracted to a separate repo:
+`<hero>_builds.json` files (and `builds_schema.json`) live in this repo and ship with the installer. Players can run `tracker.py refresh-builds` to pull the latest published catalogs from the tracker repo's `main` branch into the writable data directory without reinstalling; incompatible or malformed refreshed catalogs are ignored in favor of the bundled copy. The curator toolchain that produces them — `bazaar_build_enricher.py` and `probe_*.py` — has been extracted to a separate repo:
 
 **[https://github.com/hearn1/bazaar-builds](https://github.com/hearn1/bazaar-builds)**
 
