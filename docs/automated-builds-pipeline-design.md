@@ -393,3 +393,69 @@ Thresholds (§2) stay deterministic. The LLM should not be the gate for *which* 
 - **Hallucination guardrail**: LLM might invent items that don't exist in the catalog or in `card_cache_names.txt`. Pipeline should validate every LLM-output item name against the known-items list (today's enricher already loads this) and drop / flag unknowns rather than emit them into the proposal.
 - **Prompt iteration cadence**: prompt changes can flip classifications across the entire catalog overnight. Treat the prompt as a versioned artifact in bazaar-builds (`llm_prompts/classifier_v{N}.txt`), bumped explicitly with a re-classification dry-run before going live.
 - **Cost monitoring**: even at pennies per run, anomalous prompt-token usage (e.g., an unusually long Mobalytics article slipping in raw) is worth alerting on. Decision deferred to subtask 4.
+
+---
+
+## 10. Validation & Rollout Phasing
+
+**Decision: phased rollout. bazaar-builds.net thresholds validate immediately against existing enricher artifacts. bazaardb thresholds enter "shadow mode" first — cron runs and writes stats, but no PRs open until enough patch history accumulates to validate K=4/K=6.**
+
+The ROADMAP's "dry-run against historical artifacts" test plan was written assuming a single source. With the multi-source picture (§1), bazaardb has no historical data — the very first cron run *produces* the first snapshot, and "absent for 4 patches" can't be checked against history that doesn't exist. Phased rollout solves this without blocking implementation:
+
+| Phase | What runs | What opens PRs | Exit criteria |
+|---|---|---|---|
+| 0 — Implementation | Subtasks 1-4 land; nothing fires | None | Subtask 4 lands the workflow, including a `dry_run` flag and `phase` field in `pipeline_state.json` |
+| 1 — Local dry-run | Curator runs the pipeline locally against current source state; reviews diff JSON output | None | Mobalytics + bazaar-builds.net signal logic validated against existing enricher artifacts the curator already has. bazaardb produces its first snapshot |
+| 2 — Shadow cron | Scheduled cron fires, writes stats sidecar, emits diff JSON as a workflow artifact | None — proposal markdown is uploaded to the workflow run, not PR'd | ≥6 patches OR ≥6 weeks accumulated. Curator periodically reviews "what would have been proposed." K=4 / K=6 thresholds revisited based on observed false-positive rate |
+| 3 — Live cron | Same workflow with PR-opening enabled | Yes, rolling PR per hero per §5 | Steady state |
+
+The `dry_run: true` flag in `pipeline_state.json` (or equivalent workflow input) gates phase 2 → phase 3. Curator flips it manually after reviewing accumulated shadow output. No auto-promotion based on date or patch count — solo-curator workflow, manual gate is fine.
+
+bazaar-builds.net signal logic does **not** wait for shadow mode. The curator already has historical `*_bazaar_builds_summary.json` artifacts from manual enricher runs; those drive immediate dry-run validation of the 30-day window thresholds in phase 1.
+
+**Rejected: skip shadow mode, go live with starting thresholds**
+
+Even though humans gate every PR (§5), a noisy first month of removal-PRs based on bazaardb shape mis-estimation creates curator review fatigue at exactly the time when judgment is most important — and erodes trust in the pipeline before it earns any.
+
+**Rejected: extend shadow to all sources**
+
+bazaar-builds.net has historical artifacts; immediate dry-run is faster and information-equivalent. Forcing shadow mode on it adds delay without value.
+
+**Rejected: bootstrap a synthetic bazaardb history**
+
+bazaardb is patch-scoped with no archive. There's no source to bootstrap from. (The Wayback Machine has occasional captures but they're sparse and pre-Cloudflare-challenge era; not a reliable history.)
+
+**Unresolved:**
+- **Phase 2 duration**: "≥6 patches OR ≥6 weeks" is a guess. If patch cadence is rapid (3-day patches during a meta turbulence period), 6 patches may be too short to feel confident. Subtask 1 should pick a calendar-floor lower bound (e.g., "≥6 patches AND ≥45 days").
+- **What "would have been proposed" means in shadow mode**: the workflow uploads the diff JSON as a build artifact. Curator either downloads it from the workflow run or the workflow comments the proposal markdown on a long-running tracking issue. Lean tracking issue — easier to scan in a browser. Pin in subtask 4.
+
+---
+
+## 11. Subtask Boundaries
+
+**Decision: each ROADMAP subtask owns specific design sections. Cross-cutting sections (§4, §5, §9) split as below. Each subtask resolves the unresolved sub-questions in its owned sections; it MAY flag new unresolveds for downstream subtasks, but MAY NOT redesign locked decisions in earlier sections without explicit curator approval.**
+
+| ROADMAP Subtask | Owns design sections | What this subtask produces |
+|---|---|---|
+| 1 — Signal design deep-dive | §1, §2, §10 (validation strategy detail), §4 schema only, §9 prompt content only | Source-disagreement rule (§1), patch-detection mechanism (§2), health-check definition (§2), per-hero threshold pin (§2), threshold-evaluator output schema. `pipeline_state.json` schema fields needed for thresholds + freezes (§4 file structure, not workflow behavior). The LLM prompt's classification rules text (§9 content, not call infrastructure). Phase-2 calendar-floor (§10) |
+| 2 — Stats sidecar / persistence | §3 | Sidecar JSON schema with per-source breakdown, retention policy, write atomicity. Reads from subtask 1's threshold-evaluator output schema; provides the inputs subtask 3 consumes |
+| 3 — Diff generator | §8, §9 LLM call infrastructure | Diff JSON shape, proposal-markdown rendering, archetype-reshuffle handling (or explicit defer), LLM call wiring (model, prompt loading, hallucination validation). Subtask 1's prompt rules text is loaded by this subtask's call code |
+| 4 — GitHub Actions workflow | §5, §6, §7, §4 cron behavior, §10 phase mechanics | Workflow YAML, cron schedule, concurrency control, PAT setup, rolling-PR-per-hero, freeze evaluation at run time, `dry_run`/`phase` flag handling, retry policy for Cloudflare/Playwright |
+| 5 — Review tooling | (no current section — flagged for new design pass if non-trivial) | Whatever surfaces per-proposal stats; consumes subtasks 2 + 3 outputs |
+
+Concrete scope rules for subtask 1:
+
+- **In scope**: §1 + §2 + the §4 / §9 / §10 carve-outs above. Output is a written spec, not code.
+- **Out of scope**: §3 stats sidecar shape, §8 full diff JSON shape (subtask 3 owns), §5 PR mechanics, §6 cron schedule, §7 PAT, §9 LLM call infrastructure (model selection, prompt-file location, version bumping). If subtask 1 finds it can't write the threshold-evaluator output schema without committing to stats sidecar fields, that's a sign to flag a question for subtask 2 — not to spec subtask 2 itself.
+
+**Rejected: one subtask per section**
+
+Five subtasks vs. nine sections forces an arbitrary mapping. Cross-cutting sections (§4 patch-day, §5 PR mechanics, §9 LLM) genuinely span multiple implementation chunks; the table above splits them along their natural seams (schema vs. behavior, content vs. call infrastructure).
+
+**Rejected: leave subtask boundaries implicit**
+
+Without an explicit map, the natural failure mode is subtask 1 producing a full pipeline spec (because §1 and §2 reference §3 / §8 / §9) and subtasks 2-4 becoming code-only sessions with no design surface to push back on. The curator loses the per-subtask review checkpoint.
+
+**Unresolved:**
+- **LLM prompt artifact ownership**: subtask 1 writes the prompt's classification rules; subtask 3 owns where the prompt file lives and how versioning works. Confirm boundary at subtask 1 handoff.
+- **Subtask 5 design**: the "review tooling" subtask has no current design section. If it grows beyond a PR-comment template, it likely deserves its own design pass before implementation. Defer until subtasks 1-4 are done and the gap is concrete.
