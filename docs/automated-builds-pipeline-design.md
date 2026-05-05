@@ -9,17 +9,18 @@
 **Decision: four-source pipeline with assigned roles. `bazaardb.gg/run/meta` is the primary statistical baseline. Mobalytics curated guides corroborate. `bazaar-builds.net` per-run posts enrich late-game/archetype-internal item evidence. In-house tracker SQLite is a tertiary sanity check.**
 
 **Priority order (highest to lowest, per curator direction):** bazaardb → Mobalytics → bazaar-builds.net.
-**Window:** every source is queried over a fixed **last-30-days** window per cron run.
 
-| Source | Priority | Role | Why |
-|---|---|---|---|
-| `bazaardb.gg/run/meta` | 1 | **primary** — statistical baseline ("what's winning right now") | Already pre-aggregated meta view; biggest sample, smallest per-run noise. Canonical source for add/remove statistical thresholds (§2) |
-| `mobalytics.gg/the-bazaar/guides/meta-builds` | 2 | **secondary** — curated archetype confirmation (~3 builds/hero/season) | Low volume, high editorial bar, freeform articles → requires LLM parsing (§9). Often deeper detail than aggregate views, so high value for filling out an archetype's item list |
-| `mobalytics.gg/the-bazaar/builds` | 2 | **secondary** — guide-cadence supplemental | Updates as new guides post; a touch broader than the meta-builds page. Same LLM-parse path |
-| `bazaar-builds.net/category/builds/` | 3 | **tertiary** — late-game item enrichment, per-run granularity | Per-win-run posts surface late-game item choices the aggregates may not break down. Today's enricher already handles this; keep as the archetype-internal item evidence pathway |
-| in-house `bazaar_runs.db` | sanity check | "did the meta really shift?" confirmation lens in the PR body | One curator's runs are too low-volume to drive decisions on their own |
+**Window model (revised 2026-05-05 after source-shape probe — see [`automated-builds-pipeline-research.md`](./automated-builds-pipeline-research.md)):** windows are *per-source*, not uniform. The previous "fixed last-30-days window" assumption only holds for bazaar-builds.net. bazaardb is patch-scoped; Mobalytics is editorial-cadence with a version field for change detection.
 
-The sources have different *shapes*, not just different freshness — bazaardb is pre-aggregated ranking, Mobalytics is freeform articles, bazaar-builds.net is raw per-run posts. The pipeline doesn't blend them into a single weighted score; it attributes evidence per-source in the diff JSON (§8) and uses the priority order to break ties (§2). Per-item core/carry/support classification is delegated to an LLM stage (§9).
+| Source | Priority | Role | Shape (resolved) | Window |
+|---|---|---|---|---|
+| `bazaardb.gg/run/meta` | 1 | **primary** — statistical baseline | Next.js App Router SSR; Cloudflare-protected (needs Playwright); item evidence via DOM (`img[alt]` + "N runs · X%" text) | **Patch-scoped** — page covers "since the last numbered patch." No calendar window control |
+| `mobalytics.gg/the-bazaar/guides/meta-builds` | 2 | **secondary** — curated archetype confirmation (~21 builds across heroes per season) | React SPA; **fully structured** `window.__PRELOADED_STATE__` JSON with explicit `cards[].name` per build. Plain HTTP fetch, no JS render | Editorial cadence; doc has a `version` field — skip re-parse if unchanged since last run |
+| `mobalytics.gg/the-bazaar/builds` | 2 | **secondary** — guide-cadence supplemental | Same PRELOADED_STATE pattern; uses `NgfDocumentCmWidgetGameDataCardGridV2` nodes with phase-level item lists per article. Listing page only exposes 5 SSR slugs | Per-article editorial cadence |
+| `bazaar-builds.net/category/builds/` | 3 | **tertiary** — late-game item enrichment, per-run granularity | Plain WordPress HTML; today's enricher works modulo two date-extraction regressions (see §1 unresolved) | **Last 30 days** via per-post `datePublished` (JSON-LD), once the enricher fixes land |
+| in-house `bazaar_runs.db` | sanity check | "did the meta really shift?" confirmation lens in the PR body | Local SQLite | N/A |
+
+The sources have different *shapes*, not just different freshness — bazaardb is pre-aggregated ranking (DOM-extracted), Mobalytics is structured JSON (PRELOADED_STATE) with editorial description text alongside, bazaar-builds.net is raw per-run posts. The pipeline doesn't blend them into a single weighted score; it attributes evidence per-source in the diff JSON (§8) and uses the priority order to break ties (§2). Per-item core/carry/support classification is delegated to an LLM stage (§9).
 
 **Rejected: weighted blend across sources from day one**
 
@@ -38,10 +39,11 @@ Sample size from one curator's account, even with occasional opt-in player uploa
 - **Deduplication between sources**: a single winning run could appear as a bazaar-builds.net post *and* feed into bazaardb's aggregate. Probably fine — they're at different aggregation levels — but worth a sanity check during dry-run.
 - Whether the in-house tracker should aggregate runs across heroes for cross-validation (cross-hero item appearance is sometimes informative — e.g., a generic utility item).
 
-**Pre-implementation research task (must resolve before subtask 1):** a single source-shape probe session that covers all three external sources. For each: HTTP shape (HTML vs JSON endpoint), freshness model (rolling aggregate vs. filterable window), parseability (structured DOM/JSON vs. freeform article), rate-limit posture, and a small fetched sample committed for reference. Specifically:
-- **`bazaardb.gg/run/meta`** — JSON endpoint or HTML only? How is the 30-day window expressed (URL param, dropdown, computed client-side)?
-- **`mobalytics.gg/the-bazaar/guides/meta-builds` and `/builds`** — confirm freeform article HTML (presumed); identify any structured fragments (item tags, JSON-LD, embedded data) that would let a deterministic extractor cover part of the parse before the LLM stage takes over.
-- **`bazaar-builds.net`** — verify today's enricher selectors still hold; flag any layout drift since the last enricher run. Already integrated, lowest-risk source, but the cron will run unattended so silent drift is the failure mode to guard against.
+**Pre-implementation research (resolved 2026-05-05):** see [`automated-builds-pipeline-research.md`](./automated-builds-pipeline-research.md). Key findings folded into this design:
+
+- **bazaardb has no 30-day window** — it's patch-scoped. The §2 threshold rules use patch-windows for bazaardb specifically. Cron infra needs a headless browser (Playwright) — Cloudflare blocks plain HTTP. Affects §6 runtime budget.
+- **Mobalytics is fully structured JSON** via `window.__PRELOADED_STATE__`. Item names come directly from `cards[].name`; no LLM extraction pass needed for item lists. §9 simplifies to a single classification pass that consumes the structured items + the `descriptionTheBazaarBoardCreator` text for editorial context.
+- **bazaar-builds.net has two silent date-filter regressions** in the existing enricher (category-page `<time>` attrs dropped, JSON-LD `datePublished` not propagated when items are absent). Item extraction is intact. Both are small localized fixes to land before the cron goes unattended; tracked as a separate task in the bazaar-builds repo, not blocking subtask 1.
 
 ---
 
@@ -53,12 +55,14 @@ Sample size from one curator's account, even with occasional opt-in player uploa
 
 The pipeline is proposal-only — every change goes through curator PR review (§5) — so the threshold's job is "what shows up in the curator's queue," not "what mutates the catalog." With bazaardb prioritized as the canonical signal, the rules simplify:
 
+"Window" means different things per source (§1): bazaardb = patch, Mobalytics = guide-version (change-detection only), bazaar-builds.net = 30 calendar days.
+
 | Direction | Trigger |
 |---|---|
-| Add candidate (existing archetype, missing item) | bazaardb shows item in archetype context for ≥2 of last 3 windows, **OR** Mobalytics LLM-parse extracts the item from a build matching the archetype, **OR** bazaar-builds.net shows item in ≥2 of last 3 windows with freq ≥0.4 in latest window and sample_count ≥3 |
-| Add candidate (new archetype) | bazaardb shows the archetype-tag for ≥2 of last 3 windows, **OR** Mobalytics meta-builds page lists it as a current meta build |
-| Remove candidate (item) | item present in catalog but **bazaardb shows item absent from archetype for last 4 consecutive 30-day windows** AND no recent presence in Mobalytics or bazaar-builds.net (last 1-2 windows) |
-| Remove candidate (archetype) | bazaardb shows archetype-tag absent for last 6 consecutive windows AND no Mobalytics meta-build covers it AND no bazaar-builds.net evidence |
+| Add candidate (existing archetype, missing item) | bazaardb shows item in archetype context for ≥2 of last 3 **patches**, **OR** Mobalytics current build for matching archetype lists the item, **OR** bazaar-builds.net shows item in ≥2 of last 3 30-day windows with freq ≥0.4 in latest and sample_count ≥3 |
+| Add candidate (new archetype) | bazaardb shows the archetype-tag for ≥2 of last 3 patches, **OR** Mobalytics meta-builds page lists it as a current meta build |
+| Remove candidate (item) | item present in catalog but **bazaardb shows item absent from archetype for last K consecutive patches AND ≥21 calendar days have elapsed across those patches** (initial K=4; calendar floor prevents rapid-patch turbulence from triggering removes too fast) AND no presence in current Mobalytics builds AND no bazaar-builds.net evidence in last 30 days |
+| Remove candidate (archetype) | same as item-remove but K=6 patches AND ≥45 calendar days, AND no Mobalytics meta-build covers it AND no bazaar-builds.net evidence |
 
 Whichever signal triggers an add, the **classification** (carry / core / support) is decided by the LLM stage (§9) using the full per-source evidence as input, not by the threshold logic. Frequency-based core/support split (today's enricher behavior) is not used for proposals — it remains only as evidence input the LLM consumes.
 
@@ -81,9 +85,10 @@ This makes the source-disagreement remove-block (§1 default rule) more nuanced:
 Catalog ships to all players via `refresh-builds`. Auto-removal means a single source outage (bazaar-builds.net down for a week, or scrape selectors break silently) drops items from the player-facing contract without a human ever seeing it.
 
 **Unresolved:**
-- Window cadence (§6) is weekly; the 30-day source query overlaps across windows. "4 consecutive windows" therefore = ~28 days of consistent absence in bazaardb's 30-day view, which is a strong signal but worth dry-run validation.
+- **Patch-window thresholds** are an initial guess. K=4 patches + 21 calendar days for item removes; K=6 patches + 45 calendar days for archetype removes. Subtask 1 should validate these against historical bazaardb snapshots once a few patches have been observed.
+- **Patch detection**: the cron needs to know what patch bazaardb is currently reporting on. The page header shows the patch-notes link ("Apr 29" → patch notes URL); subtask 1 should pin whether to read this from the DOM, infer from `pipeline_state.json` `patch_label` (§4), or both with a consistency check.
 - Whether thresholds should differ per hero (some heroes have lower volume — Pygmalien evidence ≪ Dooley evidence across all sources). Default no; revisit if dry-run shows a hero starves the pipeline.
-- **Health-checked source priority for removes**: a scrape regression on bazaardb would silently flip every catalog item into "absent for N windows." Need a heartbeat check — if bazaardb returns zero data or fails parsing in a window, that window is marked unhealthy and doesn't count toward the consecutive-absence threshold. Same logic for Mobalytics/bazaar-builds in their secondary roles.
+- **Health-checked source priority for removes**: a scrape regression on bazaardb would silently flip every catalog item into "absent for N patches." Need a heartbeat check — if bazaardb returns zero data or fails parsing in a window, that window is marked unhealthy and doesn't count toward the consecutive-absence threshold. Same logic for Mobalytics/bazaar-builds in their secondary roles.
 
 ---
 
@@ -210,7 +215,13 @@ Schema validation passing means "the JSON parses and matches the contract", not 
 
 **Push back on "daily-ish" from the ROADMAP.** Daily on a low-volume scraping source is mostly noise. Most days will produce empty diffs (short-circuited per §5), and the days that don't will produce single-item churn the curator can't usefully act on (1-window add candidates won't meet §2 thresholds anyway). Weekly aligns with how often new build posts actually appear on bazaar-builds.net and how often a curator is realistically going to review.
 
-Runtime budget: today's enricher fetches a category index page plus a handful of post pages per hero. Empirically <2 min per hero. Five heroes × 2 min ≈ 10 min total, well under GitHub Actions' 6-hour cap. Schedule cadence is not runtime-constrained.
+Runtime budget (revised after research findings):
+
+- bazaardb fetch needs Playwright (Cloudflare blocks plain HTTP per §1). Headless Chromium adds ~5-10 s per page render plus ~150 MB to the runner image; GitHub Actions' `ubuntu-latest` supports it directly via `microsoft/playwright-github-action`. Per-hero render time is dominated by the Cloudflare challenge wait, not the page itself.
+- Mobalytics is a single plain HTTP fetch + JSON parse (one document covers all 21 builds across heroes); near-zero runtime.
+- bazaar-builds.net per the existing enricher: <2 min per hero, plus per-post fetches with `--fetch-posts`.
+
+Total expected runtime: 5-10 min for the full pipeline, still well under the 6-hour cap. Schedule cadence is not runtime-constrained.
 
 Concurrent-run handling: `concurrency: group: pipeline-${{ github.workflow }}, cancel-in-progress: false`. At weekly cadence, an in-progress run when the next cron fires is essentially impossible barring a hung scrape; queueing is fine.
 
@@ -225,6 +236,7 @@ Defeats the purpose of automation. The whole work item is "make the curator's ro
 **Unresolved:**
 - Day-of-week / time-of-day for the cron. Bias toward off-peak (e.g., Sunday 06:00 UTC) so the curator has a fresh PR ready Monday morning. Defer to subtask 4.
 - Whether the cron should also fire on push to bazaar-builds `main` (i.e., when the enricher itself changes). Probably yes for safety — a bug fix in the scraper should re-run against fresh data without waiting up to a week.
+- **Playwright + Cloudflare reliability**: Cloudflare's challenge can occasionally fail to clear in headless mode. Subtask 4 needs a retry policy (e.g., 3 attempts with backoff) and a fallback "skip bazaardb this run, defer adds/removes" path so a one-off Cloudflare hiccup doesn't either crash the cron or trigger removes via the health-check rule (§2).
 
 ---
 
@@ -327,17 +339,16 @@ Forces every reviewer to run a renderer locally. The PR body has to come from so
 
 ---
 
-## 9. LLM-Aided Parsing & Classification
+## 9. LLM-Aided Classification
 
-**Decision: an LLM stage sits between evidence gathering and diff generation. It (a) extracts structured item lists from Mobalytics' freeform articles and (b) classifies items into `carry` / `core` / `support` per archetype, given all per-source evidence as input.**
+**Decision: a single LLM classification pass sits between evidence gathering and diff generation. It classifies items into `carry` / `core` / `support` per archetype, given all per-source evidence as input. Item *extraction* is fully deterministic across all three sources (revised 2026-05-05 after research findings — Mobalytics turned out to be structured JSON, not freeform HTML).**
 
 The pipeline flow per archetype:
 
-1. **Evidence gathering** — scrape/fetch each source over its 30-day window. Mobalytics articles arrive as raw HTML/text.
-2. **LLM parse pass** — for Mobalytics builds only, an LLM call extracts a structured `{archetype, carry_items, core_items, support_items}` list per build. Other sources provide pre-structured signal (bazaardb's aggregate, bazaar-builds.net's per-post item lists from today's enricher).
-3. **Aggregation** — merge per-source evidence into per-(archetype, item) rows: which sources cite this item in this archetype, with what frequency / rank / editorial weight.
-4. **LLM classification pass** — given the catalog's existing archetype state and the aggregated evidence, the LLM proposes the canonical classification per item: `carry`, `core`, or `support`, with rationale.
-5. **Diff generation** — write LLM output into the diff JSON (§8) `llm_classification` + `llm_rationale` + `llm_confidence` fields.
+1. **Evidence gathering** — fetch each source per its window model (§1). bazaardb (Playwright) yields DOM-extracted item names + frequencies. Mobalytics yields `cards[].name` + the editorial `descriptionTheBazaarBoardCreator` text per build, both directly from `window.__PRELOADED_STATE__`. bazaar-builds.net yields the existing enricher's per-post item lists.
+2. **Aggregation** — merge per-source evidence into per-(archetype, item) rows: which sources cite this item in this archetype, with what frequency / rank / editorial weight.
+3. **LLM classification pass** — given the catalog's existing archetype state, the aggregated structured evidence, and the Mobalytics editorial text, the LLM proposes the canonical classification per item: `carry`, `core`, or `support`, with rationale.
+4. **Diff generation** — write LLM output into the diff JSON (§8) `llm_classification` + `llm_rationale` + `llm_confidence` fields.
 
 **Classification constraints in the prompt:**
 
@@ -349,9 +360,8 @@ The bucket-size constraints (1 carry, 2-3 core) are guidance; the LLM may propos
 
 **Why an LLM rather than deterministic rules:**
 
-- **Mobalytics is freeform article HTML.** No reliable structured extractor exists; a hand-maintained set of selectors would break on every editorial layout change. LLM parsing is the only sustainable path.
-- **Carry vs. core vs. support is contextual.** Frequency alone (today's enricher's `core_threshold` / `support_threshold`) misses semantics: an item might appear in 80% of builds but be the *enabler* (carry) in some and a *buff* (support) in others. Cross-source synthesis benefits from a model that can weigh editorial framing alongside statistical frequency.
-- **Catalog wording quality.** The LLM rationale field becomes the per-item explanation in the PR body, saving the curator from cross-referencing four artifacts to understand why a proposal landed.
+- **Carry vs. core vs. support is contextual.** Frequency alone (today's enricher's `core_threshold` / `support_threshold`) misses semantics: an item might appear in 80% of builds but be the *enabler* (carry) in some and a *buff* (support) in others. Cross-source synthesis benefits from a model that can weigh editorial framing (Mobalytics' build description text) alongside statistical frequency (bazaardb's run counts).
+- **Catalog wording quality.** The LLM rationale field becomes the per-item explanation in the PR body, saving the curator from cross-referencing multiple artifacts to understand why a proposal landed.
 
 **Determinism / noise control:**
 
@@ -364,7 +374,7 @@ LLM output isn't deterministic, and weekly cron runs producing PR diffs on the s
 
 **Model choice:**
 
-Default to **Claude Sonnet 4.6** (`claude-sonnet-4-6`) for both passes. Rationale: structured-output extraction with editorial-context judgment is well within Sonnet's range; Haiku might miss nuance on classification. Cost is negligible at expected volume — Mobalytics has roughly 3 builds × 5-7 heroes × weekly cadence + ~30-40 archetypes × weekly classification calls. At Sonnet pricing this rounds to pennies per cron run.
+Default to **Claude Sonnet 4.6** (`claude-sonnet-4-6`) for the classification pass. Rationale: editorial-context judgment with structured input is well within Sonnet's range; Haiku might miss nuance on classification. Cost is negligible at expected volume — ~30-40 archetypes × weekly classification calls, each with ~2-5k tokens of evidence + Mobalytics description. At Sonnet pricing this rounds to pennies per cron run.
 
 **Rejected: deterministic frequency-based classification (today's enricher behavior)**
 
