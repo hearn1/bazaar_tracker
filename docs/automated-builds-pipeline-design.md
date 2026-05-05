@@ -61,6 +61,16 @@ The pipeline is proposal-only — every change goes through curator PR review (�
 
 Whichever signal triggers an add, the **classification** (carry / core / support) is decided by the LLM stage (§9) using the full per-source evidence as input, not by the threshold logic. Frequency-based core/support split (today's enricher behavior) is not used for proposals — it remains only as evidence input the LLM consumes.
 
+**Source-quality gate on classification (`carry`/`core` require bazaardb confirmation):**
+
+`carry` and `core` are scarce by intent (1 carry, 2-3 core per archetype per §9); `support` is the broader bucket. To prevent weak signals from inflating the scarce buckets:
+
+- An item proposed as **carry** or **core** must have bazaardb evidence in the matching archetype within the latest window.
+- If bazaardb shows the item absent but Mobalytics still cites it (or only bazaar-builds.net has it), the item is classified as **support** — never carry or core.
+- This applies to *new adds* (don't promote) and to existing catalog items that come up in classification review (don't auto-demote, but flag for the curator if currently catalog'd as carry/core without bazaardb backing).
+
+This makes the source-disagreement remove-block (§1 default rule) more nuanced: bazaardb-absent + Mobalytics-present doesn't propose removal *and* doesn't promote — the item stays as support. The curator sees the disagreement explicitly in the PR body.
+
 "Candidate" means *surfaced in the PR body*, not applied. Removals never auto-mutate the catalog file; they appear in the diff JSON's `*_removal_candidates` slot for curator action.
 
 **No "deprecated" interim state in the catalog.** The schema is a stable contract (per scope). A removal candidate that survives N windows could be auto-promoted from "soft suggest" to "strong suggest" in the PR body's wording, but the catalog JSON itself stays clean.
@@ -331,8 +341,10 @@ The pipeline flow per archetype:
 **Classification constraints in the prompt:**
 
 > A build typically has 1 `carry` (sometimes a small set of alternatives), 2-3 `core` items, and the rest as `support`. `carry_items` may be a list of viable alternatives.
+>
+> **Source-quality gate (hard rule):** an item may only be classified as `carry` or `core` if bazaardb evidence in the matching archetype is present in the latest window. If only Mobalytics or only bazaar-builds.net cites the item, classify as `support`.
 
-These are constraints, not hard rules. The LLM may propose a 2-carry build (alternatives), or a 4-core archetype with rationale; the curator decides at PR review.
+The bucket-size constraints (1 carry, 2-3 core) are guidance; the LLM may propose alternatives or a 4-core archetype with rationale, and the curator decides at PR review. The source-quality gate is a hard rule — `support` is the catch-all for weak signal; `carry`/`core` require statistical confirmation.
 
 **Why an LLM rather than deterministic rules:**
 
