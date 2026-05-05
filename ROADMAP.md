@@ -80,12 +80,14 @@ Open questions (needs its own deep-dive session before implementation):
 - Patch-day handling: when Tempo Storm pushes a balance patch, half the catalog can become stale overnight. Does the pipeline detect this and pause auto-removals, or run as normal and rely on the PR review?
 - PR mechanics: one PR per hero or one combined? Auto-merge on green CI, or always require human approval?
 
-Suggested subtasks (each its own session):
-1. **Signal design deep-dive** — answer the add/remove question. Output: a written spec for what signals feed catalog deltas and the thresholds that gate them.
-2. **Stats sidecar / persistence layer** — implement whatever data store the signal design calls for (rolling per-item stats, sample counts, last-seen patch).
-3. **Diff generator** — given current `<hero>_builds.json` + fresh signals, emit a structured proposed-change set (adds, removes, archetype reshuffles) richer than today's `*_build_update_proposal.md`.
-4. **GitHub Actions workflow** — daily cron, runs the enricher, applies the diff generator, opens or updates a single rolling PR per hero with the changes plus a human-readable summary.
-5. **Review tooling** — small dashboard or PR-comment template that surfaces the supporting stats for each proposed add/remove so the reviewer doesn't have to dig.
+Suggested subtasks (each its own session). Renumbered 2026-05-05 from 5 to 7 — see `docs/automated-builds-pipeline-design.md` §11 for the rationale.
+1. **Signal design deep-dive** — answer the add/remove question. Output: a written spec for what signals feed catalog deltas and the thresholds that gate them. ✅ Done — see `docs/automated-builds-pipeline-subtask1-signal-spec.md`.
+2. **Stats sidecar / persistence layer** — implement whatever data store the signal design calls for (rolling per-item stats, sample counts, last-seen patch). ✅ Done — see `bazaar-builds/automated_builds_pipeline/stats.py`.
+3. **Source fetchers** — bazaardb (Playwright), Mobalytics (PRELOADED_STATE), bazaar-builds.net (existing-enricher wrapper + the two date-extraction fixes from the research note). Each emits a `WindowObservation` plus per-source health.
+4. **Threshold evaluator** — engine that consumes fetcher output + sidecar history + `pipeline_state.json` + current catalog, applies the §2 threshold rules, emits the per-row schema from subtask 1 §5.
+5. **Diff generator + LLM** — given threshold rows + catalog + LLM classification, emit a structured proposed-change set (adds, removes, archetype reshuffles) richer than today's `*_build_update_proposal.md`.
+6. **GitHub Actions workflow** — cron, runs the fetchers + evaluator + diff generator, opens or updates a single rolling PR per hero with the changes plus a human-readable summary.
+7. **Review tooling** — small dashboard or PR-comment template that surfaces the supporting stats for each proposed add/remove so the reviewer doesn't have to dig.
 
 How to test (per subtask):
 - Signal design: dry-run against historical artifacts and confirm the proposed deltas match what the curator would have done by hand.
