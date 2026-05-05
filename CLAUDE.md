@@ -98,7 +98,7 @@ Manual diagnostics:
 
 **Core Pipeline**: Log parsing, decision recording, state machine, combat tracking, card cache (playthebazaar.com static data), live Mono context attachment, phase-aware scoring with archetype detection, skip analysis, rejected-set tracking, PvP record from terminal Mono snapshot.
 
-**Multi-hero support**: Build loading is hero-aware end-to-end for Karnok and Mak. The shared scorer/server/overlay paths resolve the active run hero's catalog. The Mak catalog covers the main potion, weapons, Poppy, self-poison, Satchel, Torch, and Calc/Retort lines.
+**Multi-hero support**: Build loading is hero-aware end-to-end for Karnok and Mak. The shared scorer/server/overlay paths resolve the active run hero's catalog. The Mak catalog covers the main potion, weapons, Poppy, self-poison, Satchel, Torch, and Calc/Retort lines. To add a new hero, use the fetch + compare workflow in the [bazaar-builds](https://github.com/hearn1/bazaar-builds) repo to populate initial archetypes, then hand-edit the new `<hero>_builds.json` here.
 
 **Mono Capture**: Frida hooks on HandleMessage for GameSim/CombatSim/GameStateSync/RunInitialized. Optimized to 39ms median hook latency via direct memory reads replacing all NativeFunction calls. Key optimizations: `readGameSimFast` single-pass reader, `_fastReadPlayerAttrs` with cached dict layout, `_directReadMonoString` (UTF-16 direct read), content-hash SelectionSet cache, vtable->klass double-deref, hint-trusting in getSnapshotMatches. Gated behind `FAST_GAMESIM_PATH = true` flag.
 
@@ -123,5 +123,13 @@ Manual diagnostics:
 - Hook source must contain `"dynamic-data"` for Python-side `_merge_partial_snapshot` to carry forward player attrs
 - Dict layout cache: `entriesOff=24, countOff=64, entrySize=16, hashOff=0, keyOff=8, valueOff=12, headerAdj=16` - field offsets from `getFields()` include 16-byte MonoObject header; subtracted for value-type array entries
 - `FAST_GAMESIM_PATH = false` reverts all optimizations to the safe NativeFunction path
+
+## Catalog Curation
+
+`<hero>_builds.json` files (and `builds_schema.json`) live in this repo and ship with the installer. The curator toolchain that produces them — `bazaar_build_enricher.py` and `probe_*.py` — has been extracted to a separate repo:
+
+**[https://github.com/hearn1/bazaar-builds](https://github.com/hearn1/bazaar-builds)**
+
+That repo contains the enricher, probe scripts, CI schema validation, and usage instructions. When updating a hero catalog: run the enricher there, review the proposal markdown it produces, then hand-edit the appropriate `<hero>_builds.json` here and open a PR.
 
 See `ROADMAP.md` for open bugs and planned features.
