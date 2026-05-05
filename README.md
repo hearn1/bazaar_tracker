@@ -46,17 +46,34 @@ python tracker.py refresh-images --coverage-only
 Image coverage is still partial; see `ROADMAP.md` for the remaining Unity asset extraction work.
 Image work is currently paused while waiting for BazaarDB guidance on optional local user-side image caching.
 
-**5. Parse a completed run** (the log file from a previous session):
+**5. Refresh build catalogs when updates are available:**
+```
+venv312\Scripts\python.exe tracker.py refresh-builds
+```
+This pulls the latest curator-approved build catalogs from GitHub into your tracker install, no reinstall needed.
+
+Run it after catalog updates are published. There is no automatic notification yet, so you will usually hear about updates in release notes or community channels.
+
+Expected success output looks like:
+```
+refresh-builds: 5 updated, 0 unchanged, 0 skipped (errors)
+```
+
+If the refresh fails, the catalogs that shipped with your installer keep working. That includes cases where GitHub is unreachable, one hero's file does not pass validation, or a refreshed catalog turns out to be malformed later. The tracker falls back to the installer version, so you lose nothing by trying.
+
+`refresh-builds` is optional. The installer ships with a complete catalog set, and players who never run it still get full scoring and coaching.
+
+**6. Parse a completed run** (the log file from a previous session):
 ```
 python watcher.py --parse-only
 ```
 
-**6. Watch in real time** while playing (start before or during a run):
+**7. Watch in real time** while playing (start before or during a run):
 ```
 python watcher.py
 ```
 
-**7. Run the full one-command workflow** (watch log + launch Mono capture + live scoring):
+**8. Run the full one-command workflow** (watch log + launch Mono capture + live scoring):
 ```
 <pathToTracker>\venv312\Scripts\python tracker.py
 ```
