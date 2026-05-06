@@ -435,18 +435,22 @@ bazaardb is patch-scoped with no archive. There's no source to bootstrap from. (
 
 **Decision: each ROADMAP subtask owns specific design sections. Cross-cutting sections (§4, §5, §9) split as below. Each subtask resolves the unresolved sub-questions in its owned sections; it MAY flag new unresolveds for downstream subtasks, but MAY NOT redesign locked decisions in earlier sections without explicit curator approval.**
 
+**Renumbered 2026-05-05:** §11 originally listed 5 subtasks per the ROADMAP, but planning subtask 3 surfaced two unscoped components — source fetchers and the threshold evaluator — neither of which fit cleanly into the diff-generator subtask without scope creep, and neither into the workflow subtask without making it impossibly large. Both became their own subtasks. Total subtask count: 7.
+
 | ROADMAP Subtask | Owns design sections | What this subtask produces |
 |---|---|---|
 | 1 — Signal design deep-dive | §1, §2, §10 (validation strategy detail), §4 schema only, §9 prompt content only | Source-disagreement rule (§1), patch-detection mechanism (§2), health-check definition (§2), per-hero threshold pin (§2), threshold-evaluator output schema. `pipeline_state.json` schema fields needed for thresholds + freezes (§4 file structure, not workflow behavior). The LLM prompt's classification rules text (§9 content, not call infrastructure). Phase-2 calendar-floor (§10) |
-| 2 — Stats sidecar / persistence | §3 | Sidecar JSON schema with per-source breakdown, retention policy, write atomicity. Reads from subtask 1's threshold-evaluator output schema; provides the inputs subtask 3 consumes |
-| 3 — Diff generator | §8, §9 LLM call infrastructure | Diff JSON shape, proposal-markdown rendering, archetype-reshuffle handling (or explicit defer), LLM call wiring (model, prompt loading, hallucination validation). Subtask 1's prompt rules text is loaded by this subtask's call code |
-| 4 — GitHub Actions workflow | §5, §6, §7, §4 cron behavior, §10 phase mechanics | Workflow YAML, cron schedule, concurrency control, PAT setup, rolling-PR-per-hero, freeze evaluation at run time, `dry_run`/`phase` flag handling, retry policy for Cloudflare/Playwright |
-| 5 — Review tooling | (no current section — flagged for new design pass if non-trivial) | Whatever surfaces per-proposal stats; consumes subtasks 2 + 3 outputs |
+| 2 — Stats sidecar / persistence | §3 | Sidecar JSON schema with per-source breakdown, retention policy, write atomicity. Provides the read/write API the threshold evaluator (subtask 4) and source fetchers (subtask 3) call |
+| 3 — Source fetchers (NEW) | §1 ingestion shapes (per the research note); subtask 1 §3 health-check definition | Three fetcher modules: bazaardb (Playwright + DOM extraction), Mobalytics (HTTP + `window.__PRELOADED_STATE__` traversal), bazaar-builds.net (wrap existing enricher + the two date-extraction fixes from the research note). Each fetcher emits a `WindowObservation` per subtask 2's API plus a per-source health status. Includes the patch-label extraction for bazaardb (subtask 1 §2 picked DOM-as-authoritative) |
+| 4 — Threshold evaluator (NEW) | §2 threshold rules, §1 source-disagreement rule, §10 phase logic | The engine that consumes fetcher output (subtask 3) + sidecar history (subtask 2) + `pipeline_state.json` + current catalog and emits the threshold-evaluator output schema from subtask 1 §5. Implements the §2 add/remove threshold rules with patch-window semantics for bazaardb and 30-day windows for bazaar-builds.net. Implements the source-quality gate (`carry`/`core` require bazaardb confirmation). Honors freeze toggles and phase 2 dry-run |
+| 5 — Diff generator + LLM (was 3) | §8, §9 LLM call infrastructure | Diff JSON shape, proposal-markdown rendering, archetype-reshuffle handling (or explicit defer), LLM call wiring (model, prompt loading, hallucination validation). Subtask 1's prompt rules text is loaded by this subtask's call code |
+| 6 — GitHub Actions workflow (was 4) | §5, §6, §7, §4 cron behavior, §10 phase mechanics | Workflow YAML, cron schedule, concurrency control, PAT setup, rolling-PR-per-hero, freeze evaluation at run time, `dry_run`/`phase` flag handling, retry policy for Cloudflare/Playwright |
+| 7 — Review tooling (was 5) | (no current section — flagged for new design pass if non-trivial) | Whatever surfaces per-proposal stats; consumes subtasks 2 + 5 outputs |
 
-Concrete scope rules for subtask 1:
+Concrete scope rules for subtask 1 (historical reference; subtask 1 is complete and merged):
 
 - **In scope**: §1 + §2 + the §4 / §9 / §10 carve-outs above. Output is a written spec, not code.
-- **Out of scope**: §3 stats sidecar shape, §8 full diff JSON shape (subtask 3 owns), §5 PR mechanics, §6 cron schedule, §7 PAT, §9 LLM call infrastructure (model selection, prompt-file location, version bumping). If subtask 1 finds it can't write the threshold-evaluator output schema without committing to stats sidecar fields, that's a sign to flag a question for subtask 2 — not to spec subtask 2 itself.
+- **Out of scope**: §3 stats sidecar shape, §8 full diff JSON shape (subtask 5 owns), §5 PR mechanics, §6 cron schedule, §7 PAT, §9 LLM call infrastructure (model selection, prompt-file location, version bumping).
 
 **Rejected: one subtask per section**
 
@@ -457,5 +461,5 @@ Five subtasks vs. nine sections forces an arbitrary mapping. Cross-cutting secti
 Without an explicit map, the natural failure mode is subtask 1 producing a full pipeline spec (because §1 and §2 reference §3 / §8 / §9) and subtasks 2-4 becoming code-only sessions with no design surface to push back on. The curator loses the per-subtask review checkpoint.
 
 **Unresolved:**
-- **LLM prompt artifact ownership**: subtask 1 writes the prompt's classification rules; subtask 3 owns where the prompt file lives and how versioning works. Confirm boundary at subtask 1 handoff.
-- **Subtask 5 design**: the "review tooling" subtask has no current design section. If it grows beyond a PR-comment template, it likely deserves its own design pass before implementation. Defer until subtasks 1-4 are done and the gap is concrete.
+- **LLM prompt artifact ownership**: subtask 1 wrote the prompt's classification rules; subtask 5 owns where the prompt file lives and how versioning works.
+- **Subtask 7 design**: the "review tooling" subtask has no current design section. If it grows beyond a PR-comment template, it likely deserves its own design pass before implementation. Defer until subtasks 1-6 are done and the gap is concrete.
